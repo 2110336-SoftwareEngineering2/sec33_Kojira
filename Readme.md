@@ -2,11 +2,11 @@
 
 ###### 1. clone the repository
 
-​	`git clone https://github.com/2110336-SoftwareEngineering2/sec33_Kojira.git`
+​ `git clone https://github.com/2110336-SoftwareEngineering2/sec33_Kojira.git`
 
 ###### 2. install dependencies in both client and server app
 
-download npm first here https://nodejs.org/en/download/
+download npm first here https://nodejs.org/en/download/ or yarn here https://nodejs.org/en/download/classic.yarnpkg.com/en/docs/install/#windows-stable
 
 ###### client app
 
@@ -23,7 +23,7 @@ download npm first here https://nodejs.org/en/download/
 
 - run client
 
-  - `cd nontclient` 
+  - `cd nontclient`
 
   - `npm start` or `yarn start`
 
