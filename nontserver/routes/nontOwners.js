@@ -6,6 +6,7 @@ const controller = require('../Controllers/NontOwnerController');
 
 router
   .route('/')
+  .get(controller.getNontOwners)
   .post(controller.registerNontOwner);
 
 module.exports = router;

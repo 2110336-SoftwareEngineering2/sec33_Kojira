@@ -5,6 +5,16 @@ const _ = require('lodash');
 
 const controller = {
 
+  // GET /nontSitters
+  getNontSitters: async (req, res) => {
+    try {
+      const nontSitterAccounts = await NontSitter.find();
+      return res.send(nontSitterAccounts);
+    } catch (error) {
+      return res.status(500).send("Cannot access Nont Sitter accounts");
+    }
+  },
+  
   // POST /nontSitters
   registerNontSitter: async (req, res) => {
     // NEED validation
