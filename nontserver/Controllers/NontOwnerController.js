@@ -33,9 +33,9 @@ const controller = {
     }
     try {
       const emailFindResult = await NontOwner.findOne({ email: req.body.email });
-      if (emailFindResult) return res.status(403).send('Email is already existed.');
+      if (emailFindResult) return res.status(403).send('Email already exists.');
       const nameFindResult = await NontOwner.findOne({ name: req.body.name });
-      if (nameFindResult) return res.status(403).send('Username is already existed.');
+      if (nameFindResult) return res.status(403).send('Username already exists.');
     } catch(error) {
       return res.status(500).send('Cannot access nont-owner-account database.');
     }
