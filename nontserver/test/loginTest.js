@@ -8,8 +8,9 @@ chai.use(chaiHttp);
 
 var token = null;
 
+// need to maintain records in db to pass this test.
 describe("login APIs", () => {
-  it("It should return jwt token", (done) => {
+  it("It should return jwt tsoken", (done) => {
     chai
       .request(app)
       .post("/nontOwners/login")
@@ -25,18 +26,6 @@ describe("login APIs", () => {
 });
 
 // need more tests
-
-describe("Unauthorized Token", () => {
-  it("It should not let unauthorized request in", (done) => {
-    chai
-      .request(app)
-      .post("/users/auth")
-      .end((err, res) => {
-        expect(res).to.have.status(401);
-        done();
-      });
-  });
-});
 
 describe("Authenticate token", () => {
   it("It should authenticate token", (done) => {
