@@ -6,9 +6,9 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const schema = new Schema(
   {
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true, index: true },
     password: { type: String, required: true },
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true, index: true },
     phoneNumber: { type: String },
     bankAccount: { type: String },
     shelters: [{ type: ObjectId, ref: "shelters" }],
