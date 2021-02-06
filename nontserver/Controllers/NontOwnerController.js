@@ -4,9 +4,9 @@ const NontOwner = require("../Models/NontOwner");
 
 // POST /nontOwners
 const registerNontOwner = async (req, res) => {
+  // NEED validation
+  // NEED password hashing
   try {
-    // NEED validation
-    // NEED password hashing
     const nontOwnerAccount = await NontOwner.create(req.body);
     return res.send(nontOwnerAccount._id);
   } catch (error) {
@@ -15,5 +15,4 @@ const registerNontOwner = async (req, res) => {
 };
 
 module.exports = {
-  registerNontOwner
 };
