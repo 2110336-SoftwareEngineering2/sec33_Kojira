@@ -2,7 +2,7 @@
 
 const NontSitter = require("../Models/NontSitter");
 const _ = require("lodash");
-const hashing = require("../Utils/hashing");
+const hash = require("../Utils/hash");
 const LoginController = require("./LoginController");
 
 const controller = {
@@ -19,7 +19,7 @@ const controller = {
   // POST /nontSitters
   registerNontSitter: async (req, res) => {
     try {
-      const hashedPassword = await hashing(req.body.password);
+      const hashedPassword = await hash(req.body.password);
       const newBody = { ...req.body, password: hashedPassword };
       try {
         const nontSitterAccount = await NontSitter.create(newBody);
