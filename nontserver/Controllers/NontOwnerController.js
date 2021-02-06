@@ -15,4 +15,5 @@ const registerNontOwner = async (req, res) => {
 };
 
 module.exports = {
+  registerNontOwner,
 };
