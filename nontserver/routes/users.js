@@ -7,6 +7,7 @@ router.get("/", function (req, res, next) {
   res.send("respond with a resource");
 });
 
+// check validity of the token
 router.post("/auth", authenticateJWTToken, function (req, res, next) {
   res.json({ authenticated: true });
 });

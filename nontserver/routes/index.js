@@ -11,7 +11,6 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
 
-router.use("/login", loginRouter);
 router.use("/nontOwners", nontOwners);
 router.use("/nontSitters", nontSitters);
 

@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 // The more rounds used, the more complex hashing and time usage for hashing
 async function hashing(data, rounds = 10) {

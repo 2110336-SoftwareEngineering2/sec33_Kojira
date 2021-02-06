@@ -12,9 +12,9 @@ describe("login APIs", () => {
   it("It should return jwt token", (done) => {
     chai
       .request(app)
-      .post("/users/login")
+      .post("/nontOwners/login")
       .type("form")
-      .send({ username: "testuser", password: "testpassword" })
+      .send({ email: "test2@test.com", password: "testpassword" })
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body.token).to.not.be.null;
@@ -23,6 +23,8 @@ describe("login APIs", () => {
       });
   });
 });
+
+// need more tests
 
 describe("Unauthorized Token", () => {
   it("It should not let unauthorized request in", (done) => {
