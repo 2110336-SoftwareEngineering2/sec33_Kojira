@@ -1,6 +1,7 @@
 "use strict";
 
 const NontSitter = require('../Models/NontSitter');
+const _ = require('lodash');
 
 const controller = {
 
@@ -10,14 +11,12 @@ const controller = {
     // NEED password hashing
     try {
       const nontSitterAccount = await NontSitter.create(req.body);
-      return res.send(nontSitterAccount._id);
+      return res.send( _.omit(nontSitterAccount, 'password') );
     } catch (error) {
-      return res.status(500).send("Something went wrong. Cannot create Nont owner.");
+      return res.status(500).send("Cannot create Nont Sitter.");
     }
   },
 
 }
-
-
 
 module.exports = controller;

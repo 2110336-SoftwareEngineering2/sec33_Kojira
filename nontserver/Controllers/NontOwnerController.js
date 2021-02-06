@@ -1,6 +1,7 @@
 "use strict";
 
 const NontOwner = require("../Models/NontOwner");
+const _ = require('lodash');
 
 const controller = {
 
@@ -9,10 +10,10 @@ const controller = {
     // NEED validation
     // NEED password hashing
     try {
-      const nontOwnerAccount = await NontOwner.create(req.body);
-      return res.send(nontOwnerAccount._id);
+      let nontOwnerAccount = await NontOwner.create(req.body);
+      return res.send( _.omit(nontOwnerAccount, 'password') );
     } catch (error) {
-      return res.status(500).send("Something went wrong. Cannot create Nont owner.");
+      return res.status(500).send("Cannot create Nont Owner.");
     }
   },
 
