@@ -15,7 +15,6 @@ const schema = new Schema(
   },
   {
     timestamps: true,
-    collection: 'nontOwners',
   }
 );
 
