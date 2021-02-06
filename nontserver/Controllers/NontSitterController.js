@@ -10,8 +10,8 @@ const validator = Joi.object({
   email: Joi.string().required().email(),
   password: Joi.string().required().min(8).max(32),
   name: Joi.string().required().min(2).max(32),
-  phoneNumber: Joi.string().length(10).pattern(/[0-9]*/),
-  bankAccount: Joi.string().length(10).pattern(/[0-9]*/),
+  phoneNumber: Joi.string().length(10).pattern(/^[0-9]+$/),
+  bankAccount: Joi.string().length(10).pattern(/^[0-9]+$/),
 });
 
 const controller = {
