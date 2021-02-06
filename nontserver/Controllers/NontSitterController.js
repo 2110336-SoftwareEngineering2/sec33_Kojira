@@ -1,11 +1,11 @@
 "use strict";
 
-const NontSitter = require('../Models/NontSitter');
-const _ = require('lodash');
-const hashing = require('../Utils/hashing');
+const NontSitter = require("../Models/NontSitter");
+const _ = require("lodash");
+const hashing = require("../Utils/hashing");
+const LoginController = require("./LoginController");
 
 const controller = {
-
   // GET /nontSitters
   getNontSitters: async (req, res) => {
     try {
@@ -15,7 +15,7 @@ const controller = {
       return res.status(500).send("Cannot access Nont Sitter accounts");
     }
   },
-  
+
   // POST /nontSitters
   registerNontSitter: async (req, res) => {
     try {
@@ -23,15 +23,17 @@ const controller = {
       const newBody = { ...req.body, password: hashedPassword };
       try {
         const nontSitterAccount = await NontSitter.create(newBody);
-        return res.send( _.pick(nontSitterAccount, ['_id', 'email', 'name']) );
+        return res.send(_.pick(nontSitterAccount, ["_id", "email", "name"]));
       } catch (error) {
         throw error;
       }
-    } catch(error) {
+    } catch (error) {
       return res.status(500).send("Cannot create Nont Sitter account.");
     }
   },
 
-}
+  // POST /nontSitters/login
+  login: async (req, res) => LoginController.login(req, res, NontSitter),
+};
 
 module.exports = controller;
