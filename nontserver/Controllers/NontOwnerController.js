@@ -2,6 +2,7 @@
 
 const NontOwner = require("../Models/NontOwner");
 const _ = require('lodash');
+const hashing = require('../Utils/hashing');
 
 const controller = {
 
@@ -17,16 +18,20 @@ const controller = {
 
   // POST /nontOwners
   registerNontOwner: async (req, res) => {
-    // NEED validation
-    // NEED password hashing
     try {
-      const nontOwnerAccount = await NontOwner.create(req.body);
-      return res.send( _.omit(nontOwnerAccount, 'password') );
-    } catch (error) {
+      const hashedPassword = await hashing(req.body.password);
+      const newBody = { ...req.body, password: hashedPassword };
+      try {
+        const nontOwnerAccount = await NontOwner.create(newBody);
+        return res.send( _.pick(nontOwnerAccount, ['_id', 'email', 'name']) );
+      } catch (error) {
+        throw error;
+      }
+    } catch(error) {
       return res.status(500).send("Cannot create Nont Owner account.");
     }
   },
-
+  
 }
 
 module.exports = controller;
