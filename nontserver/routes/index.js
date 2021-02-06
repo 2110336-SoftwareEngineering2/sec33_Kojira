@@ -1,7 +1,10 @@
-var express = require("express");
-var router = express.Router();
-const loginRouter = require("./login");
-var db = require("../Controllers/dbconnector");
+"use strict";
+
+const express = require("express");
+const router = express.Router();
+
+const nontOwners = require("./nontOwners");
+const nontSitters = require("./nontSitters");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -9,5 +12,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.use("/login", loginRouter);
+router.use("/nontOwners", nontOwners);
+router.use("/nontSitters", nontSitters);
 
 module.exports = router;
