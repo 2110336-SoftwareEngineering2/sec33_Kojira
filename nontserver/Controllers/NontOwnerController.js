@@ -20,7 +20,7 @@ const controller = {
     // NEED validation
     // NEED password hashing
     try {
-      let nontOwnerAccount = await NontOwner.create(req.body);
+      const nontOwnerAccount = await NontOwner.create(req.body);
       return res.send( _.omit(nontOwnerAccount, 'password') );
     } catch (error) {
       return res.status(500).send("Cannot create Nont Owner account.");
