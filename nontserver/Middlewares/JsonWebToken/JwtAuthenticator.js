@@ -14,7 +14,7 @@ function authenticateJWTToken(req, res, next) {
   jwt.verify(token, secret, (err, user) => {
     if (err) {
       //console.log(err);
-      res.json({ authenticated: false });
+      res.sendStatus(401);
     } else {
       req.user = user;
       next(); // pass the execution off to whatever request the client intended

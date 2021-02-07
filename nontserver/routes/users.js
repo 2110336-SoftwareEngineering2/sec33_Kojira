@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const authenticateJWTToken = require("../Middlewares/JasonWebToken/JwtAuthenticator");
+const authenticateJWTToken = require("../Middlewares/JsonWebToken/JwtAuthenticator");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
