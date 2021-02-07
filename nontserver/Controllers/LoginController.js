@@ -1,6 +1,6 @@
 "use strict";
 const bcrypt = require("bcrypt");
-const generateAccessToken = require("../Middlewares/JasonWebToken/JwtGenerator");
+const generateAccessToken = require("../Middlewares/JsonWebToken/JwtGenerator");
 
 const controller = {
   login: async function (req, res, Schema) {
