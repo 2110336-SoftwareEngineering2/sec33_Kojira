@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Homepage from "../Components/Homepage/Homepage";
 import NontOwnerRouter from "./NontOwnerRouter";
 import NontSitterRouter from "./NontSitterRouter";
+import Login from "../Components/LoginLogout/Login";
 
 function Router() {
   return (
@@ -11,7 +12,7 @@ function Router() {
         <Route path="/home" component={Homepage} />
         <Route path="/NontOwner" component={NontOwnerRouter} />
         <Route path="/NontSitter" component={NontSitterRouter} />
-
+        <Roote path="/login" component={Login} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>
