@@ -15,7 +15,7 @@ describe("login APIs", () => {
       .request(app)
       .post("/nontOwners/login")
       .type("form")
-      .send({ email: "test2@test.com", password: "testpassword" })
+      .send({ email: "test@test.com", password: "testpassword" })
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body.token).to.not.be.null;
