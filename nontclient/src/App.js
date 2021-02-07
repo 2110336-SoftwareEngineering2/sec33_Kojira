@@ -1,8 +1,8 @@
-import Router from "./Components/Router/Router"
+import Router from "./Router/Router"
 
 function App() {
   return (
-      <Router />
+    <Router />
   );
 }
 
