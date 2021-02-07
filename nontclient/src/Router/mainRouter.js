@@ -12,7 +12,7 @@ function Router() {
         <Route path="/home" component={Homepage} />
         <Route path="/NontOwner" component={NontOwnerRouter} />
         <Route path="/NontSitter" component={NontSitterRouter} />
-        <Roote path="/login" component={Login} />
+        <Route path="/login" component={Login} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>
