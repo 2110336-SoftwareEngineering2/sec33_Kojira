@@ -1,13 +1,15 @@
 "use strict";
 
 const Rooms = require('../Models/Room');
-const _ = require('loadash');
+const _ = require('lodash');
 const Joi = require('joi');
+const nontTypes = require('../Utils/utils');
 
 const validator = Joi.object({
     name: Joi.string().required().min(1).max(50),
     amount: Joi.number().integer().min(1).max(20),
-    price: Joi.number().integer().min(1).max(3000)
+    price: Joi.number().integer().min(1).max(3000),
+    nont_type: Joi.string().valid(...Object.values(nontTypes))
 });
 
 const controller = {
