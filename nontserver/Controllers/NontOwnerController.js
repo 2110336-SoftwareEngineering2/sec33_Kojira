@@ -3,8 +3,10 @@
 const NontOwner = require("../Models/NontOwner");
 const _ = require("lodash");
 const Joi = require('joi');
-const hash = require("../Utils/hash");
+const bcrypt = require('bcrypt');
 const LoginController = require("./LoginController");
+
+const PASSWORD_HASHING_ROUNDS = 10;
 
 const validator = Joi.object({
   email: Joi.string().required().email(),
@@ -15,6 +17,7 @@ const validator = Joi.object({
 });
 
 const controller = {
+
   // GET /nontOwners
   getNontOwners: async (req, res) => {
     try {
@@ -27,10 +30,12 @@ const controller = {
 
   // POST /nontOwners
   registerNontOwner: async (req, res) => {
+
     const validationResult = validator.validate(req.body)
     if (validationResult.error) {
       return res.status(400).send(validationResult.error.details[0].message);
     }
+
     try {
       const emailFindResult = await NontOwner.findOne({ email: req.body.email });
       if (emailFindResult) return res.status(403).send('Email already exists.');
@@ -39,8 +44,9 @@ const controller = {
     } catch(error) {
       return res.status(500).send('Cannot access nont-owner-account database.');
     }
+
     try {
-      const hashedPassword = await hash(req.body.password);
+      const hashedPassword = await bcrypt.hash(req.body.password, PASSWORD_HASHING_ROUNDS);
       const newBody = { ...req.body, password: hashedPassword };
       try {
         const nontOwnerAccount = await NontOwner.create(newBody);
@@ -55,6 +61,7 @@ const controller = {
 
   // POST /nontOwners/login
   login: async (req, res) => LoginController.login(req, res, NontOwner),
+
 };
 
 module.exports = controller;

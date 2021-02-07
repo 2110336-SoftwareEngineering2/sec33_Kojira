@@ -3,8 +3,10 @@
 const NontSitter = require("../Models/NontSitter");
 const _ = require("lodash");
 const Joi = require('joi');
-const hash = require("../Utils/hash");
+const bcrypt = require('bcrypt');
 const LoginController = require("./LoginController");
+
+const PASSWORD_HASHING_ROUNDS = 10;
 
 const validator = Joi.object({
   email: Joi.string().required().email(),
@@ -15,6 +17,7 @@ const validator = Joi.object({
 });
 
 const controller = {
+
   // GET /nontSitters
   getNontSitters: async (req, res) => {
     try {
@@ -27,10 +30,12 @@ const controller = {
 
   // POST /nontSitters
   registerNontSitter: async (req, res) => {
+
     const validationResult = validator.validate(req.body)
     if (validationResult.error) {
       return res.status(400).send(validationResult.error.details[0].message);
     }
+
     try {
       const emailFindResult = await NontSitter.findOne({ email: req.body.email });
       if (emailFindResult) return res.status(403).send('Email already exists.');
@@ -39,8 +44,9 @@ const controller = {
     } catch(error) {
       return res.status(500).send('Cannot access nont-owner-account database.');
     }
+
     try {
-      const hashedPassword = await hash(req.body.password);
+      const hashedPassword = await bcrypt.hash(req.body.password, PASSWORD_HASHING_ROUNDS);
       const newBody = { ...req.body, password: hashedPassword };
       try {
         const nontSitterAccount = await NontSitter.create(newBody);
@@ -55,6 +61,7 @@ const controller = {
 
   // POST /nontSitters/login
   login: async (req, res) => LoginController.login(req, res, NontSitter),
+  
 };
 
 module.exports = controller;
