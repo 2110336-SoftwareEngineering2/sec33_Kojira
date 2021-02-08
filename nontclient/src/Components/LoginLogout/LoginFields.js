@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./LoginFields.module.css";
 import axios from "axios";
+import $ from "jquery";
 
 export default class LoginFields extends Component {
   constructor(props) {
@@ -19,7 +20,9 @@ export default class LoginFields extends Component {
     this.setState({ password: e.target.value });
   }
 
-  handleSubmit() {}
+  handleSubmit() {
+    // implement request to backend.
+  }
 
   render() {
     return (

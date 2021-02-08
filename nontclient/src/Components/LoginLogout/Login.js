@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styles from "./Login.module.css";
 import LoginPrompt from "./LoginPrompt";
 import LoginFields from "./LoginFields";
+import $ from "jquery";
 
 export default class Login extends Component {
   constructor(props) {
@@ -9,6 +10,21 @@ export default class Login extends Component {
     this.state = {
       mode: null,
     };
+  }
+
+  componentDidMount() {
+    if ($(document).width() > 800) {
+      $("#" + styles.LoginDiv).css("width", "55%");
+    } else {
+      $("#" + styles.LoginDiv).css("width", "90vw");
+    }
+    $(window).on("resize", function () {
+      if ($(document).width() > 800) {
+        $("#" + styles.LoginDiv).css("width", "55%");
+      } else {
+        $("#" + styles.LoginDiv).css("width", "90vw");
+      }
+    });
   }
 
   changeMode(newmode) {

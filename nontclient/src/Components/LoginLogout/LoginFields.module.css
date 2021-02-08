@@ -15,8 +15,8 @@
 
 #backChevronButton {
   position: relative;
-  left: -40%;
-  top: 10%;
+  left: -42%;
+  top: 5%;
   font-size: 30px;
   background-color: lightgreen;
   width: 37px;
@@ -39,7 +39,7 @@
 
 #emailInput,
 #passwordInput {
-  margin-top: 6.5%;
+  margin-top: 50px;
   line-height: 2.5em;
   outline: none;
   border-radius: 10px;
@@ -60,7 +60,8 @@
 
 #logInButton {
   margin-top: 6.5%;
-  width: 15%;
+  margin-bottom: 4%;
+  width: 100px;
   border-radius: 10px;
   outline: none;
   font-size: 20px;
