@@ -8,7 +8,9 @@ const LoginPrompt = function (props) {
       <h2 id={styles.LoginHeader} className={"mt-3 " + styles.textCenter}>
         Login
       </h2>
-      <h3 className={"mt-4 " + styles.textCenter}>Who are you?</h3>
+      <h3 className={"mt-4 " + styles.textCenter}>
+        Are you a Nont Owner or a Nont Sitter ?
+      </h3>
       <div className={"row mb-5 " + styles.center}>
         <button
           id={styles.NontOwnerButton}
@@ -25,7 +27,7 @@ const LoginPrompt = function (props) {
           A Nont Sitter
         </button>
       </div>
-      <p>
+      <p className={styles.textCenter}>
         Don't have an account yet? Sign up <a href="/signup">here</a>
       </p>
     </div>
