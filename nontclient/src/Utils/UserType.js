@@ -1,6 +1,6 @@
 const UserType = {
-  NONT_OWNER: "NontOwner",
-  NONT_SITTER: "NontSitter",
+  NONT_OWNER: "Nont Owner",
+  NONT_SITTER: "Nont Sitter",
 };
 
 export default UserType;
