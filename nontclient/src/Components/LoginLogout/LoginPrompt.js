@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Login.module.css";
+import styles from "./LoginPrompt.module.css";
 import UserType from "../../Utils/UserType";
 
 const LoginPrompt = function (props) {
@@ -8,13 +8,13 @@ const LoginPrompt = function (props) {
       <h2 id={styles.LoginHeader} className={"mt-3 " + styles.textCenter}>
         Login
       </h2>
-      <h3 className="mt-4">Choose user type</h3>
+      <h3 className={"mt-4 " + styles.textCenter}>Who are you?</h3>
       <div className={"row mb-5 " + styles.center}>
         <button
           id={styles.NontOwnerButton}
           onClick={() => props.changeMode(UserType.NONT_OWNER)}
         >
-          Nont Owner
+          A Nont Owner
         </button>
       </div>
       <div className={"row mb-5 " + styles.center}>
@@ -22,9 +22,12 @@ const LoginPrompt = function (props) {
           id={styles.NontSitterButton}
           onClick={() => props.changeMode(UserType.NONT_SITTER)}
         >
-          Nont Sitter
+          A Nont Sitter
         </button>
       </div>
+      <p>
+        Don't have an account yet? Sign up <a href="/signup">here</a>
+      </p>
     </div>
   );
 };

@@ -24,7 +24,10 @@ export default class Login extends Component {
             <LoginPrompt changeMode={(newmode) => this.changeMode(newmode)} />
           )}
           {this.state.mode !== null && (
-            <LoginFields UserType={this.state.mode} />
+            <LoginFields
+              UserType={this.state.mode}
+              changeMode={(newmode) => this.changeMode(newmode)}
+            />
           )}
         </div>
       </div>

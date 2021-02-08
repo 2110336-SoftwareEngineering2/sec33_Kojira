@@ -1,0 +1,77 @@
+.superCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+#backChevronButton {
+  position: relative;
+  left: -40%;
+  top: 10%;
+  font-size: 30px;
+  background-color: lightgreen;
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  padding-top: 3px;
+  border: 1px solid black;
+  transition: 0.5s;
+}
+
+#backChevronButton:hover {
+  border: 1px solid gold;
+  color: white;
+  transform: scale(1.1);
+}
+
+#LoginFieldsDiv {
+  width: 100%;
+}
+
+#emailInput,
+#passwordInput {
+  margin-top: 6.5%;
+  line-height: 2.5em;
+  outline: none;
+  border-radius: 10px;
+  border: 2px solid black;
+  transition: 0.3s;
+  text-align: center;
+}
+
+#emailInput:focus,
+#passwordInput:focus {
+  border: 2px solid blue;
+  transform: scale(1.1);
+}
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+#logInButton {
+  margin-top: 6.5%;
+  width: 15%;
+  border-radius: 10px;
+  outline: none;
+  font-size: 20px;
+  background-color: lightgreen;
+  color: indigo;
+  transition: 0.5s;
+  border: 1px solid lightgreen;
+}
+
+#logInButton:hover {
+  transform: scale(1.1);
+  border: 1px solid blue;
+  color: blue;
+}
