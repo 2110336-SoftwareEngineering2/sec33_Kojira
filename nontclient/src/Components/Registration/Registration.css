@@ -5,3 +5,8 @@
 .form-text {
   opacity: 0.5;
 }
+
+.col {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
