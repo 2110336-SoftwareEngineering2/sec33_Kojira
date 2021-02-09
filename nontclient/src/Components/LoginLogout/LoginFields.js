@@ -67,7 +67,7 @@ class LoginFields extends Component {
           </button>
         </div>
         <p>
-          Don't have an account yet? Sign up <a href="/signup">here</a>
+          Don't have an account yet? Sign up <a href="/register">here</a>
         </p>
       </div>
     );
