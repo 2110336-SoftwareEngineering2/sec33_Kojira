@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styles from "./LoginFields.module.css";
-import axios from "axios";
-import $ from "jquery";
+import LoginService from "../../Services/LoginService";
 
 export default class LoginFields extends Component {
   constructor(props) {
@@ -21,7 +20,11 @@ export default class LoginFields extends Component {
   }
 
   handleSubmit() {
-    // implement request to backend.
+    LoginService.Login(
+      this.state.email,
+      this.state.password,
+      this.props.UserType
+    );
   }
 
   render() {
