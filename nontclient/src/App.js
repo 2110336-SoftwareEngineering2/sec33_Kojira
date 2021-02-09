@@ -1,7 +1,10 @@
+import React, { Component } from "react";
 import Router from "./Router/mainRouter";
 
-function App() {
-  return <Router />;
+class App extends Component {
+  render() {
+    return <Router />;
+  }
 }
 
 export default App;
