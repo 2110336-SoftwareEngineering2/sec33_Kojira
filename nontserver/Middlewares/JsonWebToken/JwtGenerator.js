@@ -5,8 +5,8 @@ dotenv.config();
 
 const secret = process.env.SECRET_TOKEN;
 
-function generateAccessToken(username) {
-  return jwt.sign(username, secret, {
+function generateAccessToken(data) {
+  return jwt.sign(data, secret, {
     expiresIn: "1800s", // expires after half an hour
   });
 }

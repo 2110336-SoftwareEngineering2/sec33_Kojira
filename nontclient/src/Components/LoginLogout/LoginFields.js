@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import styles from "./LoginFields.module.css";
 import LoginService from "../../Services/LoginService";
+import { withRouter } from "react-router";
 
-export default class LoginFields extends Component {
+class LoginFields extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,11 +21,16 @@ export default class LoginFields extends Component {
   }
 
   handleSubmit() {
-    LoginService.Login(
-      this.state.email,
-      this.state.password,
-      this.props.UserType
-    );
+    try {
+      LoginService.Login(
+        this.state.email,
+        this.state.password,
+        this.props.UserType,
+        this
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {
@@ -67,3 +73,5 @@ export default class LoginFields extends Component {
     );
   }
 }
+
+export default withRouter(LoginFields);
