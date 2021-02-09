@@ -15,8 +15,8 @@ const controller = {
             Result.password
           );
           if (comparedResult) {
-            const token = generateAccessToken({ username: req.body.username });
-            res.json({ login: true, token: token });
+            const token = generateAccessToken({ email: req.body.email });
+            res.json({ login: true, token: token, email: req.body.email });
           } else {
             res.status(500).send("Username or password incorrect");
           }

@@ -1,0 +1,43 @@
+.superCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+#LoginHeader {
+  font-size: 40px;
+  color: indigo;
+}
+
+#NontOwnerButton {
+  height: 60px;
+  width: 200px;
+  margin-top: 8%;
+  border-radius: 20px;
+  background-color: lightblue;
+  font-size: 23px;
+}
+
+#NontSitterButton {
+  height: 60px;
+  width: 200px;
+  margin-top: 4%;
+  border-radius: 20px;
+  background-color: lightblue;
+  font-size: 23px;
+}
+#NontOwnerButton:hover,
+#NontSitterButton:hover {
+  border: 1px solid gold;
+  background-color: indigo;
+  color: white;
+}
