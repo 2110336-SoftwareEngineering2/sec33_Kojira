@@ -42,7 +42,6 @@ const LoginService = {
 
   getLoggedInEmail: async function getLoggedInEmail(component) {
     const respond = await this.checkLoginStatus();
-    console.log(respond.data.email);
     if (respond.status === 200) {
       component.setState({ loggedIn: true, email: respond.data.email });
     } else {
