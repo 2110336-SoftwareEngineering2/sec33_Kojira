@@ -6,12 +6,14 @@ class Registration extends Component {
   render() { 
     return ( 
       <div className="container">
-        <h1 className = "my-5 title">
+        <h1 className = "my-5 text-center">
           Register Account
         </h1>
-        <div className="m-4">
-          <label for="email-input" class="form-label">Email address</label>
-          <input type="email" class="form-control" id="email-input" placeholder="name@example.com" />
+        <div className="row">
+          <div className="col m-4">
+            <label for="email-input" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email-input" placeholder="name@example.com" />
+          </div>
         </div>
         <div className="row">
           <div className="col-lg m-4">
@@ -29,10 +31,18 @@ class Registration extends Component {
             </div>
           </div>
         </div>
-        <div className="m-4">
-          <label for="username-input" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username-input" aria-describedby="name-desc" />
-          <div id="name-desc" class="form-text">Your username must be 2-32 characters long.</div>
+        <div className="row">
+          <div className="col m-4">
+            <label for="username-input" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username-input" aria-describedby="name-desc" />
+            <div id="name-desc" class="form-text">Your username must be 2-32 characters long.</div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col m-4">
+            <label for="phone-input" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="phone-input" />
+          </div>
         </div>
         <div className="m-5" style={{ textAlign: 'center' }}>
           <button type="button" class="btn btn-outline-primary btn-lg">Register</button>
