@@ -1,3 +1,19 @@
 .form-text {
   opacity: 0.5;
 }
+
+#nont-owner-col {
+  padding-right: 0px !important;
+}
+
+#nont-owner-btn {
+  border-radius: 1rem 0px 0px 1rem !important;
+}
+
+#nont-sitter-col {
+  padding-left: 0px !important;
+}
+
+#nont-sitter-btn {
+  border-radius: 0px 1rem 1rem 0px !important;
+}
