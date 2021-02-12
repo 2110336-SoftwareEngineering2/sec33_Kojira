@@ -9,4 +9,4 @@ const nontTypes = {
     BIRD: "bird",
 };
 
-module.exports = {nontTypes};
+module.exports = nontTypes;
