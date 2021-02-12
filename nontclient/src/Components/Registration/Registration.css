@@ -4,16 +4,34 @@
 
 #nont-owner-col {
   padding-right: 0px !important;
+  display: flex;
+  align-items: stretch;
 }
 
 #nont-owner-btn {
   border-radius: 1rem 0px 0px 1rem !important;
+  font-size: larger;
+  font-weight: bold;
+  border-width: medium;
 }
 
 #nont-sitter-col {
   padding-left: 0px !important;
+  display: flex;
+  align-items: stretch;
 }
 
 #nont-sitter-btn {
   border-radius: 0px 1rem 1rem 0px !important;
+  font-size: larger;
+  font-weight: bold;
+  border-width: medium;
+}
+
+.required {
+  color: #e2401c;
+}
+
+abbr {
+  cursor: help;
 }
