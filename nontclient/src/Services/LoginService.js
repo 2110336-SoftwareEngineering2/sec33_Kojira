@@ -1,7 +1,7 @@
-import UserType from "../Utils/UserType";
+import UserType from "../Constants/UserType";
 import axios from "axios";
-import serverURL from "../Utils/serverURL";
-import LoginError from "../Utils/ErrorTypes/LoginError";
+import serverURL from "../Config/serverURL";
+import LoginError from "../Constants/ErrorTypes/LoginError";
 
 const LoginService = {
   Login: async function Login(email, password, typeOfUser, component) {
