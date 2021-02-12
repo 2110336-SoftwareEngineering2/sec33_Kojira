@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./LoginPrompt.module.css";
-import UserType from "../../Utils/UserType";
+import UserType from "../../Constants/UserType";
 
 const LoginPrompt = function (props) {
   return (
