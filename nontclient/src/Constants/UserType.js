@@ -1,2 +1,0 @@
-export const NONT_OWNER_TYPE = 'NONT_OWNER';
-export const NONT_SITTER_TYPE = 'NONT_SITTER';
