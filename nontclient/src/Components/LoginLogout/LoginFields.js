@@ -58,6 +58,7 @@ class LoginFields extends Component {
       <div id={styles.LoginFieldsDiv} className={styles.textCenter}>
         <i
           className="fa fa-chevron-left"
+          title="Back"
           id={styles.backChevronButton}
           type="button"
           onClick={() => this.props.changeMode(null)}
@@ -90,7 +91,7 @@ class LoginFields extends Component {
           <p className={styles.redColor}>{this.state.errMessage}</p>
         )}
         <p>
-          Don't have an account yet? Sign up <a href="/signup">here</a>
+          Don't have an account yet? Sign up <a href="/register">here</a>
         </p>
       </div>
     );
