@@ -1,5 +1,5 @@
 import React from 'react';
-import { NONT_OWNER_TYPE, NONT_SITTER_TYPE } from "../../Constants/UserType"
+import UserType from "../../Utils/UserType";
 
 const UserTypeButton = props => {
   return (
@@ -11,12 +11,12 @@ const UserTypeButton = props => {
         <button
           type="button"
           className={
-            props.accountType === NONT_OWNER_TYPE
+            props.accountType === UserType.NONT_OWNER
               ? "btn btn-info btn-block"
               : "btn btn-outline-info btn-block"
           }
           id="nont-owner-btn"
-          onClick={() => props.onUserTypeButtonClick(NONT_OWNER_TYPE)}
+          onClick={() => props.onUserTypeButtonClick(UserType.NONT_OWNER)}
         >
           Nont Owner
         </button>
@@ -25,12 +25,12 @@ const UserTypeButton = props => {
         <button
           type="button"
           className={
-            props.accountType === NONT_SITTER_TYPE
+            props.accountType === UserType.NONT_SITTER
               ? "btn btn-success btn-block"
               : "btn btn-outline-success btn-block"
           }
           id="nont-sitter-btn"
-          onClick={() => props.onUserTypeButtonClick(NONT_SITTER_TYPE)}
+          onClick={() => props.onUserTypeButtonClick(UserType.NONT_SITTER)}
         >
           Nont Sitter
         </button>

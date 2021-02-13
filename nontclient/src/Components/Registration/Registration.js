@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Registration.css";
-import { NONT_OWNER_TYPE, NONT_SITTER_TYPE } from "../../Constants/UserType";
+import UserType from "../../Utils/UserType";
 import EmailForm from "./EmailForm";
 import PasswordForm from "./PasswordForm";
 import NameForm from "./NameForm";
@@ -10,7 +10,7 @@ import UserTypeButton from "./UserTypeButton";
 
 const Registration = props => {
   const [account, setAccount] = useState({
-    type: NONT_OWNER_TYPE,
+    type: UserType.NONT_OWNER,
     email: "",
     password: "",
     retypePassword: "",
@@ -20,7 +20,7 @@ const Registration = props => {
   });
 
   function handleUserTypeButtonClick(type) {
-    if (type === NONT_OWNER_TYPE || type === NONT_SITTER_TYPE) {
+    if (type === UserType.NONT_OWNER || type === UserType.NONT_SITTER) {
       setAccount({ ...account, type });
     }
   }

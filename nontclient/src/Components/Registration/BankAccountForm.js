@@ -1,12 +1,12 @@
 import React from 'react';
-import { NONT_SITTER_TYPE } from "../../Constants/UserType"
+import UserType from "../../Utils/UserType";
 
 const BankAccountForm = props => {
   return (
     <div className="col-lg m-4">
       <label htmlFor="bank-input" className="form-label">
         Bank Account{" "}
-        {props.accountType === NONT_SITTER_TYPE && (
+        {props.accountType === UserType.NONT_SITTER && (
           <abbr className="required" title="required">
             *
           </abbr>
@@ -18,7 +18,7 @@ const BankAccountForm = props => {
         id="bank-input"
         name="bankAccount"
         onChange={props.onFormChange}
-        required={props.accountType === NONT_SITTER_TYPE}
+        required={props.accountType === UserType.NONT_SITTER}
       />
     </div>
   );
