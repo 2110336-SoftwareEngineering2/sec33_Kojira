@@ -3,7 +3,7 @@ import "./Registration.css";
 import { NONT_OWNER_TYPE, NONT_SITTER_TYPE } from "../../Constants/UserType";
 import EmailForm from "./EmailForm";
 import PasswordForm from "./PasswordForm";
-import NameForm from "./NameForm";
+import UsernameForm from "./UsernameForm";
 import PhoneNumberForm from "./PhoneNumberForm";
 import BankAccountForm from "./BankAccountForm";
 import UserTypeButton from "./UserTypeButton";
@@ -14,8 +14,7 @@ const Registration = props => {
     email: "",
     password: "",
     retypePassword: "",
-    firstName: "",
-    lastName: "",
+    username: "",
     phoneNumber: "",
     bankAccount: "",
   });
@@ -47,7 +46,7 @@ const Registration = props => {
       <UserTypeButton onUserTypeButtonClick={handleUserTypeButtonClick} accountType={account.type} />
       <EmailForm onFormChange={handleFormChange} />
       <PasswordForm onFormChange={handleFormChange} />
-      <NameForm onFormChange={handleFormChange} />
+      <UsernameForm onFormChange={handleFormChange} />
       <div className="row">
         <PhoneNumberForm onFormChange={handleFormChange} />
         <BankAccountForm onFormChange={handleFormChange} accountType={account.type} />
