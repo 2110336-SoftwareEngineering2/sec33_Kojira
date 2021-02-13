@@ -4,8 +4,8 @@ const UsernameForm = props => {
   return ( 
     <div className="row">
       <div className="col m-4">
-        <label htmlFor="username-input" className="form-label">
-          Username{" "}
+        <label htmlFor="name-input" className="form-label">
+          Name{" "}
           <abbr className="required" title="required">
             *
           </abbr>
@@ -13,15 +13,11 @@ const UsernameForm = props => {
         <input
           type="text"
           className="form-control"
-          id="username-input"
-          name="username"
+          id="name-input"
+          name="name"
           onChange={props.onFormChange}
-          aria-describedby="name-desc"
           required
         />
-        <div id="name-desc" className="form-text">
-          Your username must be 2-32 characters long.
-        </div>
       </div>
     </div>
   );
