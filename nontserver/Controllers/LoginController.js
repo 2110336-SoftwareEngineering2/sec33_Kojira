@@ -1,7 +1,7 @@
 "use strict";
 const bcrypt = require("bcrypt");
 const generateAccessToken = require("../Middlewares/JsonWebToken/JwtGenerator");
-const LoginError = require("../Utils/ErrorTypes/LoginError");
+const LoginError = require("../Constants/ErrorTypes/LoginError");
 
 const controller = {
   login: async function (req, res, Schema) {
