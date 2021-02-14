@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styles from "./LoginFields.module.css";
 import LoginService from "../../Services/LoginService";
 import { withRouter } from "react-router";
+import LoginResultError from "../../Utils/ErrorTypes/LoginResultError";
 
 class LoginFields extends Component {
   constructor(props) {
@@ -9,7 +10,26 @@ class LoginFields extends Component {
     this.state = {
       email: "",
       password: "",
+      errMessage: "",
     };
+  }
+
+  handleLoginError(err) {
+    switch (err) {
+      case LoginResultError.INCORRECT_USERNAME_OR_PASSWORD:
+        this.setState({ errMessage: "Incorrect username or password" });
+        break;
+      case LoginResultError.UNKNOWN_ERROR:
+        this.setState({
+          errMessage: "unexpected error occurred",
+        });
+        break;
+      default:
+        this.setState({ errMessage: "" });
+    }
+    setTimeout(() => {
+      this.setState({ errMessage: "" });
+    }, 3000);
   }
 
   handleOnChangeEmail(e) {
@@ -21,16 +41,16 @@ class LoginFields extends Component {
   }
 
   handleSubmit() {
-    try {
-      LoginService.Login(
-        this.state.email,
-        this.state.password,
-        this.props.UserType,
-        this
-      );
-    } catch (err) {
-      console.log(err);
-    }
+    LoginService.Login(
+      this.state.email,
+      this.state.password,
+      this.props.UserType,
+      this
+    ).then((result) => {
+      if (result !== true) {
+        this.handleLoginError(result);
+      }
+    });
   }
 
   render() {
@@ -38,6 +58,7 @@ class LoginFields extends Component {
       <div id={styles.LoginFieldsDiv} className={styles.textCenter}>
         <i
           className="fa fa-chevron-left"
+          title="Back"
           id={styles.backChevronButton}
           type="button"
           onClick={() => this.props.changeMode(null)}
@@ -66,8 +87,11 @@ class LoginFields extends Component {
             Log in
           </button>
         </div>
+        {this.state.errMessage !== "" && (
+          <p className={styles.redColor}>{this.state.errMessage}</p>
+        )}
         <p>
-          Don't have an account yet? Sign up <a href="/signup">here</a>
+          Don't have an account yet? Sign up <a href="/register">here</a>
         </p>
       </div>
     );
