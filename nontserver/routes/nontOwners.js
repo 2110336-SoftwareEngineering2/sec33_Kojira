@@ -11,6 +11,14 @@ router
   .get(controller.getNontOwners)
   .post(controller.registerNontOwner);
 
+router
+  .route("/check-email")
+  .post(controller.checkValidEmail);
+
+router
+  .route("/check-name")
+  .post(controller.checkValidName);
+
 router.route("/login").post(cors(corsOptions), controller.login);
 
 module.exports = router;

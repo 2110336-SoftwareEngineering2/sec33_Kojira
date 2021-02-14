@@ -18,6 +18,7 @@ const BankAccountForm = props => {
         id="bank-input"
         name="bankAccount"
         onChange={props.onFormChange}
+        onBlur={props.validateBankAccount}
         required={props.accountType === UserType.NONT_SITTER}
       />
     </div>

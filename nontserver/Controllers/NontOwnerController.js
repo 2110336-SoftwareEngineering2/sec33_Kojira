@@ -8,13 +8,14 @@ const LoginController = require("./LoginController");
 
 const PASSWORD_HASHING_ROUNDS = 10;
 
-const validator = Joi.object({
+const schema = {
   email: Joi.string().required().email(),
   password: Joi.string().required().min(8).max(32),
   name: Joi.string().required().min(1).max(64),
   phoneNumber: Joi.string().length(10).pattern(/^[0-9]+$/),
   bankAccount: Joi.string().length(10).pattern(/^[0-9]+$/),
-});
+}
+const validator = Joi.object(schema);
 
 const controller = {
 
@@ -25,6 +26,36 @@ const controller = {
       return res.send(nontOwnerAccounts);
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
+    }
+  },
+
+  // POST /check-email
+  checkValidEmail: async (req, res) => {
+    const emailSchema = _.pick(schema, ["email"])
+    const emailValidator = Joi.object(emailSchema);
+    const result = emailValidator.validate(req.body);
+    if (result.error) return res.send({ status: false, exist: false });
+    try {
+      const emailFindResult = await NontOwner.findOne({ email: req.body.email });
+      if (emailFindResult) return res.send({ status: false, exist: true });
+      else return res.send({ status: true });
+    } catch (error) {
+      return res.status(500).send('Cannot access nont-owner-account database.');
+    }
+  },
+
+  // POST /check-name
+  checkValidName: async (req, res) => {
+    const nameSchema = _.pick(schema, ["name"])
+    const nameValidator = Joi.object(nameSchema);
+    const result = nameValidator.validate(req.body);
+    if (result.error) return res.send({ status: false, exist: false });
+    try {
+      const nameFindResult = await NontOwner.findOne({ name: req.body.name });
+      if (nameFindResult) return res.send({ status: false, exist: true });
+      else return res.send({ status: true });
+    } catch (error) {
+      return res.status(500).send('Cannot access nont-owner-account database.');
     }
   },
 
