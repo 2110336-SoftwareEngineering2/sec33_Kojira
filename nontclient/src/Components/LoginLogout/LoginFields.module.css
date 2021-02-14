@@ -46,6 +46,7 @@
   border: 2px solid black;
   transition: 0.3s;
   text-align: center;
+  max-width: 70vw;
 }
 
 #emailInput:focus,
