@@ -3,7 +3,7 @@
 const Rooms = require('../Models/Room');
 const _ = require('lodash');
 const Joi = require('joi');
-const nontTypes = require('../Utils/utils');
+const nontTypes = require('../Constants/nontTypes');
 
 const validator = Joi.object({
     name: Joi.string().required().min(1).max(50),
