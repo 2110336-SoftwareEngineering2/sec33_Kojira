@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styles from "./LoginFields.module.css";
 import LoginService from "../../Services/LoginService";
 import { withRouter } from "react-router";
-import LoginResultError from "../../Utils/ErrorTypes/LoginResultError";
+import LoginResultError from "../../Constants/ErrorTypes/LoginResultError";
 
 class LoginFields extends Component {
   constructor(props) {
