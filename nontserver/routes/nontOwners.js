@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../Controllers/NontOwnerController");
-const corsOptions = require("../Utils/corsOptions");
+const corsOptions = require("../Config/corsOptions");
 const cors = require("cors");
 
 router

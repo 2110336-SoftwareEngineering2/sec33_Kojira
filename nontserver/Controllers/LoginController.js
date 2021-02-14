@@ -1,6 +1,7 @@
 "use strict";
 const bcrypt = require("bcrypt");
 const generateAccessToken = require("../Middlewares/JsonWebToken/JwtGenerator");
+const LoginError = require("../Constants/ErrorTypes/LoginError");
 
 const controller = {
   login: async function (req, res, Schema) {
@@ -18,17 +19,24 @@ const controller = {
             const token = generateAccessToken({ email: req.body.email });
             res.json({ login: true, token: token, email: req.body.email });
           } else {
-            res.status(500).send("Username or password incorrect");
+            res.json({
+              login: false,
+              error: LoginError.INCORRECT_USERNAME_OR_PASSWORD,
+            });
           }
         } catch (err) {
           throw err;
         }
       } else {
-        res.status(500).send("No this username");
+        res.json({
+          login: false,
+          error: LoginError.INCORRECT_USERNAME_OR_PASSWORD,
+        });
       }
     } catch (err) {
       //console.log(err);
-      res.status(500).send("Cannot Login");
+      res.statusCode = 500;
+      res.json({ login: false, error: LoginError.UNKNOWN_ERROR });
     }
   },
 };

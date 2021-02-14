@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./LoginPrompt.module.css";
-import UserType from "../../Utils/UserType";
+import UserType from "../../Constants/UserType";
 
 const LoginPrompt = function (props) {
   return (
@@ -28,7 +28,7 @@ const LoginPrompt = function (props) {
         </button>
       </div>
       <p className={styles.textCenter}>
-        Don't have an account yet? Sign up <a href="/signup">here</a>
+        Don't have an account yet? Sign up <a href="/register">here</a>
       </p>
     </div>
   );

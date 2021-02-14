@@ -1,36 +1,46 @@
-import UserType from "../Utils/UserType";
+import UserType from "../Constants/UserType";
 import axios from "axios";
-import serverURL from "../Utils/serverURL";
-import LoginError from "../Utils/ErrorTypes/LoginError";
+import serverURL from "../Config/serverURL";
+import LoginError from "../Constants/ErrorTypes/LoginError";
 
 const LoginService = {
   Login: async function Login(email, password, typeOfUser, component) {
-    var path = "";
-    if (typeOfUser !== null) {
-      if (typeOfUser === UserType.NONT_OWNER) {
-        path = "/nontOwners/login";
-      } else if (typeOfUser === UserType.NONT_SITTER) {
-        path = "/nontSitters/login";
-      } else {
-        throw LoginError.USER_TYPE_ERROR;
-      }
-      try {
-        const respond = await axios.post(serverURL + path, {
-          email: email,
-          password: password,
-        });
-        if (respond.data.login) {
-          localStorage.setItem("access_token", respond.data.token);
-          component.props.history.push("/home");
+    try {
+      var path = "";
+      if (typeOfUser !== null) {
+        if (typeOfUser === UserType.NONT_OWNER) {
+          path = "/nontOwners/login";
+        } else if (typeOfUser === UserType.NONT_SITTER) {
+          path = "/nontSitters/login";
         } else {
-          throw LoginError.NETWORK_ERROR;
+          throw LoginError.USER_TYPE_ERROR;
         }
-      } catch (err) {
-        console.log(err);
+        try {
+          const respond = await axios.post(serverURL + path, {
+            email: email,
+            password: password,
+          });
+          if (!respond.data) {
+            console.log("error");
+          }
+          if (respond.data.login) {
+            localStorage.setItem("access_token", respond.data.token);
+            component.props.history.push("/home");
+          } else {
+            if (respond.data.error) {
+              throw respond.data.error;
+            }
+          }
+        } catch (err) {
+          throw err;
+        }
+      } else {
+        throw LoginError.NULL_USER_TYPE;
       }
-    } else {
-      throw LoginError.NULL_USER_TYPE;
+    } catch (err) {
+      return err;
     }
+    return true;
   },
 
   checkLoginStatus: async function checkLoginStatus() {

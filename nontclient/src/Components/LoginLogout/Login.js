@@ -49,7 +49,6 @@ class Login extends Component {
   }
 
   render() {
-    // implement login page.
     return (
       <div className={styles.superCenter} id={styles.LoginOutsideDiv}>
         <div id={styles.LoginDiv} className={styles.center}>
