@@ -62,11 +62,9 @@ const Registration = (props) => {
     validatePassword: () => {
       if (account.password.length >= 8 && account.password.length <= 32) {
         setValid({ ...valid, password: VALID });
-      }
-      else if (account.password.length === 0) {
+      } else if (account.password.length === 0) {
         setValid({ ...valid, password: EMPTY });
-      }
-      else {
+      } else {
         setValid({ ...valid, password: INVALID });
       }
     },
@@ -154,7 +152,14 @@ const Registration = (props) => {
     }
   }
 
+  function validateAll() {
+    Object.values(validator)
+      .filter(property => typeof property === "function")
+      .forEach(func => func());
+  }
+
   async function submitRegistration() {
+    validateAll();
     const body = {
       email: account.email,
       password: account.password,

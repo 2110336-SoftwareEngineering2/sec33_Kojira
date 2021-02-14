@@ -1,8 +1,15 @@
-import React from 'react';
-import { VALID, INVALID, DEFAULT, EMPTY, EXIST, CHANGING } from "../../Constants/FormValidity";
+import React from "react";
+import {
+  VALID,
+  INVALID,
+  DEFAULT,
+  EMPTY,
+  EXIST,
+  CHANGING,
+} from "../../Constants/FormValidity";
 
-const EmailForm = props => {
-  return ( 
+const EmailForm = (props) => {
+  return (
     <div className="row">
       <div className="col m-4">
         <label htmlFor="email-input" className="form-label">
@@ -38,7 +45,6 @@ const EmailForm = props => {
       </div>
     </div>
   );
+};
 
-}
- 
 export default EmailForm;

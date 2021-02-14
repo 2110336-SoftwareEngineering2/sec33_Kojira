@@ -1,5 +1,11 @@
 import React from "react";
-import { VALID, INVALID } from "../../Constants/FormValidity";
+import {
+  VALID,
+  INVALID,
+  DEFAULT,
+  EMPTY,
+  CHANGING,
+} from "../../Constants/FormValidity";
 
 const PhoneNumberForm = (props) => {
   return (
@@ -13,11 +19,12 @@ const PhoneNumberForm = (props) => {
       <input
         type="text"
         className={"form-control ".concat(
-          props.validPhoneNumber === VALID
+          props.validPhoneNumber === DEFAULT ||
+            props.validPhoneNumber === CHANGING
+            ? ""
+            : props.validPhoneNumber === VALID
             ? "is-valid"
-            : props.validPhoneNumber === INVALID
-            ? "is-invalid"
-            : ""
+            : "is-invalid"
         )}
         id="phone-input"
         name="phoneNumber"
@@ -25,8 +32,11 @@ const PhoneNumberForm = (props) => {
         onBlur={props.validatePhoneNumber}
         required
       />
+      {props.validPhoneNumber === EMPTY && (
+        <div className="invalid-feedback">Phone number cannot be empty.</div>
+      )}
       {props.validPhoneNumber === INVALID && (
-        <div className="invalid-feedback">Invalid phone number</div>
+        <div className="invalid-feedback">Invalid phone number.</div>
       )}
     </div>
   );

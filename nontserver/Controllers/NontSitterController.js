@@ -2,22 +2,26 @@
 
 const NontSitter = require("../Models/NontSitter");
 const _ = require("lodash");
-const Joi = require('joi');
-const bcrypt = require('bcrypt');
+const Joi = require("joi");
+const bcrypt = require("bcrypt");
 const LoginController = require("./LoginController");
 
 const PASSWORD_HASHING_ROUNDS = 10;
 
-const validator = Joi.object({
+const schema = {
   email: Joi.string().required().email(),
   password: Joi.string().required().min(8).max(32),
   name: Joi.string().required().min(1).max(64),
-  phoneNumber: Joi.string().length(10).pattern(/^[0-9]+$/),
-  bankAccount: Joi.string().length(10).pattern(/^[0-9]+$/),
-});
+  phoneNumber: Joi.string()
+    .length(10)
+    .pattern(/^[0-9]+$/),
+  bankAccount: Joi.string()
+    .length(10)
+    .pattern(/^[0-9]+$/),
+};
+const validator = Joi.object(schema);
 
 const controller = {
-
   // GET /nontSitters
   getNontSitters: async (req, res) => {
     try {
@@ -30,23 +34,30 @@ const controller = {
 
   // POST /nontSitters
   registerNontSitter: async (req, res) => {
-
-    const validationResult = validator.validate(req.body)
+    const validationResult = validator.validate(req.body);
     if (validationResult.error) {
       return res.status(400).send(validationResult.error.details[0].message);
     }
 
     try {
-      const emailFindResult = await NontSitter.findOne({ email: req.body.email });
-      if (emailFindResult) return res.status(403).send('Email already exists.');
+      const emailFindResult = await NontSitter.findOne({
+        email: req.body.email,
+      });
+      if (emailFindResult) return res.status(403).send("Email already exists.");
       const nameFindResult = await NontSitter.findOne({ name: req.body.name });
-      if (nameFindResult) return res.status(403).send('Username already exists.');
-    } catch(error) {
-      return res.status(500).send('Cannot access nont-owner-account database.');
+      if (nameFindResult)
+        return res.status(403).send("Username already exists.");
+    } catch (error) {
+      return res
+        .status(500)
+        .send("Cannot access nont-sitter-account database.");
     }
 
     try {
-      const hashedPassword = await bcrypt.hash(req.body.password, PASSWORD_HASHING_ROUNDS);
+      const hashedPassword = await bcrypt.hash(
+        req.body.password,
+        PASSWORD_HASHING_ROUNDS
+      );
       const newBody = { ...req.body, password: hashedPassword };
       try {
         const nontSitterAccount = await NontSitter.create(newBody);
@@ -59,9 +70,44 @@ const controller = {
     }
   },
 
+  // POST /nontSitter/check-email
+  checkValidEmail: async (req, res) => {
+    const emailSchema = _.pick(schema, ["email"]);
+    const emailValidator = Joi.object(emailSchema);
+    const result = emailValidator.validate(req.body);
+    if (result.error) return res.send({ status: false, exist: false });
+    try {
+      const emailFindResult = await NontSitter.findOne({
+        email: req.body.email,
+      });
+      if (emailFindResult) return res.send({ status: false, exist: true });
+      else return res.send({ status: true });
+    } catch (error) {
+      return res
+        .status(500)
+        .send("Cannot access nont-sitter-account database.");
+    }
+  },
+
+  // POST /nontSitter/check-name
+  checkValidName: async (req, res) => {
+    const nameSchema = _.pick(schema, ["name"]);
+    const nameValidator = Joi.object(nameSchema);
+    const result = nameValidator.validate(req.body);
+    if (result.error) return res.send({ status: false, exist: false });
+    try {
+      const nameFindResult = await NontSitter.findOne({ name: req.body.name });
+      if (nameFindResult) return res.send({ status: false, exist: true });
+      else return res.send({ status: true });
+    } catch (error) {
+      return res
+        .status(500)
+        .send("Cannot access nont-sitter-account database.");
+    }
+  },
+
   // POST /nontSitters/login
   login: async (req, res) => LoginController.login(req, res, NontSitter),
-  
 };
 
 module.exports = controller;

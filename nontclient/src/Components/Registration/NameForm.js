@@ -1,8 +1,15 @@
-import React from 'react';
-import { VALID, INVALID, DEFAULT, EMPTY, EXIST, CHANGING } from "../../Constants/FormValidity";
+import React from "react";
+import {
+  VALID,
+  INVALID,
+  DEFAULT,
+  EMPTY,
+  EXIST,
+  CHANGING,
+} from "../../Constants/FormValidity";
 
-const UsernameForm = props => {
-  return ( 
+const UsernameForm = (props) => {
+  return (
     <div className="row">
       <div className="col m-4">
         <label htmlFor="name-input" className="form-label">
@@ -42,6 +49,6 @@ const UsernameForm = props => {
       </div>
     </div>
   );
-}
- 
+};
+
 export default UsernameForm;

@@ -8,7 +8,7 @@ function getPath(type) {
   if (type === UserType.NONT_OWNER) {
     path = "/nontOwners";
   } else if (type === UserType.NONT_SITTER) {
-    path = "/nontSitter";
+    path = "/nontSitters";
   } else {
     throw RegisterError.UNKNOWN_USER_TYPE;
   }

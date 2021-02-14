@@ -1,5 +1,11 @@
 import React from "react";
-import { VALID, INVALID, DEFAULT, EMPTY, CHANGING } from "../../Constants/FormValidity";
+import {
+  VALID,
+  INVALID,
+  DEFAULT,
+  EMPTY,
+  CHANGING,
+} from "../../Constants/FormValidity";
 
 const PasswordForm = (props) => {
   return (
@@ -48,7 +54,8 @@ const PasswordForm = (props) => {
           type="password"
           id="retype-password-input"
           className={"form-control ".concat(
-            props.validRetypePassword === DEFAULT || props.validRetypePassword === CHANGING
+            props.validRetypePassword === DEFAULT ||
+              props.validRetypePassword === CHANGING
               ? ""
               : props.validRetypePassword === VALID
               ? "form-control is-valid"
@@ -69,7 +76,9 @@ const PasswordForm = (props) => {
           </div>
         )}
         {props.validRetypePassword === EMPTY && (
-          <div className="invalid-feedback">Retype password cannot be empty.</div>
+          <div className="invalid-feedback">
+            Retype password cannot be empty.
+          </div>
         )}
       </div>
     </div>
