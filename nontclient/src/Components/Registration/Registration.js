@@ -28,19 +28,20 @@ const Registration = (props) => {
     bankAccount: "",
   });
 
-  const [valid, setValid] = useState({
-    email: DEFAULT,
-    password: DEFAULT,
-    retypePassword: DEFAULT,
-    name: DEFAULT,
-    phoneNumber: DEFAULT,
-    bankAccount: DEFAULT,
-  });
+  const [validEmail, setValidEmail] = useState(DEFAULT);
+  const [validPassword, setValidPassword] = useState(DEFAULT);
+  const [validRetypePassword, setValidRetypePassword] = useState(DEFAULT);
+  const [validName, setValidName] = useState(DEFAULT);
+  const [validPhoneNumber, setValidPhoneNumber] = useState(DEFAULT);
+  const [validBankAccount, setValidBankAccount] = useState(DEFAULT);
+
+  const [registered, setRegistered] = useState(false);
 
   const validator = {
     validateEmail: async () => {
       if (account.email.length === 0) {
-        return setValid({ ...valid, email: EMPTY });
+        setValidEmail(EMPTY);
+        return false;
       }
       try {
         const response = await RegisterService.checkValidEmail(
@@ -49,11 +50,14 @@ const Registration = (props) => {
         );
         const validity = response.data;
         if (validity.status) {
-          setValid({ ...valid, email: VALID });
+          setValidEmail(VALID);
+          return true;
         } else if (validity.exist) {
-          setValid({ ...valid, email: EXIST });
+          setValidEmail(EXIST);
+          return false;
         } else {
-          setValid({ ...valid, email: INVALID });
+          setValidEmail(INVALID);
+          return false;
         }
       } catch (error) {
         console.error(error.message);
@@ -61,30 +65,37 @@ const Registration = (props) => {
     },
     validatePassword: () => {
       if (account.password.length >= 8 && account.password.length <= 32) {
-        setValid({ ...valid, password: VALID });
+        setValidPassword(VALID);
+        return true;
       } else if (account.password.length === 0) {
-        setValid({ ...valid, password: EMPTY });
+        setValidPassword(EMPTY);
+        return false;
       } else {
-        setValid({ ...valid, password: INVALID });
+        setValidPassword(INVALID);
+        return false;
       }
     },
     validateRetypePassword: () => {
       if (account.retypePassword.length === 0) {
-        return setValid({ ...valid, retypePassword: EMPTY });
+        setValidRetypePassword(EMPTY);
+        return false;
       }
       if (
         account.password === account.retypePassword &&
         account.retypePassword.length >= 8 &&
         account.retypePassword.length <= 32
       ) {
-        setValid({ ...valid, retypePassword: VALID });
+        setValidRetypePassword(VALID);
+        return true;
       } else {
-        setValid({ ...valid, retypePassword: INVALID });
+        setValidRetypePassword(INVALID);
+        return false;
       }
     },
     validateName: async () => {
       if (account.name.length === 0) {
-        return setValid({ ...valid, name: EMPTY });
+        setValidName(EMPTY);
+        return false;
       }
       try {
         const response = await RegisterService.checkValidName(
@@ -93,11 +104,14 @@ const Registration = (props) => {
         );
         const validity = response.data;
         if (validity.status) {
-          setValid({ ...valid, name: VALID });
+          setValidName(VALID);
+          return true;
         } else if (validity.exist) {
-          setValid({ ...valid, name: EXIST });
+          setValidName(EXIST);
+          return false;
         } else {
-          setValid({ ...valid, name: INVALID });
+          setValidName(INVALID);
+          return false;
         }
       } catch (error) {
         console.error(error.message);
@@ -105,30 +119,37 @@ const Registration = (props) => {
     },
     validatePhoneNumber: () => {
       if (account.phoneNumber.length === 0) {
-        return setValid({ ...valid, phoneNumber: EMPTY });
+        setValidPhoneNumber(EMPTY);
+        return false;
       }
       const REGEX = /^[0-9]+$/;
       if (
         account.phoneNumber.length === 10 &&
         REGEX.test(account.phoneNumber)
       ) {
-        setValid({ ...valid, phoneNumber: VALID });
+        setValidPhoneNumber(VALID);
+        return true;
       } else {
-        setValid({ ...valid, phoneNumber: INVALID });
+        setValidPhoneNumber(INVALID);
+        return false;
       }
     },
     validateBankAccount: () => {
       if (account.bankAccount.length === 0) {
-        return setValid({ ...valid, bankAccount: EMPTY });
+        setValidBankAccount(EMPTY);
+        if (account.type === UserType.NONT_OWNER) return true;
+        else return false;
       }
       const REGEX = /^[0-9]+$/;
       if (
         account.bankAccount.length === 10 &&
         REGEX.test(account.bankAccount)
       ) {
-        setValid({ ...valid, bankAccount: VALID });
+        setValidBankAccount(VALID);
+        return true;
       } else {
-        setValid({ ...valid, bankAccount: INVALID });
+        setValidBankAccount(INVALID);
+        return false;
       }
     },
   };
@@ -144,22 +165,53 @@ const Registration = (props) => {
     const value = element.currentTarget.value;
     if (Object.keys(account).includes(key)) {
       setAccount({ ...account, [key]: value });
-      if (valid[key] !== CHANGING) {
-        setValid({ ...valid, [key]: CHANGING });
+      switch (key) {
+        case "email":
+          setValidEmail(CHANGING);
+          break;
+        case "password":
+          setValidPassword(CHANGING);
+          break;
+        case "retypePassword":
+          setValidRetypePassword(CHANGING);
+          break;
+        case "name":
+          setValidName(CHANGING);
+          break;
+        case "phoneNumber":
+          setValidPhoneNumber(CHANGING);
+          break;
+        case "bankAccount":
+          setValidBankAccount(CHANGING);
+          break;
+        default:
+          break;
       }
     } else {
       console.error(`Cannot update state. No ${key} in account state`);
     }
   }
 
-  function validateAll() {
-    Object.values(validator)
-      .filter(property => typeof property === "function")
-      .forEach(func => func());
+  async function validateAll() {
+    const emailResult = await validator.validateEmail();
+    const passwordResult = validator.validatePassword();
+    const retypePasswordResult = validator.validateRetypePassword();
+    const nameResult = await validator.validateName();
+    const phoneNumberResult = validator.validatePhoneNumber();
+    const bankAccountResult = validator.validateBankAccount();
+    return (
+      emailResult &&
+      passwordResult &&
+      retypePasswordResult &&
+      nameResult &&
+      phoneNumberResult &&
+      bankAccountResult
+    );
   }
 
   async function submitRegistration() {
-    validateAll();
+    const valid = await validateAll();
+    if (!valid) return;
     const body = {
       email: account.email,
       password: account.password,
@@ -173,9 +225,20 @@ const Registration = (props) => {
         body
       );
       console.log(response);
+      setRegistered(true);
     } catch (error) {
       console.error(error.message);
     }
+  }
+
+  if (registered) {
+    return (
+      <div className="container">
+        <h1 className="my-5 text-center">
+          Your account is successfully registered.
+        </h1>
+      </div>
+    );
   }
 
   return (
@@ -188,31 +251,31 @@ const Registration = (props) => {
       <EmailForm
         onFormChange={handleFormChange}
         validateEmail={validator.validateEmail}
-        validEmail={valid.email}
+        validEmail={validEmail}
       />
       <PasswordForm
         onFormChange={handleFormChange}
         validatePassword={validator.validatePassword}
         validateRetypePassword={validator.validateRetypePassword}
-        validPassword={valid.password}
-        validRetypePassword={valid.retypePassword}
+        validPassword={validPassword}
+        validRetypePassword={validRetypePassword}
       />
       <NameForm
         onFormChange={handleFormChange}
         validateName={validator.validateName}
-        validName={valid.name}
+        validName={validName}
       />
       <div className="row">
         <PhoneNumberForm
           onFormChange={handleFormChange}
           validatePhoneNumber={validator.validatePhoneNumber}
-          validPhoneNumber={valid.phoneNumber}
+          validPhoneNumber={validPhoneNumber}
         />
         <BankAccountForm
           onFormChange={handleFormChange}
           accountType={account.type}
           validateBankAccount={validator.validateBankAccount}
-          validBankAccount={valid.bankAccount}
+          validBankAccount={validBankAccount}
         />
       </div>
       <div className="m-5" style={{ textAlign: "center" }}>
