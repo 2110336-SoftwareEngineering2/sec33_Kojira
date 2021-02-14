@@ -1,5 +1,5 @@
 import React from 'react';
-import UserType from "../../Utils/UserType";
+import UserType from "../../Constants/UserType";
 
 const UserTypeButton = props => {
   return (

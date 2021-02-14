@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
 
-const PasswordForm = props => {
-  return ( 
+const PasswordForm = (props) => {
+
+  return (
     <div className="row">
       <div className="col-lg m-4">
         <label htmlFor="password-input" className="form-label">
@@ -13,7 +14,13 @@ const PasswordForm = props => {
         <input
           type="password"
           id="password-input"
-          className="form-control"
+          className={"form-control ".concat(
+            props.emptyPassword
+              ? props.validPassword
+                ? "is-valid"
+                : "is-invalid"
+              : ""
+          )}
           name="password"
           onChange={props.onFormChange}
           aria-describedby="password-desc"
@@ -33,18 +40,31 @@ const PasswordForm = props => {
         <input
           type="password"
           id="retype-password-input"
-          className="form-control"
+          className={"form-control ".concat(
+            props.emptyRetypePassword
+              ? props.validRetypePassword
+                ? "is-valid"
+                : "is-invalid"
+              : ""
+          )}
           name="retypePassword"
           onChange={props.onFormChange}
           aria-describedby="retype-password-desc"
           required
         />
-        <div id="retype-password" className="form-text">
-          Please retype your password.
-        </div>
+        {props.validRetypePassword && props.emptyRetypePassword && (
+          <div id="retype-password-desc" className="form-text">
+            Please retype your password.
+          </div>
+        )}
+        {!props.validPassword && (
+          <div id="retype-password-desc" className="invalid-feedback">
+            Retype Password must match your Password.
+          </div>
+        )}
       </div>
     </div>
   );
-}
- 
+};
+
 export default PasswordForm;
