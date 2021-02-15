@@ -9,7 +9,11 @@ router.get("/", function (req, res, next) {
 
 // check validity of the token
 router.post("/auth", authenticateJWTToken, function (req, res, next) {
-  res.json({ authenticated: true, email: req.user.email });
+  res.json({
+    authenticated: true,
+    email: req.user.email,
+    userType: req.user.userType,
+  });
 });
 
 module.exports = router;

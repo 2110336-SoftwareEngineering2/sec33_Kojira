@@ -16,8 +16,16 @@ const controller = {
             Result.password
           );
           if (comparedResult) {
-            const token = generateAccessToken({ email: req.body.email });
-            res.json({ login: true, token: token, email: req.body.email });
+            const token = generateAccessToken({
+              email: req.body.email,
+              userType: req.body.userType,
+            });
+            res.json({
+              login: true,
+              token: token,
+              email: req.body.email,
+              userType: req.body.userType,
+            });
           } else {
             res.json({
               login: false,

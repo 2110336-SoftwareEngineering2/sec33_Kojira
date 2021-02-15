@@ -5,11 +5,14 @@ import NontOwnerRouter from "./NontOwnerRouter";
 import NontSitterRouter from "./NontSitterRouter";
 import Login from "../Components/LoginLogout/Login";
 
-function Router() {
+function Router(props) {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/home" component={Homepage} />
+        <Route
+          path="/home"
+          component={() => <Homepage setUserType={props.setUserType} />}
+        />
         <Route path="/NontOwner" component={NontOwnerRouter} />
         <Route path="/NontSitter" component={NontSitterRouter} />
         <Route path="/login" component={Login} />

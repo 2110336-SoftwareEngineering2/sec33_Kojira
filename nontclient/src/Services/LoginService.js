@@ -19,11 +19,14 @@ const LoginService = {
           const respond = await axios.post(serverURL + path, {
             email: email,
             password: password,
+            userType: typeOfUser,
           });
+
           if (!respond.data) {
             console.log("error");
           }
           if (respond.data.login) {
+            console.log(respond.data);
             localStorage.setItem("access_token", respond.data.token);
             component.props.history.push("/home");
           } else {
@@ -54,9 +57,20 @@ const LoginService = {
     const respond = await this.checkLoginStatus();
     if (respond.status === 200) {
       component.setState({ loggedIn: true, email: respond.data.email });
+      try {
+        component.props.setUserType(respond.data.userType);
+      } catch (err) {
+        console.log(err);
+      }
     } else {
       component.setState({ loggedIn: false, email: respond.data.email });
+      try {
+        component.props.setUserType(null);
+      } catch (err) {
+        console.log(err);
+      }
     }
+    return respond.data;
   },
 };
 
