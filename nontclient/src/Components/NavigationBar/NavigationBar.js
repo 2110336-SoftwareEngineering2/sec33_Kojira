@@ -4,7 +4,7 @@ import NavigationLinks from "./NavigationLinks";
 import Contexts from "../../Utils/Context/Contexts";
 import styles from "./NavigationBar.module.css";
 
-const UserTypeContext = Contexts.userTypeContext;
+const userContext = Contexts.userContext;
 
 const NavigationBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +13,7 @@ const NavigationBar = (props) => {
 
   return (
     <div>
-      <UserTypeContext.Consumer>
+      <userContext.Consumer>
         {(value) => {
           return (
             <Navbar color="light" light expand="md">
@@ -27,7 +27,7 @@ const NavigationBar = (props) => {
             </Navbar>
           );
         }}
-      </UserTypeContext.Consumer>
+      </userContext.Consumer>
     </div>
   );
 };

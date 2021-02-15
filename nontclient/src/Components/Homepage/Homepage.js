@@ -3,7 +3,7 @@ import LoginService from "../../Services/LoginService";
 import { withRouter } from "react-router";
 import Contexts from "../../Utils/Context/Contexts";
 
-const UserTypeContext = Contexts.userTypeContext;
+const userContext = Contexts.userContext;
 
 class Homepage extends Component {
   constructor(props) {
@@ -25,13 +25,13 @@ class Homepage extends Component {
   render() {
     return (
       <>
-        <UserTypeContext.Consumer>
+        <userContext.Consumer>
           {(value) => {
             if (this.state.userType !== value.userType) {
               this.setState({ userType: value.userType });
             }
           }}
-        </UserTypeContext.Consumer>
+        </userContext.Consumer>
         {this.state.userType !== null && (
           <>
             <h2 className="col"> Logged in as {this.state.email}</h2>
