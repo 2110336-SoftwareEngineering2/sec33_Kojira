@@ -13,37 +13,20 @@ class Homepage extends Component {
       email: null,
     };
   }
-  componentDidMount() {
-    LoginService.getLoggedInEmail(this);
-  }
-
-  logout() {
-    this.props.setUserType(null);
-    localStorage.removeItem("access_token");
-  }
 
   render() {
     return (
       <>
         <userContext.Consumer>
           {(value) => {
-            if (this.state.userType !== value.userType) {
-              this.setState({ userType: value.userType });
-            }
+            return (
+              <>
+                <h1>Nont Community of Pet Lovers</h1>
+                <h2>You are logged in as a {value.userType}</h2>
+              </>
+            );
           }}
         </userContext.Consumer>
-        {this.state.userType !== null && (
-          <>
-            <h2 className="col"> Logged in as {this.state.email}</h2>
-            <button onClick={() => this.logout()}>Log out</button>
-          </>
-        )}
-
-        {this.state.userType === null && (
-          <button onClick={() => this.props.history.push("/login")}>
-            Log in
-          </button>
-        )}
       </>
     );
   }

@@ -1,0 +1,50 @@
+#userCircle {
+  font-size: 20px;
+  color: blue;
+}
+
+#dropdown {
+  position: fixed;
+  left: 88vw;
+  top: 55px !important;
+  width: 10vw !important;
+  border: 1px solid red;
+  border-radius: 10px;
+  background-color: lightyellow;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.textCenter {
+  text-align: center;
+}
+
+#loginLink {
+  border: 1px solid black;
+  padding: 5px 8px 5px 8px;
+  border-radius: 4px;
+}
+
+#loginLink:hover {
+  text-decoration: none;
+  background-color: lightgreen;
+}
+
+.dropdown {
+  height: 50px;
+  margin: 0px 5px 0px 5px;
+  border-radius: 10px;
+}
+
+.dropdown:hover {
+  background-color: gold;
+}
+
+.superCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  margin: 0px;
+}

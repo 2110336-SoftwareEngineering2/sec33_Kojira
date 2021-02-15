@@ -9,10 +9,7 @@ function Router(props) {
   return (
     <BrowserRouter>
       <Switch>
-        <Route
-          path="/home"
-          component={() => <Homepage setUserType={props.setUserType} />}
-        />
+        <Route path="/home" component={Homepage} />
         <Route path="/NontOwner" component={NontOwnerRouter} />
         <Route path="/NontSitter" component={NontSitterRouter} />
         <Route path="/login" component={Login} />

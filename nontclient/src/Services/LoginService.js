@@ -53,24 +53,22 @@ const LoginService = {
     return respond;
   },
 
-  getLoggedInEmail: async function getLoggedInEmail(component) {
-    const respond = await this.checkLoginStatus();
-    if (respond.status === 200) {
-      component.setState({ loggedIn: true, email: respond.data.email });
-      try {
-        component.props.setUserType(respond.data.userType);
-      } catch (err) {
-        console.log(err);
+  getUserInfo: async function getUserInfo() {
+    try {
+      const respond = await this.checkLoginStatus();
+      if (respond.status === 200) {
+        return {
+          login: true,
+          email: respond.data.email,
+          userType: respond.data.userType,
+          err: false,
+        };
+      } else {
+        return { login: false, email: null, userType: null, err: false };
       }
-    } else {
-      component.setState({ loggedIn: false, email: respond.data.email });
-      try {
-        component.props.setUserType(null);
-      } catch (err) {
-        console.log(err);
-      }
+    } catch (err) {
+      return { login: false, email: null, userType: null, err: true };
     }
-    return respond.data;
   },
 };
 

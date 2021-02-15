@@ -1,30 +1,32 @@
 import React, { useState } from "react";
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav } from "reactstrap";
 import NavigationLinks from "./NavigationLinks";
 import Contexts from "../../Utils/Context/Contexts";
-import styles from "./NavigationBar.module.css";
+import "./NavigationBar.module.css";
 
 const userContext = Contexts.userContext;
 
 const NavigationBar = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => setIsOpen(!isOpen);
-
   return (
     <div>
       <userContext.Consumer>
         {(value) => {
           return (
-            <Navbar color="light" light expand="md">
-              <NavbarBrand href="/">Logo</NavbarBrand>
-              <NavbarToggler onClick={toggle} />
-              <Collapse isOpen={isOpen} navbar>
-                <Nav className="container-fluid" navbar>
-                  <NavigationLinks userType={value.userType} />
-                </Nav>
-              </Collapse>
-            </Navbar>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+              <a class="navbar-brand" href="/home">
+                Navbar
+              </a>
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNavDropdown"
+              >
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <NavigationLinks userType={value.userType} />
+              </div>
+            </nav>
           );
         }}
       </userContext.Consumer>
