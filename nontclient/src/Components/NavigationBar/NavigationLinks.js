@@ -32,10 +32,11 @@ const NavigationLinks = (props) => {
             Options
           </DropdownToggle>
           <DropdownMenu right>
-            <DropdownItem>Option 1</DropdownItem>
-            <DropdownItem>Option 2</DropdownItem>
+            <DropdownItem>
+              <a href="/profile">Profile</a>
+            </DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>Reset</DropdownItem>
+            <DropdownItem>Log out</DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
       </div>
