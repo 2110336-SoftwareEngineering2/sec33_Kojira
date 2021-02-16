@@ -18,13 +18,15 @@
   text-align: center;
 }
 
-#loginLink {
+#loginLink,
+#registerLink {
   border: 1px solid black;
   padding: 5px 8px 5px 8px;
   border-radius: 4px;
 }
 
-#loginLink:hover {
+#loginLink:hover,
+#registerLink:hover {
   text-decoration: none;
   background-color: lightgreen;
 }
@@ -37,6 +39,8 @@
 
 .dropdown:hover {
   background-color: gold;
+  text-decoration: underline;
+  color: blue;
 }
 
 .superCenter {
@@ -45,6 +49,10 @@
   align-items: center;
 }
 
+#profileLink {
+  color: black;
+}
+
 p {
-  margin: 0px;
+  margin-bottom: 0px !important;
 }

@@ -11,19 +11,19 @@ const NavigationBar = (props) => {
       <userContext.Consumer>
         {(value) => {
           return (
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-              <a class="navbar-brand" href="/home">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+              <a className="navbar-brand" href="/home">
                 Navbar
               </a>
               <button
-                class="navbar-toggler"
+                className="navbar-toggler"
                 type="button"
                 data-toggle="collapse"
                 data-target="#navbarNavDropdown"
               >
-                <span class="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
               </button>
-              <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <NavigationLinks userType={value.userType} />
               </div>
             </nav>

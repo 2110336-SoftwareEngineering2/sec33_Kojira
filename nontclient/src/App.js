@@ -25,7 +25,7 @@ const App = (props) => {
     });
   };
 
-  UpdateUserInfo();
+  UpdateUserInfo(); // always get user's info if logged in.
 
   const passedValueInContext = {
     userType: userType,

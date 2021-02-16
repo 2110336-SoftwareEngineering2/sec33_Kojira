@@ -22,7 +22,10 @@ class Homepage extends Component {
             return (
               <>
                 <h1>Nont Community of Pet Lovers</h1>
-                <h2>You are logged in as a {value.userType}</h2>
+                {value.login && (
+                  <h2>You are logged in as a {value.userType}</h2>
+                )}
+                {!value.login && <h2>You are not logged in</h2>}
               </>
             );
           }}
