@@ -29,6 +29,7 @@ const controller = {
     registerRoom: async (req, res) => {
         // req.body validation using joi
         const validationResult = validator.validate(req.body);
+        console.log(validationResult);
         if (validationResult.error){
             return res.status(400).send(validationResult.error.details[0].message);
         }
