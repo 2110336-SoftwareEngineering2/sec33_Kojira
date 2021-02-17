@@ -1,42 +1,19 @@
-import React, { Component } from "react";
-import LoginService from "../../Services/LoginService";
+import React, { useContext } from "react";
 import { withRouter } from "react-router";
+import Contexts from "../../Utils/Context/Contexts";
 
-class Homepage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: false,
-      email: null,
-    };
-  }
-  componentDidMount() {
-    LoginService.getLoggedInEmail(this);
-  }
+const UserContext = Contexts.UserContext;
 
-  logout() {
-    this.setState({ loggedIn: false });
-    localStorage.removeItem("access_token");
-  }
+const Homepage = () => {
+  const value = useContext(UserContext);
 
-  render() {
-    return (
-      <>
-        <h1 className="col">Nont Community of Pet Lovers</h1>
-        {this.state.loggedIn && (
-          <>
-            <h2 className="col"> Logged in as {this.state.email}</h2>
-            <button onClick={() => this.logout()}>Log out</button>
-          </>
-        )}
-        {!this.state.loggedIn && (
-          <button onClick={() => this.props.history.push("/login")}>
-            Log in
-          </button>
-        )}
-      </>
-    );
-  }
-}
+  return (
+    <React.Fragment>
+      <h1>Nont Community of Pet Lovers</h1>
+      {value.login && <h2>You are logged in as a {value.userType}</h2>}
+      {!value.login && <h2>You are not logged in</h2>}
+    </React.Fragment>
+  );
+};
 
 export default withRouter(Homepage);

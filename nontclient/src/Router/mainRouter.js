@@ -6,7 +6,7 @@ import NontSitterRouter from "./NontSitterRouter";
 import Login from "../Components/LoginLogout/Login";
 import Registration from "../Components/Registration/Registration";
 
-function Router() {
+function Router(props) {
   return (
     <BrowserRouter>
       <Switch>
