@@ -5,7 +5,7 @@ import { withRouter } from "react-router";
 import LoginResultError from "../../Constants/ErrorTypes/LoginResultError";
 import Contexts from "../../Utils/Context/Contexts";
 
-const userContext = Contexts.userContext;
+const UserContext = Contexts.UserContext;
 
 class LoginFields extends Component {
   constructor(props) {
@@ -60,7 +60,7 @@ class LoginFields extends Component {
 
   render() {
     return (
-      <userContext.Consumer>
+      <UserContext.Consumer>
         {(value) => {
           return (
             <div id={styles.LoginFieldsDiv} className={styles.textCenter}>
@@ -107,7 +107,7 @@ class LoginFields extends Component {
             </div>
           );
         }}
-      </userContext.Consumer>
+      </UserContext.Consumer>
     );
   }
 }

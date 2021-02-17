@@ -3,7 +3,7 @@ import UserType from "../../../Constants/UserType";
 
 const NavigationLeftLinks = (props) => {
   return (
-    <>
+    <React.Fragment>
       <li className="nav-item active">
         <a className="nav-link" href="/dashboard">
           {" "}
@@ -31,7 +31,7 @@ const NavigationLeftLinks = (props) => {
           </a>
         </li>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

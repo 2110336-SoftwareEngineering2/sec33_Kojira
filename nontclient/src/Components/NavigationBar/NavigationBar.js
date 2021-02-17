@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import NavigationLinks from "./NavigationLinks";
-import Contexts from "../../Utils/Context/Contexts";
 import "./NavigationBar.module.css";
-
-const userContext = Contexts.userContext;
 
 const NavigationBar = () => {
   return (

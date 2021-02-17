@@ -4,9 +4,9 @@ import styles from "../NavigationLinks.module.css";
 const NavigationUserLinksCollapse = (props) => {
   const value = props.value;
   return (
-    <>
+    <React.Fragment>
       {value.login && (
-        <>
+        <React.Fragment>
           <li className="nav-item">
             <p className={styles.textCenter}>
               {"You are logged in as " + value.email}
@@ -26,7 +26,7 @@ const NavigationUserLinksCollapse = (props) => {
               Log Out
             </p>
           </li>
-        </>
+        </React.Fragment>
       )}
       {!value.login && (
         <li className="nav-item">
@@ -36,7 +36,7 @@ const NavigationUserLinksCollapse = (props) => {
           </a>
         </li>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

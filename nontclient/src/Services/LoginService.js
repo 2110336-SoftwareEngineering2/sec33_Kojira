@@ -41,7 +41,7 @@ const LoginService = {
         throw LoginError.NULL_USER_TYPE;
       }
     } catch (err) {
-      return err;
+      return err; // the error will be returned if there's any error.
     }
     return true;
   },

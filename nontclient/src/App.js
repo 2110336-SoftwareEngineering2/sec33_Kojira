@@ -4,7 +4,7 @@ import NavigationBar from "./Components/NavigationBar/NavigationBar";
 import Contexts from "./Utils/Context/Contexts";
 import LoginService from "./Services/LoginService";
 
-const userContext = Contexts.userContext;
+const UserContext = Contexts.UserContext;
 
 const App = (props) => {
   const [userType, setUserType] = useState(null);
@@ -27,7 +27,7 @@ const App = (props) => {
 
   UpdateUserInfo(); // always get user's info if logged in.
 
-  const passedValueInContext = {
+  const userContextValues = {
     userType: userType,
     setUserType: setUserType,
     login: login,
@@ -39,10 +39,10 @@ const App = (props) => {
 
   return (
     <>
-      <userContext.Provider value={passedValueInContext}>
+      <UserContext.Provider value={userContextValues}>
         <NavigationBar />
         <Router setUserType={setUserType} />
-      </userContext.Provider>
+      </UserContext.Provider>
     </>
   );
 };

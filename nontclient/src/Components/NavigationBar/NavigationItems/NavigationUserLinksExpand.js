@@ -4,16 +4,16 @@ import styles from "../NavigationLinks.module.css";
 const NavigationUserLinksExpand = (props) => {
   const value = props.value;
   return (
-    <>
+    <React.Fragment>
       {!value.login && (
-        <>
+        <React.Fragment>
           <a href="/login" id={styles.loginLink} className="mr-2">
             Log In
           </a>
           <a href="/register" id={styles.registerLink}>
             register
           </a>
-        </>
+        </React.Fragment>
       )}
       {value.login && (
         <div className="dropdown">
@@ -62,7 +62,7 @@ const NavigationUserLinksExpand = (props) => {
           </div>
         </div>
       )}
-    </>
+    </React.Fragment>
   );
 };
 
