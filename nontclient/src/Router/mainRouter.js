@@ -5,6 +5,7 @@ import NontOwnerRouter from "./NontOwnerRouter";
 import NontSitterRouter from "./NontSitterRouter";
 import Login from "../Components/LoginLogout/Login";
 import Registration from "../Components/Registration/Registration";
+import RoomRegistration from "../Components/Room/RoomRegistration";
 
 function Router(props) {
   return (
@@ -15,6 +16,7 @@ function Router(props) {
         <Route path="/NontSitter" component={NontSitterRouter} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Registration} />
+        <Route path="/roomRegister" component={RoomRegistration} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>
