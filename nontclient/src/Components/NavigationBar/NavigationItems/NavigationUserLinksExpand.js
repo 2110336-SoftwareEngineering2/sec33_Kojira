@@ -31,12 +31,12 @@ const NavigationUserLinksExpand = (props) => {
         <div className="dropdown">
           <div data-toggle="dropdown" id="profileDropdown">
             <i
-              className="fa fa-user-circle dropdown-toggle"
+              className="fa fa-user-circle"
               id={styles.userCircle}
               type="button"
-            >
-              <span className="caret ml-1"></span>
-            </i>
+            ></i>
+            <span className="caret ml-2"></span>
+            <span className="dropdown-toggle"></span>
           </div>
 
           <div
