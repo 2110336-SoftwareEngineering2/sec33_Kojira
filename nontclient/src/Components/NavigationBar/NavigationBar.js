@@ -1,12 +1,12 @@
 import React from "react";
 import NavigationLinks from "./NavigationLinks";
-import "./NavigationBar.module.css";
+import styles from "./NavigationBar.module.css";
 
 const NavigationBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-sm navbar-light" id={styles.topNavBar}>
       <a className="navbar-brand" href="/home">
-        Logo
+        <img src="nont-logo.svg" id={styles.logo} alt="Nont logo"></img>
       </a>
       <button
         className="navbar-toggler"

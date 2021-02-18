@@ -4,53 +4,59 @@
 }
 
 #dropdown {
-  position: fixed;
-  left: 88vw;
-  top: 55px !important;
-  width: 10vw !important;
-  border: 1px solid red;
+  position: absolute;
+  left: -200px;
+  width: 250px;
   border-radius: 10px;
-  background-color: lightyellow;
+  background-color: #F1F9FE;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: 0px !important;
 }
 
 .textCenter {
   text-align: center;
 }
 
-#loginLink,
-#registerLink {
-  border: 1px solid black;
-  padding: 5px 8px 5px 8px;
-  border-radius: 4px;
+.leftLink {
+  text-decoration: none;
+  color: white !important;
+  opacity: 0.75;
+  font-weight: bold;
+  font-size: 20px;
 }
 
-#loginLink:hover,
-#registerLink:hover {
-  text-decoration: none;
-  background-color: lightgreen;
+.leftLink:hover {
+  color: white !important;
+  opacity: 1;
+}
+
+#loginBtn {
+  font-weight: bold;
+}
+
+#registerBtn {
+  font-weight: bold;
 }
 
 .dropdown {
   height: 50px;
   margin: 0px 5px 0px 5px;
   border-radius: 10px;
+  text-decoration: none;
+  color: black;
 }
 
-.dropdown:hover {
-  background-color: gold;
-  text-decoration: underline;
-  color: blue;
+.dropdownBtn {
+  width: 250px;
+  border-color: transparent !important;
+  height: initial !important;
+  margin: 0px !important;
 }
 
 .superCenter {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-#profileLink {
-  color: black;
 }
 
 p {

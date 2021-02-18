@@ -7,34 +7,43 @@ const NavigationUserLinksCollapse = (props) => {
     <React.Fragment>
       {value.login && (
         <React.Fragment>
+          <hr />
           <li className="nav-item">
-            <p className={styles.textCenter}>
+            <p style={{ textAlign: "center", color: "white" }}>
               {"You are logged in as " + value.email}
             </p>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/profile">
-              profile
+            <a className={"nav-link " + styles.leftLink} href="/profile">
+              Profile
             </a>
           </li>
           <li>
             <p
-              className="nav-link"
+              className={"nav-link " + styles.leftLink}
               type="button"
               onClick={() => props.logout()}
             >
-              Log Out
+              Log out
             </p>
           </li>
         </React.Fragment>
       )}
       {!value.login && (
-        <li className="nav-item">
-          <a className="nav-link" href="/login">
-            {" "}
-            Log In{" "}
-          </a>
-        </li>
+        <React.Fragment>
+          <li className="nav-item">
+            <a className={"nav-link " + styles.leftLink} href="/login">
+              {" "}
+              Log In{" "}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className={"nav-link " + styles.leftLink} href="/register">
+              {" "}
+              Create an account{" "}
+            </a>
+          </li>
+        </React.Fragment>
       )}
     </React.Fragment>
   );
