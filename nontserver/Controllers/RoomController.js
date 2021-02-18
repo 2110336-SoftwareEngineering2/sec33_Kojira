@@ -24,6 +24,37 @@ const controller = {
             return res.status(500).send('Cannot access rooms');
         }
     },
+        // GET ROOM BY ID
+        getRoomByID:  async (req,res) => {
+            try{            
+                const Room = await Rooms.findById(req.params.id);
+                if(Object.keys(Room).length===0)res.send(`there is no room with ${req.params.id} id`);
+                return res.send(Room);
+            }
+            catch (error){
+                return res.status(500).send('Cannot access rooms by id');
+            }
+        },
+        getRoomByName:  async (req,res) => {
+            try{            
+                const Room = await Rooms.find({"name": req.params.name});
+                if(Object.keys(Room).length===0)res.send(`there is no room name ${req.params.name} `);
+                return res.send(Room);
+            }
+            catch (error){
+                return res.status(500).send('Cannot access rooms by name');
+            }
+        },
+        getRoomByNontType:  async (req,res) => {
+            try{            
+                const Room = await Rooms.find({"nont_type": req.params.type});
+                if(Object.keys(Room).length===0)res.send(`there is no room with ${req.params.type} type`);
+                return res.send(Room);
+            }
+            catch (error){
+                return res.status(500).send('Cannot access rooms by nont type');
+            }
+        },
 
     // POST add new room
     registerRoom: async (req, res) => {
@@ -41,7 +72,7 @@ const controller = {
                 reserved_date_time: []
             };
             const newRoom = await Rooms.create(newBody);
-            return res.send(_.pick(newRoom, ["_id","name","nont_type","amount","price"]));
+            return res.send(_.pick(newRoom, ["_id","name","nont_type","amount","price","phoneNumber"]));
         }
         catch(error){
             return res.status(500).send("Cannot create room");
