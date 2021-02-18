@@ -9,34 +9,30 @@ const JoiOid = require('joi-oid');
 const validate_coordinate = Joi.object({
     lat:Joi.number().min(-90).max(90),
     lng:Joi.number().min(-180).max(180)
-});
+}).required();
 const validate_license =Joi.object({
     name:Joi.string().required().min(0).max(32),
     img:Joi.binary().required()
-
 });
 const validate_image =Joi.object({
     name:Joi.string().required(),
     img:Joi.binary().required()
-
 });
 const validate_room =Joi.object({
     room_id:JoiOid.objectId().required()
-    
-
 });
 const validator = Joi.object({
     name: Joi.string().required().min(1).max(50),
-    description: Joi.string().required().min(1).max(500),
+    description: Joi.string().min(1).max(500),
     address: Joi.string().required().min(1).max(500),
-    rate: Joi.number().integer().min(0).max(5),
-    supported_type:Joi.array().items(Joi.string().valid(...Object.values(nontTypes))),
-    coordinate:validate_coordinate,
+    rate: Joi.number().min(0).max(5).required(),
+    supported_type:Joi.array().required().items(Joi.string().valid(...Object.values(nontTypes))),
+    coordinate: validate_coordinate,
     phoneNumber: Joi.string()
     .length(10)
     .pattern(/^[0-9]+$/),
-    license:Joi.array().items(validate_license),
-    picture:Joi.array().items(validate_image),
+    license:Joi.array().items(validate_license).required(),
+    picture:Joi.array().items(validate_image).required(),
     rooms:JoiOid.array().items(validate_room)
     
 });
@@ -87,10 +83,9 @@ const controller = {
         }
         // no unique attribute -> do not check
         // create newShelter and save to db
-        try{            
+        try{           
             const newBody = {
                 ...req.body,
-                
             };
             const newShelter = await Shelters.create(newBody);
             return res.send(_.pick(newShelter, ["_id","name","rate","phonenumber"]));

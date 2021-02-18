@@ -15,7 +15,7 @@ const schema = new Schema(
         phoneNumber: { type: String },
         license:{type:[{name:String , img:Buffer}],required:true},
         picture:{type:[{name:String , img:Buffer}],required:true},
-        rooms: {type:[{room_id: {type: ObjectId ,ref :"rooms" }}],required:true},
+        rooms: {type:[{room_id: {type: ObjectId ,ref :"rooms" }}]},
     },
     {
         timestamps: true,
