@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const objectId = mongoose.Schema.Types.objectId;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const schema = new Schema(
     {
@@ -15,7 +15,8 @@ const schema = new Schema(
                 start_date_time: {type: Date},
                 end_date_time: {type: Date}
             }
-        ]
+        ],
+        shelter_id: {type: ObjectId, required: true, ref:"shelters"},
     },
     {
         timestamps: true,
