@@ -7,7 +7,8 @@ const controller = require('../Controllers/RoomController');
 router
     .route('/')
     .get(controller.getRooms)
-    .post(controller.registerRoom);
+    .post(controller.registerRoom)
+    .put(controller.updateRoom);
 router
     .route('/id/:id')
     .get(controller.getRoomByID);
