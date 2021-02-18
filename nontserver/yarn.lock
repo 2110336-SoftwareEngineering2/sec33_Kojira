@@ -962,6 +962,11 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
+geojson@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/geojson/-/geojson-0.5.0.tgz#3cd6c96399be65b56ee55596116fe9191ce701c0"
+  integrity sha1-PNbJY5m+ZbVu5VWWEW/pGRznAcA=
+
 get-caller-file@^2.0.1:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.5.tgz#4f94412a82db32f36e3b0b9741f8a97feb031f7e"
@@ -1291,6 +1296,13 @@ jade@~1.11.0:
     uglify-js "^2.4.19"
     void-elements "~2.0.1"
     with "~4.0.0"
+
+joi-oid@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/joi-oid/-/joi-oid-1.1.2.tgz#b21ec4044bb29a5d69dae525cb19cd3c877738d1"
+  integrity sha512-OM639X8cRWcM6lPqtLGIh6/MdxYhv5GjP0ntjm22ZvQ1G5pBOKohGqAXvbvhNjIJ25pcSfAkpldKlgN4euCLzA==
+  dependencies:
+    joi "^17.3.0"
 
 joi@^17.3.0:
   version "17.3.0"
