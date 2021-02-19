@@ -64,14 +64,6 @@ class LoginFields extends Component {
         {(value) => {
           return (
             <div id={styles.LoginFieldsDiv} className={styles.textCenter}>
-              <i
-                className="fa fa-chevron-left"
-                title="Back"
-                id={styles.backChevronButton}
-                type="button"
-                onClick={() => this.props.changeMode(null)}
-              ></i>
-              <h1 className="mt-4">Login as a {this.props.UserType}</h1>
               <div className={"row " + styles.center}>
                 <input
                   onChange={(e) => this.handleOnChangeEmail(e)}
@@ -93,6 +85,7 @@ class LoginFields extends Component {
               <div className={"row " + styles.center}>
                 <button
                   id={styles.logInButton}
+                  className="btn btn-success"
                   onClick={() => this.handleSubmit(value.UpdateUserInfo)}
                 >
                   Log in
@@ -101,9 +94,6 @@ class LoginFields extends Component {
               {this.state.errMessage !== "" && (
                 <p className={styles.redColor}>{this.state.errMessage}</p>
               )}
-              <p>
-                Don't have an account yet? Sign up <a href="/register">here</a>
-              </p>
             </div>
           );
         }}

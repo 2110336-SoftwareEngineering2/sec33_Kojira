@@ -37,18 +37,26 @@ class Login extends Component {
 
   render() {
     return (
-      <div className={styles.superCenter} id={styles.LoginOutsideDiv}>
+      <div className={styles.center} id={styles.LoginOutsideDiv}>
         <div className="row">
-          <div id={styles.LoginDiv} className={styles.center}>
-            {this.state.mode === null && (
-              <LoginPrompt changeMode={(newmode) => this.changeMode(newmode)} />
-            )}
-            {this.state.mode !== null && (
-              <LoginFields
-                UserType={this.state.mode}
+          <div className={"col"}>
+            <div className="row">
+              <LoginPrompt
                 changeMode={(newmode) => this.changeMode(newmode)}
+                mode={this.state.mode}
               />
-            )}
+            </div>
+            <div className="row">
+              {this.state.mode !== null && (
+                <LoginFields
+                  UserType={this.state.mode}
+                  changeMode={(newmode) => this.changeMode(newmode)}
+                />
+              )}
+            </div>
+            <p className={styles.textCenter}>
+              Don't have an account yet? Sign up <a href="/register">here</a>
+            </p>
           </div>
         </div>
       </div>
