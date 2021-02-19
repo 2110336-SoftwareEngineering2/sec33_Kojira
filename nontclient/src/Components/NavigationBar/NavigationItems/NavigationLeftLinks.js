@@ -1,28 +1,29 @@
 import React from "react";
 import UserType from "../../../Constants/UserType";
+import styles from "../NavigationLinks.module.css";
 
 const NavigationLeftLinks = (props) => {
   return (
     <React.Fragment>
       <li className="nav-item active">
-        <a className="nav-link" href="/dashboard">
+        <a className={"nav-link " + styles.leftLink} href="/dashboard">
           {" "}
-          dashboard<span className="sr-only">(current)</span>
+          Dashboard<span className="sr-only">(current)</span>
         </a>
       </li>
       {props.userType === UserType.NONT_OWNER && (
-        <>
+        <React.Fragment>
           <li className="nav-item">
-            <a className="nav-link" href="/reserve">
-              reserve
+            <a className={"nav-link " + styles.leftLink} href="/reserve">
+              Reserve
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/nont">
-              nont
+            <a className={"nav-link " + styles.leftLink} href="/nont">
+              Nont
             </a>
           </li>
-        </>
+        </React.Fragment>
       )}
       {props.userType === UserType.NONT_SITTER && (
         <li className="nav-item">

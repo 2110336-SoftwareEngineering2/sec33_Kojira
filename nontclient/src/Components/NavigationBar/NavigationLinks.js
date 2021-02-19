@@ -22,13 +22,13 @@ const NavigationLinks = (props) => {
         <NavigationLeftLinks userType={value.userType} />
       </ul>
       {/** Only show the dropdown in the expanded navigation bar (lg and xl) */}
-      <ul className="navbar-nav d-block d-lg-none">
+      <ul className="navbar-nav d-block d-sm-none">
         <NavigationUserLinksCollapse
           value={value}
           logout={() => Logout(value)}
         />
       </ul>
-      <ul className="navbar-nav ml-auto d-none d-lg-block">
+      <ul className="navbar-nav ml-auto d-none d-sm-block">
         <NavigationUserLinksExpand value={value} logout={() => Logout(value)} />
       </ul>
     </React.Fragment>
