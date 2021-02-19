@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import "./Registration.css";
+import React, { useState } from 'react';
 import UserType from "../../Constants/UserType";
 import EmailForm from "./EmailForm";
 import PasswordForm from "./PasswordForm";
@@ -8,7 +7,7 @@ import PhoneNumberForm from "./PhoneNumberForm";
 import BankAccountForm from "./BankAccountForm";
 import UserTypeButton from "./UserTypeButton";
 import CheckService from "../../Services/CheckService";
-import RegisterService from "../../Services/RegisterService";
+import SettingService from "../../Services/SettingService";
 import {
   DEFAULT,
   CHANGING,
@@ -18,9 +17,9 @@ import {
   EMPTY,
 } from "../../Constants/FormValidity";
 
-const Registration = (props) => {
+const UpdateAccount = () => {
+
   const [account, setAccount] = useState({
-    type: UserType.NONT_OWNER,
     email: "",
     password: "",
     retypePassword: "",
@@ -35,8 +34,6 @@ const Registration = (props) => {
   const [validName, setValidName] = useState(DEFAULT);
   const [validPhoneNumber, setValidPhoneNumber] = useState(DEFAULT);
   const [validBankAccount, setValidBankAccount] = useState(DEFAULT);
-
-  const [registered, setRegistered] = useState(false);
 
   const validator = {
     validateEmail: async () => {
@@ -209,87 +206,55 @@ const Registration = (props) => {
       bankAccountResult
     );
   }
-
-  async function submitRegistration() {
-    const valid = await validateAll();
-    if (!valid) return;
-    const body = {
-      email: account.email,
-      password: account.password,
-      name: account.name,
-    };
-    if (account.phoneNumber.length > 0) body.phoneNumber = account.phoneNumber;
-    if (account.bankAccount.length > 0) body.bankAccount = account.bankAccount;
-    try {
-      const response = await RegisterService.registerAccount(
-        account.type,
-        body
-      );
-      console.log(response);
-      setRegistered(true);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-
-  if (registered) {
-    return (
-      <div className="container">
-        <h1 className="my-5 text-center">
-          Your account is successfully registered.
-        </h1>
-      </div>
-    );
-  }
-
+  
   return (
     <div className="container">
-      <h1 className="my-5 text-center">Register Account</h1>
-      <UserTypeButton
-        onUserTypeButtonClick={handleUserTypeButtonClick}
+    <h1 className="my-5 text-center">Update Account</h1>
+    <UserTypeButton
+      onUserTypeButtonClick={handleUserTypeButtonClick}
+      accountType={account.type}
+    />
+    <EmailForm
+      onFormChange={handleFormChange}
+      validateEmail={validator.validateEmail}
+      validEmail={validEmail}
+    />
+    <PasswordForm
+      onFormChange={handleFormChange}
+      validatePassword={validator.validatePassword}
+      validateRetypePassword={validator.validateRetypePassword}
+      validPassword={validPassword}
+      validRetypePassword={validRetypePassword}
+    />
+    <NameForm
+      onFormChange={handleFormChange}
+      validateName={validator.validateName}
+      validName={validName}
+    />
+    <div className="row">
+      <PhoneNumberForm
+        onFormChange={handleFormChange}
+        validatePhoneNumber={validator.validatePhoneNumber}
+        validPhoneNumber={validPhoneNumber}
+      />
+      <BankAccountForm
+        onFormChange={handleFormChange}
         accountType={account.type}
+        validateBankAccount={validator.validateBankAccount}
+        validBankAccount={validBankAccount}
       />
-      <EmailForm
-        onFormChange={handleFormChange}
-        validateEmail={validator.validateEmail}
-        validEmail={validEmail}
-      />
-      <PasswordForm
-        onFormChange={handleFormChange}
-        validatePassword={validator.validatePassword}
-        validateRetypePassword={validator.validateRetypePassword}
-        validPassword={validPassword}
-        validRetypePassword={validRetypePassword}
-      />
-      <NameForm
-        onFormChange={handleFormChange}
-        validateName={validator.validateName}
-        validName={validName}
-      />
-      <div className="row">
-        <PhoneNumberForm
-          onFormChange={handleFormChange}
-          validatePhoneNumber={validator.validatePhoneNumber}
-          validPhoneNumber={validPhoneNumber}
-        />
-        <BankAccountForm
-          onFormChange={handleFormChange}
-          accountType={account.type}
-          validateBankAccount={validator.validateBankAccount}
-          validBankAccount={validBankAccount}
-        />
-      </div>
-      <div className="m-5" style={{ textAlign: "center" }}>
-        <button
-          type="button"
-          className="btn btn-primary btn-lg"
-          onClick={submitRegistration}
-        >
-          Register
-        </button>
-      </div>
     </div>
+    <div className="m-5" style={{ textAlign: "center" }}>
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        onClick={submitRegistration}
+      >
+        Update
+      </button>
+    </div>
+  </div>
   );
-};
-
-export default Registration;
+}
+ 
+export default UpdateAccount;

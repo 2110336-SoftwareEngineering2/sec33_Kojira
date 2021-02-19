@@ -14,8 +14,8 @@ const NavigationUserLinksCollapse = (props) => {
             </p>
           </li>
           <li className="nav-item">
-            <a className={"nav-link " + styles.leftLink} href="/profile">
-              Profile
+            <a className={"nav-link " + styles.leftLink} href="/setting">
+              Setting
             </a>
           </li>
           <li>
