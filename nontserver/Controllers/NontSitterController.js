@@ -32,6 +32,18 @@ const controller = {
     }
   },
 
+  // GET /nontSitters/profile/:id
+  getNontSitterProfile: async (req, res) => {
+    try {
+      const nontSitterAccount = await NontSitter.findById(req.params.id);
+      if (!nontSitterAccount) return res.status(404).send("User not found");
+      const nontSitterProfile = _.pick(nontSitterAccount, ['name', 'phoneNumber']);
+      return res.send(nontSitterProfile);
+    } catch (error) {
+      return res.status(500).send("Cannot access nont-sitter accounts.");
+    }
+  },
+
   // POST /nontSitters
   registerNontSitter: async (req, res) => {
     const validationResult = validator.validate(req.body);

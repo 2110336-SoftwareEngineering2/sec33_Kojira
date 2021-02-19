@@ -12,6 +12,10 @@ router
   .post(controller.registerNontSitter);
 
 router
+  .route("/profile/:id")
+  .get(controller.getNontSitterProfile);
+
+router
   .route("/check-email")
   .post(controller.checkValidEmail);
 

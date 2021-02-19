@@ -32,6 +32,18 @@ const controller = {
     }
   },
 
+  // GET /nontOwners/profile/:id
+  getNontOwnerProfile: async (req, res) => {
+    try {
+      const nontOwnerAccount = await NontOwner.findById(req.params.id);
+      if (!nontOwnerAccount) return res.status(404).send("User not found");
+      const nontOwnerProfile = _.pick(nontOwnerAccount, ['name', 'phoneNumber']);
+      return res.send(nontOwnerProfile);
+    } catch (error) {
+      return res.status(500).send("Cannot access nont-owner accounts.");
+    }
+  },
+
   // POST /nontOwners
   registerNontOwner: async (req, res) => {
     const validationResult = validator.validate(req.body);

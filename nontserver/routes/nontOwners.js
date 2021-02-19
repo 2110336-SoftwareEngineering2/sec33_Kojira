@@ -12,6 +12,10 @@ router
   .post(controller.registerNontOwner);
 
 router
+  .route("/profile/:id")
+  .get(controller.getNontOwnerProfile);
+
+router
   .route("/check-email")
   .post(controller.checkValidEmail);
 
