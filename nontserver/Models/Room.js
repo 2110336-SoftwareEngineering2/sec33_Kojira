@@ -16,7 +16,11 @@ const schema = new Schema(
                 end_date_time: {type: Date}
             }
         ],
+<<<<<<< Updated upstream
         shelter_id: {type: ObjectId, required: true, ref:"shelters"},
+=======
+        shelter_id: {type: ObjectId, required:true, ref:"shelters"},
+>>>>>>> Stashed changes
     },
     {
         timestamps: true,
