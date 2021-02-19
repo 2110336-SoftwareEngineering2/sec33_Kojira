@@ -12,8 +12,12 @@ router
   .post(controller.registerNontSitter);
 
 router
+  .route("/:id")
+  .put(controller.updateAccount);
+
+router
   .route("/profile/:id")
-  .get(controller.getNontSitterProfile);
+  .get(controller.getProfile);
 
 router
   .route("/check-email")
