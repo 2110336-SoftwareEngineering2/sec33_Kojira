@@ -16,4 +16,8 @@ router
     .route('/name/:name')
     .get(controller.getShelterByName);
 
+router
+    .route("/email/:email")
+    .get(controller.getShelterByEmail);
+
 module.exports = router;
