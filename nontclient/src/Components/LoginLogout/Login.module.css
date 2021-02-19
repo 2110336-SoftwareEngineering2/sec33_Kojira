@@ -14,7 +14,6 @@
 }
 
 #LoginOutsideDiv {
-  height: 100vh;
   width: 100vw;
   overflow-x: hidden;
 }
@@ -28,11 +27,6 @@
   padding: 0px 10px 0px 10px;
   border-radius: 20px;
   background-color: lightyellow;
-}
-
-#LoginHeader {
-  font-size: 40px;
-  color: indigo;
 }
 
 #NontOwnerButton {
