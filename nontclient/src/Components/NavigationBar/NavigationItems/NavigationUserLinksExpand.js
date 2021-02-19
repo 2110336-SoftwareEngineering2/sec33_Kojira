@@ -7,58 +7,64 @@ const NavigationUserLinksExpand = (props) => {
     <React.Fragment>
       {!value.login && (
         <React.Fragment>
-          <a href="/login" id={styles.loginLink} className="mr-2">
-            Log In
+          <a href="/login" className="mr-2">
+            <button
+              type="button"
+              className="btn btn-light"
+              id={styles.loginBtn}
+            >
+              Log in
+            </button>
           </a>
-          <a href="/register" id={styles.registerLink}>
-            register
+          <a href="/register">
+            <button
+              type="button"
+              className="btn btn-success"
+              id={styles.registerBtn}
+            >
+              Create an account
+            </button>
           </a>
         </React.Fragment>
       )}
       {value.login && (
         <div className="dropdown">
-          <div data-toggle="dropdown">
+          <div data-toggle="dropdown" id="profileDropdown">
             <i
-              className="fa fa-user-circle dropdown-toggle"
+              className="fa fa-user-circle"
               id={styles.userCircle}
               type="button"
-            >
-              <span className="caret ml-1"></span>
-            </i>
+            ></i>
+            <span className="caret ml-2"></span>
+            <span className="dropdown-toggle"></span>
           </div>
 
-          <div className="dropdown-menu" id={styles.dropdown}>
+          <div
+            className="dropdown-menu"
+            id={styles.dropdown}
+            aria-labelledby="dropdownMenuButton1"
+          >
             <p className={styles.textCenter}>
               {"You are logged in as " + value.email}
             </p>
-            <div
-              className={
-                styles.textCenter +
-                " " +
-                styles.dropdown +
-                " " +
-                styles.superCenter
-              }
-            >
-              <a href="#" id={styles.profileLink}>
+            <hr />
+            <a href="#">
+              <button
+                type="button"
+                className={"btn btn-outline-primary " + styles.dropdownBtn}
+              >
                 Profile
-              </a>
-            </div>
-            <div
-              className={
-                styles.textCenter +
-                " " +
-                styles.dropdown +
-                " " +
-                styles.superCenter
-              }
-            >
-              {value.login && (
-                <p type="button" onClick={() => props.logout()}>
-                  Log Out
-                </p>
-              )}
-            </div>
+              </button>
+            </a>
+            {value.login && (
+              <button
+                type="button"
+                className={"btn btn-outline-primary " + styles.dropdownBtn}
+                onClick={props.logout}
+              >
+                Log out
+              </button>
+            )}
           </div>
         </div>
       )}

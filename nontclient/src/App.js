@@ -38,12 +38,12 @@ const App = (props) => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <UserContext.Provider value={userContextValues}>
         <NavigationBar />
         <Router setUserType={setUserType} />
       </UserContext.Provider>
-    </>
+    </React.Fragment>
   );
 };
 
