@@ -9,10 +9,7 @@ const cors = require("cors");
 router
   .route("/")
   .get(controller.getNontSitters)
-  .post(controller.registerNontSitter);
-
-router
-  .route("/:id")
+  .post(controller.registerNontSitter)
   .put(controller.updateAccount);
 
 router

@@ -44,7 +44,7 @@ const controller = {
     }
   },
 
-  // PUT /nontSitters/:id
+  // PUT /nontSitters
   updateAccount: async (req, res) => {
     try {
       const data = req.body;
@@ -59,7 +59,7 @@ const controller = {
           return res.status(403).send("Username already exists.");
       }
       const nontSitterAccount = await NontSitter.findByIdAndUpdate(
-        req.params.id,
+        data.id,
         { $set: data },
         { new: true }
       );
