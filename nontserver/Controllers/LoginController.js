@@ -15,16 +15,19 @@ const controller = {
             req.body.password,
             Result.password
           );
+
           if (comparedResult) {
             const token = generateAccessToken({
               email: req.body.email,
               userType: req.body.userType,
+              name: Result.name,
             });
             res.json({
               login: true,
               token: token,
               email: req.body.email,
               userType: req.body.userType,
+              name: Result.name,
             });
           } else {
             res.json({

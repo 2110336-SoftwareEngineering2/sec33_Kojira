@@ -13,6 +13,7 @@ router.post("/auth", authenticateJWTToken, function (req, res, next) {
     authenticated: true,
     email: req.user.email,
     userType: req.user.userType,
+    name: req.user.name,
   });
 });
 
