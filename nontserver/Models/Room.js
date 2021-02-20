@@ -10,12 +10,6 @@ const schema = new Schema(
         nont_type: {type: String, required: true},
         amount: {type: Number, required: true},
         price: {type: Number, required: true},
-        reserved_date_time: [
-            {
-                start_date_time: {type: Date},
-                end_date_time: {type: Date}
-            }
-        ],
         shelter_id: {type: ObjectId, required: true, ref:"shelters"},
     },
     {
