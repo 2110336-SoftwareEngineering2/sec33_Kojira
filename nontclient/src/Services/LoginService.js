@@ -61,6 +61,10 @@ const LoginService = {
           login: true,
           email: respond.data.email,
           userType: respond.data.userType,
+          name: respond.data.name,
+          _id: respond.data._id,
+          createdAt: respond.data.createdAt,
+          updatedAt: respond.data.updatedAt,
           err: false,
         };
       } else {
