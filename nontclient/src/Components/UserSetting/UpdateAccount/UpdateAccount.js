@@ -48,32 +48,31 @@ const UpdateAccount = (props) => {
 
   const [updated, setUpdated] = useState(0);
 
-  async function getAccountInfo() {
-    try {
-      const response = await SettingService.getAccountInfo(
-        user.userType,
-        user._id
-      );
-      const info = _.pick(response.data, ['email', 'name', 'phoneNumber']);
-      if (response.data.bankAccount) {
-        info.bankAccount = response.data.bankAccount;
-      } else {
-        info.bankAccount = "";
-      }
-      info.password = "";
-      info.retypePassword = "";
-      setAccount(info);
-      setDefaultAccount(info);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-
   useEffect(() => {
+    async function getAccountInfo() {
+      try {
+        const response = await SettingService.getAccountInfo(
+          user.userType,
+          user._id
+        );
+        const info = _.pick(response.data, ['email', 'name', 'phoneNumber']);
+        if (response.data.bankAccount) {
+          info.bankAccount = response.data.bankAccount;
+        } else {
+          info.bankAccount = "";
+        }
+        info.password = "";
+        info.retypePassword = "";
+        setAccount(info);
+        setDefaultAccount(info);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
     if (user._id) {
       getAccountInfo();
     }
-  }, [user._id, updated]);
+  }, [user._id, updated, user.userType]);
 
   const validator = {
     validateEmail: async () => {
@@ -287,7 +286,7 @@ const UpdateAccount = (props) => {
     <div className="container">
       <h1 className="my-5 text-center">Update Account</h1>
       {updated > 0 && (
-        <div className="alert alert-primary" role="alert">
+        <div className="alert alert-success" role="alert">
           The account has been successfully updated.
         </div>
       )}
