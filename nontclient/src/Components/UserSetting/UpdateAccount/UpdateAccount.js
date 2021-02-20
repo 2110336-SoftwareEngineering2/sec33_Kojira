@@ -17,7 +17,7 @@ import {
   EMPTY,
 } from "../../Constants/FormValidity";
 
-const UpdateAccount = () => {
+const UpdateAccount = props => {
 
   const [account, setAccount] = useState({
     email: "",
@@ -34,6 +34,8 @@ const UpdateAccount = () => {
   const [validName, setValidName] = useState(DEFAULT);
   const [validPhoneNumber, setValidPhoneNumber] = useState(DEFAULT);
   const [validBankAccount, setValidBankAccount] = useState(DEFAULT);
+
+  const [updated, setUpdated] = useState(false);
 
   const validator = {
     validateEmail: async () => {
@@ -206,6 +208,28 @@ const UpdateAccount = () => {
       bankAccountResult
     );
   }
+
+  async function submitUpdate() {
+    const valid = await validateAll();
+    if (!valid) return;
+    const body = {
+      email: account.email,
+      password: account.password,
+      name: account.name,
+    };
+    if (account.phoneNumber.length > 0) body.phoneNumber = account.phoneNumber;
+    if (account.bankAccount.length > 0) body.bankAccount = account.bankAccount;
+    try {
+      const response = await SettingService.updateAccount(
+        account.type,
+        body
+      );
+      console.log(response);
+      setUpdated(true);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
   
   return (
     <div className="container">
@@ -248,7 +272,7 @@ const UpdateAccount = () => {
       <button
         type="button"
         className="btn btn-primary btn-lg"
-        onClick={submitRegistration}
+        onClick={submitUpdate}
       >
         Update
       </button>
