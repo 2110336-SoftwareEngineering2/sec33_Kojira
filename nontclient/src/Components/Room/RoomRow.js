@@ -5,36 +5,33 @@ const RoomRow = (props) => {
         <div className="row mt-2 mb-2">            
             {/* room name button */}
             <div className="col-md-8 p-0">
-                <button
+                <a
                 className="btn btn-outline-info btn-block"
                 style={{textAlign:"left", pointerEvents:"none", fontWeight:"bold"}}
                 >
                     {props.element.name}
-                </button>
+                </a>
             </div>
             {/* room update button */}
             <div className="col-md-2 p-0">
-                <button 
+                <a 
                 type="button"
                 className="btn btn-outline-info btn-block" 
                 style={{textAlign:"center"}}
+                href={"/room/update/"+props.element._id}
                 >
-                    <a
-                    href={"/room/update/"+props.element._id}
-                    >
-                        Update
-                    </a>
-                </button>
+                    Update
+                </a>
             </div>
             {/* room delete button */}
             <div className="col-md-2 p-0">
-                <button 
+                <a
                 type="button"
                 className="btn btn-outline-info btn-block" 
                 style={{textAlign:"center"}}
                 >
                     Delete
-                </button>
+                </a>
             </div>
         </div>
     );
