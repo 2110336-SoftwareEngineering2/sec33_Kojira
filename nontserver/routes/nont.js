@@ -8,7 +8,7 @@ router.route('/')
       .get(controller.getNonts)
       .post(controller.registerNont)
       .put(controller.updateNont)
-      .delete(controler.deleteNont);
+      .delete(controller.deleteNont);
 
 router.route('/id/:id')
       .get(controller.getNontByID);

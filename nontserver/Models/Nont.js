@@ -11,12 +11,12 @@ const schema = new Schema({
     subtype: {type:String},
     description: {type:String},
     birth_date: {type:Date, required:true},
-    medical_certificate: {type:[{name: {type:String, required:true}, img: {data:Buffer, contentType:String, required:true}}]},
+    medical_certificate: {type:[{name: {type:String, required:true}, img: {data:Buffer}}]},
     picture: {type:[{img: {data:Buffer, contentType:String}}]},
     nontowner_id: {type:ObjectId, ref:'NontOwner', required:true}
 });
 
-schema.index({ name: 1, nontowner_id: 1 }, { unique: true });  //unique index on properties name and nontowner_id
+//schema.index({ name: 1, nontowner_id: 1 }, { unique: true });  //unique index on properties name and nontowner_id
 
 const Nont = mongoose.model('nonts',schema);
 
