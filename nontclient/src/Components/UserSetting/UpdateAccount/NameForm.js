@@ -4,8 +4,8 @@ import {
   INVALID,
   DEFAULT,
   EMPTY,
-  CHANGING,
   EXIST,
+  CHANGING,
 } from "../../../Constants/FormValidity";
 
 const UsernameForm = (props) => {
@@ -14,9 +14,6 @@ const UsernameForm = (props) => {
       <div className="col m-4">
         <label htmlFor="name-input" className="form-label">
           Name{" "}
-          <abbr className="required" title="required">
-            *
-          </abbr>
         </label>
         <input
           type="text"

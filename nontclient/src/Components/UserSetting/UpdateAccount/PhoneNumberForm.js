@@ -12,15 +12,12 @@ const PhoneNumberForm = (props) => {
     <div className="col-lg m-4">
       <label htmlFor="phone-input" className="form-label">
         Phone Number{" "}
-        <abbr className="required" title="required">
-          *
-        </abbr>
       </label>
       <input
         type="text"
         className={"form-control ".concat(
           props.validPhoneNumber === DEFAULT ||
-            props.validPhoneNumber === CHANGING
+            props.validPhoneNumber === CHANGING 
             ? ""
             : props.validPhoneNumber === VALID
             ? "is-valid"

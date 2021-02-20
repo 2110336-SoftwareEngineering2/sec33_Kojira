@@ -4,6 +4,7 @@ import {
   INVALID,
   DEFAULT,
   CHANGING,
+  EMPTY,
 } from "../../../Constants/FormValidity";
 
 const PasswordForm = (props) => {
@@ -12,15 +13,14 @@ const PasswordForm = (props) => {
       <div className="col-lg m-4">
         <label htmlFor="password-input" className="form-label">
           New Password{" "}
-          <abbr className="required" title="required">
-            *
-          </abbr>
         </label>
         <input
           type="password"
           id="password-input"
           className={"form-control ".concat(
-            props.validPassword === DEFAULT || props.validPassword === CHANGING
+            props.validPassword === DEFAULT ||
+              props.validPassword === CHANGING ||
+              props.validPassword === EMPTY
               ? ""
               : props.validPassword === VALID
               ? "form-control is-valid"
@@ -30,7 +30,6 @@ const PasswordForm = (props) => {
           onChange={props.onFormChange}
           onBlur={props.validatePassword}
           aria-describedby="password-desc"
-          required
         />
         <div id="password-desc" className="form-text">
           Your new password must be 8-32 characters long.
@@ -41,17 +40,16 @@ const PasswordForm = (props) => {
       </div>
       <div className="col-lg m-4">
         <label htmlFor="retype-password-input" className="form-label">
-          Retype New Password{" "}
-          <abbr className="required" title="required">
-            *
-          </abbr>
+          Confirm New Password{" "}
         </label>
         <input
           type="password"
           id="retype-password-input"
           className={"form-control ".concat(
             props.validRetypePassword === DEFAULT ||
-              props.validRetypePassword === CHANGING
+              props.validRetypePassword === CHANGING ||
+              props.validPassword === DEFAULT ||
+              props.validPassword === EMPTY
               ? ""
               : props.validRetypePassword === VALID
               ? "form-control is-valid"
@@ -61,14 +59,13 @@ const PasswordForm = (props) => {
           onChange={props.onFormChange}
           onBlur={props.validateRetypePassword}
           aria-describedby="retype-password-desc"
-          required
         />
         <div id="retype-password-desc" className="form-text">
-          Please retype your new password.
+          Please confirm new password.
         </div>
         {props.validRetypePassword === INVALID && (
           <div className="invalid-feedback">
-            Retype new password must match your new password.
+            Confirm new password must match your new password.
           </div>
         )}
       </div>

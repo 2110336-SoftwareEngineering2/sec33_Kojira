@@ -4,8 +4,8 @@ import {
   INVALID,
   DEFAULT,
   EMPTY,
-  CHANGING,
   EXIST,
+  CHANGING,
 } from "../../../Constants/FormValidity";
 
 const EmailForm = (props) => {
@@ -14,9 +14,6 @@ const EmailForm = (props) => {
       <div className="col m-4">
         <label htmlFor="email-input" className="form-label">
           Email address{" "}
-          <abbr className="required" title="required">
-            *
-          </abbr>
         </label>
         <input
           type="email"

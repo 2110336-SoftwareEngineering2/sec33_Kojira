@@ -17,11 +17,6 @@ const BankAccountForm = (props) => {
     <div className="col-lg m-4">
       <label htmlFor="bank-input" className="form-label">
         Bank Account{" "}
-        {props.accountType === UserType.NONT_SITTER && (
-          <abbr className="required" title="required">
-            *
-          </abbr>
-        )}
       </label>
       <input
         type="text"
@@ -39,6 +34,7 @@ const BankAccountForm = (props) => {
         value={props.value}
         onChange={props.onFormChange}
         onBlur={props.validateBankAccount}
+        required={props.accountType === UserType.NONT_SITTER}
       />
       {props.validBankAccount === EMPTY && !EMPTY_ALLOWED && (
         <div className="invalid-feedback">Bank account cannot be empty.</div>

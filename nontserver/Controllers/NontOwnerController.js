@@ -93,12 +93,12 @@ const controller = {
         if (nameFindResult)
           return res.status(403).send("Username already exists.");
       }
-      const nontOwnerAccount = await NontOwner.findByIdAndUpdate(
+      NontOwner.findByIdAndUpdate(
         data._id,
         { $set: data },
         { new: true }
       );
-      res.send(_.pick(nontOwnerAccount, ["_id", "email", "name"]));
+      res.send("The account was successfully updated.");
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }

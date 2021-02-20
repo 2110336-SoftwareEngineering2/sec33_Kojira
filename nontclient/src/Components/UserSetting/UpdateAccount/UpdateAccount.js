@@ -46,7 +46,7 @@ const UpdateAccount = (props) => {
   const [validPhoneNumber, setValidPhoneNumber] = useState(DEFAULT);
   const [validBankAccount, setValidBankAccount] = useState(DEFAULT);
 
-  const [updated, setUpdated] = useState(false);
+  const [updated, setUpdated] = useState(0);
 
   async function getAccountInfo() {
     try {
@@ -54,10 +54,14 @@ const UpdateAccount = (props) => {
         user.userType,
         user._id
       );
-      const info = _.pick(response.data, ['email', 'name', 'phoneNumber'];
+      const info = _.pick(response.data, ['email', 'name', 'phoneNumber']);
       if (response.data.bankAccount) {
         info.bankAccount = response.data.bankAccount;
+      } else {
+        info.bankAccount = "";
       }
+      info.password = "";
+      info.retypePassword = "";
       setAccount(info);
       setDefaultAccount(info);
     } catch (error) {
@@ -69,12 +73,12 @@ const UpdateAccount = (props) => {
     if (user._id) {
       getAccountInfo();
     }
-  }, [user._id]);
+  }, [user._id, updated]);
 
   const validator = {
     validateEmail: async () => {
       if (account.email === defaultAccount.email) {
-        setValidEmail(EMPTY);
+        setValidEmail(DEFAULT);
         return true;
       }
       if (account.email.length === 0) {
@@ -83,7 +87,7 @@ const UpdateAccount = (props) => {
       }
       try {
         const response = await CheckService.checkValidEmail(
-          account.type,
+          user.userType,
           account.email
         );
         const validity = response.data;
@@ -142,7 +146,7 @@ const UpdateAccount = (props) => {
       }
       try {
         const response = await CheckService.checkValidName(
-          account.type,
+          user.userType,
           account.name
         );
         const validity = response.data;
@@ -188,7 +192,7 @@ const UpdateAccount = (props) => {
       }
       if (account.bankAccount.length === 0) {
         setValidBankAccount(EMPTY);
-        if (account.type === UserType.NONT_OWNER) return true;
+        if (user.userType === UserType.NONT_OWNER) return true;
         else return false;
       }
       const REGEX = /^[0-9]+$/;
@@ -259,14 +263,16 @@ const UpdateAccount = (props) => {
     if (!valid) return;
     const body = {};
     if (validEmail !== DEFAULT) body.email = account.email;
-    if (validPassword !== EMPTY) body.password = account.password;
+    if (validPassword !== EMPTY && validPassword !== DEFAULT) body.password = account.password;
     if (validName !== DEFAULT) body.name = account.name;
     if (validPhoneNumber !== DEFAULT) body.phoneNumber = account.phoneNumber;
     if (validBankAccount !== DEFAULT) body.bankAccount = account.bankAccount;
+    if (_.isEmpty(body)) return;
+    body._id = user._id;
     try {
-      const response = await SettingService.updateAccount(account.type, body);
+      const response = await SettingService.updateAccount(user.userType, body);
       console.log(response);
-      setUpdated(true);
+      setUpdated(updated + 1);
     } catch (error) {
       console.error(error.message);
     }
@@ -275,8 +281,8 @@ const UpdateAccount = (props) => {
   return (
     <div className="container">
       <h1 className="my-5 text-center">Update Account</h1>
-      {updated && (
-        <div class="alert alert-primary" role="alert">
+      {updated > 0 && (
+        <div className="alert alert-primary" role="alert">
           The account has been successfully updated.
         </div>
       )}
@@ -308,7 +314,7 @@ const UpdateAccount = (props) => {
         />
         <BankAccountForm
           onFormChange={handleFormChange}
-          accountType={account.type}
+          accountType={user.userType}
           validateBankAccount={validator.validateBankAccount}
           validBankAccount={validBankAccount}
           value={account.bankAccount}
