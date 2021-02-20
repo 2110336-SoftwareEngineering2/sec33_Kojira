@@ -11,7 +11,6 @@ const schema = new Schema(
     name: { type: String, required: true, unique: true, index: true },
     phoneNumber: { type: String },
     bankAccount: { type: String },
-    shelters: [{ type: ObjectId, ref: "shelters" }],
   },
   {
     timestamps: true,

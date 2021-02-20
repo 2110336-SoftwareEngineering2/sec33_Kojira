@@ -24,9 +24,13 @@ const ShelterManage = (props) => {
 
     useEffect( () => {
         async function fetchShelters() {
-            try {             
-                const response = await ShelterService.getSheltersByEmail(contextValue.email);  
-                setShelters(response.data);
+            try {
+                if (contextValue._id){
+                    const response = await ShelterService.getShelterByNontSitterID(contextValue._id); 
+                    if (response.data) {
+                        setShelters(response.data);
+                    }
+                } 
             }
             catch (error) {
                 console.error(error.message);

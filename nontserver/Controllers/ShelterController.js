@@ -55,7 +55,16 @@ const controller = {
     getShelterByID:  async (req,res) => {
         try{            
             const Shelter = await Shelters.findById(req.params.id);
-            if(Object.keys(Shelter).length===0)res.send(`there is no shelter with ${req.params.id} id `);
+            return res.send(Shelter);
+        }
+        catch (error){
+            return res.status(500).send('Cannot access shelter by id');
+        }
+    },
+    // GET Shelter by nont_sitter_id
+    getShelterByNontSitterID: async (req,res) => {
+        try{            
+            const Shelter = await Shelters.find({"nont_sitter_id":req.params.id});
             return res.send(Shelter);
         }
         catch (error){
