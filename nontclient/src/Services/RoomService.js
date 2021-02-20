@@ -11,7 +11,17 @@ const RoomService = {
         } catch (error){
             throw error;
         }
-    }
+    },
+    getRoomByShelterID: async (id) => {
+        try {
+            let path = "/room/shelterid/" + id;
+            const response = await axios.get(serverURL + path);
+            return response
+        }
+        catch (error) {
+            throw error;
+        }
+    },
 };
 
 export default RoomService;
