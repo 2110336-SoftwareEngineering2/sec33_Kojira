@@ -7,8 +7,7 @@ const controller = require('../Controllers/RoomController');
 router
     .route('/')
     .get(controller.getRooms)
-    .post(controller.registerRoom)
-    .put(controller.updateRoom);
+    .post(controller.registerRoom);
 
 router
     .route('/id/:id')
@@ -25,5 +24,9 @@ router
 router
     .route("/shelterid/:id")
     .get(controller.getRoomByShelterID);
+
+router
+    .route("/update/:id")
+    .put(controller.updateRoom);
 
 module.exports = router;
