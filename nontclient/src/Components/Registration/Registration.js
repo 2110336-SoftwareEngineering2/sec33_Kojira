@@ -243,12 +243,13 @@ const Registration = (props) => {
   }
 
   return (
-    <div className="container">
+    <div className="container" id="registration-container">
       <h1 className="my-5 text-center">Register Account</h1>
       <UserTypeButton
         onUserTypeButtonClick={handleUserTypeButtonClick}
         accountType={account.type}
       />
+      <hr />
       <EmailForm
         onFormChange={handleFormChange}
         validateEmail={validator.validateEmail}
