@@ -19,7 +19,11 @@ const RoomRow = (props) => {
                 className="btn btn-outline-info btn-block" 
                 style={{textAlign:"center"}}
                 >
-                    Update
+                    <a
+                    href={"/room/update/"+props.element._id}
+                    >
+                        Update
+                    </a>
                 </button>
             </div>
             {/* room delete button */}

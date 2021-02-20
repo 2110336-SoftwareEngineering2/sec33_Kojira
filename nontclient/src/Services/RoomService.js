@@ -12,6 +12,16 @@ const RoomService = {
             throw error;
         }
     },
+    getRoomByID: async (id) => {
+        try {
+            let path = "/room/id/" + id;
+            const response = await axios.get(serverURL + path);
+            return response
+        }
+        catch (error) {
+            throw error;
+        }
+    },
     getRoomByShelterID: async (id) => {
         try {
             let path = "/room/shelterid/" + id;
@@ -22,6 +32,16 @@ const RoomService = {
             throw error;
         }
     },
+    updateRoom: async (id, body) => {
+        try {
+            let path = "/room/update/" + id;
+            const response = await axios.put(serverURL + path, body);
+            return response
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 };
 
 export default RoomService;
