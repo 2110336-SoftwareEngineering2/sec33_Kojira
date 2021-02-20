@@ -14,6 +14,9 @@ router.post("/auth", authenticateJWTToken, function (req, res, next) {
     email: req.user.email,
     userType: req.user.userType,
     name: req.user.name,
+    _id: req.user._id,
+    createdAt: req.user.createdAt,
+    updatedAt: req.user.updatedAt,
   });
 });
 

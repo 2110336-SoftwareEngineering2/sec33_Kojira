@@ -21,6 +21,9 @@ const controller = {
               email: req.body.email,
               userType: req.body.userType,
               name: Result.name,
+              _id: Result._id,
+              createdAt: Result.createdAt,
+              updatedAt: Result.updatedAt,
             });
             res.json({
               login: true,

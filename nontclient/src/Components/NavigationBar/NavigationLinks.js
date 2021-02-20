@@ -15,6 +15,7 @@ const Logout = (value) => {
 
 const NavigationLinks = (props) => {
   const value = useContext(UserContext);
+  console.log(value);
   return (
     <React.Fragment>
       {" "}

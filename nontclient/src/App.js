@@ -11,6 +11,11 @@ const App = (props) => {
     userType: null,
     email: null,
     login: false,
+    name: null,
+    _id: null,
+    createdAt: null,
+    updatedAt: null,
+    err: false,
   });
 
   const setUserType = (newUserType) =>
@@ -23,15 +28,11 @@ const App = (props) => {
   const UpdateUserInfo = () => {
     LoginService.getUserInfo().then((UserInfo) => {
       if (
-        userInfo.userType !== UserInfo.userType ||
-        userInfo.email !== UserInfo.email ||
-        userInfo.login !== UserInfo.login
-      )
-        setUserInfo({
-          userType: UserInfo.userType,
-          email: UserInfo.email,
-          login: UserInfo.login,
-        });
+        userInfo.login !== UserInfo.login ||
+        userInfo.name !== UserInfo.name
+      ) {
+        setUserInfo(UserInfo);
+      }
     });
   };
 
@@ -41,6 +42,10 @@ const App = (props) => {
     userType: userInfo.userType,
     login: userInfo.login,
     email: userInfo.email,
+    _id: userInfo._id,
+    name: userInfo.name,
+    createdAt: userInfo.createdAt,
+    updatedAt: userInfo.updatedAt,
     setUserType: setUserType,
     setEmail: setEmail,
     setLogin: setLogin,
