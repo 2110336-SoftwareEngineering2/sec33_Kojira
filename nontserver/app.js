@@ -12,8 +12,8 @@ var usersRouter = require("./routes/users");
 var mongoose = require("mongoose");
 
 //Set up default mongoose connection
-var mongoDB =
-  "mongodb+srv://test:test@nont-dev.5gb2t.mongodb.net/nont?retryWrites=true&w=majority";
+var mongoDB = "mongodb://localhost:27017/nont_test"
+  //"mongodb+srv://test:test@nont-dev.5gb2t.mongodb.net/nont?retryWrites=true&w=majority";
 mongoose.connect(mongoDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

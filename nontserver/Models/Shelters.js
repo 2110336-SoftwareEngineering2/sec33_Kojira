@@ -13,8 +13,8 @@ const schema = new Schema(
         supported_type:{type:[String],required: true,},
         coordinate:{type:{lat:{type:Number,required: true},lng:{type:Number,required: true}},required: true},
         phoneNumber: { type: String },
-        license:{type:[{name:String , img:Buffer}],required:true},
-        picture:{type:[{name:String , img:Buffer}],required:true},
+        license:{type:[{name:String , img:Buffer}]},
+        picture:{type:[{name:String , img:Buffer}]},
         nont_sitter_id: {type: ObjectId, required:true, ref:"nontSitters"},
     },
     {

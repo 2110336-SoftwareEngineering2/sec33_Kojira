@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Shelter.module.css";
 import {
   VALID,
   INVALID,
@@ -14,7 +15,7 @@ const ShelternameForm = (props) => {
       <div className="col m-4">
         <label htmlFor="name-input" className="form-label">
           Name{" "}
-          <abbr className="required" title="required">
+          <abbr className={styles.required} title="required">
             *
           </abbr>
         </label>

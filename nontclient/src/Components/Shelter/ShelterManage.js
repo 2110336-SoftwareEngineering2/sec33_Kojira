@@ -2,14 +2,13 @@ import React, { useContext, useState, useEffect } from "react";
 import ShelterService from "../../Services/ShelterService";
 import Contexts from "../../Utils/Context/Contexts";
 import ShelterRow from "./ShelterRow";
-import { Link } from 'react-router-dom';
 
 const UserContext = Contexts.UserContext;
 
 const ShelterManage = (props) => {
     const contextValue = useContext(UserContext);
     const [shelters, setShelters] = useState([]);
-
+    
     useEffect( () => {
         async function fetchShelters() {
             try {
@@ -34,16 +33,22 @@ const ShelterManage = (props) => {
 
             {/* Shelter Register Button */}
             <div className="row">
-                <Link to="./shelterRegister">
-                <button
+            <button
                 className="btn btn-lg mt-2 mb-2"
                 id="shelter-register-button"
                 >
-                    
                     <a 
-                    className="fa fa-plus"></a>
+                    href={"/shelterRegister"}
+                    className="fa fa-plus"
+                    style={{textDecoration:"none"}}
+                    title="Add New Shelter"
+                    />
+                    <label
+                    className="pl-3"
+                    >
+                        Add New Shelter
+                    </label>
                 </button>
-                </Link>
             </div>
 
             {/* Shelter Row Button */}

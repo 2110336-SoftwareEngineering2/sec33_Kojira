@@ -5,11 +5,11 @@ import {
   DEFAULT,
 } from "../../Constants/FormValidity";
 
-const LicenseForm = (props) => {
+const PictureForm = (props) => {
     return(
     <div className="col m-4 mb-3">
-        <label htmlFor="license-input"  className="form-label">
-            License
+        <label htmlFor="picture-input"  className="form-label">
+            Picture
             <abbr className={styles.required} title="required">
             *
           </abbr>
@@ -17,8 +17,8 @@ const LicenseForm = (props) => {
         <input 
             className="form-control-file" 
             type="file" 
-            id="license-input"
-            name="license" 
+            id="picture-input"
+            name="picture" 
             onChange={props.onFormChange}
             multiple
         />
@@ -26,4 +26,4 @@ const LicenseForm = (props) => {
     )
 }
 
-export default LicenseForm
+export default PictureForm

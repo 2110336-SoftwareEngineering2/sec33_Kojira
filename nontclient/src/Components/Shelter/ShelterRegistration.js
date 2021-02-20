@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useContext, useState, Component } from "react";
 import ShelterService from "../../Services/ShelterService";
 import {
     VALID,
@@ -10,210 +10,195 @@ import DescriptionForm from "./DescriptionForm";
 import PhoneNumberForm from "./PhoneNumberForm";
 import LicenseForm from "./LicenseForm";
 import AddressForm from "./AddressForm";
+import PictureForm from "./PictureForm";
+import Contexts from "../../Utils/Context/Contexts";
 
-let file = {name:"",img:[]};
+const UserContext = Contexts.UserContext;
+
+//let file = {name:"",img:[]};
 //optional can be empty
-const validator = {
-    //Check unique name
-    validateName: (value) => {
-        if (value.length >= 1 && value.length <= 50) return true;
-        else return false;
-    },
-    validateDescriptionAddress: (value) => {
-        if (value.length >= 1 && value.length <= 500) return true;
-        else return false;
-    },
-    validatePhoneNumber: (value) => {
-        const REGEX = /^[0-9]+$/;
-        if (value.length == 10 && REGEX.test(value)) return true;
-        else return false;
-    },
-};
+const ShelterRegistration  = (props) => {
+    const [shelter, setShelter] = useState({
+        name: "",
+        description: "",
+        phoneNumber: "",
+        address: "",
+        coordinate: {lat:0,lng:0},
+        license: {name:"",img:[]},
+        picture: {name:"",img:[]},
+    })
 
-class ShelterRegistration extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            shelter: {
-                name: "",
-                description: "",
-                phoneNumber: "",
-                address: "",
-                coordinate: {lat:0,lng:0},
-                license: {name:"",img:[]}
-            },
-            register_status: DEFAULT,
-            valid:{
-                name: DEFAULT,
-                description: DEFAULT,
-                phoneNumber: DEFAULT,
-                address: DEFAULT,
-                coordinate: DEFAULT
-            },
-        };
+    const value = useContext(UserContext);
+    
+    const [registerStatus, setRegisterStatus] = useState(DEFAULT);
+    const [nameValid, setNameValid] = useState(DEFAULT);
+    const [descriptionValid, setDescriptionValid] = useState(DEFAULT);
+    const [phoneNumberValid, setPhoneNumberValid] = useState(DEFAULT);
+    const [addressValid, setAddressValid] = useState(DEFAULT);
+    const [coordinateValid, setCoordinateValid] = useState(DEFAULT);
+    const [licenseValid, setLicenseValid] = useState(DEFAULT);
+    const [pictureValid, setPictureValid] = useState(DEFAULT);
+
+    const validator = {
+        //Check unique name
+        validateName: (value) => {
+            if (value.length >= 1 && value.length <= 50) return true;
+            else return false;
+        },
+        validateDescriptionAddress: (value) => {
+            if (value.length >= 1 && value.length <= 500) return true;
+            else return false;
+        },
+        validatePhoneNumber: (value) => {
+            const REGEX = /^[0-9]+$/;
+            if (value.length == 10 && REGEX.test(value)) return true;
+            else return false;
+        },
+    };
+
+    async function validateAll() {
+
     }
 
-    validateAll = async () => {
-
-    }
-
-    getLocation = async () => {
+    async function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position)=>{
-                this.setState({shelter:{
-                    ...this.state.shelter,
+                setShelter({
+                    ...shelter,
                     coordinate: {lat:position.coords.latitude,lng:position.coords.longitude}
-                }})
+                })
             });
         } else { 
           console.log("Geolocation is not supported by this browser.")
         }
     }
 
-    handleFormChange = async (element) => {
+    async function handleFormChange(element) {
         switch (element.currentTarget.id){
             case "name-input":
                 if(validator.validateName(element.currentTarget.value)){
-                    this.setState({valid:{
-                        ...this.state.valid,
-                        name: VALID
-                    }})
+                    setNameValid(VALID)
                 } else {
-                    this.setState({valid:{
-                        ...this.state.valid,
-                        name: INVALID
-                    }})
+                    setNameValid(INVALID)
                 }
                 return;
             case "description-input":
                 if(validator.validateDescriptionAddress(element.currentTarget.value)){
-                    this.setState({valid:{
-                        ...this.state.valid,
-                        description: VALID
-                    }})
+                    setDescriptionValid(VALID)
                 } else {
-                    this.setState({valid:{
-                        ...this.state.valid,
-                        description: INVALID
-                    }})
+                    setDescriptionValid(INVALID)
                 }
                 return
             case "phone-input":
                 if(validator.validatePhoneNumber(element.currentTarget.value)){
-                    this.setState({valid:{
-                        ...this.state.valid,
-                        phoneNumber: VALID
-                    }})
+                    setPhoneNumberValid(VALID)
                 } else {
-                    this.setState({valid:{
-                        ...this.state.valid,
-                        phoneNumber: INVALID
-                    }})
+                    setPhoneNumberValid(INVALID)
                 }
                 return
             case "address-input":
                 if(validator.validateDescriptionAddress(element.currentTarget.value)){
-                    this.setState({valid:{
-                        ...this.state.valid,
-                        address: VALID
-                    }})
+                    setAddressValid(VALID)
                 } else {
-                    this.setState({valid:{
-                        ...this.state.valid,
-                        address: INVALID
-                    }})
+                    setAddressValid(INVALID)
                 }
                 return
             case "license-input":
-                file.name = element.currentTarget.files[0].name
-                const reader = new FileReader();
-                reader.onload = function(){
-                    let dataBuffer = reader.result;
-                    file.img = dataBuffer
-                    console.log(file.img)
-                    console.log(file.name)
-                };
-                reader.readAsDataURL(element.currentTarget.files[0]);
-                console.log(element.currentTarget.files[0])
+                // file.name = element.currentTarget.files[0].name
+                // const reader = new FileReader();
+                // reader.onload = function(){
+                //     let dataBuffer = reader.result;
+                //     file.img = dataBuffer
+                //     console.log(file.img)
+                //     console.log(file.name)
+                // };
+                // reader.readAsDataURL(element.currentTarget.files[0]);
+                // console.log(element.currentTarget.files[0])
+                return
+            case "picture-input":
                 return
         }
     }
     
-    submitRegistration = async () => {
+    async function submitRegistration() {
         //const validate = this.validateAll
         //if(!validator) return
+        console.log(UserContext)
         const body = {
             name: document.getElementById("name-input").value,
             description: document.getElementById("description-input").value,
             phoneNumber: document.getElementById("phone-input").value,
             address: document.getElementById("address-input").value,
-            coordinate: this.state.shelter.coordinate,
+            coordinate: shelter.coordinate,
             picture: [],
             license: [],
             supported_type: ["cat"],
-            rate: 3
+            rate: 3,
+            nont_sitter_id: value._id
         }
         try {
             const response = await ShelterService.registerShelter(body);
-            this.setState({
-                register_status: VALID
-            });
+            setRegisterStatus(VALID)
             console.log(response);
         } catch (error){
-            this.setState({
-                register_status: INVALID
-            });
+            setRegisterStatus(INVALID)
             console.error(error.message);
         }
     }
 
-    render(){
-        return(
-            <div className="container">
-                <h1 className="my-5 text-center">Register Shelter</h1>
-                <NameForm
-                    onFormChange={this.handleFormChange}
-                    validName={this.state.valid.name}
+    return(
+        <>
+        {value.userType !== "Nont Sitter" && <h2>You are not logged in as Nont Sitter</h2>}
+        {value.userType === "Nont Sitter" && 
+        <div className="container">
+            <h1 className="my-5 text-center">Register Shelter</h1>
+            <NameForm
+                onFormChange={handleFormChange}
+                validName={nameValid}
+            />
+            <DescriptionForm
+                onFormChange={handleFormChange}
+                validDescription={descriptionValid}
+            />
+            <div className="row">
+                <PhoneNumberForm
+                    onFormChange={handleFormChange}
+                    validPhoneNumber={phoneNumberValid}
                 />
-                <DescriptionForm
-                    onFormChange={this.handleFormChange}
-                    validDescription={this.state.valid.description}
+                <LicenseForm
+                    onFormChange={handleFormChange}
                 />
-                <div className="row">
-                    <PhoneNumberForm
-                        onFormChange={this.handleFormChange}
-                        validPhoneNumber={this.state.valid.phoneNumber}
+                <PictureForm
+                        onFormChange={handleFormChange}
                     />
-                    <LicenseForm
-                        onFormChange={this.handleFormChange}
-                    />
-                </div>
-                <AddressForm
-                        onFormChange={this.handleFormChange}
-                        validAddress={this.state.valid.address}
-                />
-                <div className="row">
-                    <div className="col m-4">
-                        <button type="button" 
-                            className="btn btn-secondary" 
-                            onClick={this.getLocation}
-                        >
-                        Location
-                        </button>
-                    </div>
-                </div>
-                <div className="m-5" style={{ textAlign: "center" }}>
-                    <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={this.submitRegistration}
+            </div>
+            <AddressForm
+                    onFormChange={handleFormChange}
+                    validAddress={addressValid}
+            />
+            <div className="row">
+                <div className="col m-4">
+                    <button type="button" 
+                        className="btn btn-secondary" 
+                        onClick={getLocation}
                     >
-                    Register
+                    Location
                     </button>
                 </div>
             </div>
-        )
-    }
+            <div className="m-5" style={{ textAlign: "center" }}>
+                <button
+                type="button"
+                className="btn btn-primary"
+                onClick={submitRegistration}
+                >
+                Register
+                </button>
+            </div>
+        </div>
+        }
+        </>
+    )
 }
 
 export default ShelterRegistration

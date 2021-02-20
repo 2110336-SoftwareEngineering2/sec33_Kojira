@@ -24,7 +24,7 @@ const validate_room =Joi.object({
 });
 const validator = Joi.object({
     name: Joi.string().required().min(1).max(50),
-    description: Joi.string().min(1).max(500),
+    description: Joi.string().max(500), //delete min
     address: Joi.string().required().min(1).max(500),
     rate: Joi.number().min(0).max(5).required(),
     supported_type:Joi.array().required().items(Joi.string().valid(...Object.values(nontTypes))),
@@ -32,8 +32,8 @@ const validator = Joi.object({
     phoneNumber: Joi.string()
     .length(10)
     .pattern(/^[0-9]+$/),
-    license:Joi.array().items(validate_license).required(),
-    picture:Joi.array().items(validate_image).required(),
+    license:Joi.array().items(validate_license), //required
+    picture:Joi.array().items(validate_image), //required
     rooms:JoiOid.array().items(validate_room)
     
 });
