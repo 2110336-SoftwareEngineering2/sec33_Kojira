@@ -1,5 +1,4 @@
 import React from "react";
-import "./ShelterRow.css";
 
 const ShelterRow = (props) => {
     return (
@@ -10,7 +9,6 @@ const ShelterRow = (props) => {
                 type="button"
                 className="btn btn-outline-info btn-block" 
                 style={{textAlign:"left"}}
-                onClick={props.onClick_shelter_view}
                 >
                     {props.element.name}
                 </button>
@@ -21,9 +19,11 @@ const ShelterRow = (props) => {
                 type="button"
                 className="btn btn-outline-info btn-block" 
                 style={{textAlign:"center"}}
-                onClick={props.onClick_room_manage}
                 >
-                    Room Manage
+                    <a href={"/room/manage/"+props.element._id}
+                    >
+                        Room Manage
+                    </a>
                 </button>
             </div>
             {/* shelter update button */}
@@ -32,7 +32,6 @@ const ShelterRow = (props) => {
                 type="button"
                 className="btn btn-outline-info btn-block" 
                 style={{textAlign:"center"}}
-                onClick={props.onClick_shelter_update}
                 >
                     Update
                 </button>
@@ -43,7 +42,6 @@ const ShelterRow = (props) => {
                 type="button"
                 className="btn btn-outline-info btn-block" 
                 style={{textAlign:"center"}}
-                onClick={props.onClick_shelter_delete}
                 >
                     Delete
                 </button>
