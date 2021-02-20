@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Registration.module.css";
 import UserType from "../../Constants/UserType";
 import {
   VALID,
@@ -18,7 +19,7 @@ const BankAccountForm = (props) => {
       <label htmlFor="bank-input" className="form-label">
         Bank Account{" "}
         {props.accountType === UserType.NONT_SITTER && (
-          <abbr className="required" title="required">
+          <abbr className={styles.required} title="required">
             *
           </abbr>
         )}

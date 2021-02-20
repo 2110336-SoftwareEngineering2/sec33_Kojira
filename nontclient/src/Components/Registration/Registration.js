@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Registration.css";
+import styles from "./Registration.module.css";
 import UserType from "../../Constants/UserType";
 import EmailForm from "./EmailForm";
 import PasswordForm from "./PasswordForm";
@@ -243,7 +243,7 @@ const Registration = (props) => {
   }
 
   return (
-    <div className="container" id="registration-container">
+    <div className="container" id={styles.container}>
       <h1 className="my-5 text-center">Register Account</h1>
       <UserTypeButton
         onUserTypeButtonClick={handleUserTypeButtonClick}
