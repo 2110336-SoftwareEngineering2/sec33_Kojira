@@ -12,6 +12,16 @@ const SettingService = {
       throw error;
     }
   },
+
+  getAccountInfo: async (type, id) => {
+    try {
+      const path = getUserTypePath(type) + `/${id}`;
+      const response = await axios.get(serverURL + path);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default SettingService;

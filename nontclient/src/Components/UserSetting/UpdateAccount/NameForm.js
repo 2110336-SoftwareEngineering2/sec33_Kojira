@@ -4,9 +4,9 @@ import {
   INVALID,
   DEFAULT,
   EMPTY,
-  EXIST,
   CHANGING,
-} from "../../Constants/FormValidity";
+  EXIST,
+} from "../../../Constants/FormValidity";
 
 const UsernameForm = (props) => {
   return (
@@ -29,6 +29,7 @@ const UsernameForm = (props) => {
           )}
           id="name-input"
           name="name"
+          value={props.value}
           onChange={props.onFormChange}
           onBlur={props.validateName}
           aria-describedby="name-desc"

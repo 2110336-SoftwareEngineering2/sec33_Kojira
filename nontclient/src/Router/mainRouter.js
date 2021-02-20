@@ -7,6 +7,7 @@ import Login from "../Components/LoginLogout/Login";
 import Registration from "../Components/Registration/Registration";
 import RoomRegistration from "../Components/Room/RoomRegistration";
 import ShelterManage from "../Components/Shelter/ShelterManage";
+import UserSetting from "../Components/UserSetting/UserSetting";
 
 function Router(props) {
   return (
@@ -19,6 +20,7 @@ function Router(props) {
         <Route path="/register" component={Registration} />
         <Route path="/roomRegister" component={RoomRegistration} />
         <Route path="/shelter" component={ShelterManage} />
+        <Route path="/setting" component={UserSetting} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>

@@ -5,7 +5,7 @@ import {
   DEFAULT,
   EMPTY,
   CHANGING,
-} from "../../Constants/FormValidity";
+} from "../../../Constants/FormValidity";
 
 const PhoneNumberForm = (props) => {
   return (
@@ -28,6 +28,7 @@ const PhoneNumberForm = (props) => {
         )}
         id="phone-input"
         name="phoneNumber"
+        value={props.value}
         onChange={props.onFormChange}
         onBlur={props.validatePhoneNumber}
         required

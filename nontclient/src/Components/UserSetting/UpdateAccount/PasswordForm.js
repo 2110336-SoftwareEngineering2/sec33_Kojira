@@ -3,16 +3,15 @@ import {
   VALID,
   INVALID,
   DEFAULT,
-  EMPTY,
   CHANGING,
-} from "../../Constants/FormValidity";
+} from "../../../Constants/FormValidity";
 
 const PasswordForm = (props) => {
   return (
     <div className="row">
       <div className="col-lg m-4">
         <label htmlFor="password-input" className="form-label">
-          Password{" "}
+          New Password{" "}
           <abbr className="required" title="required">
             *
           </abbr>
@@ -34,18 +33,15 @@ const PasswordForm = (props) => {
           required
         />
         <div id="password-desc" className="form-text">
-          Your password must be 8-32 characters long.
+          Your new password must be 8-32 characters long.
         </div>
         {props.validPassword === INVALID && (
           <div className="invalid-feedback">Invalid password.</div>
         )}
-        {props.validPassword === EMPTY && (
-          <div className="invalid-feedback">Password cannot be empty.</div>
-        )}
       </div>
       <div className="col-lg m-4">
         <label htmlFor="retype-password-input" className="form-label">
-          Retype Password{" "}
+          Retype New Password{" "}
           <abbr className="required" title="required">
             *
           </abbr>
@@ -68,16 +64,11 @@ const PasswordForm = (props) => {
           required
         />
         <div id="retype-password-desc" className="form-text">
-          Please retype your password.
+          Please retype your new password.
         </div>
         {props.validRetypePassword === INVALID && (
           <div className="invalid-feedback">
-            Retype password must match your password.
-          </div>
-        )}
-        {props.validRetypePassword === EMPTY && (
-          <div className="invalid-feedback">
-            Retype password cannot be empty.
+            Retype new password must match your new password.
           </div>
         )}
       </div>

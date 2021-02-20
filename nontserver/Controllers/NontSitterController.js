@@ -32,13 +32,12 @@ const controller = {
     }
   },
 
-  // GET /nontSitters/profile/:id
+  // GET /nontSitters/:id
   getProfile: async (req, res) => {
     try {
       const nontSitterAccount = await NontSitter.findById(req.params.id);
       if (!nontSitterAccount) return res.status(404).send("User not found");
-      const nontSitterProfile = _.pick(nontSitterAccount, ['name', 'phoneNumber']);
-      return res.send(nontSitterProfile);
+      return res.send(_.omit(nontSitterAccount, ['password']));
     } catch (error) {
       return res.status(500).send("Cannot access nont-sitter accounts.");
     }

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import UserType from "../../Constants/UserType";
+import React, { useState, useContext, useEffect } from "react";
+import _ from "lodash";
+import UserType from "../../../Constants/UserType";
 import EmailForm from "./EmailForm";
 import PasswordForm from "./PasswordForm";
 import NameForm from "./NameForm";
 import PhoneNumberForm from "./PhoneNumberForm";
 import BankAccountForm from "./BankAccountForm";
-import UserTypeButton from "./UserTypeButton";
-import CheckService from "../../Services/CheckService";
-import SettingService from "../../Services/SettingService";
+import CheckService from "../../../Services/CheckService";
+import SettingService from "../../../Services/SettingService";
 import {
   DEFAULT,
   CHANGING,
@@ -15,11 +15,22 @@ import {
   INVALID,
   EXIST,
   EMPTY,
-} from "../../Constants/FormValidity";
+} from "../../../Constants/FormValidity";
+import Contexts from "../../../Utils/Context/Contexts";
 
-const UpdateAccount = props => {
+const UpdateAccount = (props) => {
+  const user = useContext(Contexts.UserContext);
 
   const [account, setAccount] = useState({
+    email: "",
+    password: "",
+    retypePassword: "",
+    name: "",
+    phoneNumber: "",
+    bankAccount: "",
+  });
+
+  const [defaultAccount, setDefaultAccount] = useState({
     email: "",
     password: "",
     retypePassword: "",
@@ -37,8 +48,35 @@ const UpdateAccount = props => {
 
   const [updated, setUpdated] = useState(false);
 
+  async function getAccountInfo() {
+    try {
+      const response = await SettingService.getAccountInfo(
+        user.userType,
+        user._id
+      );
+      const info = _.pick(response.data, ['email', 'name', 'phoneNumber'];
+      if (response.data.bankAccount) {
+        info.bankAccount = response.data.bankAccount;
+      }
+      setAccount(info);
+      setDefaultAccount(info);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  useEffect(() => {
+    if (user._id) {
+      getAccountInfo();
+    }
+  }, [user._id]);
+
   const validator = {
     validateEmail: async () => {
+      if (account.email === defaultAccount.email) {
+        setValidEmail(EMPTY);
+        return true;
+      }
       if (account.email.length === 0) {
         setValidEmail(EMPTY);
         return false;
@@ -69,7 +107,7 @@ const UpdateAccount = props => {
         return true;
       } else if (account.password.length === 0) {
         setValidPassword(EMPTY);
-        return false;
+        return true;
       } else {
         setValidPassword(INVALID);
         return false;
@@ -78,7 +116,8 @@ const UpdateAccount = props => {
     validateRetypePassword: () => {
       if (account.retypePassword.length === 0) {
         setValidRetypePassword(EMPTY);
-        return false;
+        if (account.password.length === 0) return true;
+        else return false;
       }
       if (
         account.password === account.retypePassword &&
@@ -93,6 +132,10 @@ const UpdateAccount = props => {
       }
     },
     validateName: async () => {
+      if (account.name === defaultAccount.name) {
+        setValidName(DEFAULT);
+        return true;
+      }
       if (account.name.length === 0) {
         setValidName(EMPTY);
         return false;
@@ -118,6 +161,10 @@ const UpdateAccount = props => {
       }
     },
     validatePhoneNumber: () => {
+      if (account.phoneNumber === defaultAccount.phoneNumber) {
+        setValidPhoneNumber(DEFAULT);
+        return true;
+      }
       if (account.phoneNumber.length === 0) {
         setValidPhoneNumber(EMPTY);
         return false;
@@ -135,6 +182,10 @@ const UpdateAccount = props => {
       }
     },
     validateBankAccount: () => {
+      if (account.bankAccount === defaultAccount.bankAccount) {
+        setValidBankAccount(DEFAULT);
+        return true;
+      }
       if (account.bankAccount.length === 0) {
         setValidBankAccount(EMPTY);
         if (account.type === UserType.NONT_OWNER) return true;
@@ -153,12 +204,6 @@ const UpdateAccount = props => {
       }
     },
   };
-
-  function handleUserTypeButtonClick(type) {
-    if (type === UserType.NONT_OWNER || type === UserType.NONT_SITTER) {
-      setAccount({ ...account, type });
-    }
-  }
 
   function handleFormChange(element) {
     const key = element.currentTarget.name;
@@ -212,73 +257,74 @@ const UpdateAccount = props => {
   async function submitUpdate() {
     const valid = await validateAll();
     if (!valid) return;
-    const body = {
-      email: account.email,
-      password: account.password,
-      name: account.name,
-    };
-    if (account.phoneNumber.length > 0) body.phoneNumber = account.phoneNumber;
-    if (account.bankAccount.length > 0) body.bankAccount = account.bankAccount;
+    const body = {};
+    if (validEmail !== DEFAULT) body.email = account.email;
+    if (validPassword !== EMPTY) body.password = account.password;
+    if (validName !== DEFAULT) body.name = account.name;
+    if (validPhoneNumber !== DEFAULT) body.phoneNumber = account.phoneNumber;
+    if (validBankAccount !== DEFAULT) body.bankAccount = account.bankAccount;
     try {
-      const response = await SettingService.updateAccount(
-        account.type,
-        body
-      );
+      const response = await SettingService.updateAccount(account.type, body);
       console.log(response);
       setUpdated(true);
     } catch (error) {
       console.error(error.message);
     }
   }
-  
+
   return (
     <div className="container">
-    <h1 className="my-5 text-center">Update Account</h1>
-    <UserTypeButton
-      onUserTypeButtonClick={handleUserTypeButtonClick}
-      accountType={account.type}
-    />
-    <EmailForm
-      onFormChange={handleFormChange}
-      validateEmail={validator.validateEmail}
-      validEmail={validEmail}
-    />
-    <PasswordForm
-      onFormChange={handleFormChange}
-      validatePassword={validator.validatePassword}
-      validateRetypePassword={validator.validateRetypePassword}
-      validPassword={validPassword}
-      validRetypePassword={validRetypePassword}
-    />
-    <NameForm
-      onFormChange={handleFormChange}
-      validateName={validator.validateName}
-      validName={validName}
-    />
-    <div className="row">
-      <PhoneNumberForm
+      <h1 className="my-5 text-center">Update Account</h1>
+      {updated && (
+        <div class="alert alert-primary" role="alert">
+          The account has been successfully updated.
+        </div>
+      )}
+      <EmailForm
         onFormChange={handleFormChange}
-        validatePhoneNumber={validator.validatePhoneNumber}
-        validPhoneNumber={validPhoneNumber}
+        validateEmail={validator.validateEmail}
+        validEmail={validEmail}
+        value={account.email}
       />
-      <BankAccountForm
+      <PasswordForm
         onFormChange={handleFormChange}
-        accountType={account.type}
-        validateBankAccount={validator.validateBankAccount}
-        validBankAccount={validBankAccount}
+        validatePassword={validator.validatePassword}
+        validateRetypePassword={validator.validateRetypePassword}
+        validPassword={validPassword}
+        validRetypePassword={validRetypePassword}
       />
+      <NameForm
+        onFormChange={handleFormChange}
+        validateName={validator.validateName}
+        validName={validName}
+        value={account.name}
+      />
+      <div className="row">
+        <PhoneNumberForm
+          onFormChange={handleFormChange}
+          validatePhoneNumber={validator.validatePhoneNumber}
+          validPhoneNumber={validPhoneNumber}
+          value={account.phoneNumber}
+        />
+        <BankAccountForm
+          onFormChange={handleFormChange}
+          accountType={account.type}
+          validateBankAccount={validator.validateBankAccount}
+          validBankAccount={validBankAccount}
+          value={account.bankAccount}
+        />
+      </div>
+      <div className="m-5" style={{ textAlign: "center" }}>
+        <button
+          type="button"
+          className="btn btn-primary btn-lg"
+          onClick={submitUpdate}
+        >
+          Update
+        </button>
+      </div>
     </div>
-    <div className="m-5" style={{ textAlign: "center" }}>
-      <button
-        type="button"
-        className="btn btn-primary btn-lg"
-        onClick={submitUpdate}
-      >
-        Update
-      </button>
-    </div>
-  </div>
   );
-}
- 
+};
+
 export default UpdateAccount;

@@ -4,9 +4,9 @@ import {
   INVALID,
   DEFAULT,
   EMPTY,
-  EXIST,
   CHANGING,
-} from "../../Constants/FormValidity";
+  EXIST,
+} from "../../../Constants/FormValidity";
 
 const EmailForm = (props) => {
   return (
@@ -29,6 +29,7 @@ const EmailForm = (props) => {
           )}
           id="email-input"
           name="email"
+          value={props.value}
           onChange={props.onFormChange}
           onBlur={props.validateEmail}
           required

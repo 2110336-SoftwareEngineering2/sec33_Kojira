@@ -26,22 +26,18 @@ const controller = {
   getNontOwners: async (req, res) => {
     try {
       const nontOwnerAccounts = await NontOwner.find();
-      return res.send(nontOwnerAccounts);
+      return res.send(_.omit(nontOwnerAccounts, ['password']));
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }
   },
 
-  // GET /nontOwners/profile/:id
+  // GET /nontOwners/:id
   getProfile: async (req, res) => {
     try {
       const nontOwnerAccount = await NontOwner.findById(req.params.id);
       if (!nontOwnerAccount) return res.status(404).send("User not found");
-      const nontOwnerProfile = _.pick(nontOwnerAccount, [
-        "name",
-        "phoneNumber",
-      ]);
-      return res.send(nontOwnerProfile);
+      return res.send(nontOwnerAccount);
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }
@@ -98,7 +94,7 @@ const controller = {
           return res.status(403).send("Username already exists.");
       }
       const nontOwnerAccount = await NontOwner.findByIdAndUpdate(
-        data.id,
+        data._id,
         { $set: data },
         { new: true }
       );

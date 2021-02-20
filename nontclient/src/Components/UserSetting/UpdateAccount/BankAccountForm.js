@@ -1,12 +1,12 @@
 import React from "react";
-import UserType from "../../Constants/UserType";
+import UserType from "../../../Constants/UserType";
 import {
   VALID,
   INVALID,
   DEFAULT,
   EMPTY,
   CHANGING,
-} from "../../Constants/FormValidity";
+} from "../../../Constants/FormValidity";
 
 const BankAccountForm = (props) => {
   const EMPTY_ALLOWED =
@@ -36,9 +36,9 @@ const BankAccountForm = (props) => {
         )}
         id="bank-input"
         name="bankAccount"
+        value={props.value}
         onChange={props.onFormChange}
         onBlur={props.validateBankAccount}
-        required={props.accountType === UserType.NONT_SITTER}
       />
       {props.validBankAccount === EMPTY && !EMPTY_ALLOWED && (
         <div className="invalid-feedback">Bank account cannot be empty.</div>

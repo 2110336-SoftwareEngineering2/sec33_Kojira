@@ -13,7 +13,7 @@ router
   .put(controller.updateAccount);
 
 router
-  .route("/profile/:id")
+  .route("/:id")
   .get(controller.getProfile);
 
 router
