@@ -6,6 +6,7 @@ import NontSitterRouter from "./NontSitterRouter";
 import Login from "../Components/LoginLogout/Login";
 import Registration from "../Components/Registration/Registration";
 import RoomRegistration from "../Components/Room/RoomRegistration";
+import ShelterManage from "../Components/Shelter/ShelterManage";
 
 function Router(props) {
   return (
@@ -17,6 +18,7 @@ function Router(props) {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Registration} />
         <Route path="/roomRegister" component={RoomRegistration} />
+        <Route path="/shelter" component={ShelterManage} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>

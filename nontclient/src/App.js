@@ -7,33 +7,43 @@ import LoginService from "./Services/LoginService";
 const UserContext = Contexts.UserContext;
 
 const App = (props) => {
-  const [userType, setUserType] = useState(null);
-  const [login, setLogin] = useState(false);
-  const [email, setEmail] = useState(null);
+  const [userInfo, setUserInfo] = useState({
+    userType: null,
+    email: null,
+    login: false,
+  });
+
+  const setUserType = (newUserType) =>
+    setUserInfo({ ...userInfo, userType: newUserType });
+
+  const setEmail = (newEmail) => setUserInfo({ ...userInfo, email: newEmail });
+
+  const setLogin = (newLogin) => setUserInfo({ ...userInfo, login: newLogin });
 
   const UpdateUserInfo = () => {
-    LoginService.getUserInfo().then((userInfo) => {
-      if (userType !== userInfo.userType) {
-        setUserType(userInfo.userType);
-      }
-      if (login !== userInfo.login) {
-        setLogin(userInfo.login);
-      }
-      if (email !== userInfo.email) {
-        setEmail(userInfo.email);
-      }
+    LoginService.getUserInfo().then((UserInfo) => {
+      if (
+        userInfo.userType !== UserInfo.userType ||
+        userInfo.email !== UserInfo.email ||
+        userInfo.login !== UserInfo.login
+      )
+        setUserInfo({
+          userType: UserInfo.userType,
+          email: UserInfo.email,
+          login: UserInfo.login,
+        });
     });
   };
 
   UpdateUserInfo(); // always get user's info if logged in.
 
   const userContextValues = {
-    userType: userType,
+    userType: userInfo.userType,
+    login: userInfo.login,
+    email: userInfo.email,
     setUserType: setUserType,
-    login: login,
-    setLogin: setLogin,
-    email: email,
     setEmail: setEmail,
+    setLogin: setLogin,
     UpdateUserInfo: UpdateUserInfo,
   };
 

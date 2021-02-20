@@ -1,6 +1,7 @@
 "use strict";
 
 const Shelters = require('../Models/Shelters');
+const NontSitter = require("../Models/NontSitter");
 const _ = require('lodash');
 const Joi = require('joi');
 const nontTypes = require('../Constants/nontTypes');
@@ -50,31 +51,41 @@ const controller = {
             return res.status(500).send('Cannot access Shelters');
         }
     },
-        // GET ROOM BY ID
-        getShelterByID:  async (req,res) => {
-            try{            
-                const Shelter = await Shelters.findById(req.params.id);
-                if(Object.keys(Shelter).length===0)res.send(`there is no shelter with ${req.params.id} id `);
-                return res.send(Shelter);
-            }
-            catch (error){
-                return res.status(500).send('Cannot access shelter by id');
-            }
-        },
-        // GET ROOM BY NAME
-        getShelterByName:  async (req,res) => {
-            try{            
-                const Shelter = await Shelters.find({"name": req.params.name});
-                if(Object.keys(Shelter).length===0)res.send(`there is no shelter name ${req.params.name} `);
-                return res.send(Shelter);
-            }
-            catch (error){
-                return res.status(500).send('Cannot access rooms by name');
-            }
-        },
+    // GET Shelter BY ID
+    getShelterByID:  async (req,res) => {
+        try{            
+            const Shelter = await Shelters.findById(req.params.id);
+            if(Object.keys(Shelter).length===0)res.send(`there is no shelter with ${req.params.id} id `);
+            return res.send(Shelter);
+        }
+        catch (error){
+            return res.status(500).send('Cannot access shelter by id');
+        }
+    },
+    // GET Shelter BY NAME
+    getShelterByName:  async (req,res) => {
+        try{            
+            const Shelter = await Shelters.find({"name": req.params.name});
+            if(Object.keys(Shelter).length===0)res.send(`there is no shelter name ${req.params.name} `);
+            return res.send(Shelter);
+        }
+        catch (error){
+            return res.status(500).send('Cannot access shelter by name');
+        }
+    },
+    // GET Shelter by email
+    getShelterByEmail: async (req, res) => {
+        try{            
+            const Shelter = await Shelters.find({"nont_sitter_email": req.params.email});
+            return res.send(Shelter);
+        }
+        catch (error){
+            return res.status(500).send('Cannot access shelter by email');
+        }
+    },
         
 
-    // POST add new room
+    // POST add new shelter
     registerShelter: async (req, res) => {
         // req.body validation using joi
         const validationResult = validator.validate(req.body);

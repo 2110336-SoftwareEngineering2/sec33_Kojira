@@ -16,6 +16,7 @@ const schema = new Schema(
         license:{type:[{name:String , img:Buffer}],required:true},
         picture:{type:[{name:String , img:Buffer}],required:true},
         rooms: {type:[{room_id: {type: ObjectId ,ref :"rooms" }}]},
+        nont_sitter_email: {type: String, required:true, ref:"nontSitters"},
     },
     {
         timestamps: true,
