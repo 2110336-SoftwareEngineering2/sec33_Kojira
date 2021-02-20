@@ -235,16 +235,24 @@ const Registration = (props) => {
   if (registered) {
     return (
       <div className="container">
-        <h1 className="my-5 text-center">
+        <div
+          class="alert alert-success text-center"
+          id={styles.createdAlert}
+          role="alert"
+        >
           Your account is successfully registered.
-        </h1>
+        </div>
       </div>
     );
   }
 
   return (
+    <div id={styles.screen}>
+      <div id={styles.padder}>
     <div className="container" id={styles.container}>
-      <h1 className="my-5 text-center">Register Account</h1>
+      <h1 className="mb-4 text-center" id={styles.header}>
+        Create an account
+      </h1>
       <UserTypeButton
         onUserTypeButtonClick={handleUserTypeButtonClick}
         accountType={account.type}
@@ -280,7 +288,7 @@ const Registration = (props) => {
           validBankAccount={validBankAccount}
         />
       </div>
-      <div className="m-5" style={{ textAlign: "center" }}>
+      <div className="my-3" style={{ textAlign: "center" }}>
         <button
           type="button"
           className="btn btn-primary btn-lg"
@@ -289,6 +297,8 @@ const Registration = (props) => {
           Register
         </button>
       </div>
+    </div>
+    </div>
     </div>
   );
 };

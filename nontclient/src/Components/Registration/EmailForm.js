@@ -12,7 +12,7 @@ import {
 const EmailForm = (props) => {
   return (
     <div className="row">
-      <div className="col m-4">
+      <div className="col m-3">
         <label htmlFor="email-input" className="form-label">
           Email address{" "}
           <abbr className={styles.required} title="required">

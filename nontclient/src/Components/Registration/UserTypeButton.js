@@ -1,14 +1,11 @@
-import React from 'react';
+import React from "react";
 import UserType from "../../Constants/UserType";
 import styles from "./Registration.module.css";
 
-const UserTypeButton = props => {
+const UserTypeButton = (props) => {
   return (
-    <div
-      className="row d-flex justify-content-center"
-      style={{ height: "75px" }}
-    >
-      <div className="col-5 my-4" id={styles.nontOwnerCol}>
+    <div className="row d-flex justify-content-center" >
+      <div className="col-sm-4 d-flex justify-content-center mb-4">
         <button
           type="button"
           className={
@@ -16,13 +13,13 @@ const UserTypeButton = props => {
               ? "btn btn-info btn-block"
               : "btn btn-outline-info btn-block"
           }
-          id={styles.nontOwnerBtn}
+          id={styles.nontOwnerButton}
           onClick={() => props.onUserTypeButtonClick(UserType.NONT_OWNER)}
         >
           Nont Owner
         </button>
       </div>
-      <div className="col-5 my-4" id={styles.nontSitterCol}>
+      <div className="col-sm-4 d-flex justify-content-center mb-4">
         <button
           type="button"
           className={
@@ -30,7 +27,7 @@ const UserTypeButton = props => {
               ? "btn btn-success btn-block"
               : "btn btn-outline-success btn-block"
           }
-          id={styles.nontSitterBtn}
+          id={styles.nontSitterButton}
           onClick={() => props.onUserTypeButtonClick(UserType.NONT_SITTER)}
         >
           Nont Sitter
@@ -38,6 +35,6 @@ const UserTypeButton = props => {
       </div>
     </div>
   );
-}
- 
+};
+
 export default UserTypeButton;
