@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Registration.module.css";
 import {
   VALID,
   INVALID,
@@ -12,7 +13,7 @@ const PhoneNumberForm = (props) => {
     <div className="col-lg m-4">
       <label htmlFor="phone-input" className="form-label">
         Phone Number{" "}
-        <abbr className="required" title="required">
+        <abbr className={styles.required} title="required">
           *
         </abbr>
       </label>

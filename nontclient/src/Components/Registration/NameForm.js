@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Registration.module.css";
 import {
   VALID,
   INVALID,
@@ -14,7 +15,7 @@ const UsernameForm = (props) => {
       <div className="col m-4">
         <label htmlFor="name-input" className="form-label">
           Name{" "}
-          <abbr className="required" title="required">
+          <abbr className={styles.required} title="required">
             *
           </abbr>
         </label>
@@ -34,7 +35,7 @@ const UsernameForm = (props) => {
           aria-describedby="name-desc"
           required
         />
-        <div id="name-desc" className="form-text">
+        <div id="name-desc" className={"form-text " + styles.fade}>
           Your name must not longer than 64 characters.
         </div>
         {props.validName === EMPTY && (

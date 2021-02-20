@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Registration.module.css";
 import {
   VALID,
   INVALID,
@@ -13,7 +14,7 @@ const PasswordForm = (props) => {
       <div className="col-lg m-4">
         <label htmlFor="password-input" className="form-label">
           Password{" "}
-          <abbr className="required" title="required">
+          <abbr className={styles.required} title="required">
             *
           </abbr>
         </label>
@@ -33,7 +34,7 @@ const PasswordForm = (props) => {
           aria-describedby="password-desc"
           required
         />
-        <div id="password-desc" className="form-text">
+        <div id="password-desc" className={"form-text " + styles.fade}>
           Your password must be 8-32 characters long.
         </div>
         {props.validPassword === INVALID && (
@@ -67,7 +68,7 @@ const PasswordForm = (props) => {
           aria-describedby="retype-password-desc"
           required
         />
-        <div id="retype-password-desc" className="form-text">
+        <div id="retype-password-desc" className={"form-text " + styles.fade}>
           Please retype your password.
         </div>
         {props.validRetypePassword === INVALID && (

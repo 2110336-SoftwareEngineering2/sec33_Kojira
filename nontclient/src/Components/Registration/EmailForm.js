@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Registration.module.css";
 import {
   VALID,
   INVALID,
@@ -14,7 +15,7 @@ const EmailForm = (props) => {
       <div className="col m-4">
         <label htmlFor="email-input" className="form-label">
           Email address{" "}
-          <abbr className="required" title="required">
+          <abbr className={styles.required} title="required">
             *
           </abbr>
         </label>
