@@ -1,27 +1,31 @@
-.form-text {
+#container {
+  max-width: 960px !important;
+}
+
+.fade {
   opacity: 0.5;
 }
 
-#nont-owner-col {
+#nontOwnerCol {
   padding-right: 0px !important;
   display: flex;
   align-items: stretch;
 }
 
-#nont-owner-btn {
+#nontOwnerBtn {
   border-radius: 1rem 0px 0px 1rem !important;
   font-size: larger;
   font-weight: bold;
   border-width: medium;
 }
 
-#nont-sitter-col {
+#nontSitterCol {
   padding-left: 0px !important;
   display: flex;
   align-items: stretch;
 }
 
-#nont-sitter-btn {
+#nontSitterBtn {
   border-radius: 0px 1rem 1rem 0px !important;
   font-size: larger;
   font-weight: bold;
@@ -30,8 +34,5 @@
 
 .required {
   color: #e2401c;
-}
-
-abbr {
   cursor: help;
 }

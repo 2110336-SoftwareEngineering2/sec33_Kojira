@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import styles from "./Registration.module.css";
-import UserType from "../../Constants/UserType";
+import React, { useState, useContext, useEffect } from "react";
+import _ from "lodash";
+import UserType from "../../../Constants/UserType";
 import EmailForm from "./EmailForm";
 import PasswordForm from "./PasswordForm";
 import NameForm from "./NameForm";
 import PhoneNumberForm from "./PhoneNumberForm";
 import BankAccountForm from "./BankAccountForm";
-import UserTypeButton from "./UserTypeButton";
-import CheckService from "../../Services/CheckService";
-import RegisterService from "../../Services/RegisterService";
+import CheckService from "../../../Services/CheckService";
+import SettingService from "../../../Services/SettingService";
 import {
   DEFAULT,
   CHANGING,
@@ -16,11 +15,22 @@ import {
   INVALID,
   EXIST,
   EMPTY,
-} from "../../Constants/FormValidity";
+} from "../../../Constants/FormValidity";
+import Contexts from "../../../Utils/Context/Contexts";
 
-const Registration = (props) => {
+const UpdateAccount = (props) => {
+  const user = useContext(Contexts.UserContext);
+
   const [account, setAccount] = useState({
-    type: UserType.NONT_OWNER,
+    email: "",
+    password: "",
+    retypePassword: "",
+    name: "",
+    phoneNumber: "",
+    bankAccount: "",
+  });
+
+  const [defaultAccount, setDefaultAccount] = useState({
     email: "",
     password: "",
     retypePassword: "",
@@ -36,17 +46,47 @@ const Registration = (props) => {
   const [validPhoneNumber, setValidPhoneNumber] = useState(DEFAULT);
   const [validBankAccount, setValidBankAccount] = useState(DEFAULT);
 
-  const [registered, setRegistered] = useState(false);
+  const [updated, setUpdated] = useState(0);
+
+  useEffect(() => {
+    async function getAccountInfo() {
+      try {
+        const response = await SettingService.getAccountInfo(
+          user.userType,
+          user._id
+        );
+        const info = _.pick(response.data, ['email', 'name', 'phoneNumber']);
+        if (response.data.bankAccount) {
+          info.bankAccount = response.data.bankAccount;
+        } else {
+          info.bankAccount = "";
+        }
+        info.password = "";
+        info.retypePassword = "";
+        setAccount(info);
+        setDefaultAccount(info);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+    if (user._id) {
+      getAccountInfo();
+    }
+  }, [user._id, updated, user.userType]);
 
   const validator = {
     validateEmail: async () => {
+      if (account.email === defaultAccount.email) {
+        setValidEmail(DEFAULT);
+        return true;
+      }
       if (account.email.length === 0) {
         setValidEmail(EMPTY);
         return false;
       }
       try {
         const response = await CheckService.checkValidEmail(
-          account.type,
+          user.userType,
           account.email
         );
         const validity = response.data;
@@ -70,7 +110,7 @@ const Registration = (props) => {
         return true;
       } else if (account.password.length === 0) {
         setValidPassword(EMPTY);
-        return false;
+        return true;
       } else {
         setValidPassword(INVALID);
         return false;
@@ -79,7 +119,8 @@ const Registration = (props) => {
     validateRetypePassword: () => {
       if (account.retypePassword.length === 0) {
         setValidRetypePassword(EMPTY);
-        return false;
+        if (account.password.length === 0) return true;
+        else return false;
       }
       if (
         account.password === account.retypePassword &&
@@ -94,13 +135,17 @@ const Registration = (props) => {
       }
     },
     validateName: async () => {
+      if (account.name === defaultAccount.name) {
+        setValidName(DEFAULT);
+        return true;
+      }
       if (account.name.length === 0) {
         setValidName(EMPTY);
         return false;
       }
       try {
         const response = await CheckService.checkValidName(
-          account.type,
+          user.userType,
           account.name
         );
         const validity = response.data;
@@ -119,6 +164,10 @@ const Registration = (props) => {
       }
     },
     validatePhoneNumber: () => {
+      if (account.phoneNumber === defaultAccount.phoneNumber) {
+        setValidPhoneNumber(DEFAULT);
+        return true;
+      }
       if (account.phoneNumber.length === 0) {
         setValidPhoneNumber(EMPTY);
         return false;
@@ -136,9 +185,13 @@ const Registration = (props) => {
       }
     },
     validateBankAccount: () => {
+      if (account.bankAccount === defaultAccount.bankAccount) {
+        setValidBankAccount(DEFAULT);
+        return true;
+      }
       if (account.bankAccount.length === 0) {
         setValidBankAccount(EMPTY);
-        if (account.type === UserType.NONT_OWNER) return true;
+        if (user.userType === UserType.NONT_OWNER) return true;
         else return false;
       }
       const REGEX = /^[0-9]+$/;
@@ -154,12 +207,6 @@ const Registration = (props) => {
       }
     },
   };
-
-  function handleUserTypeButtonClick(type) {
-    if (type === UserType.NONT_OWNER || type === UserType.NONT_SITTER) {
-      setAccount({ ...account, type });
-    }
-  }
 
   function handleFormChange(element) {
     const key = element.currentTarget.name;
@@ -210,50 +257,44 @@ const Registration = (props) => {
     );
   }
 
-  async function submitRegistration() {
+  async function submitUpdate() {
     const valid = await validateAll();
     if (!valid) return;
-    const body = {
-      email: account.email,
-      password: account.password,
-      name: account.name,
-    };
-    if (account.phoneNumber.length > 0) body.phoneNumber = account.phoneNumber;
-    if (account.bankAccount.length > 0) body.bankAccount = account.bankAccount;
+    const body = {};
+    if (validEmail !== DEFAULT) body.email = account.email;
+    if (validPassword !== EMPTY && validPassword !== DEFAULT) body.password = account.password;
+    if (validName !== DEFAULT) body.name = account.name;
+    if (validPhoneNumber !== DEFAULT) body.phoneNumber = account.phoneNumber;
+    if (validBankAccount !== DEFAULT) body.bankAccount = account.bankAccount;
+    if (_.isEmpty(body)) return;
+    body._id = user._id;
     try {
-      const response = await RegisterService.registerAccount(
-        account.type,
-        body
-      );
+      const response = await SettingService.updateAccount(user.userType, body);
       console.log(response);
-      setRegistered(true);
+      setUpdated(updated + 1);
+      setValidEmail(DEFAULT);
+      setValidPassword(DEFAULT);
+      setValidRetypePassword(DEFAULT);
+      setValidPhoneNumber(DEFAULT);
+      setValidBankAccount(DEFAULT);
     } catch (error) {
       console.error(error.message);
     }
   }
 
-  if (registered) {
-    return (
-      <div className="container">
-        <h1 className="my-5 text-center">
-          Your account is successfully registered.
-        </h1>
-      </div>
-    );
-  }
-
   return (
-    <div className="container" id={styles.container}>
-      <h1 className="my-5 text-center">Register Account</h1>
-      <UserTypeButton
-        onUserTypeButtonClick={handleUserTypeButtonClick}
-        accountType={account.type}
-      />
-      <hr />
+    <div className="container">
+      <h1 className="my-5 text-center">Update Account</h1>
+      {updated > 0 && (
+        <div className="alert alert-success" role="alert">
+          The account has been successfully updated.
+        </div>
+      )}
       <EmailForm
         onFormChange={handleFormChange}
         validateEmail={validator.validateEmail}
         validEmail={validEmail}
+        value={account.email}
       />
       <PasswordForm
         onFormChange={handleFormChange}
@@ -266,31 +307,34 @@ const Registration = (props) => {
         onFormChange={handleFormChange}
         validateName={validator.validateName}
         validName={validName}
+        value={account.name}
       />
       <div className="row">
         <PhoneNumberForm
           onFormChange={handleFormChange}
           validatePhoneNumber={validator.validatePhoneNumber}
           validPhoneNumber={validPhoneNumber}
+          value={account.phoneNumber}
         />
         <BankAccountForm
           onFormChange={handleFormChange}
-          accountType={account.type}
+          accountType={user.userType}
           validateBankAccount={validator.validateBankAccount}
           validBankAccount={validBankAccount}
+          value={account.bankAccount}
         />
       </div>
       <div className="m-5" style={{ textAlign: "center" }}>
         <button
           type="button"
           className="btn btn-primary btn-lg"
-          onClick={submitRegistration}
+          onClick={submitUpdate}
         >
-          Register
+          Update
         </button>
       </div>
     </div>
   );
 };
 
-export default Registration;
+export default UpdateAccount;

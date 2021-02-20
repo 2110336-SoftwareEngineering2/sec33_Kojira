@@ -5,14 +5,14 @@ import styles from "../NavigationLinks.module.css";
 const NavigationLeftLinks = (props) => {
   return (
     <React.Fragment>
-      <li className="nav-item active">
-        <a className={"nav-link " + styles.leftLink} href="/dashboard">
-          {" "}
-          Dashboard<span className="sr-only">(current)</span>
-        </a>
-      </li>
       {props.userType === UserType.NONT_OWNER && (
         <React.Fragment>
+          <li className="nav-item active">
+            <a className={"nav-link " + styles.leftLink} href="/dashboard">
+              {" "}
+              Dashboard<span className="sr-only">(current)</span>
+            </a>
+          </li>
           <li className="nav-item">
             <a className={"nav-link " + styles.leftLink} href="/reserve">
               Reserve

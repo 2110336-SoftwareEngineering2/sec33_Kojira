@@ -1,5 +1,6 @@
 import React from 'react';
 import UserType from "../../Constants/UserType";
+import styles from "./Registration.module.css";
 
 const UserTypeButton = props => {
   return (
@@ -7,7 +8,7 @@ const UserTypeButton = props => {
       className="row d-flex justify-content-center"
       style={{ height: "75px" }}
     >
-      <div className="col-5" id="nont-owner-col">
+      <div className="col-5 my-4" id={styles.nontOwnerCol}>
         <button
           type="button"
           className={
@@ -15,13 +16,13 @@ const UserTypeButton = props => {
               ? "btn btn-info btn-block"
               : "btn btn-outline-info btn-block"
           }
-          id="nont-owner-btn"
+          id={styles.nontOwnerBtn}
           onClick={() => props.onUserTypeButtonClick(UserType.NONT_OWNER)}
         >
           Nont Owner
         </button>
       </div>
-      <div className="col-5" id="nont-sitter-col">
+      <div className="col-5 my-4" id={styles.nontSitterCol}>
         <button
           type="button"
           className={
@@ -29,7 +30,7 @@ const UserTypeButton = props => {
               ? "btn btn-success btn-block"
               : "btn btn-outline-success btn-block"
           }
-          id="nont-sitter-btn"
+          id={styles.nontSitterBtn}
           onClick={() => props.onUserTypeButtonClick(UserType.NONT_SITTER)}
         >
           Nont Sitter

@@ -1,22 +1,23 @@
 import React, { useContext, useState, useEffect } from "react";
-import ShelterService from "../../Services/ShelterService";
+import { useParams } from "react-router-dom";
+import RoomService from "../../Services/RoomService";
 import Contexts from "../../Utils/Context/Contexts";
-import ShelterRow from "./ShelterRow";
-import { Link } from 'react-router-dom';
+import RoomRow from "./RoomRow";
 
 const UserContext = Contexts.UserContext;
 
-const ShelterManage = (props) => {
+const RoomManage = (props) => {
     const contextValue = useContext(UserContext);
-    const [shelters, setShelters] = useState([]);
+    const [rooms, setRooms] = useState([]);
+    const {shelterID} = useParams();
 
     useEffect( () => {
-        async function fetchShelters() {
-            try {
-                if (contextValue._id){
-                    const response = await ShelterService.getShelterByNontSitterID(contextValue._id); 
+        async function fetchRooms() {
+            try {              
+                if (shelterID){
+                    const response = await RoomService.getRoomByShelterID(shelterID); 
                     if (response.data) {
-                        setShelters(response.data);
+                        setRooms(response.data);
                     }
                 } 
             }
@@ -24,33 +25,31 @@ const ShelterManage = (props) => {
                 console.error(error.message);
             }
         }     
-        fetchShelters();   
-    }, [contextValue]);
+        fetchRooms();   
+    }, [shelterID]);
 
     return (
         <div className="container">
             {/* Header */}
-            <h1 className="my-5 text-center">Shelter Management</h1>
+            <h1 className="my-5 text-center">Room Management</h1>
 
-            {/* Shelter Register Button */}
+            {/* Room Regsiter Button */}
             <div className="row">
-                <Link to="./shelterRegister">
                 <button
                 className="btn btn-lg mt-2 mb-2"
-                id="shelter-register-button"
+                id="room-register-button"                
                 >
-                    
                     <a 
+                    href={"/room/register/"+shelterID}
                     className="fa fa-plus"></a>
                 </button>
-                </Link>
             </div>
 
-            {/* Shelter Row Button */}
+            {/* Room Row Button */}
             <div>
                 {
-                    shelters.map( (element) => (
-                        <ShelterRow
+                    rooms.map( (element) => (
+                        <RoomRow
                         element={element}
                         key={element._id}
                         />
@@ -58,7 +57,7 @@ const ShelterManage = (props) => {
                 }
             </div>
         </div>
-    );
+    )
 }
 
-export default ShelterManage;
+export default RoomManage;

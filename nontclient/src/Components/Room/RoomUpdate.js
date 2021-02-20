@@ -1,27 +1,47 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState} from "react";
 import RoomService from "../../Services/RoomService";
+import { useParams } from "react-router-dom";
 import {
     VALID,
     INVALID,
     DEFAULT,
 } from "../../Constants/FormValidity";
-import { useParams } from "react-router-dom";
-import nontTypes from "../../Constants/nontTypes";
 
-const RoomRegistration = (props) => {
+const RoomUpdate = (props) => {
+    const { roomID } = useParams();
+
     const [room, setRoom] = useState({
         name: "",
         nont_type: "",
         amount: 0,
         price: 0,
     });
-    const {shelterID} = useParams();
 
-    const [registerStatus, setRegisterStatus] = useState(DEFAULT);
-    const [nameValid, setNameValid] = useState(DEFAULT);
-    const [nontTypeValid, setNontTypeValid] = useState(DEFAULT);
-    const [amountValid, setAmountValid] = useState(DEFAULT);
-    const [priceValid, setPriceValid] = useState(DEFAULT);
+    const [updateStatus, setUpdateStatus] = useState(DEFAULT);
+    const [nameValid, setNameValid] = useState(VALID);
+    const [nontTypeValid, setNontTypeValid] = useState(VALID);
+    const [amountValid, setAmountValid] = useState(VALID);
+    const [priceValid, setPriceValid] = useState(VALID);
+
+    useEffect(() => {
+        async function fetchRoomOldData() {
+            try {
+                const response = await RoomService.getRoomByID(roomID);
+                if (response.data) {
+                    setRoom({
+                        name:response.data.name,
+                        nont_type:response.data.nont_type,
+                        amount:response.data.amount,
+                        price:response.data.price,
+                    });
+                }
+            }
+            catch (error) {
+                console.error(error.message);
+            }
+        }
+        fetchRoomOldData();
+    }, []);
 
     const validator = {
         validateName: (value) => {
@@ -38,18 +58,19 @@ const RoomRegistration = (props) => {
         },
     }
 
-    async function handleFormChange (element) {
+    async function handleFormChange(element) {
+        
         switch (element.currentTarget.id) {
             case "name-input":
-                if (validator.validateName(element.currentTarget.value)) 
+                if (validator.validateName(element.currentTarget.value))
                     setNameValid(VALID);
                 else
-                    setNameValid(INVALID);                    
+                    setNameValid(INVALID);
                 return;
             case "amount-input":
                 if (validator.validateAmount(parseInt(element.currentTarget.value)))
                     setAmountValid(VALID);
-                else                     
+                else
                     setAmountValid(INVALID);
                 return;
             case "price-input":
@@ -64,21 +85,27 @@ const RoomRegistration = (props) => {
         }
     }
 
-    async function submitRegistration () {
+    async function submitUpdate() {
         const body = {
             name: document.getElementById("name-input").value,
             nont_type: document.getElementById("nont-type-dropdown").value,
             amount: parseInt(document.getElementById("amount-input").value),
             price: parseInt(document.getElementById("price-input").value),
-            shelter_id:shelterID,
         };
-        try {
-            const response = await RoomService.registerRoom(body);
-            setRegisterStatus(VALID);
-            console.log(response);
-        } catch (error) {
-            setRegisterStatus(INVALID);
-            console.error(error.message);
+        if (nameValid !== VALID ||
+            nontTypeValid !== VALID ||
+            amountValid !== VALID ||
+            priceValid !== VALID) {
+            setUpdateStatus(INVALID);
+        }
+        else {
+            try {
+                const response = await RoomService.updateRoom(roomID, body);
+                setUpdateStatus(VALID);
+            } catch (error) {
+                setUpdateStatus(INVALID);
+                console.error(error.message);
+            }
         }
     }
 
@@ -86,7 +113,7 @@ const RoomRegistration = (props) => {
         <div className="container">
 
             {/* Header */}
-            <h1 className="my-5 text-center">Register Room</h1>
+            <h1 className="my-5 text-center">Update Room</h1>
             <div className="row">
 
                 {/* Name Form */}
@@ -108,7 +135,11 @@ const RoomRegistration = (props) => {
                         id="name-input"
                         name="name"
                         aria-describedby="name-desc"
-                        onChange={handleFormChange}
+                        onChange={handleFormChange, (e)=>{setRoom({
+                            ...room,
+                            name: e.target.value,
+                        })}}
+                        value={room.name}
                         required />
                     <div id="name-desc" className="form-text">
                         Room's name must not longer than 50 characters.
@@ -136,8 +167,11 @@ const RoomRegistration = (props) => {
                                     ? "is-valid"
                                     : "is-invalid"
                         )}
-                        onChange={handleFormChange}
-                        defaultValue={"default"}
+                        onChange={handleFormChange, (e)=>{setRoom({
+                            ...room,
+                            nont_type: e.target.value,
+                        })}}
+                        value={room.nont_type}
                     >
                         <option hidden disabled value="default">Select Nont Type</option>
                         <option value="large dog">Large Dog</option>
@@ -158,7 +192,7 @@ const RoomRegistration = (props) => {
                             *
                             </abbr>
                     </label>
-                    <input type="text"
+                    <input type="number"
                         className={"form-control ".concat(
                             amountValid === DEFAULT
                                 ? ""
@@ -169,7 +203,11 @@ const RoomRegistration = (props) => {
                         id="amount-input"
                         name="amount"
                         aria-describedby="amount-desc"
-                        onChange={handleFormChange}
+                        onChange={handleFormChange, (e)=>{setRoom({
+                            ...room,
+                            amount: e.target.value,
+                        })}}
+                        value={room.amount}
                         required />
                     <div id="amount-desc" className="form-text">
                         Amount must be within 1-20.
@@ -184,7 +222,7 @@ const RoomRegistration = (props) => {
                             *
                             </abbr>
                     </label>
-                    <input type="text"
+                    <input type="number"
                         className={"form-control ".concat(
                             priceValid === DEFAULT
                                 ? ""
@@ -195,7 +233,11 @@ const RoomRegistration = (props) => {
                         id="price-input"
                         name="price"
                         aria-describedby="price-desc"
-                        onChange={handleFormChange}
+                        onChange={handleFormChange, (e)=>{setRoom({
+                            ...room,
+                            price: e.target.value,
+                        })}}
+                        value={room.price}
                         required />
                     <div id="price-desc" className="form-text">
                         Price must be within 1-3000.
@@ -208,22 +250,24 @@ const RoomRegistration = (props) => {
                 <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={submitRegistration}
+                    onClick={submitUpdate}
                 >
-                    Register
+                    Update
                     </button>
             </div>
-            {registerStatus === VALID &&
+            
+            {/* status */}
+            {updateStatus === VALID &&
                 <div className="m-5" style={{ textAlign: "center" }}>
                     <label>
-                        Your room is successfully registered.
+                        Your room is successfully updated.
                     </label>
                 </div>
             }
-            {registerStatus === INVALID &&
+            {updateStatus === INVALID &&
                 <div className="m-5" style={{ textAlign: "center" }}>
                     <label>
-                        Cannot register. Please check your input.
+                        Cannot update. Please check your input.
                     </label>
                 </div>
             }
@@ -231,4 +275,4 @@ const RoomRegistration = (props) => {
     );
 }
 
-export default RoomRegistration;
+export default RoomUpdate;

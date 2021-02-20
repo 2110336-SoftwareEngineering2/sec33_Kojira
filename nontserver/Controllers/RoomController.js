@@ -5,6 +5,7 @@ const _ = require('lodash');
 const Joi = require('joi');
 const JoiOid = require('joi-oid');
 const nontTypes = require('../Constants/nontTypes');
+const mongoose = require("mongoose");
 
 const validator = Joi.object({
     name: Joi.string().required().min(1).max(50),
@@ -30,7 +31,16 @@ const controller = {
     getRoomByID:  async (req,res) => {
         try{            
             const Room = await Rooms.findById(req.params.id);
-            if(Object.keys(Room).length===0)res.send(`there is no room with ${req.params.id} id`);
+            return res.send(Room);
+        }
+        catch (error){
+            return res.status(500).send('Cannot access rooms by id');
+        }
+    },
+    // GET ROOM BY shelter id
+    getRoomByShelterID:  async (req,res) => {
+        try{            
+            const Room = await Rooms.find({"shelter_id":req.params.id});
             return res.send(Room);
         }
         catch (error){
@@ -84,19 +94,18 @@ const controller = {
     // PUT update room
     updateRoom: async (req, res) => {
         const validationResult = validator.validate(req.body);
-        console.log(validationResult);
         if (validationResult.error) {            
             return res.status(400).send(validationResult.error.details[0].message);
         }
         try {
             const newQuery = {
-                shelter_id: req.body.shelter_id,
+                _id:mongoose.Types.ObjectId(req.params.id),
             }
             const newBody = {
                 ...req.body,
             }
             const updateRes = await Rooms.updateOne(newQuery, newBody);
-            return updateRes;
+            return res.send(updateRes);
         } 
         catch (error) {            
             return res.status(500).send("Cannot create room");

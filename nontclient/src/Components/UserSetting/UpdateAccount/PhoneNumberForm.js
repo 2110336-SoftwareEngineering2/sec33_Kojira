@@ -1,27 +1,23 @@
 import React from "react";
-import styles from "./Registration.module.css";
 import {
   VALID,
   INVALID,
   DEFAULT,
   EMPTY,
   CHANGING,
-} from "../../Constants/FormValidity";
+} from "../../../Constants/FormValidity";
 
 const PhoneNumberForm = (props) => {
   return (
     <div className="col-lg m-4">
       <label htmlFor="phone-input" className="form-label">
         Phone Number{" "}
-        <abbr className={styles.required} title="required">
-          *
-        </abbr>
       </label>
       <input
         type="text"
         className={"form-control ".concat(
           props.validPhoneNumber === DEFAULT ||
-            props.validPhoneNumber === CHANGING
+            props.validPhoneNumber === CHANGING 
             ? ""
             : props.validPhoneNumber === VALID
             ? "is-valid"
@@ -29,6 +25,7 @@ const PhoneNumberForm = (props) => {
         )}
         id="phone-input"
         name="phoneNumber"
+        value={props.value}
         onChange={props.onFormChange}
         onBlur={props.validatePhoneNumber}
         required

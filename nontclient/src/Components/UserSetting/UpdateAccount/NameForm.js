@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./Registration.module.css";
 import {
   VALID,
   INVALID,
@@ -7,7 +6,7 @@ import {
   EMPTY,
   EXIST,
   CHANGING,
-} from "../../Constants/FormValidity";
+} from "../../../Constants/FormValidity";
 
 const UsernameForm = (props) => {
   return (
@@ -15,9 +14,6 @@ const UsernameForm = (props) => {
       <div className="col m-4">
         <label htmlFor="name-input" className="form-label">
           Name{" "}
-          <abbr className={styles.required} title="required">
-            *
-          </abbr>
         </label>
         <input
           type="text"
@@ -30,12 +26,13 @@ const UsernameForm = (props) => {
           )}
           id="name-input"
           name="name"
+          value={props.value}
           onChange={props.onFormChange}
           onBlur={props.validateName}
           aria-describedby="name-desc"
           required
         />
-        <div id="name-desc" className={"form-text " + styles.fade}>
+        <div id="name-desc" className="form-text">
           Your name must not longer than 64 characters.
         </div>
         {props.validName === EMPTY && (

@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./Registration.module.css";
 import {
   VALID,
   INVALID,
@@ -7,7 +6,7 @@ import {
   EMPTY,
   EXIST,
   CHANGING,
-} from "../../Constants/FormValidity";
+} from "../../../Constants/FormValidity";
 
 const EmailForm = (props) => {
   return (
@@ -15,9 +14,6 @@ const EmailForm = (props) => {
       <div className="col m-4">
         <label htmlFor="email-input" className="form-label">
           Email address{" "}
-          <abbr className={styles.required} title="required">
-            *
-          </abbr>
         </label>
         <input
           type="email"
@@ -30,6 +26,7 @@ const EmailForm = (props) => {
           )}
           id="email-input"
           name="email"
+          value={props.value}
           onChange={props.onFormChange}
           onBlur={props.validateEmail}
           required
