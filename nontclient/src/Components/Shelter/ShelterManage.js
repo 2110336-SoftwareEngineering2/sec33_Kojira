@@ -31,6 +31,9 @@ const ShelterManage = (props) => {
             {/* Header */}
             <h1 className="my-5 text-center">Shelter Management</h1>
 
+            {/* User */}
+            <h2 className="my-5 text-center">Name: {contextValue.name}</h2>
+
             {/* Shelter Register Button */}
             <div className="row">
                 <button
@@ -38,7 +41,15 @@ const ShelterManage = (props) => {
                 id="shelter-register-button"
                 >
                     <a 
-                    className="fa fa-plus"></a>
+                    className="fa fa-plus"
+                    style={{textDecoration:"none"}}
+                    title="Add New Shelter"
+                    />
+                    <label
+                    className="pl-3"
+                    >
+                        Add New Shelter
+                    </label>
                 </button>
             </div>
 
