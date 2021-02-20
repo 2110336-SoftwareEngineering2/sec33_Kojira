@@ -26,7 +26,6 @@ const ShelterManage = (props) => {
         async function fetchShelters() {
             try {             
                 const response = await ShelterService.getSheltersByEmail(contextValue.email);  
-                console.log(contextValue);
                 setShelters(response.data);
             }
             catch (error) {
@@ -44,11 +43,12 @@ const ShelterManage = (props) => {
             {/* Shelter Regsiter Button */}
             <div className="row">
                 <button 
-                className="fa fa-plus"
+                className="btn btn-lg mt-2 mb-2"
                 id="shelter-register-button"
-                onClick={()=>{
-                    console.log(contextValue)}}
-                />
+                >
+                    <a
+                    className="fa fa-plus" />
+                </button>
             </div>
 
             {/* Shelter Row Button */}
