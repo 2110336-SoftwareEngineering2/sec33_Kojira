@@ -6,7 +6,7 @@ const SettingService = {
   updateAccount: async (type, data) => {
     try {
       const path = getUserTypePath(type);
-      const response = await axios.put(serverURL + path, data);
+      const response = await axios.patch(serverURL + path, data);
       return response;
     } catch (error) {
       throw error;

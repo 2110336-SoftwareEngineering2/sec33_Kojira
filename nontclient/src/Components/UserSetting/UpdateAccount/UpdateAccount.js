@@ -273,6 +273,11 @@ const UpdateAccount = (props) => {
       const response = await SettingService.updateAccount(user.userType, body);
       console.log(response);
       setUpdated(updated + 1);
+      setValidEmail(DEFAULT);
+      setValidPassword(DEFAULT);
+      setValidRetypePassword(DEFAULT);
+      setValidPhoneNumber(DEFAULT);
+      setValidBankAccount(DEFAULT);
     } catch (error) {
       console.error(error.message);
     }

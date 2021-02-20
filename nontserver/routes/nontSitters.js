@@ -10,7 +10,7 @@ router
   .route("/")
   .get(controller.getNontSitters)
   .post(controller.registerNontSitter)
-  .put(controller.updateAccount);
+  .patch(controller.updateAccount);
 
 router
   .route("/:id")

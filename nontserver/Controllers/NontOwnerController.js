@@ -79,7 +79,7 @@ const controller = {
     }
   },
 
-  // PUT /nontOwners
+  // PATCH /nontOwners
   updateAccount: async (req, res) => {
     try {
       const data = req.body;
@@ -93,7 +93,7 @@ const controller = {
         if (nameFindResult)
           return res.status(403).send("Username already exists.");
       }
-      NontOwner.findByIdAndUpdate(
+      await NontOwner.findByIdAndUpdate(
         data._id,
         { $set: data },
         { new: true }

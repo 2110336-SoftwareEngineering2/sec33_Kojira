@@ -43,7 +43,7 @@ const controller = {
     }
   },
 
-  // PUT /nontSitters
+  // PATCH /nontSitters
   updateAccount: async (req, res) => {
     try {
       const data = req.body;

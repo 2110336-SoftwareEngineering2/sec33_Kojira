@@ -10,7 +10,7 @@ router
   .route("/")
   .get(controller.getNontOwners)
   .post(controller.registerNontOwner)
-  .put(controller.updateAccount);
+  .patch(controller.updateAccount);
 
 router
   .route("/:id")
