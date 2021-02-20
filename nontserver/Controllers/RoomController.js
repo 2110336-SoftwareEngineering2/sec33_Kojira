@@ -37,6 +37,16 @@ const controller = {
             return res.status(500).send('Cannot access rooms by id');
         }
     },
+    // GET ROOM BY shelter id
+    getRoomByShelterID:  async (req,res) => {
+        try{            
+            const Room = await Rooms.find({"shelter_id":req.params.id});
+            return res.send(Room);
+        }
+        catch (error){
+            return res.status(500).send('Cannot access rooms by id');
+        }
+    },
     getRoomByName:  async (req,res) => {
         try{            
             const Room = await Rooms.find({"name": req.params.name});

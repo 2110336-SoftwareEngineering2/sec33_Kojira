@@ -8,6 +8,7 @@ import Registration from "../Components/Registration/Registration";
 import RoomRegistration from "../Components/Room/RoomRegistration";
 import ShelterManage from "../Components/Shelter/ShelterManage";
 import UserSetting from "../Components/UserSetting/UserSetting";
+import RoomManage from "../Components/Room/RoomManage";
 
 function Router(props) {
   return (
@@ -18,7 +19,8 @@ function Router(props) {
         <Route path="/NontSitter" component={NontSitterRouter} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Registration} />
-        <Route path="/roomRegister" component={RoomRegistration} />
+        <Route path="/room/register/:shelterID" component={RoomRegistration} />
+        <Route path="/room/manage/:shelterID" component={RoomManage} />
         <Route path="/shelter" component={ShelterManage} />
         <Route path="/setting" component={UserSetting} />
         <Redirect to="/home" />

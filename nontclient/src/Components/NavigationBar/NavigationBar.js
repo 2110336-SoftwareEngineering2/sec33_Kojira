@@ -6,7 +6,7 @@ const NavigationBar = () => {
   return (
     <nav className="navbar navbar-expand-sm navbar-light" id={styles.topNavBar}>
       <a className="navbar-brand" href="/home">
-        <img src="nont-logo.svg" id={styles.logo} alt="Nont logo"></img>
+        <img src="/nont-logo.svg" id={styles.logo} alt="Nont logo"></img>
       </a>
       <button
         className="navbar-toggler"

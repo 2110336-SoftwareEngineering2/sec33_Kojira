@@ -9,6 +9,7 @@ router
     .get(controller.getRooms)
     .post(controller.registerRoom)
     .put(controller.updateRoom);
+
 router
     .route('/id/:id')
     .get(controller.getRoomByID);
@@ -16,7 +17,13 @@ router
 router
     .route('/name/:name')
     .get(controller.getRoomByName);
+
 router
     .route('/nont-type/:type')
     .get(controller.getRoomByNontType);
+
+router
+    .route("/shelterid/:id")
+    .get(controller.getRoomByShelterID);
+
 module.exports = router;
