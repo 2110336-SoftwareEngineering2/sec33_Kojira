@@ -9,7 +9,12 @@ const cors = require("cors");
 router
   .route("/")
   .get(controller.getNontOwners)
-  .post(controller.registerNontOwner);
+  .post(controller.registerNontOwner)
+  .patch(controller.updateAccount);
+
+router
+  .route("/:id")
+  .get(controller.getProfile);
 
 router
   .route("/check-email")

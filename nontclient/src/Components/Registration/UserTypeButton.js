@@ -7,7 +7,7 @@ const UserTypeButton = props => {
       className="row d-flex justify-content-center"
       style={{ height: "75px" }}
     >
-      <div className="col-5" id="nont-owner-col">
+      <div className="col-5 my-4" id="nont-owner-col">
         <button
           type="button"
           className={
@@ -21,7 +21,7 @@ const UserTypeButton = props => {
           Nont Owner
         </button>
       </div>
-      <div className="col-5" id="nont-sitter-col">
+      <div className="col-5 my-4" id="nont-sitter-col">
         <button
           type="button"
           className={

@@ -11,8 +11,8 @@ export const VALID = "VALID";
 export const INVALID = "INVALID";
 
 // The value in the form already exists in the database.
-// This should be used only when the value should be unique.
+// This should be used only when the value must be unique.
 export const EXIST = "EXIST";
 
-// The value in the form is empty (length of string === 0).
+// The value in the form is empty (length of string == 0).
 export const EMPTY = "EMPTY";

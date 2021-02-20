@@ -32,6 +32,42 @@ const controller = {
     }
   },
 
+  // GET /nontSitters/:id
+  getProfile: async (req, res) => {
+    try {
+      const nontSitterAccount = await NontSitter.findById(req.params.id);
+      if (!nontSitterAccount) return res.status(404).send("User not found");
+      return res.send(_.omit(nontSitterAccount, ['password']));
+    } catch (error) {
+      return res.status(500).send("Cannot access nont-sitter accounts.");
+    }
+  },
+
+  // PATCH /nontSitters
+  updateAccount: async (req, res) => {
+    try {
+      const data = req.body;
+      if (data.email) {
+        const emailFindResult = await NontSitter.findOne({ email: data.email });
+        if (emailFindResult)
+          return res.status(403).send("Email already exists.");
+      }
+      if (data.name) {
+        const nameFindResult = await NontSitter.findOne({ name: data.name });
+        if (nameFindResult)
+          return res.status(403).send("Username already exists.");
+      }
+      const nontSitterAccount = await NontSitter.findByIdAndUpdate(
+        data.id,
+        { $set: data },
+        { new: true }
+      );
+      res.send(_.pick(nontSitterAccount, ["_id", "email", "name"]));
+    } catch (error) {
+      return res.status(500).send("Cannot access nont-sitter accounts.");
+    }
+  },
+
   // POST /nontSitters
   registerNontSitter: async (req, res) => {
     const validationResult = validator.validate(req.body);

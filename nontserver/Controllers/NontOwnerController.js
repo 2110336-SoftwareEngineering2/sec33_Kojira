@@ -26,7 +26,18 @@ const controller = {
   getNontOwners: async (req, res) => {
     try {
       const nontOwnerAccounts = await NontOwner.find();
-      return res.send(nontOwnerAccounts);
+      return res.send(_.omit(nontOwnerAccounts, ['password']));
+    } catch (error) {
+      return res.status(500).send("Cannot access nont-owner accounts.");
+    }
+  },
+
+  // GET /nontOwners/:id
+  getProfile: async (req, res) => {
+    try {
+      const nontOwnerAccount = await NontOwner.findById(req.params.id);
+      if (!nontOwnerAccount) return res.status(404).send("User not found");
+      return res.send(nontOwnerAccount);
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }
@@ -65,6 +76,31 @@ const controller = {
       }
     } catch (error) {
       return res.status(500).send("Cannot create nont-owner account.");
+    }
+  },
+
+  // PATCH /nontOwners
+  updateAccount: async (req, res) => {
+    try {
+      const data = req.body;
+      if (data.email) {
+        const emailFindResult = await NontOwner.findOne({ email: data.email });
+        if (emailFindResult)
+          return res.status(403).send("Email already exists.");
+      }
+      if (data.name) {
+        const nameFindResult = await NontOwner.findOne({ name: data.name });
+        if (nameFindResult)
+          return res.status(403).send("Username already exists.");
+      }
+      await NontOwner.findByIdAndUpdate(
+        data._id,
+        { $set: data },
+        { new: true }
+      );
+      res.send("The account was successfully updated.");
+    } catch (error) {
+      return res.status(500).send("Cannot access nont-owner accounts.");
     }
   },
 

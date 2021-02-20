@@ -48,12 +48,12 @@ const NavigationUserLinksExpand = (props) => {
               {"You are logged in as " + value.email}
             </p>
             <hr />
-            <a href="#">
+            <a href="/setting">
               <button
                 type="button"
                 className={"btn btn-outline-primary " + styles.dropdownBtn}
               >
-                Profile
+                Setting
               </button>
             </a>
             {value.login && (
