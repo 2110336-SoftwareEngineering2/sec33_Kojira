@@ -34,8 +34,8 @@ const validator = Joi.object({
     .pattern(/^[0-9]+$/),
     license:Joi.array().items(validate_license), //required
     picture:Joi.array().items(validate_image), //required
-    rooms:JoiOid.array().items(validate_room)
-    
+    rooms:JoiOid.array().items(validate_room),
+    nont_sitter_id:JoiOid.objectId()
 });
 
 const controller = {
@@ -99,6 +99,7 @@ const controller = {
         // req.body validation using joi
         const validationResult = validator.validate(req.body);
         if (validationResult.error){
+            console.log(validationResult.error.details[0].message)
             return res.status(400).send(validationResult.error.details[0].message);
         }
         // no unique attribute -> do not check

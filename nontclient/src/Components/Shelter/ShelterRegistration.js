@@ -27,7 +27,7 @@ const ShelterRegistration  = (props) => {
         license: {name:"",img:[]},
         picture: {name:"",img:[]},
     })
-
+    
     const value = useContext(UserContext);
     
     const [registerStatus, setRegisterStatus] = useState(DEFAULT);
