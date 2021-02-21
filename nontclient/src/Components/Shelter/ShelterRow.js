@@ -6,6 +6,7 @@ const ShelterRow = (props) => {
             {/* shelter view button */}
             <div className="col-md-6 p-0">
                 <a
+                href={"/shelterView/"+props.element._id}
                 type="button"
                 className="btn btn-outline-info btn-block" 
                 style={{textAlign:"left"}}
