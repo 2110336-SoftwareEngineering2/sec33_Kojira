@@ -56,9 +56,9 @@ const ShelterRegistration  = (props) => {
         },
     };
 
-    async function validateAll() {
-
-    }
+    // async function validateAll() {
+    //
+    // }
 
     async function getLocation() {
         if (navigator.geolocation) {
@@ -123,19 +123,21 @@ const ShelterRegistration  = (props) => {
     async function submitRegistration() {
         //const validate = this.validateAll
         //if(!validator) return
-        console.log(UserContext)
+        let shelterCoordinate = shelter.coordinate
+        if(shelter.coordinate.lat===0 && shelter.coordinate.lng===0) {shelterCoordinate={lat:200,lng:200}}
         const body = {
             name: document.getElementById("name-input").value,
             description: document.getElementById("description-input").value,
             phoneNumber: document.getElementById("phone-input").value,
             address: document.getElementById("address-input").value,
-            coordinate: shelter.coordinate,
+            coordinate: shelterCoordinate,
             picture: [],
             license: [],
-            supported_type: ["cat"],
+            supported_type: [],
             rate: 3,
             nont_sitter_id: value._id
         }
+        console.log(body.coordinate)
         try {
             const response = await ShelterService.registerShelter(body);
             setRegisterStatus(VALID)

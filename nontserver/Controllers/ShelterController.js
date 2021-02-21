@@ -24,12 +24,13 @@ const validate_room =Joi.object({
 });
 const validator = Joi.object({
     name: Joi.string().required().min(1).max(50),
-    description: Joi.string().max(500), //delete min
+    description: Joi.string().max(500).allow(null,''), //allow null
     address: Joi.string().required().min(1).max(500),
     rate: Joi.number().min(0).max(5).required(),
-    supported_type:Joi.array().required().items(Joi.string().valid(...Object.values(nontTypes))),
+    supported_type:Joi.array().items(Joi.string().valid(...Object.values(nontTypes))).allow(null), //delete required
     coordinate: validate_coordinate,
-    phoneNumber: Joi.string()
+    phoneNumber: Joi.string() //allow null
+    .allow(null,'')
     .length(10)
     .pattern(/^[0-9]+$/),
     license:Joi.array().items(validate_license), //required
