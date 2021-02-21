@@ -2,9 +2,9 @@ import React from "react";
 
 const RoomRow = (props) => {
     return (
-        <div className="row mt-2 mb-2">            
+        <div className="row justify-content-center mt-2 mb-2">            
             {/* room name button */}
-            <div className="col-md-8 p-0">
+            <div className="col col-md-8 p-0">
                 <a
                 className="btn btn-outline-info btn-block"
                 style={{textAlign:"left", pointerEvents:"none", fontWeight:"bold"}}
@@ -13,24 +13,26 @@ const RoomRow = (props) => {
                 </a>
             </div>
             {/* room update button */}
-            <div className="col-md-2 p-0">
+            <div className="col col-auto p-0">
                 <a 
                 type="button"
                 className="btn btn-outline-info btn-block" 
-                style={{textAlign:"center"}}
                 href={"/room/update/"+props.element._id}
+                style={{color:"white", backgroundColor:"#27ae60", borderColor:"#27ae60"}}
                 >
-                    Update
+                    <i className="fas fa-edit" />
+                    {" "}Update
                 </a>
             </div>
             {/* room delete button */}
-            <div className="col-md-2 p-0">
+            <div className="col col-md-1 p-0">
                 <a
                 type="button"
-                className="btn btn-outline-info btn-block" 
-                style={{textAlign:"center"}}
+                className="btn btn-outline-info btn-block"
+                style={{color:"white", backgroundColor:"#c0392b", borderColor:"#c0392b"}}
                 >
-                    Delete
+                    <i className="fa fa-trash" />
+                    {" "}Delete
                 </a>
             </div>
         </div>
