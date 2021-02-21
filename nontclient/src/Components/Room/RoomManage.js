@@ -65,13 +65,10 @@ const RoomManage = (props) => {
                         href={"/room/register/" + shelterID}
                         className="fa fa-plus"
                         title="Add New Room"
-                        style={{ textDecoration: "none" }}
-                    />
-                    <label
-                        className="pl-3"
+                        style={{ textDecoration: "none"}}
                     >
-                        Add New Room
-                    </label>
+                        {" "}Add
+                    </a>
                 </button>
             </div>
 

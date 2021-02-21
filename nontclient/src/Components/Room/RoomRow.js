@@ -16,9 +16,8 @@ const RoomRow = (props) => {
             <div className="col col-auto p-0">
                 <a 
                 type="button"
-                className="btn btn-outline-info btn-block" 
-                href={"/room/update/"+props.element._id}
-                style={{color:"white", backgroundColor:"#27ae60", borderColor:"#27ae60"}}
+                className="btn btn-outline-info btn-block text-light bg-success border-success" 
+                href={"/room/update/"+props.element._id}    
                 >
                     <i className="fas fa-edit" />
                     {" "}Update
@@ -28,8 +27,7 @@ const RoomRow = (props) => {
             <div className="col col-md-1 p-0">
                 <a
                 type="button"
-                className="btn btn-outline-info btn-block"
-                style={{color:"white", backgroundColor:"#c0392b", borderColor:"#c0392b"}}
+                className="btn btn-outline-info btn-block text-light bg-danger border-danger"
                 >
                     <i className="fa fa-trash" />
                     {" "}Delete
