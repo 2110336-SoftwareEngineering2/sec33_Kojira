@@ -76,6 +76,9 @@ const ShelterView = (props) => {
                             <div>
                                 <h5 className="mb-1 mr-1">rate </h5>
                                 <p>{shelter.rate}</p>
+                                <i className="fas fa-star-half-alt-warning"></i>
+
+
                             <hr className="mw-100"/>
                             </div>                            
                             <div>
