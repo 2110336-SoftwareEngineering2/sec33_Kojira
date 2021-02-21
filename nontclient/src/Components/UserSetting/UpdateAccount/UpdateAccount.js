@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import styles from "./UpdateAccount.module.css"
 import _ from "lodash";
 import UserType from "../../../Constants/UserType";
 import EmailForm from "./EmailForm";
@@ -284,9 +285,9 @@ const UpdateAccount = (props) => {
 
   return (
     <div className="container">
-      <h1 className="my-5 text-center">Update Account</h1>
+      <h3 className={"py-3 text-center " + styles.fade}>Update Account</h3>
       {updated > 0 && (
-        <div className="alert alert-success" role="alert">
+        <div className="alert alert-success mx-5 text-center" role="alert">
           The account has been successfully updated.
         </div>
       )}
@@ -324,7 +325,7 @@ const UpdateAccount = (props) => {
           value={account.bankAccount}
         />
       </div>
-      <div className="m-5" style={{ textAlign: "center" }}>
+      <div className="m-3" style={{ textAlign: "center" }}>
         <button
           type="button"
           className="btn btn-primary btn-lg"
