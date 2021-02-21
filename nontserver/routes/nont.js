@@ -5,12 +5,9 @@ const router = express.Router();
 const controller = require('../Controllers/NontController');
 
 router.route('/')
-      .get(controller.getNonts)
-      .post(controller.registerNont)
-      .put(controller.updateNont)
-      .delete(controller.deleteNont);
+      .get(controller.getNonts);
 
-router.route('/id/:id')
+router.route('/:id')
       .get(controller.getNontByID);
   
 router.route('/name/:name')
@@ -18,5 +15,15 @@ router.route('/name/:name')
   
 router.route('/type/:type')
       .get(controller.getNontByType);
-  
+
+router.route('/create')
+      .post(controller.createNont);
+
+router.route('/update/:id')
+      .put(controller.updateNont);
+
+router.route('/delete/:id')
+      .delete(controller.deleteNont);
+
+ 
 module.exports = router;

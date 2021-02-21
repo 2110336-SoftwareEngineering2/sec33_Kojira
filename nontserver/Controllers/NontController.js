@@ -6,6 +6,7 @@ const _ = require('lodash');
 //const extension = require('joi-date-extensions');
 const joi = require('joi');
 const joiOid = require('joi-oid');
+const mongoose = require('mongoose');
 
 const validate_certificate = joi.object({
     name: joi.string().required().min(0).max(32),
@@ -18,7 +19,6 @@ const validate_picture = joi.object({
 
 //validator for POST and PUT
 const validator = joi.object({
-    _id: joiOid.objectId(),
     name: joi.string().required().min(1).max(32),
     type: joi.string().valid(...Object.values(nontTypes)).required(),
     subtype: joi.string().min(1).max(50),
@@ -29,11 +29,6 @@ const validator = joi.object({
     medical_certificate: joi.array().items(validate_certificate),
     picture: joi.array().items(validate_picture),
     nontowner_id: joiOid.objectId().required()
-});
-
-//validator for DELETE
-const validator2 = joi.object({
-    _id: joiOid.objectId().required()
 });
 
 const controller = {
@@ -81,7 +76,7 @@ const controller = {
     },
 
     // POST create new nont
-    registerNont: async (req, res) => {
+    createNont: async (req, res) => {
         // req.body validation using joi
         const validationResult = validator.validate(req.body);
         console.log(validationResult);
@@ -99,7 +94,7 @@ const controller = {
                 birth_date: new Date(req.body.birth_date),
                 medical_certificate: req.body.medical_certificate,
                 picture: req.body.picture,
-                nontowner_id: req.body.nontowner_id           
+                nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id)           
             };
             const newNont = await Nont.create(newBody);
          //   return res.send(_.pick(newNont, ["_id","name","type","subtype","description","birth_date","medical_certificate","picture"]));
@@ -118,7 +113,7 @@ const controller = {
             return res.status(400).send(validationResult.error.details[0].message);
         }
         try{
-            const newQuery = {_id: req.body._id};
+            const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)};
             const newBody = {
                 name: req.body.name,
                 type: req.body.type,
@@ -127,7 +122,7 @@ const controller = {
                 birth_date: new Date(req.body.birth_date),
                 medical_certificate: req.body.medical_certificate,
                 picture: req.body.picture,
-                nontowner_id: req.body.nontowner_id   
+                nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id)   
             };
             const updatedNont = await Nont.updateOne(newQuery, newBody);
          //   return res.send(_.pick(updatedNont, ["_id","name","type","subtype","description","birth_date","medical_certificate","picture"]));
@@ -140,13 +135,8 @@ const controller = {
  
     //DELETE nont
     deleteNont: async (req, res) => {
-        const validationResult = validator2.validate(req.body);
-        console.log(validationResult);
-        if (validationResult.error) {            
-            return res.status(400).send(validationResult.error.details[0].message);
-        }
         try{
-            const newQuery = { _id: req.body._id};
+            const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
             const deletedNont = await Nont.deleteOne(newQuery);
             return res.send("Successfully deleted");
         }
