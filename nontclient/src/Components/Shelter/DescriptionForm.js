@@ -1,8 +1,4 @@
 import React from "react";
-import {
-  VALID,
-  DEFAULT,
-} from "../../Constants/FormValidity";
 
 const DescriptionForm = (props) => {
   return (
@@ -12,13 +8,7 @@ const DescriptionForm = (props) => {
           Description{" "}
         </label>
         <textarea
-          className={"form-control ".concat(
-            props.validDescription === DEFAULT || props.validDescription
-              ? ""
-              : props.validDescription === VALID
-              ? "is-valid"
-              : "is-invalid"
-          )}
+          className={"form-control"}
           id="description-input"
           name="description"
           onChange={props.onFormChange}

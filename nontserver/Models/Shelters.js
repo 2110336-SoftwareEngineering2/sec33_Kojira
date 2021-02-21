@@ -13,8 +13,8 @@ const schema = new Schema(
         supported_type:{type:[String]}, //delete required
         coordinate:{type:{lat:{type:Number,required: true},lng:{type:Number,required: true}},required: true},
         phoneNumber: { type: String },
-        license:{type:[{name:String , img:Buffer}]}, //required
-        picture:{type:[{name:String , img:Buffer}]}, //required
+        license:{type:[{name:String , img:Buffer, contentType: String}]}, //required
+        picture:{type:[{name:String , img:Buffer, contentType: String}]}, //required
         nont_sitter_id: {type: ObjectId, required:true, ref:"nontSitters"},
     },
     {

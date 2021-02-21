@@ -1,8 +1,4 @@
 import React from "react";
-import {
-  VALID,
-  DEFAULT,
-} from "../../Constants/FormValidity";
 
 const PhoneNumberForm = (props) => {
   return (
@@ -12,13 +8,7 @@ const PhoneNumberForm = (props) => {
       </label>
       <input
         type="text"
-        className={"form-control ".concat(
-          props.validPhoneNumber === DEFAULT || props.validPhoneNumber
-            ? ""
-            : props.validPhoneNumber === VALID
-            ? "is-valid"
-            : "is-invalid"
-        )}
+        className={"form-control"}
         id="phone-input"
         name="phoneNumber"
         onChange={props.onFormChange}

@@ -13,11 +13,13 @@ const validate_coordinate = Joi.object({
 }).required();
 const validate_license =Joi.object({
     name:Joi.string().required().min(0).max(32),
-    img:Joi.binary().required()
+    img:Joi.binary().required(),
+    contentType: Joi.string()
 });
 const validate_image =Joi.object({
     name:Joi.string().required(),
-    img:Joi.binary().required()
+    img:Joi.binary().required(),
+    contentType: Joi.string()
 });
 const validate_room =Joi.object({
     room_id:JoiOid.objectId().required()

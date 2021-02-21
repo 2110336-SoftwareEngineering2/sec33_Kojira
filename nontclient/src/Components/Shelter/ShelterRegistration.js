@@ -14,8 +14,8 @@ import PictureForm from "./PictureForm";
 import Contexts from "../../Utils/Context/Contexts";
 
 const UserContext = Contexts.UserContext;
+const reader = new FileReader();
 
-//let file = {name:"",img:[]};
 //optional can be empty
 const ShelterRegistration  = (props) => {
     const [shelter, setShelter] = useState({
@@ -24,12 +24,12 @@ const ShelterRegistration  = (props) => {
         phoneNumber: "",
         address: "",
         coordinate: {lat:0,lng:0},
-        license: {name:"",img:[]},
-        picture: {name:"",img:[]},
     })
     
     const value = useContext(UserContext);
     
+    const [license, setLicense] = useState([])
+    const [picture, setPicture] = useState([])
     const [registerStatus, setRegisterStatus] = useState(DEFAULT);
     const [nameValid, setNameValid] = useState(DEFAULT);
     const [descriptionValid, setDescriptionValid] = useState(DEFAULT);
@@ -63,6 +63,7 @@ const ShelterRegistration  = (props) => {
     async function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position)=>{
+                setCoordinateValid(VALID)
                 setShelter({
                     ...shelter,
                     coordinate: {lat:position.coords.latitude,lng:position.coords.longitude}
@@ -97,25 +98,34 @@ const ShelterRegistration  = (props) => {
                 }
                 return
             case "address-input":
-                if(validator.validateDescriptionAddress(element.currentTarget.value)){
+                if(validator.validateDescriptionAddress(element.currentTarget.value)){ 
                     setAddressValid(VALID)
                 } else {
                     setAddressValid(INVALID)
                 }
                 return
             case "license-input":
-                // file.name = element.currentTarget.files[0].name
-                // const reader = new FileReader();
-                // reader.onload = function(){
-                //     let dataBuffer = reader.result;
-                //     file.img = dataBuffer
-                //     console.log(file.img)
-                //     console.log(file.name)
-                // };
-                // reader.readAsDataURL(element.currentTarget.files[0]);
-                // console.log(element.currentTarget.files[0])
+                //console.log(element.currentTarget.files)
+                let file = element.currentTarget.files[0]
+                reader.onload = async (e) => {
+                    let arrayBuffer = reader.result
+                    let array = new Uint8Array(arrayBuffer)
+                    let binaryString = String.fromCharCode.apply(null, array)
+                    setLicense(oldArray => [...oldArray, {name:file.name,img:binaryString,contentType:file.type}])
+                    setLicenseValid(VALID) 
+                }
+                reader.readAsArrayBuffer(element.currentTarget.files[0])
                 return
             case "picture-input":
+                let file2 = element.currentTarget.files[0]
+                reader.onload = async (e) => {
+                    let arrayBuffer2 = reader.result
+                    let array2 = new Uint8Array(arrayBuffer2)
+                    let binaryString2 = String.fromCharCode.apply(null, array2)
+                    setPicture(oldArray => [...oldArray, {name:file2.name,img:binaryString2,contentType:file2.type}])
+                    setPictureValid(VALID) 
+                }
+                reader.readAsArrayBuffer(element.currentTarget.files[0])
                 return
         }
     }
@@ -131,8 +141,8 @@ const ShelterRegistration  = (props) => {
             phoneNumber: document.getElementById("phone-input").value,
             address: document.getElementById("address-input").value,
             coordinate: shelterCoordinate,
-            picture: [],
-            license: [],
+            picture: picture,
+            license: license,
             supported_type: [],
             rate: 3,
             nont_sitter_id: value._id
@@ -186,6 +196,7 @@ const ShelterRegistration  = (props) => {
                     >
                     Location
                     </button>
+                    {coordinateValid === VALID && <p>{shelter.coordinate.lat}, {shelter.coordinate.lng}</p>}
                 </div>
             </div>
             <div className="m-5" style={{ textAlign: "center" }}>
@@ -198,6 +209,20 @@ const ShelterRegistration  = (props) => {
                 </button>
             </div>
         </div>
+        }
+        {registerStatus === VALID &&
+                <div className="m-5" style={{ textAlign: "center" }}>
+                    <label>
+                        Your shelter is successfully registered.
+                    </label>
+                </div>
+            }
+        {registerStatus === INVALID &&
+            <div className="m-5" style={{ textAlign: "center" }}>
+                <label>
+                    Cannot register. Please check your input.
+                </label>
+            </div>
         }
         </>
     )
