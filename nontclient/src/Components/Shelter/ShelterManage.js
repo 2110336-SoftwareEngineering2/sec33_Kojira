@@ -47,8 +47,9 @@ const ShelterManage = (props) => {
                     />
                     <label
                     className="pl-3"
+                    style={{color:"#2980b9"}}
                     >
-                        Add New Shelter
+                        Add
                     </label>
                 </button>
             </div>
