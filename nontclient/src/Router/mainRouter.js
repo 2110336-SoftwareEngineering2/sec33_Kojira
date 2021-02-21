@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import Homepage from "../Components/Homepage/Homepage";
+import Dashboard from "../Components/Dashboard/Dashboard";
 import NontOwnerRouter from "./NontOwnerRouter";
 import NontSitterRouter from "./NontSitterRouter";
 import Login from "../Components/LoginLogout/Login";
@@ -16,7 +16,7 @@ function Router(props) {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/home" component={Homepage} />
+        <Route path="/home" component={Dashboard} />
         <Route path="/NontOwner" component={NontOwnerRouter} />
         <Route path="/NontSitter" component={NontSitterRouter} />
         <Route path="/login" component={Login} />
