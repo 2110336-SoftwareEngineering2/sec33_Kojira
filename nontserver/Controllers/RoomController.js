@@ -81,7 +81,6 @@ const controller = {
         try{            
             const newBody = {
                 ...req.body,
-                reserved_date_time: []
             };
             const newRoom = await Rooms.create(newBody);
             return res.send(_.pick(newRoom, ["_id","name","nont_type","amount","price"]));
