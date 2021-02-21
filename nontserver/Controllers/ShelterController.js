@@ -6,7 +6,7 @@ const _ = require('lodash');
 const Joi = require('joi');
 const nontTypes = require('../Constants/nontTypes');
 const JoiOid = require('joi-oid');
-
+const mongoose = require("mongoose");
 const validate_coordinate = Joi.object({
     lat:Joi.number().min(-90).max(90),
     lng:Joi.number().min(-180).max(180)

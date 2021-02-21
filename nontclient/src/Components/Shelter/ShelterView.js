@@ -18,6 +18,7 @@ const ShelterView = (props) => {
             try {
                 if (contextValue._id){
                     const response = await ShelterService.getShelterByID(shelterID); 
+                    console.log(response);
                     if (response.data) {
                         setShelter(response.data);
                     }
@@ -80,8 +81,10 @@ const ShelterView = (props) => {
                             </div>                            
                             <div>
                                 <h5 class="mb-1 mr-1">coordinate </h5>
+                                {/*
                                 <p>{"latitude :"+shelter?.coordinate?.lat}</p>
                                 <p>{"longtitude:"+shelter?.coordinate?.lng}</p>
+                                 */}
                             <hr/>
                             </div> 
                             <div>

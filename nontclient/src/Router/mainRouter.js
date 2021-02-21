@@ -26,7 +26,7 @@ function Router(props) {
         <Route path="/room/manage/:shelterID" component={RoomManage} />
         <Route path="/shelter" component={ShelterManage} />
         <Route path="/setting" component={UserSetting} /> 
-       <Route path="/shelterView/:shelterID" component={ShelterView} />
+        <Route path="/shelterView/:shelterID" component={ShelterView} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>
