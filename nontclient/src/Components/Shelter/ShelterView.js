@@ -94,10 +94,8 @@ const ShelterView = (props) => {
                                 <div>
                                 {
                                 shelter?.supported_type?.map((type)=>{
-                                    return(
-                                        
-                                        <span className="badge badge-primary mr-1">{type}</span>
-                                        
+                                    return(                                        
+                                        <span className="badge badge-primary mr-1" key={type}>{type}</span>                                        
                                     );
                                     
                                 }
@@ -112,9 +110,7 @@ const ShelterView = (props) => {
                         <li className="list-group-item active">room</li>
                         {
                             rooms.map((room)=>{
-                                return(
-                                    
-                                    
+                                return(     
                                     <li className="list-group-item" key={room._id}>
                                         
                                         <dl className="row">
