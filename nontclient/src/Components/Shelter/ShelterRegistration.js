@@ -108,24 +108,22 @@ const ShelterRegistration  = (props) => {
                 //console.log(element.currentTarget.files)
                 let file = element.currentTarget.files[0]
                 reader.onload = async (e) => {
-                    let arrayBuffer = reader.result
-                    let array = new Uint8Array(arrayBuffer)
-                    let binaryString = String.fromCharCode.apply(null, array)
-                    setLicense(oldArray => [...oldArray, {name:file.name,img:binaryString,contentType:file.type}])
+                    let buffer = reader.result
+                    //let binaryString = new Buffer(buffer.split(",")[1],"base64");
+                    setLicense(oldArray => [...oldArray, {name:file.name,img:buffer,contentType:file.type}])
+                    //console.log(typeof arrayBuffer)
                     setLicenseValid(VALID) 
                 }
-                reader.readAsArrayBuffer(element.currentTarget.files[0])
+                reader.readAsDataURL(element.currentTarget.files[0])
                 return
             case "picture-input":
                 let file2 = element.currentTarget.files[0]
                 reader.onload = async (e) => {
-                    let arrayBuffer2 = reader.result
-                    let array2 = new Uint8Array(arrayBuffer2)
-                    let binaryString2 = String.fromCharCode.apply(null, array2)
-                    setPicture(oldArray => [...oldArray, {name:file2.name,img:binaryString2,contentType:file2.type}])
+                    let buffer2 = reader.result
+                    setPicture(oldArray => [...oldArray, {name:file2.name,img:buffer2,contentType:file2.type}])
                     setPictureValid(VALID) 
                 }
-                reader.readAsArrayBuffer(element.currentTarget.files[0])
+                reader.readAsDataURL(element.currentTarget.files[0])
                 return
         }
     }
@@ -190,12 +188,14 @@ const ShelterRegistration  = (props) => {
             />
             <div className="row">
                 <div className="col m-4">
-                    <button type="button" 
+                    <a 
+                        type="button" 
                         className="btn btn-secondary" 
                         onClick={getLocation}
                     >
-                    Location
-                    </button>
+                    <i className="fas fa-map-marker-alt" />
+                    {" "}Location
+                    </a>
                     {coordinateValid === VALID && <p>{shelter.coordinate.lat}, {shelter.coordinate.lng}</p>}
                 </div>
             </div>
