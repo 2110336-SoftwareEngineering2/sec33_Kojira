@@ -1,0 +1,15 @@
+.tabContent {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(250, 250, 250, 0.5) 100%
+  );
+  padding-bottom: 20px;
+  border-right: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+  border-left: 1px solid #dee2e6;
+}
+
+#header {
+  color: #3ba3fc; 
+}

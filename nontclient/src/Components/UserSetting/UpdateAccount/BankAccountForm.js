@@ -14,7 +14,7 @@ const BankAccountForm = (props) => {
     props.validBankAccount === EMPTY;
 
   return (
-    <div className="col-lg m-4">
+    <div className="col-lg m-3">
       <label htmlFor="bank-input" className="form-label">
         Bank Account{" "}
       </label>

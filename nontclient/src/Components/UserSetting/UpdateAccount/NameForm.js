@@ -7,11 +7,12 @@ import {
   EXIST,
   CHANGING,
 } from "../../../Constants/FormValidity";
+import styles from "./UpdateAccount.module.css";
 
 const UsernameForm = (props) => {
   return (
     <div className="row">
-      <div className="col m-4">
+      <div className="col m-3">
         <label htmlFor="name-input" className="form-label">
           Name{" "}
         </label>
@@ -32,7 +33,7 @@ const UsernameForm = (props) => {
           aria-describedby="name-desc"
           required
         />
-        <div id="name-desc" className="form-text">
+        <div id="name-desc" className={"form-text " + styles.fade}>
           Your name must not longer than 64 characters.
         </div>
         {props.validName === EMPTY && (

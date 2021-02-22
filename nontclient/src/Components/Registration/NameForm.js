@@ -12,7 +12,7 @@ import {
 const UsernameForm = (props) => {
   return (
     <div className="row">
-      <div className="col m-4">
+      <div className="col m-3">
         <label htmlFor="name-input" className="form-label">
           Name{" "}
           <abbr className={styles.required} title="required">

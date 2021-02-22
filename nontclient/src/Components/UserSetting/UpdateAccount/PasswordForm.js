@@ -6,11 +6,12 @@ import {
   CHANGING,
   EMPTY,
 } from "../../../Constants/FormValidity";
+import styles from "./UpdateAccount.module.css";
 
 const PasswordForm = (props) => {
   return (
     <div className="row">
-      <div className="col-lg m-4">
+      <div className="col-lg m-3">
         <label htmlFor="password-input" className="form-label">
           New Password{" "}
         </label>
@@ -31,14 +32,14 @@ const PasswordForm = (props) => {
           onBlur={props.validatePassword}
           aria-describedby="password-desc"
         />
-        <div id="password-desc" className="form-text">
-          Your new password must be 8-32 characters long.
+        <div id="password-desc" className={"form-text " + styles.fade}>
+          Leave the field blank if you don't want to change password.
         </div>
         {props.validPassword === INVALID && (
           <div className="invalid-feedback">Invalid password.</div>
         )}
       </div>
-      <div className="col-lg m-4">
+      <div className="col-lg m-3">
         <label htmlFor="retype-password-input" className="form-label">
           Confirm New Password{" "}
         </label>
@@ -60,9 +61,11 @@ const PasswordForm = (props) => {
           onBlur={props.validateRetypePassword}
           aria-describedby="retype-password-desc"
         />
-        <div id="retype-password-desc" className="form-text">
-          Please confirm new password.
-        </div>
+        {props.validPassword !== DEFAULT && props.validPassword !== EMPTY && (
+          <div id="retype-password-desc" className={"form-text " + styles.fade}>
+            Please confirm new password.
+          </div>
+        )}
         {props.validRetypePassword === INVALID && (
           <div className="invalid-feedback">
             Confirm new password must match your new password.

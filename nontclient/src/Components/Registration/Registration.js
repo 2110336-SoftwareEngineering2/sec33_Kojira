@@ -234,60 +234,72 @@ const Registration = (props) => {
 
   if (registered) {
     return (
-      <div className="container">
-        <h1 className="my-5 text-center">
-          Your account is successfully registered.
-        </h1>
+      <div id={styles.createdScreen}>
+        <div className="container">
+          <div
+            className="alert alert-success text-center m-5"
+            id={styles.createdAlert}
+            role="alert"
+          >
+            Your account is successfully registered.
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container" id={styles.container}>
-      <h1 className="my-5 text-center">Register Account</h1>
-      <UserTypeButton
-        onUserTypeButtonClick={handleUserTypeButtonClick}
-        accountType={account.type}
-      />
-      <hr />
-      <EmailForm
-        onFormChange={handleFormChange}
-        validateEmail={validator.validateEmail}
-        validEmail={validEmail}
-      />
-      <PasswordForm
-        onFormChange={handleFormChange}
-        validatePassword={validator.validatePassword}
-        validateRetypePassword={validator.validateRetypePassword}
-        validPassword={validPassword}
-        validRetypePassword={validRetypePassword}
-      />
-      <NameForm
-        onFormChange={handleFormChange}
-        validateName={validator.validateName}
-        validName={validName}
-      />
-      <div className="row">
-        <PhoneNumberForm
-          onFormChange={handleFormChange}
-          validatePhoneNumber={validator.validatePhoneNumber}
-          validPhoneNumber={validPhoneNumber}
-        />
-        <BankAccountForm
-          onFormChange={handleFormChange}
-          accountType={account.type}
-          validateBankAccount={validator.validateBankAccount}
-          validBankAccount={validBankAccount}
-        />
-      </div>
-      <div className="m-5" style={{ textAlign: "center" }}>
-        <button
-          type="button"
-          className="btn btn-primary btn-lg"
-          onClick={submitRegistration}
-        >
-          Register
-        </button>
+    <div id={styles.screen}>
+      <div id={styles.padder}>
+        <div className="container" id={styles.container}>
+          <h1 className="mb-4 text-center" id={styles.header}>
+            Create an account
+          </h1>
+          <UserTypeButton
+            onUserTypeButtonClick={handleUserTypeButtonClick}
+            accountType={account.type}
+          />
+          <hr />
+          <EmailForm
+            onFormChange={handleFormChange}
+            validateEmail={validator.validateEmail}
+            validEmail={validEmail}
+          />
+          <PasswordForm
+            onFormChange={handleFormChange}
+            validatePassword={validator.validatePassword}
+            validateRetypePassword={validator.validateRetypePassword}
+            validPassword={validPassword}
+            validRetypePassword={validRetypePassword}
+          />
+          <NameForm
+            onFormChange={handleFormChange}
+            validateName={validator.validateName}
+            validName={validName}
+          />
+          <div className="row">
+            <PhoneNumberForm
+              onFormChange={handleFormChange}
+              validatePhoneNumber={validator.validatePhoneNumber}
+              validPhoneNumber={validPhoneNumber}
+            />
+            <BankAccountForm
+              onFormChange={handleFormChange}
+              accountType={account.type}
+              validateBankAccount={validator.validateBankAccount}
+              validBankAccount={validBankAccount}
+            />
+          </div>
+          <div className="my-3" style={{ textAlign: "center" }}>
+            <button
+              type="button"
+              className="btn btn-primary btn-lg"
+              onClick={submitRegistration}
+            >
+              Register
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

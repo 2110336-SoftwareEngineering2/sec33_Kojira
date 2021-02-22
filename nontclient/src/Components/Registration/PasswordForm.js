@@ -11,7 +11,7 @@ import {
 const PasswordForm = (props) => {
   return (
     <div className="row">
-      <div className="col-lg m-4">
+      <div className="col-lg m-3">
         <label htmlFor="password-input" className="form-label">
           Password{" "}
           <abbr className={styles.required} title="required">
@@ -44,10 +44,10 @@ const PasswordForm = (props) => {
           <div className="invalid-feedback">Password cannot be empty.</div>
         )}
       </div>
-      <div className="col-lg m-4">
+      <div className="col-lg m-3">
         <label htmlFor="retype-password-input" className="form-label">
           Retype Password{" "}
-          <abbr className="required" title="required">
+          <abbr className={styles.required} title="required">
             *
           </abbr>
         </label>
