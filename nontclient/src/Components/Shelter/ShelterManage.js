@@ -8,7 +8,7 @@ const UserContext = Contexts.UserContext;
 const ShelterManage = (props) => {
     const contextValue = useContext(UserContext);
     const [shelters, setShelters] = useState([]);
-
+    
     useEffect( () => {
         async function fetchShelters() {
             try {
@@ -36,19 +36,21 @@ const ShelterManage = (props) => {
 
             {/* Shelter Register Button */}
             <div className="row">
-                <button
+            <button
                 className="btn btn-lg mt-2 mb-2"
                 id="shelter-register-button"
                 >
                     <a 
+                    href={"/shelterRegister"}
                     className="fa fa-plus"
                     style={{textDecoration:"none"}}
                     title="Add New Shelter"
                     />
                     <label
                     className="pl-3"
+                    style={{color:"#2980b9"}}
                     >
-                        Add New Shelter
+                        Add
                     </label>
                 </button>
             </div>

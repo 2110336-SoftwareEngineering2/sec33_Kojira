@@ -2,10 +2,11 @@ import React from "react";
 
 const ShelterRow = (props) => {
     return (
-        <div className="row mt-2 mb-2">
+        <div className="row mt-2 mb-2 justify-content-center">
             {/* shelter view button */}
             <div className="col-md-6 p-0">
                 <a
+                href={"/shelterView/"+props.element._id}
                 type="button"
                 className="btn btn-outline-info btn-block" 
                 style={{textAlign:"left"}}
@@ -18,30 +19,30 @@ const ShelterRow = (props) => {
                 <a
                 href={"/room/manage/"+props.element._id}
                 type="button"
-                className="btn btn-outline-info btn-block" 
-                style={{textAlign:"center"}}
+                className="btn btn-outline-info btn-block bg-warning text-dark border-warning" 
                 >
-                    Room Manage
+                    <i className="fas fa-cat" />
+                    {" "}Room Manage
                 </a>
             </div>
             {/* shelter update button */}
-            <div className="col-md-2 p-0">
+            <div className="col col-md-auto p-0">
                 <a
                 type="button"
-                className="btn btn-outline-info btn-block" 
-                style={{textAlign:"center"}}
+                className="btn btn-outline-info btn-block text-light bg-success border-success" 
                 >
-                    Update
+                    <i className="fas fa-edit" />
+                    {" "}Update
                 </a>
             </div>
             {/* shelter delete button */}
-            <div className="col-md-2 p-0">
+            <div className="col-md-1 p-0">
                 <a
                 type="button"
-                className="btn btn-outline-info btn-block" 
-                style={{textAlign:"center"}}
+                className="btn btn-outline-info btn-block text-light bg-danger border-danger" 
                 >
-                    Delete
+                    <i className="fa fa-trash" />
+                    {" "}Delete
                 </a>
             </div>
         </div>

@@ -11,26 +11,26 @@ const RoomManage = (props) => {
     const contextValue = useContext(UserContext);
     const [rooms, setRooms] = useState([]);
     const [shelterName, setShelterName] = useState("");
-    const {shelterID} = useParams();
+    const { shelterID } = useParams();
 
-    useEffect( () => {
+    useEffect(() => {
         async function fetchRooms() {
-            try {              
-                if (shelterID){
-                    const response = await RoomService.getRoomByShelterID(shelterID); 
+            try {
+                if (shelterID) {
+                    const response = await RoomService.getRoomByShelterID(shelterID);
                     if (response.data) {
                         setRooms(response.data);
                     }
-                } 
+                }
             }
             catch (error) {
                 console.error(error.message);
             }
-        }     
-        fetchRooms();   
+        }
+        fetchRooms();
     }, [shelterID]);
 
-    useEffect( () => {
+    useEffect(() => {
         async function fetchShelterName() {
             try {
                 if (shelterID) {
@@ -45,7 +45,7 @@ const RoomManage = (props) => {
             }
         }
         fetchShelterName();
-    }, [shelterID] );
+    }, [shelterID]);
 
     return (
         <div className="container">
@@ -58,32 +58,29 @@ const RoomManage = (props) => {
             {/* Room Regsiter Button */}
             <div className="row">
                 <button
-                className="btn btn-lg mt-2 mb-2"
-                id="room-register-button"
+                    className="btn btn-lg mt-2 mb-2"
+                    id="room-register-button"
                 >
-                    <a 
-                    href={"/room/register/"+shelterID}
-                    className="fa fa-plus"
-                    title="Add New Room"
-                    style={{textDecoration:"none"}}
-                    />
-                    <label
-                    className="pl-3"
+                    <a
+                        href={"/room/register/" + shelterID}
+                        className="fa fa-plus"
+                        title="Add New Room"
+                        style={{ textDecoration: "none"}}
                     >
-                        Add New Room
-                    </label>
+                        {" "}Add
+                    </a>
                 </button>
             </div>
 
             {/* Room Row Button */}
             <div>
                 {
-                    rooms.map( (element) => (
+                    rooms.map((element) => (
                         <RoomRow
-                        element={element}
-                        key={element._id}
+                            element={element}
+                            key={element._id}
                         />
-                    ) )
+                    ))
                 }
             </div>
         </div>
