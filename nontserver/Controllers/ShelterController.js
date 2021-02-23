@@ -70,21 +70,6 @@ const controller = {
             return res.status(500).send('Cannot access shelter by id');
         }
     },
-    // GET first picture by shelterID
-    // getFirstPictureByID: async (req,res) => {
-    //     try{            
-    //         const Shelter = await Shelters.findById(req.params.id);
-    //         var str = new String(Shelter.picture[0].img) 
-    //         console.log(str)
-    //         var buffer = new Buffer(str.split(",")[1], 'base64');
-    //         res.setHeader('content-type', Shelter.picture[0].contentType);
-    //         return res.end(str)
-    //     }
-    //     catch (error){
-    //         console.log(error)
-    //         return res.status(500).send('Cannot access shelter by id');
-    //     }
-    // },
     // GET Shelter BY NAME
     getShelterByName:  async (req,res) => {
         try{            
