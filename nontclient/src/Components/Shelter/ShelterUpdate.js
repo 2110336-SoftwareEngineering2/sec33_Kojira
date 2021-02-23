@@ -25,6 +25,8 @@ const ShelterUpdate = (props) => {
     const [shelter, setShelter] = useState([]);
     const [rooms, setRooms] = useState([]);
     const {shelterID} = useParams();
+    console.log(shelter?.coordinate?.lat)
+    console.log(shelter?.coordinate?.lng)
     useEffect( () => {
         async function fetchShelter() {
             try {
@@ -144,7 +146,7 @@ const ShelterUpdate = (props) => {
         }
     }
     
-    async function submitRegistration() {
+    async function submitUpdate() {
         //const validate = this.validateAll
         //if(!validator) return
         let shelterCoordinate = shelter.coordinate
@@ -161,14 +163,14 @@ const ShelterUpdate = (props) => {
             rate: 3,
             nont_sitter_id: value._id
         }
-        console.log(body.coordinate) // change this for update not registeration
+        console.log(body.coordinate)
         try {
-            const response = await ShelterService.registerShelter(body);
-            setRegisterStatus(VALID)
-            console.log(response);
+           // const response = await ShelterService.registerShelter(body); // change this for update not registeration
+           // setRegisterStatus(VALID)
+           // console.log(response);
         } catch (error){
-            setRegisterStatus(INVALID)
-            console.error(error.message);
+            //setRegisterStatus(INVALID)
+           // console.error(error.message);
         }
     }
 
@@ -180,15 +182,18 @@ const ShelterUpdate = (props) => {
             <h1 className="my-5 text-center">Update Shelter</h1>
             <NameForm
                 onFormChange={handleFormChange}
+                defaultValue = {shelter.name}
                 validName={nameValid}
             />
             <DescriptionForm
                 onFormChange={handleFormChange}
+                defaultValue = {shelter.description}
                 validDescription={descriptionValid}
             />
             <div className="row">
                 <PhoneNumberForm
                     onFormChange={handleFormChange}
+                    defaultValue = {shelter.phoneNumber}
                     validPhoneNumber={phoneNumberValid}
                 />
                 <LicenseForm
@@ -200,6 +205,7 @@ const ShelterUpdate = (props) => {
             </div>
             <AddressForm
                     onFormChange={handleFormChange}
+                    defaultValue = {shelter.address}
                     validAddress={addressValid}
             />
             <div className="row">
@@ -219,9 +225,9 @@ const ShelterUpdate = (props) => {
                 <button
                 type="button"
                 className="btn btn-primary"
-                onClick={submitRegistration}
+                onClick={submitUpdate}
                 >
-                Register
+                Update
                 </button>
             </div>
         </div>

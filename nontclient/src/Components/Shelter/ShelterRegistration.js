@@ -164,19 +164,23 @@ const ShelterRegistration  = (props) => {
             <h1 className="my-5 text-center">Register Shelter</h1>
             <NameForm
                 onFormChange={handleFormChange}
+                defaultValue = ""
                 validName={nameValid}
             />
             <DescriptionForm
                 onFormChange={handleFormChange}
+                defaultValue = ""
                 validDescription={descriptionValid}
             />
             <div className="row">
                 <PhoneNumberForm
                     onFormChange={handleFormChange}
+                    defaultValue = ""
                     validPhoneNumber={phoneNumberValid}
                 />
                 <LicenseForm
                     onFormChange={handleFormChange}
+                    defaultValue = ""
                 />
                 <PictureForm
                         onFormChange={handleFormChange}
@@ -184,6 +188,7 @@ const ShelterRegistration  = (props) => {
             </div>
             <AddressForm
                     onFormChange={handleFormChange}
+                    defaultValue = ""
                     validAddress={addressValid}
             />
             <div className="row">
