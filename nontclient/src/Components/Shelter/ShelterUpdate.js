@@ -152,6 +152,7 @@ const ShelterUpdate = (props) => {
         let shelterCoordinate = shelter.coordinate
         if(shelter.coordinate.lat===0 && shelter.coordinate.lng===0) {shelterCoordinate={lat:200,lng:200}}
         const body = {
+            _id : shelterID,
             name: document.getElementById("name-input").value,
             description: document.getElementById("description-input").value,
             phoneNumber: document.getElementById("phone-input").value,
