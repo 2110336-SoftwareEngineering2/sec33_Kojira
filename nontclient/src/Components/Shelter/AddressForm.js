@@ -31,6 +31,7 @@ const AddressForm = (props) => {
           id="address-input"
           name="address"
           onChange={props.onFormChange}
+          defaultValue = {props.defaultValue}
           required
         />
       </div>

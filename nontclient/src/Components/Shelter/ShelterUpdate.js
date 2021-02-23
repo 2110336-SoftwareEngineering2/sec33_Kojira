@@ -156,21 +156,24 @@ const ShelterUpdate = (props) => {
             description: document.getElementById("description-input").value,
             phoneNumber: document.getElementById("phone-input").value,
             address: document.getElementById("address-input").value,
-            coordinate: shelterCoordinate,
-            picture: picture,
-            license: license,
-            supported_type: [],
             rate: 3,
             nont_sitter_id: value._id
-        }
+            }
+        if (pictureValid){body.picture = picture}
+        if (licenseValid){body.license = license}
+        console.log(shelterID)
         console.log(body.coordinate)
+        console.log(document.getElementById("name-input").value)
+        console.log(document.getElementById("description-input").value)
+        console.log(document.getElementById("phone-input").value,)
+        console.log(document.getElementById("address-input").value)
         try {
-           // const response = await ShelterService.registerShelter(body); // change this for update not registeration
-           // setRegisterStatus(VALID)
-           // console.log(response);
+           const response = await ShelterService.updateShelter(body); // change this for update not registeration
+           setRegisterStatus(VALID)
+           console.log(response);
         } catch (error){
-            //setRegisterStatus(INVALID)
-           // console.error(error.message);
+            setRegisterStatus(INVALID)
+           console.error(error.message);
         }
     }
 
@@ -235,14 +238,14 @@ const ShelterUpdate = (props) => {
         {registerStatus === VALID &&
                 <div className="m-5" style={{ textAlign: "center" }}>
                     <label>
-                        Your shelter is successfully registered.
+                        Your shelter is successfully updated.
                     </label>
                 </div>
             }
         {registerStatus === INVALID &&
             <div className="m-5" style={{ textAlign: "center" }}>
                 <label>
-                    Cannot register. Please check your input.
+                    Cannot update. Please check your input
                 </label>
             </div>
         }
