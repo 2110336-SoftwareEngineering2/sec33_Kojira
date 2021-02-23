@@ -12,7 +12,7 @@ import UserSetting from "../Components/UserSetting/UserSetting";
 import RoomManage from "../Components/Room/RoomManage";
 import RoomUpdate from "../Components/Room/RoomUpdate";
 import ShelterView from "../Components/Shelter/ShelterView";
-
+import shelterUpdate from "../Components/Shelter/ShelterUpdate"
 function Router(props) {
   return (
     <BrowserRouter>
@@ -29,6 +29,7 @@ function Router(props) {
         <Route path="/setting" component={UserSetting} /> 
         <Route path="/shelterRegister" component={ShelterRegistration} />
         <Route path="/shelterView/:shelterID" component={ShelterView} />
+        <Route path="/shelterUpdate/:shelterID" component={shelterUpdate} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>
