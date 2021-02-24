@@ -9,7 +9,7 @@ const joiOid = require('joi-oid');
 const mongoose = require('mongoose');
 
 const validate_certificate = joi.object({
-    name: joi.string().required().min(0).max(32),
+    name: joi.string().required(),
     img: joi.binary().required()
 });
 
@@ -21,11 +21,11 @@ const validate_picture = joi.object({
 const validator = joi.object({
     name: joi.string().required().min(1).max(32),
     type: joi.string().valid(...Object.values(nontTypes)).required(),
-    subtype: joi.string().min(1).max(50),
-    description: joi.string().min(1).max(500),
+    subtype: joi.string().optional().allow('').max(50),
+    description: joi.string().optional().allow('').max(500),
    // birth_date: joi.date().valid('YYYY-MM-DD').required(),
-   // birth_date: joi.date().required(),
-    birth_date: joi.string().regex(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/).required(),
+    birth_date: joi.date().required(),
+   // birth_date: joi.string().regex(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/).required(),
     medical_certificate: joi.array().items(validate_certificate),
     picture: joi.array().items(validate_picture),
     nontowner_id: joiOid.objectId().required()
@@ -46,7 +46,7 @@ const controller = {
     getNontByID:  async (req,res) => {
         try{            
             const nont = await Nont.findById(req.params.id);
-            if(nont === null) return res.send(`there is no nont with id: ${req.params.id}`);
+          //  if(nont === null) return res.send(`there is no nont with id: ${req.params.id}`);
             return res.send(nont);
         }
         catch (error){
@@ -57,8 +57,8 @@ const controller = {
     getNontByName:  async (req,res) => {
         try{            
             const nont = await Nont.find({"name": req.params.name});
-            if(Object.keys(nont).length === 0) return res.send(`there is no nont with name: ${req.params.name}`);
-            else return res.send(nont);
+            //if(Object.keys(nont).length === 0) return res.send(`there is no nont with name: ${req.params.name}`);
+            return res.send(nont);
         }
         catch (error){
             return res.status(500).send('Cannot access nonts by name');
@@ -67,14 +67,23 @@ const controller = {
     getNontByType:  async (req,res) => {
         try{            
             const nont = await Nont.find({"type": req.params.type});
-            if(Object.keys(nont).length === 0) return res.send(`there is no nont with type: ${req.params.type}`);
-            else return res.send(nont);
+          //  if(Object.keys(nont).length === 0) return res.send(`there is no nont with type: ${req.params.type}`);
+            return res.send(nont);
         }
         catch (error){
             return res.status(500).send('Cannot access nonts by type');
         }
     },
-
+    getNontByNontOwnerID:  async (req,res) => {
+        try{            
+            const nont = await Nont.find({"nontowner_id": req.params.id});
+           // if(Object.keys(nont).length === 0) return res.send(`there is no nont with nontowner_id: ${req.params.id}`);
+            return res.send(nont);
+        }
+        catch (error){
+            return res.status(500).send('Cannot access nonts by type');
+        }
+    },
     // POST create new nont
     createNont: async (req, res) => {
         // req.body validation using joi
@@ -101,6 +110,7 @@ const controller = {
             return res.send(newNont);
         }
         catch(error){
+            console.log(error.message);
             return res.status(500).send("Cannot create nont");
         }
     },

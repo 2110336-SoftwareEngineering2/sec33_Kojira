@@ -11,8 +11,8 @@ const schema = new Schema({
     subtype: {type:String},
     description: {type:String},
     birth_date: {type:Date, required:true},
-    medical_certificate: {type:[{name: {type:String, required:true}, img: {data:Buffer}}]},
-    picture: {type:[{img: {data:Buffer, contentType:String}}]},
+    medical_certificate: {type:[{name: {type:String}, img:Buffer}]},
+    picture: {type:[{img:Buffer}]},
     nontowner_id: {type:ObjectId, ref:'NontOwner', required:true}
 });
 

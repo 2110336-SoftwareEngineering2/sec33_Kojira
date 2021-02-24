@@ -16,6 +16,9 @@ router.route('/name/:name')
 router.route('/type/:type')
       .get(controller.getNontByType);
 
+router.route('/nontowner_id/:id')
+      .get(controller.getNontByNontOwnerID);
+      
 router.route('/create')
       .post(controller.createNont);
 
