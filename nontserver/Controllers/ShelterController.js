@@ -13,29 +13,32 @@ const validate_coordinate = Joi.object({
 }).required();
 const validate_license =Joi.object({
     name:Joi.string().required().min(0).max(32),
-    img:Joi.binary().required()
+    img:Joi.binary().required(),
+    contentType: Joi.string()
 });
 const validate_image =Joi.object({
     name:Joi.string().required(),
-    img:Joi.binary().required()
+    img:Joi.binary().required(),
+    contentType: Joi.string()
 });
 const validate_room =Joi.object({
     room_id:JoiOid.objectId().required()
 });
 const validator = Joi.object({
     name: Joi.string().required().min(1).max(50),
-    description: Joi.string().min(1).max(500),
+    description: Joi.string().max(500).allow(null,''), //allow null
     address: Joi.string().required().min(1).max(500),
     rate: Joi.number().min(0).max(5).required(),
-    supported_type:Joi.array().required().items(Joi.string().valid(...Object.values(nontTypes))),
+    supported_type:Joi.array().items(Joi.string().valid(...Object.values(nontTypes))).allow(null), //delete required
     coordinate: validate_coordinate,
-    phoneNumber: Joi.string()
+    phoneNumber: Joi.string() //allow null
+    .allow(null,'')
     .length(10)
     .pattern(/^[0-9]+$/),
-    license:Joi.array().items(validate_license).required(),
-    picture:Joi.array().items(validate_image).required(),
-    rooms:JoiOid.array().items(validate_room)
-    
+    license:Joi.array().items(validate_license), //required
+    picture:Joi.array().items(validate_image), //required
+    rooms:JoiOid.array().items(validate_room),
+    nont_sitter_id:JoiOid.objectId()
 });
 
 const controller = {
@@ -99,6 +102,7 @@ const controller = {
         // req.body validation using joi
         const validationResult = validator.validate(req.body);
         if (validationResult.error){
+            console.log(validationResult.error.details[0].message)
             return res.status(400).send(validationResult.error.details[0].message);
         }
         // no unique attribute -> do not check

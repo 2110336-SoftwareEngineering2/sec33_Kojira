@@ -12,7 +12,7 @@ var usersRouter = require("./routes/users");
 var mongoose = require("mongoose");
 
 //Set up default mongoose connection
-var mongoDB =
+var mongoDB = 
   "mongodb+srv://test:test@nont-dev.5gb2t.mongodb.net/nont?retryWrites=true&w=majority";
 mongoose.connect(mongoDB, {
   useNewUrlParser: true,
@@ -32,6 +32,8 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

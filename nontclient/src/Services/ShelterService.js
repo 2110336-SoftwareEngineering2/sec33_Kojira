@@ -42,6 +42,15 @@ const ShelterService = {
         catch (error) {
             throw error;
         }
+    },
+    registerShelter: async (body) => {
+        try{
+            let path = '/shelter'
+            const response = await axios.post(serverURL + path, body);
+            return response;
+        } catch(error) {
+            throw error
+        }
     }
 };
 

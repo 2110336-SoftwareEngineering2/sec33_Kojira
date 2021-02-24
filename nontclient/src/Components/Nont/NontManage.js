@@ -1,21 +1,21 @@
 import React, { useContext, useState, useEffect } from "react";
-import ShelterService from "../../Services/ShelterService";
+import NontService from "../../Services/NontService";
 import Contexts from "../../Utils/Context/Contexts";
-import ShelterRow from "./ShelterRow";
+import NontRow from "./NontRow";
 
 const UserContext = Contexts.UserContext;
 
-const ShelterManage = (props) => {
+const NontManage = (props) => {
     const contextValue = useContext(UserContext);
-    const [shelters, setShelters] = useState([]);
-    
+    const [nonts, setNonts] = useState([]);
+
     useEffect( () => {
-        async function fetchShelters() {
+        async function fetchNonts() {
             try {
                 if (contextValue._id){
-                    const response = await ShelterService.getShelterByNontSitterID(contextValue._id); 
+                    const response = await NontService.getNontByNontOwnerID(contextValue._id); 
                     if (response.data) {
-                        setShelters(response.data);
+                        setNonts(response.data);
                     }
                 } 
             }
@@ -23,51 +23,62 @@ const ShelterManage = (props) => {
                 console.error(error.message);
             }
         }     
-        fetchShelters();   
-    }, [contextValue]);
+        fetchNonts();   
+    },[contextValue]);
+
+    const deleteNont = async (id) => {    //DELETE
+        try {
+            const response = await NontService.deleteNont(id);
+            if(response.status===200) setNonts(nonts.filter((nont) => nont._id !== id));
+        } catch (error){
+            console.error(error.message);
+        }
+    }
+
 
     return (
         <div className="container">
             {/* Header */}
-            <h1 className="my-5 text-center">Shelter Management</h1>
+            <h1 className="my-5 text-center">Nont Management</h1>
 
             {/* User */}
             <h2 className="my-5 text-center">Name: {contextValue.name}</h2>
 
-            {/* Shelter Register Button */}
+            {/* Nont Register Button */}
             <div className="row">
             <button
                 className="btn btn-lg mt-2 mb-2"
-                id="shelter-register-button"
+                id="nont-register-button"
                 >
                     <a 
-                    href={"/shelterRegister"}
+                    href={"/nont/create"}
                     className="fa fa-plus"
                     style={{textDecoration:"none"}}
-                    title="Add New Shelter"
+                    title="Add New Nont"
                     />
                     <label
                     className="pl-3"
                     style={{color:"#2980b9"}}
                     >
-                        Add
+                        Add Nont
                     </label>
                 </button>
             </div>
 
-            {/* Shelter Row Button */}
+            {/* Nont Row Button */}
             <div>
                 {
-                    shelters.map( (element) => (
-                        <ShelterRow
-                        element={element}
-                        key={element._id}
+                    nonts.map( (nont) => (
+                        <NontRow
+                        element={nont}
+                        key={nont._id}
+                        onDelete={deleteNont}
                         />
-                    ) )
+                    ))
                 }
             </div>
         </div>
     );
-}
+};
 
-export default ShelterManage;
+export default NontManage;
