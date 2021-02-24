@@ -30,6 +30,7 @@ const NameForm = (props) => {
           id="name-input"
           name="name"
           onChange={props.onChange}
+          defaultValue = {props.defaultValue}
           aria-describedby="name-desc"
           required
         />

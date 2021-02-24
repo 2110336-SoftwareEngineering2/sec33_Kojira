@@ -16,6 +16,7 @@ const MedicalCertificateForm = (props) => {
             id="medical_certificate-input"
             name="medical_certificate" 
             onChange={props.onChange}
+            defaultValue = {props.defaultValue}
             multiple
         />
     </div>

@@ -16,6 +16,7 @@ const PictureForm = (props) => {
             id="picture-input"
             name="picture" 
             onChange={props.onChange}
+            defaultValue = {props.defaultValue}
             multiple
         />
     </div>

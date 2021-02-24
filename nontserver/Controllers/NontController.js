@@ -118,8 +118,8 @@ const controller = {
     // PUT update nont
     updateNont: async (req, res) => {
         const validationResult = validator.validate(req.body);
-        console.log(validationResult);
-        if (validationResult.error) {            
+        if (validationResult.error) {         
+            console.log(validationResult.error);   
             return res.status(400).send(validationResult.error.details[0].message);
         }
         try{
