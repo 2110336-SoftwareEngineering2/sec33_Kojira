@@ -25,7 +25,6 @@ const SubtypeForm = (props) => {
           )}
           id="subtype-input"
           name="subtype"
-          size="56"
           onChange={props.onChange}
           defaultValue = {props.defaultValue}
           aria-describedby="subtype-desc"
