@@ -12,6 +12,7 @@ const DescriptionForm = (props) => {
           id="description-input"
           name="description"
           onChange={props.onFormChange}
+          defaultValue = {props.defaultValue}
         />
       </div>
     </div>

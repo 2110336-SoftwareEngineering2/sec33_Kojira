@@ -12,6 +12,7 @@ const PhoneNumberForm = (props) => {
         id="phone-input"
         name="phoneNumber"
         onChange={props.onFormChange}
+        defaultValue = {props.defaultValue}
       />
     </div>
   );

@@ -12,12 +12,11 @@ import UserSetting from "../Components/UserSetting/UserSetting";
 import RoomManage from "../Components/Room/RoomManage";
 import RoomUpdate from "../Components/Room/RoomUpdate";
 import ShelterView from "../Components/Shelter/ShelterView";
+import shelterUpdate from "../Components/Shelter/ShelterUpdate"
 import NontManage from "../Components/Nont/NontManage";
 import NontUpdate from "../Components/Nont/NontUpdate";
 import NontView from "../Components/Nont/NontView";
 import NontRegistration from "../Components/Nont/NontRegistration";
-
-
 function Router(props) {
   return (
     <BrowserRouter>
@@ -34,6 +33,7 @@ function Router(props) {
         <Route path="/setting" component={UserSetting} /> 
         <Route path="/shelterRegister" component={ShelterRegistration} />
         <Route path="/shelterView/:shelterID" component={ShelterView} />
+        <Route path="/shelterUpdate/:shelterID" component={shelterUpdate} />
         <Route path="/nont/update/:id" component={NontUpdate} />
         <Route path="/nont/create" component={NontRegistration} />
         <Route path="/nont/:id" component={NontView} />

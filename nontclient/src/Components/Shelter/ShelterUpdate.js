@@ -1,5 +1,9 @@
-import React, { useContext, useState, Component } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import ShelterService from "../../Services/ShelterService";
+import Contexts from "../../Utils/Context/Contexts";
+import { useParams } from "react-router-dom";
+import RoomService from "../../Services/RoomService";
+import UserType from "../../Constants/UserType";
 import {
     VALID,
     INVALID,
@@ -11,20 +15,34 @@ import PhoneNumberForm from "./PhoneNumberForm";
 import LicenseForm from "./LicenseForm";
 import AddressForm from "./AddressForm";
 import PictureForm from "./PictureForm";
-import Contexts from "../../Utils/Context/Contexts";
+
 
 const UserContext = Contexts.UserContext;
 const reader = new FileReader();
 
-//optional can be empty
-const ShelterRegistration  = (props) => {
-    const [shelter, setShelter] = useState({
-        name: "",
-        description: "",
-        phoneNumber: "",
-        address: "",
-        coordinate: {lat:0,lng:0},
-    })
+const ShelterUpdate = (props) => {
+    const contextValue = useContext(UserContext);
+    const [shelter, setShelter] = useState([]);
+    const [rooms, setRooms] = useState([]);
+    const {shelterID} = useParams();
+    console.log(shelter?.coordinate?.lat)
+    console.log(shelter?.coordinate?.lng)
+    useEffect( () => {
+        async function fetchShelter() {
+            try {
+                if (shelterID){
+                    const response = await ShelterService.getShelterByID(shelterID); 
+                    if (response.data) {
+                        setShelter(response.data);
+                    }
+                } 
+            }
+            catch (error) {
+                console.error(error.message);
+            }
+        }     
+        fetchShelter();   
+    }, [shelterID]);
     
     const value = useContext(UserContext);
     
@@ -128,31 +146,35 @@ const ShelterRegistration  = (props) => {
         }
     }
     
-    async function submitRegistration() {
+    async function submitUpdate() {
         //const validate = this.validateAll
         //if(!validator) return
         let shelterCoordinate = shelter.coordinate
         if(shelter.coordinate.lat===0 && shelter.coordinate.lng===0) {shelterCoordinate={lat:200,lng:200}}
         const body = {
+            _id : shelterID,
             name: document.getElementById("name-input").value,
             description: document.getElementById("description-input").value,
             phoneNumber: document.getElementById("phone-input").value,
             address: document.getElementById("address-input").value,
-            coordinate: shelterCoordinate,
-            picture: picture,
-            license: license,
-            supported_type: [],
             rate: 3,
             nont_sitter_id: value._id
-        }
+            }
+        if (pictureValid){body.picture = picture}
+        if (licenseValid){body.license = license}
+        console.log(shelterID)
         console.log(body.coordinate)
+        console.log(document.getElementById("name-input").value)
+        console.log(document.getElementById("description-input").value)
+        console.log(document.getElementById("phone-input").value,)
+        console.log(document.getElementById("address-input").value)
         try {
-            const response = await ShelterService.registerShelter(body);
-            setRegisterStatus(VALID)
-            console.log(response);
+           const response = await ShelterService.updateShelter(body); // change this for update not registeration
+           setRegisterStatus(VALID)
+           console.log(response);
         } catch (error){
             setRegisterStatus(INVALID)
-            console.error(error.message);
+           console.error(error.message);
         }
     }
 
@@ -161,26 +183,25 @@ const ShelterRegistration  = (props) => {
         {value.userType !== "Nont Sitter" && <h2>You are not logged in as Nont Sitter</h2>}
         {value.userType === "Nont Sitter" && 
         <div className="container">
-            <h1 className="my-5 text-center">Register Shelter</h1>
+            <h1 className="my-5 text-center">Update Shelter</h1>
             <NameForm
                 onFormChange={handleFormChange}
-                defaultValue = ""
+                defaultValue = {shelter.name}
                 validName={nameValid}
             />
             <DescriptionForm
                 onFormChange={handleFormChange}
-                defaultValue = ""
+                defaultValue = {shelter.description}
                 validDescription={descriptionValid}
             />
             <div className="row">
                 <PhoneNumberForm
                     onFormChange={handleFormChange}
-                    defaultValue = ""
+                    defaultValue = {shelter.phoneNumber}
                     validPhoneNumber={phoneNumberValid}
                 />
                 <LicenseForm
                     onFormChange={handleFormChange}
-                    defaultValue = ""
                 />
                 <PictureForm
                         onFormChange={handleFormChange}
@@ -188,7 +209,7 @@ const ShelterRegistration  = (props) => {
             </div>
             <AddressForm
                     onFormChange={handleFormChange}
-                    defaultValue = ""
+                    defaultValue = {shelter.address}
                     validAddress={addressValid}
             />
             <div className="row">
@@ -208,9 +229,9 @@ const ShelterRegistration  = (props) => {
                 <button
                 type="button"
                 className="btn btn-primary"
-                onClick={submitRegistration}
+                onClick={submitUpdate}
                 >
-                Register
+                Update
                 </button>
             </div>
         </div>
@@ -218,19 +239,18 @@ const ShelterRegistration  = (props) => {
         {registerStatus === VALID &&
                 <div className="m-5" style={{ textAlign: "center" }}>
                     <label>
-                        Your shelter is successfully registered.
+                        Your shelter is successfully updated.
                     </label>
                 </div>
             }
         {registerStatus === INVALID &&
             <div className="m-5" style={{ textAlign: "center" }}>
                 <label>
-                    Cannot register. Please check your input.
+                    Cannot update. Please check your input
                 </label>
             </div>
         }
         </>
     )
 }
-
-export default ShelterRegistration
+export default ShelterUpdate;

@@ -7,7 +7,8 @@ const controller = require('../Controllers/ShelterController.js');
 router
     .route('/')
     .get(controller.getShelters)
-    .post(controller.registerShelter);
+    .post(controller.registerShelter)
+    .patch(controller.updateShelter);
 router
     .route('/id/:id')
     .get(controller.getShelterByID);

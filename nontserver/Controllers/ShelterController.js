@@ -21,9 +21,6 @@ const validate_image =Joi.object({
     img:Joi.binary().required(),
     contentType: Joi.string()
 });
-const validate_room =Joi.object({
-    room_id:JoiOid.objectId().required()
-});
 const validator = Joi.object({
     name: Joi.string().required().min(1).max(50),
     description: Joi.string().max(500).allow(null,''), //allow null
@@ -37,7 +34,6 @@ const validator = Joi.object({
     .pattern(/^[0-9]+$/),
     license:Joi.array().items(validate_license), //required
     picture:Joi.array().items(validate_image), //required
-    rooms:JoiOid.array().items(validate_room),
     nont_sitter_id:JoiOid.objectId()
 });
 
@@ -115,9 +111,32 @@ const controller = {
             return res.send(_.pick(newShelter, ["_id","name","rate","phonenumber"]));
         }
         catch(error){
-            return res.status(500).send("Cannot create room");
+            return res.status(500).send("Cannot create shelter");
         }
-    }
+    },
+    
+    // PATCH /shelter
+    updateShelter: async (req, res) => {
+        try {
+          const data = req.body;
+
+          try {
+            const Shelter= await Shelters.findByIdAndUpdate(
+                data._id,
+                { $set: data },
+                { new: true }
+              );
+            return res.send(_.pick(Shelter, ["_id","name","rate","phonenumber"]));
+          } catch (error) {
+            console.log(error)
+            throw error;
+          }
+        } catch (error) {
+          return res.status(500).send("Cannot access shelter.");
+        }
+
+      },
+
 }
 
 module.exports = controller;

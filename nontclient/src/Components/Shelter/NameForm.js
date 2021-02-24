@@ -31,6 +31,7 @@ const ShelternameForm = (props) => {
           id="name-input"
           name="name"
           onChange={props.onFormChange}
+          defaultValue = {props.defaultValue}
           aria-describedby="name-desc"
           required
         />
