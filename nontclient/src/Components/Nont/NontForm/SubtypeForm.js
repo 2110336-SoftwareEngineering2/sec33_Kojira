@@ -10,8 +10,7 @@ import {
 
 const SubtypeForm = (props) => {
   return (
-    <div className="row">
-      <div className="col mt-4 ml-5">
+      <div className="col m-4">
         <label htmlFor="subtype-input" className="form-label">
           Subtype / Breed {" "}
         </label>
@@ -28,13 +27,13 @@ const SubtypeForm = (props) => {
           name="subtype"
           size="56"
           onChange={props.onChange}
+          defaultValue = {props.defaultValue}
           aria-describedby="subtype-desc"
         />
         <div id="subtype-desc" className="form-text">
           Subtype must not be longer than 50 characters.
         </div>
       </div>
-    </div>
   );
 };
 

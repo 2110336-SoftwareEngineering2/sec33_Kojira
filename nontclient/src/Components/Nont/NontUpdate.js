@@ -20,7 +20,8 @@ const UserContext = Contexts.UserContext;
 const reader = new FileReader();
 
 const NontUpdate = (props) => {
-    const { nontID } = useParams();
+    const obj = useParams();
+    const nontID = obj.id;
 
     const value = useContext(UserContext);
     
@@ -39,9 +40,11 @@ const NontUpdate = (props) => {
     useEffect(() => {
         async function fetchNontOldData() {
             try {
-                const response = await NontService.getNontByID(nontID);
-                if (response.data) {
-                    setNont(response.data);
+                if (nontID) {
+                    const response = await NontService.getNontByID(nontID);
+                    if (response.data) {
+                        setNont(response.data);
+                    }
                 }
             }
             catch (error) {
@@ -49,7 +52,7 @@ const NontUpdate = (props) => {
             }
         }
         fetchNontOldData();
-    }, []);
+    }, [nontID]);
 
     const validator = {
         //Check unique name
@@ -142,17 +145,19 @@ const NontUpdate = (props) => {
 
     async function submitUpdate() { 
         const body = {
+            //_id: nontID,
             name: document.getElementById("name-input").value,
             type: document.getElementById("type-input").value,
             subtype: document.getElementById("subtype-input").value,
             description: document.getElementById("description-input").value,
             birth_date: document.getElementById("birth_date-input").value,
-            medical_certificate: [],
-            picture: [],
+            medical_certificate: nont.medical_certificate,
+            picture: nont.picture,
             nontowner_id: value._id
         }
         if(medcerValid) { body.medical_certificate = medcer }
-        if(pictureValid) { body.pictureValid = picture }
+        if(pictureValid) { body.picture = picture }
+        //if(birthDateValid===VALID) { console.log(birthDateValid);body.birth_date = document.getElementById("birth_date-input").value }
         try {
             const response = await NontService.updateNont(nontID, body);
             setRegisterStatus(VALID);
@@ -174,25 +179,30 @@ const NontUpdate = (props) => {
             </div>   
             <NameForm
                 onChange={handleFormChange}
+                defaultValue = {nont.name}
                 valid={nameValid}
             />
             <div className="row">
                 <TypeForm
                     onChange={handleFormChange}
+                    defaultValue = {nont.type}
                     valid={typeValid}
                 />       
                 <SubtypeForm
                     onChange={handleFormChange}
+                    defaultValue = {nont.subtype}
                     valid={subtypeValid}
                 />  
             </div>    
             <DescriptionForm
                 onChange={handleFormChange}
+                defaultValue = {nont.description}
                 valid={descriptionValid}
             />
             <div className="row">
                 <BirthDateForm
                     onChange={handleFormChange}
+                    defaultValue = {nont.birth_date}
                     valid={birthDateValid}
                 />
                 <MedicalCertificateForm
@@ -224,7 +234,7 @@ const NontUpdate = (props) => {
         {registerStatus === INVALID &&
             <div className="m-5" style={{ textAlign: "center" }}>
                 <label>
-                    Cannot register! Please check your input.
+                    Cannot update! Please check your input.
                 </label>
             </div>
         }

@@ -10,8 +10,7 @@ import {
 
 const TypeForm = (props) => {
   return (
-    <div className="row">
-      <div className="col ml-4 mt-4">
+      <div className="col m-4">
         <label htmlFor="type-input" className="form-label">
           Type{" "}
           <abbr style={{color:"red"}} title="required"> 
@@ -30,6 +29,7 @@ const TypeForm = (props) => {
           id="type-input"
           name="type"
           onChange={props.onChange}
+          defaultValue = {props.defaultValue}
           aria-describedby="type-desc"
           required
         />
@@ -37,7 +37,6 @@ const TypeForm = (props) => {
           Type must be large dog, medium dog, small dog, cat, hamster, bird or rabbit.
         </div>
       </div>
-    </div>
   );
 };
 

@@ -26,6 +26,7 @@ const DescriptionForm = (props) => {
           id="description-input"
           name="description"
           onChange={props.onChange}
+          defaultValue = {props.defaultValue}
           aria-describedby="description-desc"
         />
         <div id="description-desc" className="form-text">

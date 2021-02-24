@@ -10,7 +10,6 @@ import {
 
 const BirthDateForm = (props) => {
   return (
-    <div className="row">
       <div className="col m-4">
         <label htmlFor="birth_date-input" className="form-label">
           Date of birth{" "}
@@ -32,10 +31,10 @@ const BirthDateForm = (props) => {
           placeholder=""
           max="2021-12-31"
           onChange={props.onChange}
+          defaultValue = {props.defaultValue}
           required
         />
       </div>
-    </div>
   );
 };
 

@@ -10,9 +10,6 @@ const PictureForm = (props) => {
     <div className="col m-4 mb-3">
         <label htmlFor="picture-input"  className="form-label">
             Picture
-            <abbr className={styles.required} title="required">
-            *
-          </abbr>
         </label>
         <input 
             className="form-control-file" 

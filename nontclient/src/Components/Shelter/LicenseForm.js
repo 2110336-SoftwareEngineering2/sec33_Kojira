@@ -10,9 +10,6 @@ const LicenseForm = (props) => {
     <div className="col m-4 mb-3">
         <label htmlFor="license-input"  className="form-label">
             License
-            <abbr className={styles.required} title="required">
-            *
-          </abbr>
         </label>
         <input 
             className="form-control-file" 
