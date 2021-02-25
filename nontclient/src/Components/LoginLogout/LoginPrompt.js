@@ -10,36 +10,40 @@ const LoginPrompt = function (props) {
       </h2>
 
       <div className={"row mb-4 " + styles.center}>
-        <button
-          id={styles.NontOwnerButton}
-          className="btn btn-outline-primary mr-4"
-          onClick={() => props.changeMode(UserType.NONT_OWNER)}
-          style={
-            props.mode === UserType.NONT_OWNER
-              ? {
-                  backgroundColor: "#3ba3fc",
-                  color: "white",
-                }
-              : {}
-          }
-        >
-          Nont Owner
-        </button>
-        <button
-          id={styles.NontSitterButton}
-          className="btn btn-outline-primary"
-          onClick={() => props.changeMode(UserType.NONT_SITTER)}
-          style={
-            props.mode === UserType.NONT_SITTER
-              ? {
-                  backgroundColor: "#3ba3fc",
-                  color: "white",
-                }
-              : {}
-          }
-        >
-          Nont Sitter
-        </button>
+        <div className={"col-md-6 col-sm-12 " + styles.center}>
+          <button
+            id={styles.NontOwnerButton}
+            className="btn btn-outline-primary"
+            onClick={() => props.changeMode(UserType.NONT_OWNER)}
+            style={
+              props.mode === UserType.NONT_OWNER
+                ? {
+                    backgroundColor: "#3ba3fc",
+                    color: "white",
+                  }
+                : {}
+            }
+          >
+            Nont Owner
+          </button>
+        </div>
+        <div className={"col-md-6 col-sm-12 " + styles.center}>
+          <button
+            id={styles.NontSitterButton}
+            className="btn btn-outline-primary"
+            onClick={() => props.changeMode(UserType.NONT_SITTER)}
+            style={
+              props.mode === UserType.NONT_SITTER
+                ? {
+                    backgroundColor: "#3ba3fc",
+                    color: "white",
+                  }
+                : {}
+            }
+          >
+            Nont Sitter
+          </button>
+        </div>
       </div>
       <hr />
     </div>
