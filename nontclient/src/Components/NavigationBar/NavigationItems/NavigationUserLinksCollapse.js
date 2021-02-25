@@ -19,13 +19,14 @@ const NavigationUserLinksCollapse = (props) => {
             </a>
           </li>
           <li>
-            <p
+            <a
               className={"nav-link " + styles.leftLink}
               type="button"
-              onClick={() => props.logout()}
+              href="/home"
+              onClick={props.logout}
             >
               Log out
-            </p>
+            </a>
           </li>
         </React.Fragment>
       )}

@@ -57,13 +57,14 @@ const NavigationUserLinksExpand = (props) => {
               </button>
             </a>
             {value.login && (
-              <button
+              <a
                 type="button"
                 className={"btn btn-outline-primary " + styles.dropdownBtn}
+                href="/home"
                 onClick={props.logout}
               >
                 Log out
-              </button>
+              </a>
             )}
           </div>
         </div>
