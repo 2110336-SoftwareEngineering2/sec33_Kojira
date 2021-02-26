@@ -27,7 +27,7 @@ function Router(props) {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Registration} />
         <Route path="/room/register/:shelterID" component={RoomRegistration} />
-        <Route path="/room/update/:roomID" component={RoomUpdate} />
+        <Route path="/roomUpdate/:roomID" component={RoomUpdate} />
         <Route path="/room/manage/:shelterID" component={RoomManage} />
         <Route path="/shelter" component={ShelterManage} />
         <Route path="/setting" component={UserSetting} /> 

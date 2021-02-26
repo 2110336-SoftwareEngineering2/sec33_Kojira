@@ -17,7 +17,7 @@ const RoomRow = (props) => {
                 <a 
                 type="button"
                 className="btn btn-outline-info btn-block text-light bg-success border-success" 
-                href={"/room/update/"+props.element._id}    
+                href={"/roomUpdate/"+props.element._id}    
                 >
                     <i className="fas fa-edit" />
                     {" "}Update
