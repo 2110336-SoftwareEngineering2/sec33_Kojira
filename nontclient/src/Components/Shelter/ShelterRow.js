@@ -1,6 +1,7 @@
 import React from "react";
 
 const ShelterRow = (props) => {
+
     return (
         <div className="row mt-2 mb-2 justify-content-center">
             {/* shelter view button */}

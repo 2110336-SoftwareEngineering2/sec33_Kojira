@@ -1,5 +1,6 @@
 "use strict";
 
+const Rooms = require('../Models/Room');
 const Shelters = require('../Models/Shelters');
 const NontSitter = require("../Models/NontSitter");
 const _ = require('lodash');
@@ -119,7 +120,6 @@ const controller = {
     updateShelter: async (req, res) => {
         try {
           const data = req.body;
-
           try {
             const Shelter= await Shelters.findByIdAndUpdate(
                 data._id,
@@ -134,7 +134,25 @@ const controller = {
         } catch (error) {
           return res.status(500).send("Cannot access shelter.");
         }
+      },
 
+      // Update supported_type and
+      // to call from other function in backend only
+      updateSupportedType: async (shelterID) => {
+        try {
+            const nontTypes = await Rooms.find({"shelter_id":shelterID}).distinct("nont_type");
+            const newQuery = {
+                _id:shelterID,
+            }
+            const newBody = {
+                supported_type: nontTypes,
+            }
+            const updateRes = await Shelters.updateOne(newQuery, newBody);
+            return updateRes;
+        }
+        catch (error) {
+            throw error;
+        }
       },
 
 }
