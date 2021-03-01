@@ -17,6 +17,7 @@ import NontManage from "../Components/Nont/NontManage";
 import NontUpdate from "../Components/Nont/NontUpdate";
 import NontView from "../Components/Nont/NontView";
 import NontRegistration from "../Components/Nont/NontRegistration";
+import FindShelter from "../Components/FindShelter/FindShelter";
 function Router(props) {
   return (
     <BrowserRouter>
@@ -38,6 +39,7 @@ function Router(props) {
         <Route path="/nont/create" component={NontRegistration} />
         <Route path="/nont/:id" component={NontView} />
         <Route path="/nont" component={NontManage} />
+        <Route path="/findShelter" component={FindShelter} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>
