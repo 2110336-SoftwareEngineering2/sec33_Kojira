@@ -39,10 +39,10 @@ const NontManage = (props) => {
     return (
         <div className="container">
             {/* Header */}
-            <h1 className="my-5 text-center">Nont Management</h1>
+            <h1 className="my-5 text-center font-weight-bold">Nont Management</h1>
 
             {/* User */}
-            <h2 className="my-5 text-center">Name: {contextValue.name}</h2>
+            <h2 className="my-5 text-center text-body">Name: {contextValue.name}</h2>
 
             {/* Nont Register Button */}
             <div className="row">

@@ -29,11 +29,18 @@ const BirthDateForm = (props) => {
           id="birth_date-input"
           name="birth_date"
           placeholder=""
-          max="2021-12-31"
+          max={new Date().toISOString().split("T")[0]}
           onChange={props.onChange}
           defaultValue = {props.defaultValue}
+          aria-describedby="birth_date-desc"
           required
         />
+
+        {props.valid === INVALID && document.getElementById("birth_date-input").value.length === 0 &&
+        <div id="birth_date-desc" className="form-text" style={{color:"red"}}>
+          Date of birth is required.
+        </div>}
+
       </div>
   );
 };

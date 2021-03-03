@@ -74,10 +74,8 @@ const NontUpdate = (props) => {
             else return false;
         },       
         validateBirthDate: (value) => {
-            //const REGEX = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
-            //if (value.length == 10 && REGEX.test(value)) return true;
-            //else return false;
-            return true;
+            if(value.length == 0) return false;
+            else return true;
         },  
     };
 
@@ -224,7 +222,7 @@ const NontUpdate = (props) => {
         }
         
         {registerStatus === VALID &&
-                <div className="m-5" style={{ textAlign: "center" }}>
+                <div className="m-5" style={{ textAlign: "center", color:"green"}}>
                     <label>
                         Your Nont is successfully updated.
                     </label>
@@ -232,7 +230,7 @@ const NontUpdate = (props) => {
             }
         
         {registerStatus === INVALID &&
-            <div className="m-5" style={{ textAlign: "center" }}>
+            <div className="m-5" style={{ textAlign: "center", color:"red"}}>
                 <label>
                     Cannot update! Please check your input.
                 </label>

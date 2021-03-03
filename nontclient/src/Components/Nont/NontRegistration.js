@@ -60,10 +60,8 @@ const NontRegistration = (props) => {
             else return false;
         },       
         validateBirthDate: (value) => {
-            //const REGEX = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
-            //if (value.length == 10 && REGEX.test(value)) return true;
-            //else return false;
-            return true;
+            if(value.length == 0) return false;
+            else return true;
         },
 
         
@@ -158,7 +156,7 @@ const NontRegistration = (props) => {
         {value.userType !== "Nont Owner" && <h2>You are not logged in as Nont Owner</h2>}
         {value.userType === "Nont Owner" && 
         <div className="container">
-            <h1 className="my-5 text-center">Register New Nont</h1>
+            <h1 className="my-5 text-center">Register Nont</h1>
             <div style={{color:"red"}}>
                 * required
             </div>   
@@ -204,7 +202,7 @@ const NontRegistration = (props) => {
         }
         
         {registerStatus === VALID &&
-                <div className="m-5" style={{ textAlign: "center" }}>
+                <div className="m-5" style={{ textAlign: "center", color:"green" }}>
                     <label>
                         Your Nont is successfully registered.
                     </label>
@@ -212,7 +210,7 @@ const NontRegistration = (props) => {
             }
         
         {registerStatus === INVALID &&
-            <div className="m-5" style={{ textAlign: "center" }}>
+            <div className="m-5" style={{ textAlign: "center", color:"red"}}>
                 <label>
                     Cannot register! Please check your input.
                 </label>
