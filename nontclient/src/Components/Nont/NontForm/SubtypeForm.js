@@ -29,9 +29,12 @@ const SubtypeForm = (props) => {
           defaultValue = {props.defaultValue}
           aria-describedby="subtype-desc"
         />
-        <div id="subtype-desc" className="form-text">
+
+        {props.valid === INVALID && 
+        <div id="subtype-desc" className="form-text" style={{color:"red"}}>
           Subtype must not be longer than 50 characters.
-        </div>
+        </div>}
+
       </div>
   );
 };

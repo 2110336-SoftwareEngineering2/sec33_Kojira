@@ -10,7 +10,7 @@ const schema = new Schema({
     type: {type:String, enum:Object.values(nontTypes), required:true},
     subtype: {type:String},
     description: {type:String},
-    birth_date: {type:Date, required:true},
+    birth_date: {type:String, required:true},
     medical_certificate: {type:[{name: {type:String}, img:Buffer}]},
     picture: {type:[{img:Buffer}]},
     nontowner_id: {type:ObjectId, ref:'NontOwner', required:true}

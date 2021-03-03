@@ -29,26 +29,26 @@ const NontView = () => {
     return(
         <div className="container">
 
-            <div className="card mt-3">
-                <div className="card-header text-white bg-primary ">
-                    <h1 className="my-1 text-left">{nont.name} </h1>
-                    <hr/>
-                    <h3 className="my-1 text-left"> Type : {nont.type} </h3>
-                    <h3 className="my-1 text-left"> Breed : {nont.subtype} </h3>
-
+            <div className="card mt-3 text-center">
+                <div className="card-header text-white bg-success">
+                    <h1 className="my-1 font-weight-bold">{nont.name} </h1>
                 </div>
+                <div className="card-header text-white bg-info">
+                    <h4 className="my-1"> Type : {nont.type} </h4>
+                    <h4 className="my-1 mt-3"> Breed : {nont.subtype} </h4>
+                </div>   
                 <div className="card-body">
                     <div className="media">
                     {/* <img className="align-self-start mr-3 w-50" src="https://upload.wikimedia.org/wikipedia/commons/1/15/Gatto_Garfield.jpg" alt="nont image"/> */}
-                    <img className="align-self-start mr-3 w-50" src="https://upload.wikimedia.org/wikipedia/commons/1/15/Gatto_Garfield.jpg" alt="nont image"/>
+                    <img className="align-self-start mr-3" style={{width:"500px",border:"groove orange 5px"}} src="https://upload.wikimedia.org/wikipedia/commons/1/15/Gatto_Garfield.jpg" alt="nont image"/>
                         <div className="media-body w-50">
                             <div className="mw-100">
-                                <h5 className="mb-1 mr-1">Description </h5>
+                                <h5 className="mb-3 mr-1">Description </h5>
                                 <p className="mw-100">{nont.description}</p>
                             <hr/>
                             </div>
                             <div>
-                                <h5 className="mb-1 mr-1">Date of birth </h5>
+                                <h5 className="mb-3 mr-1">Date of birth </h5>
                                 <p>{nont.birth_date}</p>
                             <hr className="mw-100"/>
                             </div> 

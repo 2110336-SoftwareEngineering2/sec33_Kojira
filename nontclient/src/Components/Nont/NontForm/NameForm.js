@@ -34,9 +34,16 @@ const NameForm = (props) => {
           aria-describedby="name-desc"
           required
         />
-        <div id="name-desc" className="form-text">
-          Nont's name must not be longer than 32 characters.
-        </div>
+        {props.valid === INVALID && document.getElementById("name-input").value.length !== 0 &&
+        <div id="name-desc" className="form-text" style={{color:"red"}}>
+          Name must not be longer than 32 characters.
+        </div>}
+
+        {props.valid === INVALID && document.getElementById("name-input").value.length === 0 &&
+        <div id="name-desc" className="form-text" style={{color:"red"}}>
+          Name is required.
+        </div>}
+
       </div>
     </div>
   );

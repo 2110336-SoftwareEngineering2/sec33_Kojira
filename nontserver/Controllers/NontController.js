@@ -100,7 +100,7 @@ const controller = {
                 type: req.body.type,
                 subtype: req.body.subtype,
                 description: req.body.description,
-                birth_date: new Date(req.body.birth_date),
+                birth_date: req.body.birth_date.split("T")[0],
                 medical_certificate: req.body.medical_certificate,
                 picture: req.body.picture,
                 nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id)           
@@ -129,7 +129,7 @@ const controller = {
                 type: req.body.type,
                 subtype: req.body.subtype,
                 description: req.body.description,
-                birth_date: new Date(req.body.birth_date),
+                birth_date: req.body.birth_date.split("T")[0],
                 medical_certificate: req.body.medical_certificate,
                 picture: req.body.picture,
                 nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id)   

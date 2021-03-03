@@ -29,9 +29,12 @@ const DescriptionForm = (props) => {
           defaultValue = {props.defaultValue}
           aria-describedby="description-desc"
         />
-        <div id="description-desc" className="form-text">
+
+        {props.valid === INVALID && 
+        <div id="description-desc" className="form-text" style={{color:"red"}}>
           Description must not be longer than 500 characters.
-        </div>
+        </div>}
+        
       </div>
     </div>
   );
