@@ -1,4 +1,11 @@
 import React from "react";
+import styles from "./Shelter.module.css";
+import {
+  VALID,
+  INVALID,
+  DEFAULT,
+  EMPTY
+} from "../../Constants/FormValidity";
 
 const DescriptionForm = (props) => {
   return (
@@ -8,12 +15,21 @@ const DescriptionForm = (props) => {
           Description{" "}
         </label>
         <textarea
-          className={"form-control"}
+          className={"form-control ".concat(
+            props.validDescription === DEFAULT
+              ? ""
+              : props.validDescription === VALID
+              ? "is-valid"
+              : "is-invalid"
+          )}
           id="description-input"
           name="description"
           onChange={props.onFormChange}
           defaultValue = {props.defaultValue}
         />
+        <div id="name-desc" className={"form-text "+styles.fade}>
+          Your description must not longer than 500 characters.
+        </div>
       </div>
     </div>
   );

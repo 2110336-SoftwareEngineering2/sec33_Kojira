@@ -4,6 +4,7 @@ import {
     VALID,
     INVALID,
     DEFAULT,
+    EMPTY,
 } from "../../Constants/FormValidity";
 import NameForm from "./NameForm";
 import DescriptionForm from "./DescriptionForm";
@@ -86,13 +87,17 @@ const ShelterRegistration  = (props) => {
             case "description-input":
                 if(validator.validateDescriptionAddress(element.currentTarget.value)){
                     setDescriptionValid(VALID)
-                } else {
+                } else if(document.getElementById("description-input").value.length==0){
+                    setDescriptionValid(DEFAULT)
+                }else {
                     setDescriptionValid(INVALID)
                 }
                 return
             case "phone-input":
                 if(validator.validatePhoneNumber(element.currentTarget.value)){
                     setPhoneNumberValid(VALID)
+                } else if(document.getElementById("phone-input").value.length==0) {
+                    setPhoneNumberValid(DEFAULT)
                 } else {
                     setPhoneNumberValid(INVALID)
                 }

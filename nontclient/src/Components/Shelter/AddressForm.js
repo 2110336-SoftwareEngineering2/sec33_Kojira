@@ -34,6 +34,9 @@ const AddressForm = (props) => {
           defaultValue = {props.defaultValue}
           required
         />
+        <div id="name-desc" className={"form-text "+styles.fade}>
+          Your address must not longer than 500 characters.
+        </div>
       </div>
     </div>
   );

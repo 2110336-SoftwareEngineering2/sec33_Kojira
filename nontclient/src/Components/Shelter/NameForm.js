@@ -35,7 +35,7 @@ const ShelternameForm = (props) => {
           aria-describedby="name-desc"
           required
         />
-        <div id="name-desc" className="form-text">
+        <div id="name-desc" className={"form-text "+styles.fade}>
           Your name must not longer than 50 characters.
         </div>
       </div>
