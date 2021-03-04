@@ -5,18 +5,17 @@ import ShelterService from "../../Services/ShelterService";
 import LoadStatus from "../../Constants/LoadStatus";
 
 const FindShelter = (props) => {
-
-  const SHOW_LIMIT = 20;
   const [fetchShelterStatus, setFetchShelterStatus] = useState(
     LoadStatus.LOADING
   );
+  const [shelters, setShelters] = useState([]);
 
   useEffect(() => {
     async function fetchShelter() {
       try {
-        const shelters = await ShelterService.getShelters();
+        const response = await ShelterService.getShelters();
         setFetchShelterStatus(LoadStatus.SUCCESS);
-        console.log(shelters);
+        setShelters(response.data);
       } catch (error) {
         setFetchShelterStatus(LoadStatus.FAIL);
         console.error("Cannot get shelters' information");
@@ -49,7 +48,7 @@ const FindShelter = (props) => {
         </div>
       )}
       {fetchShelterStatus === LoadStatus.SUCCESS && (
-        <FindShelterList />
+        <FindShelterList shelters={shelters} />
       )}
     </div>
   );
