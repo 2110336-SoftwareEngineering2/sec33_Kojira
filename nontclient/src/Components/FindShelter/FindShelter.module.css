@@ -3,7 +3,29 @@
   opacity: 0.5;
 }
 
-.shelterCard {
+.shelterCardCol {
   padding-top: 15px;
   padding-bottom: 15px;
+}
+
+.cardLink {
+  color: inherit;
+  text-decoration: none;
+  padding-bottom: 1px;
+}
+
+.cardLink:hover {
+  text-decoration: none;
+}
+
+.shelterCard {
+  height: 300px;
+  border-radius: 20px !important;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 8px, rgba(17, 17, 26, 0.024) 0px 4px 16px;
+  transition: all 200ms ease-in-out 0s;
+  will-change: transform;
+}
+
+.shelterCard:hover {
+  transform: translateY(-10px);
 }
