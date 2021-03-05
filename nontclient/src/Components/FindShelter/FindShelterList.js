@@ -12,7 +12,7 @@ const FindShelterList = (props) => {
   return (
     <div className="row">
       {shelterList.map((shelter) => (
-        <div className={"col-6 col-md-4 col-lg-3 " + styles.shelterCardCol} key={shelter._id}>
+        <div className={"col-12 col-sm-6 col-md-4 col-lg-3 " + styles.shelterCardCol} key={shelter._id}>
           <ShelterCard shelter={shelter} />
         </div>
       ))}
