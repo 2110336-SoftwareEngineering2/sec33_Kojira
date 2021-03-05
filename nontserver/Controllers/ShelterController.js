@@ -155,6 +155,18 @@ const controller = {
         }
       },
 
+      //DELETE
+      //Should system delete shelter if it already has rooms/reservations?
+      deleteShelter: async (req, res) => {
+          try{
+            const deletedShelter = await Shelters.findOneAndDelete({_id: req.params.id})
+            return res.send("Succesfully delete shelter")
+          }
+          catch(error){
+            return res.status(500).send("Cannot delete shelter");
+          }
+      }
+
 }
 
 module.exports = controller;
