@@ -1,6 +1,7 @@
 import React from "react";
 
 const ShelterRow = (props) => {
+
     return (
         <div className="row mt-2 mb-2 justify-content-center">
             {/* shelter view button */}
@@ -28,6 +29,7 @@ const ShelterRow = (props) => {
             {/* shelter update button */}
             <div className="col col-md-auto p-0">
                 <a
+                href={"/shelterUpdate/"+props.element._id}
                 type="button"
                 className="btn btn-outline-info btn-block text-light bg-success border-success" 
                 >

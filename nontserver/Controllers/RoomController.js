@@ -6,6 +6,7 @@ const Joi = require('joi');
 const JoiOid = require('joi-oid');
 const nontTypes = require('../Constants/nontTypes');
 const mongoose = require("mongoose");
+const ShelterController = require("./ShelterController.js");
 
 const validator = Joi.object({
     name: Joi.string().required().min(1).max(50),
@@ -83,11 +84,13 @@ const controller = {
                 ...req.body,
             };
             const newRoom = await Rooms.create(newBody);
+            const updateSupportTypeRes = ShelterController.updateSupportedType(newRoom.shelter_id);
             return res.send(_.pick(newRoom, ["_id","name","nont_type","amount","price"]));
         }
         catch(error){
             return res.status(500).send("Cannot create room");
         }
+        // update supported_type        
     },
 
     // PUT update room
@@ -97,20 +100,33 @@ const controller = {
             return res.status(400).send(validationResult.error.details[0].message);
         }
         try {
-            const newQuery = {
-                _id:mongoose.Types.ObjectId(req.params.id),
-            }
             const newBody = {
                 ...req.body,
             }
-            const updateRes = await Rooms.updateOne(newQuery, newBody);
-            return res.send(updateRes);
+            const updateRes = await Rooms.findByIdAndUpdate(
+                req.params.id,
+                { $set: newBody},
+                { new: true }
+            );
+            const updateSupportTypeRes = ShelterController.updateSupportedType(updateRes.shelter_id);
+            return res.send(updateRes);    
         } 
         catch (error) {            
             return res.status(500).send("Cannot create room");
         }
     },
 
+    // DELETE room /room/delete/:id
+    deleteRoom: async (req, res) => {
+        try{
+            const newQuery = {_id: req.params.id};
+            const deleteResult = await Rooms.deleteOne(newQuery);
+            return res.send(deleteResult);
+        }
+        catch (error) {
+            return res.status(500).send("Cannot delete room");
+        }
+    },
 }
 
 module.exports = controller;

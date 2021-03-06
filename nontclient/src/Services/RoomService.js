@@ -35,8 +35,18 @@ const RoomService = {
     updateRoom: async (id, body) => {
         try {
             let path = "/room/update/" + id;
-            const response = await axios.put(serverURL + path, body);
+            const response = await axios.patch(serverURL + path, body);
             return response
+        }
+        catch (error) {
+            throw error;
+        }
+    },
+    deleteRoom: async (id) => {
+        try {
+            let path = "/room/delete/" + id;
+            const response = await axios.delete(serverURL + path);
+            return response;
         }
         catch (error) {
             throw error;

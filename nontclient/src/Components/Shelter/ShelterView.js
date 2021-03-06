@@ -56,7 +56,7 @@ const ShelterView = (props) => {
                 </div>
                 <div className="card-body">
                     <div className="media">
-                    <img className="align-self-start mr-3 w-50" src="https://si.wsj.net/public/resources/images/BN-CE613_0402Sm_G_20140402120224.jpg" alt="shelter image"/>
+                    <img className="align-self-start mr-3 w-50" src="" alt="shelter image"/>
                         <div className="media-body w-50">
                             <div className="mw-100">
                                 <h5 className="mb-1 mr-1">description </h5>
