@@ -8,7 +8,7 @@ const UserContext = Contexts.UserContext;
 
 const App = (props) => {
   const [userInfo, setUserInfo] = useState({
-    userType: false,
+    userType: null,
     email: null,
     login: false,
     name: null,
@@ -19,6 +19,8 @@ const App = (props) => {
     loaded: false,
   });
 
+  const [loading, setLoading] = useState(true);
+
   const UpdateUserInfo = () => {
     LoginService.getUserInfo().then((UserInfo) => {
       try {
@@ -27,6 +29,9 @@ const App = (props) => {
           userInfo.name !== UserInfo.name
         ) {
           setUserInfo(UserInfo);
+        }
+        if (loading) {
+          setTimeout(() => setLoading(false), 1000);
         }
       } catch (err) {
         console.log(err);
@@ -60,6 +65,7 @@ const App = (props) => {
   return (
     <UserContext.Provider value={userContextValues}>
       <NavigationBar />
+      {/* {loading && <h1>Loading</h1>} */}
       <Router />
     </UserContext.Provider>
   );

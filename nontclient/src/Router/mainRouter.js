@@ -55,7 +55,7 @@ function Router() {
             "/shelter",
             "/shelterRegister",
             "/shelterView",
-            "shelterUpdate",
+            "/shelterUpdate",
             "/room",
             "/roomUpdate",
           ]}
