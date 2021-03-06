@@ -1,5 +1,6 @@
 "use strict";
 
+const Rooms = require('../Models/Room');
 const Shelters = require('../Models/Shelters');
 const NontSitter = require("../Models/NontSitter");
 const _ = require('lodash');
@@ -13,29 +14,28 @@ const validate_coordinate = Joi.object({
 }).required();
 const validate_license =Joi.object({
     name:Joi.string().required().min(0).max(32),
-    img:Joi.binary().required()
+    img:Joi.binary().required(),
+    contentType: Joi.string()
 });
 const validate_image =Joi.object({
     name:Joi.string().required(),
-    img:Joi.binary().required()
-});
-const validate_room =Joi.object({
-    room_id:JoiOid.objectId().required()
+    img:Joi.binary().required(),
+    contentType: Joi.string()
 });
 const validator = Joi.object({
     name: Joi.string().required().min(1).max(50),
-    description: Joi.string().min(1).max(500),
+    description: Joi.string().max(500).allow(null,''), //allow null
     address: Joi.string().required().min(1).max(500),
     rate: Joi.number().min(0).max(5).required(),
-    supported_type:Joi.array().required().items(Joi.string().valid(...Object.values(nontTypes))),
+    supported_type:Joi.array().items(Joi.string().valid(...Object.values(nontTypes))).allow(null), //delete required
     coordinate: validate_coordinate,
-    phoneNumber: Joi.string()
+    phoneNumber: Joi.string() //allow null
+    .allow(null,'')
     .length(10)
     .pattern(/^[0-9]+$/),
-    license:Joi.array().items(validate_license).required(),
-    picture:Joi.array().items(validate_image).required(),
-    rooms:JoiOid.array().items(validate_room)
-    
+    license:Joi.array().items(validate_license), //required
+    picture:Joi.array().items(validate_image), //required
+    nont_sitter_id:JoiOid.objectId()
 });
 
 const controller = {
@@ -99,6 +99,7 @@ const controller = {
         // req.body validation using joi
         const validationResult = validator.validate(req.body);
         if (validationResult.error){
+            console.log(validationResult.error.details[0].message)
             return res.status(400).send(validationResult.error.details[0].message);
         }
         // no unique attribute -> do not check
@@ -111,9 +112,49 @@ const controller = {
             return res.send(_.pick(newShelter, ["_id","name","rate","phonenumber"]));
         }
         catch(error){
-            return res.status(500).send("Cannot create room");
+            return res.status(500).send("Cannot create shelter");
         }
-    }
+    },
+    
+    // PATCH /shelter
+    updateShelter: async (req, res) => {
+        try {
+          const data = req.body;
+          try {
+            const Shelter= await Shelters.findByIdAndUpdate(
+                data._id,
+                { $set: data },
+                { new: true }
+              );
+            return res.send(_.pick(Shelter, ["_id","name","rate","phonenumber"]));
+          } catch (error) {
+            console.log(error)
+            throw error;
+          }
+        } catch (error) {
+          return res.status(500).send("Cannot access shelter.");
+        }
+      },
+
+      // Update supported_type and
+      // to call from other function in backend only
+      updateSupportedType: async (shelterID) => {
+        try {
+            const nontTypes = await Rooms.find({"shelter_id":shelterID}).distinct("nont_type");
+            const newQuery = {
+                _id:shelterID,
+            }
+            const newBody = {
+                supported_type: nontTypes,
+            }
+            const updateRes = await Shelters.updateOne(newQuery, newBody);
+            return updateRes;
+        }
+        catch (error) {
+            throw error;
+        }
+      },
+
 }
 
 module.exports = controller;

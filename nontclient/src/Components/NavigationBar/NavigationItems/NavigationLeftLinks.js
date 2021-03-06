@@ -14,8 +14,8 @@ const NavigationLeftLinks = (props) => {
             </a>
           </li>
           <li className="nav-item">
-            <a className={"nav-link " + styles.leftLink} href="/reserve">
-              Reserve
+            <a className={"nav-link " + styles.leftLink} href="/findShelter">
+              Find Shelter
             </a>
           </li>
           <li className="nav-item">

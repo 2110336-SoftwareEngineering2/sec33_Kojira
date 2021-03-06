@@ -1,0 +1,8 @@
+.required {
+  color: #e2401c;
+  cursor: help;
+}
+
+.fade {
+  opacity: 0.5;
+}

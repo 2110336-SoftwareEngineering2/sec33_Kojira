@@ -10,11 +10,11 @@ const schema = new Schema(
         description :{type:String},
         address:{type:String, required: true},
         rate:{type:Number,required:true},
-        supported_type:{type:[String],required: true,},
+        supported_type:{type:[String]}, //delete required
         coordinate:{type:{lat:{type:Number,required: true},lng:{type:Number,required: true}},required: true},
         phoneNumber: { type: String },
-        license:{type:[{name:String , img:Buffer}],required:true},
-        picture:{type:[{name:String , img:Buffer}],required:true},
+        license:{type:[{name:String , img:Buffer, contentType: String}]}, //required
+        picture:{type:[{name:String , img:Buffer, contentType: String}]}, //required
         nont_sitter_id: {type: ObjectId, required:true, ref:"nontSitters"},
     },
     {

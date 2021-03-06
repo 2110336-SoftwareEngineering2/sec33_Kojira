@@ -27,6 +27,10 @@ router
 
 router
     .route("/update/:id")
-    .put(controller.updateRoom);
+    .patch(controller.updateRoom);
+
+router
+    .route("/delete/:id")
+    .delete(controller.deleteRoom);
 
 module.exports = router;
