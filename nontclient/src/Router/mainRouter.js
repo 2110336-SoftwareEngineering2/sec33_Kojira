@@ -23,7 +23,6 @@ function Router() {
 
   useEffect(() => {
     if (value.loaded) {
-      console.log("set");
       setIsAuthenticated(value.login);
       setUserType(value.userType);
     }
