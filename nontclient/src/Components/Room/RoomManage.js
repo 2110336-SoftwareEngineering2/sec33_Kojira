@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import {notification,} from "antd";
 import { useParams } from "react-router-dom";
 import RoomService from "../../Services/RoomService";
 import ShelterService from "../../Services/ShelterService";
@@ -47,6 +48,35 @@ const RoomManage = (props) => {
         fetchShelterName();
     }, [shelterID]);
 
+    const openNotification = (mode, name) => {
+        if (mode === "success") {
+            notification.success({
+                message: "Room deleted.",
+                description: `Room ${name} delete successfully.`,
+                placement: "bottomRight",
+            })
+        }
+        else if (mode === "error") {
+            notification.error({ 
+                message: "Room deleted.",
+                description: `Cannot delete room ${name}.`,
+                placement: "bottomRight",
+            });
+        }        
+    };
+
+    const deleteRoom = async (id, name) => {
+        try {
+            const response = await RoomService.deleteRoom(id);
+            if (response.status === 200) {
+                openNotification("success", name);
+            }
+        } catch (error){
+            openNotification("error", name)
+            console.error(error.message);
+        }
+    };
+
     return (
         <div className="container">
             {/* Header */}
@@ -79,6 +109,7 @@ const RoomManage = (props) => {
                         <RoomRow
                             element={element}
                             key={element._id}
+                            onDelete={deleteRoom}
                         />
                     ))
                 }

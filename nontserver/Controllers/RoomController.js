@@ -119,7 +119,8 @@ const controller = {
     // DELETE room /room/delete/:id
     deleteRoom: async (req, res) => {
         try{
-            const deleteResult = await Rooms.deleteOne(req.params.id);
+            const newQuery = {_id: req.params.id};
+            const deleteResult = await Rooms.deleteOne(newQuery);
             return res.send(deleteResult);
         }
         catch (error) {
