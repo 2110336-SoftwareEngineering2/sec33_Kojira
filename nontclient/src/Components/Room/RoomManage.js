@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import {notification,} from "antd";
 import { useParams } from "react-router-dom";
 import RoomService from "../../Services/RoomService";
 import ShelterService from "../../Services/ShelterService";
@@ -14,19 +15,6 @@ const RoomManage = (props) => {
     const { shelterID } = useParams();
 
     useEffect(() => {
-        async function fetchRooms() {
-            try {
-                if (shelterID) {
-                    const response = await RoomService.getRoomByShelterID(shelterID);
-                    if (response.data) {
-                        setRooms(response.data);
-                    }
-                }
-            }
-            catch (error) {
-                console.error(error.message);
-            }
-        }
         fetchRooms();
     }, [shelterID]);
 
@@ -46,6 +34,50 @@ const RoomManage = (props) => {
         }
         fetchShelterName();
     }, [shelterID]);
+
+    const fetchRooms = async () => {
+        try {
+            if (shelterID) {
+                const response = await RoomService.getRoomByShelterID(shelterID);
+                if (response.data) {
+                    setRooms(response.data);
+                }
+            }
+        }
+        catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    const openNotification = (mode, name) => {
+        if (mode === "success") {
+            notification.success({
+                message: "Room deleted.",
+                description: `Room ${name} delete successfully.`,
+                placement: "bottomRight",
+            })
+        }
+        else if (mode === "error") {
+            notification.error({ 
+                message: "Room deleted.",
+                description: `Cannot delete room ${name}.`,
+                placement: "bottomRight",
+            });
+        }        
+    };
+
+    const deleteRoom = async (id, name) => {
+        try {
+            const response = await RoomService.deleteRoom(id);
+            if (response.status === 200) {
+                fetchRooms();
+                openNotification("success", name);
+            }
+        } catch (error){
+            openNotification("error", name)
+            console.error(error.message);
+        }
+    };
 
     return (
         <div className="container">
@@ -79,6 +111,7 @@ const RoomManage = (props) => {
                         <RoomRow
                             element={element}
                             key={element._id}
+                            onDelete={deleteRoom}
                         />
                     ))
                 }
