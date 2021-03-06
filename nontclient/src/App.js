@@ -6,7 +6,7 @@ import LoginService from "./Services/LoginService";
 
 const UserContext = Contexts.UserContext;
 
-const App = () => {
+const App = (props) => {
   const [userInfo, setUserInfo] = useState({
     userType: null,
     email: null,
