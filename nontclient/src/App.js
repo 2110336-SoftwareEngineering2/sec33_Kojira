@@ -18,13 +18,6 @@ const App = (props) => {
     err: false,
   });
 
-  const setUserType = (newUserType) =>
-    setUserInfo({ ...userInfo, userType: newUserType });
-
-  const setEmail = (newEmail) => setUserInfo({ ...userInfo, email: newEmail });
-
-  const setLogin = (newLogin) => setUserInfo({ ...userInfo, login: newLogin });
-
   const UpdateUserInfo = () => {
     LoginService.getUserInfo().then((UserInfo) => {
       if (
@@ -46,9 +39,6 @@ const App = (props) => {
     name: userInfo.name,
     createdAt: userInfo.createdAt,
     updatedAt: userInfo.updatedAt,
-    setUserType: setUserType,
-    setEmail: setEmail,
-    setLogin: setLogin,
     UpdateUserInfo: UpdateUserInfo,
   };
 
@@ -56,7 +46,7 @@ const App = (props) => {
     <React.Fragment>
       <UserContext.Provider value={userContextValues}>
         <NavigationBar />
-        <Router setUserType={setUserType} />
+        <Router />
       </UserContext.Provider>
     </React.Fragment>
   );
