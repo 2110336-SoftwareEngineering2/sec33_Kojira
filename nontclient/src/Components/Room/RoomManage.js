@@ -15,19 +15,6 @@ const RoomManage = (props) => {
     const { shelterID } = useParams();
 
     useEffect(() => {
-        async function fetchRooms() {
-            try {
-                if (shelterID) {
-                    const response = await RoomService.getRoomByShelterID(shelterID);
-                    if (response.data) {
-                        setRooms(response.data);
-                    }
-                }
-            }
-            catch (error) {
-                console.error(error.message);
-            }
-        }
         fetchRooms();
     }, [shelterID]);
 
@@ -47,6 +34,20 @@ const RoomManage = (props) => {
         }
         fetchShelterName();
     }, [shelterID]);
+
+    const fetchRooms = async () => {
+        try {
+            if (shelterID) {
+                const response = await RoomService.getRoomByShelterID(shelterID);
+                if (response.data) {
+                    setRooms(response.data);
+                }
+            }
+        }
+        catch (error) {
+            console.error(error.message);
+        }
+    }
 
     const openNotification = (mode, name) => {
         if (mode === "success") {
@@ -69,6 +70,7 @@ const RoomManage = (props) => {
         try {
             const response = await RoomService.deleteRoom(id);
             if (response.status === 200) {
+                fetchRooms();
                 openNotification("success", name);
             }
         } catch (error){
