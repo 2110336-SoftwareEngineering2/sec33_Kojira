@@ -26,7 +26,6 @@ const LoginService = {
             console.log("error");
           }
           if (respond.data.login) {
-            console.log(respond.data);
             localStorage.setItem("access_token", respond.data.token);
             component.props.history.push("/home");
           } else {
@@ -66,6 +65,7 @@ const LoginService = {
           createdAt: respond.data.createdAt,
           updatedAt: respond.data.updatedAt,
           err: false,
+          loaded: true,
         };
       } else {
         return { login: false, email: null, userType: null, err: false };

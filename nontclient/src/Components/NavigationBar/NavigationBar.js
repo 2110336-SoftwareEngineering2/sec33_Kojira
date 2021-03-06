@@ -4,7 +4,7 @@ import styles from "./NavigationBar.module.css";
 
 const NavigationBar = () => {
   return (
-    <nav className="navbar navbar-expand-sm navbar-light" id={styles.topNavBar}>
+    <nav className="navbar navbar-expand-sm navbar-dark" id={styles.topNavBar}>
       <a className="navbar-brand" href="/home">
         <img src="/nont-logo.svg" id={styles.logo} alt="Nont logo"></img>
       </a>
