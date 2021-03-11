@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import Dashboard from "../Components/Dashboard/Dashboard";
+import Homepage from "../Components/Homepage/Homepage";
 import Login from "../Components/LoginLogout/Login";
 import Registration from "../Components/Registration/Registration";
-
 import UserSetting from "../Components/UserSetting/UserSetting";
+import Dashboard from "../Components/Dashboard/Dashboard";
 
 import GuardedRoute from "./GuardedRoute";
 import NontOwnerRouter from "./NontOwnerRouter";
@@ -45,10 +45,15 @@ function Router() {
           component={UserSetting}
           auth={auth}
         />
+        <GuardedRoute.LoginGuardedRoute
+          path="/dashboard"
+          component={Dashboard}
+          auth={auth}
+        />
 
         <Route path="/login" component={Login} />
         <Route path="/register" component={Registration} />
-        <Route path="/home" component={Dashboard} />
+        <Route path="/home" component={Homepage} />
         <NontSitterRouter
           path={[
             "/shelter",
@@ -67,7 +72,6 @@ function Router() {
           component={NontOwnerRouter}
           auth={auth}
         />
-
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>
