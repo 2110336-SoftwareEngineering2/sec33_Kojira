@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { withRouter } from "react-router";
 import Contexts from "../../Utils/Context/Contexts";
+import QRCode from "../Payment/QRcode";
 
 const UserContext = Contexts.UserContext;
 
@@ -22,6 +23,7 @@ const Homepage = () => {
           You are not logged in
         </h2>
       )}
+      <QRCode />
     </React.Fragment>
   );
 };

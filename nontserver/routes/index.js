@@ -5,9 +5,10 @@ const router = express.Router();
 
 const nontOwners = require("./nontOwners");
 const nontSitters = require("./nontSitters");
-const room = require('./room');
-const shelter =require('./shelters');
-const nont = require('./nont');
+const room = require("./room");
+const shelter = require("./shelters");
+const nont = require("./nont");
+const payment = require("./payment");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -16,8 +17,9 @@ router.get("/", function (req, res, next) {
 
 router.use("/nontOwners", nontOwners);
 router.use("/nontSitters", nontSitters);
-router.use('/room', room);
-router.use("/shelter",shelter);
+router.use("/room", room);
+router.use("/shelter", shelter);
 router.use("/nont", nont);
+router.use("/payment", payment);
 
 module.exports = router;
