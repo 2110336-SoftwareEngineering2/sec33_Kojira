@@ -1,4 +1,5 @@
 import React from "react";
+import LoadingReservation from "./LoadingReservation";
 
 const NontOwnerDashboard = () => {
   return (
@@ -10,11 +11,7 @@ const NontOwnerDashboard = () => {
       </div>
       <div className="row">
         <div className="col">
-          <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action">
-              Link list
-            </a>
-          </div>
+          <LoadingReservation />
         </div>
       </div>
     </div>

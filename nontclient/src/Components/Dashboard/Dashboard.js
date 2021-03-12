@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import Contexts from "../../Utils/Context/Contexts";
 import UserType from "../../Constants/UserType";
-import NontOwnerDashboard from "./NontOwnerDashboard";
-import NontSitterDashboard from "./NontSitterDashboard";
+import NontOwnerDashboard from "./NontOwnerDashboard/NontOwnerDashboard";
+import NontSitterDashboard from "./NontSitterDashboard/NontSitterDashboard";
 
 const Dashboard = () => {
   const user = useContext(Contexts.UserContext);
