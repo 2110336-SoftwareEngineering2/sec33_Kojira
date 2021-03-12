@@ -7,15 +7,15 @@ const NavigationLeftLinks = (props) => {
     <React.Fragment>
       {props.userType === UserType.NONT_OWNER && (
         <React.Fragment>
-          <li className="nav-item active">
+          <li className="nav-item">
             <a className={"nav-link " + styles.leftLink} href="/dashboard">
               {" "}
-              Dashboard<span className="sr-only">(current)</span>
+              Dashboard
             </a>
           </li>
           <li className="nav-item">
-            <a className={"nav-link " + styles.leftLink} href="/reserve">
-              Reserve
+            <a className={"nav-link " + styles.leftLink} href="/findShelter">
+              Find Shelter
             </a>
           </li>
           <li className="nav-item">
@@ -26,11 +26,19 @@ const NavigationLeftLinks = (props) => {
         </React.Fragment>
       )}
       {props.userType === UserType.NONT_SITTER && (
-        <li className="nav-item">
-          <a className="nav-link" href="/shelter">
-            shelter
-          </a>
-        </li>
+        <React.Fragment>
+          <li className="nav-item">
+            <a className={"nav-link " + styles.leftLink} href="/dashboard">
+              {" "}
+              Dashboard
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className={"nav-link " + styles.leftLink} href="/shelter">
+              Shelter
+            </a>
+          </li>
+        </React.Fragment>
       )}
     </React.Fragment>
   );
