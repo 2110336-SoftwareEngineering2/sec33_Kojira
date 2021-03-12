@@ -225,7 +225,7 @@ const ShelterUpdate = (props) => {
                     {coordinateValid === VALID && <p>{shelter.coordinate.lat}, {shelter.coordinate.lng}</p>}
                 </div>
             </div>
-            <div className="m" style={{ textAlign: "center", paddingBottom: 10 }}>
+            <div className="p-3" style={{ textAlign: "center" }}>
                 <button
                 type="button"
                 className="btn btn-primary"

@@ -9,26 +9,32 @@ const ShelterManage = (props) => {
     const contextValue = useContext(UserContext);
     const [shelters, setShelters] = useState([]);
     
-    useEffect( () => {
-        async function fetchShelters() {
-            try {
-                if (contextValue._id){
-                    const response = await ShelterService.getShelterByNontSitterID(contextValue._id); 
-                    if (response.data) {
-                        setShelters(response.data);
-                    }
-                } 
-            }
-            catch (error) {
-                console.error(error.message);
-            }
-        }     
+    useEffect( () => {  
         fetchShelters();   
     }, [contextValue]);
+
+    const nontSitterID = contextValue._id;
+
+    const fetchShelters = async () => {
+        try {
+            if (nontSitterID) {
+                const response = await ShelterService.getShelterByNontSitterID(nontSitterID);
+                if (response.data) {
+                    setShelters(response.data);
+                }
+            }
+        }
+        catch (error) {
+            console.error(error.message);
+        }
+    }
 
     const deleteShelter = async (id) => {
         try {
             const response = await ShelterService.deleteShelter(id);
+            if(response.status===200){
+                fetchShelters();
+            }
         } catch (error){
             console.error(error.message);
         }
