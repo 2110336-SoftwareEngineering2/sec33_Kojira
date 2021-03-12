@@ -81,40 +81,58 @@ const RoomManage = (props) => {
 
     return (
         <div className="container">
-            {/* Header */}
-            <h1 className="my-5 text-center">Room Management</h1>
 
-            {/* User and Shelter */}
-            <h2 className="my-5 text-center">Name: {contextValue.name}, Shelter: {shelterName}</h2>
-
-            {/* Room Regsiter Button */}
-            <div className="row">
-                <button
-                    className="btn btn-lg mt-2 mb-2"
-                    id="room-register-button"
-                >
+            {/* Back Button, Add Button and Shelter Name */}
+            <div
+            className="row mt-2 justify-content-between"
+            >
+                <div className="col col-md-1 my-2"
+                    style={{ padding:0 }}>
                     <a
-                        href={"/room/register/" + shelterID}
-                        className="fa fa-plus"
-                        title="Add New Room"
-                        style={{ textDecoration: "none"}}
-                    >
-                        {" "}Add
+                    type="button"
+                    className="btn btn-outline-light btn-block text-dark bg-light border-dark text-center"
+                    href={"/shelter"}>
+                        Back
                     </a>
-                </button>
+                </div>
+                <div className="col col-md-1 my-2 text-right"                
+                style={{ padding:0 }}>                    
+                    <a
+                    type="button"
+                    className="btn btn-outline-light btn-block text-light bg-success border-success text-center"
+                    href={"/room/register/" + shelterID}>
+                        Add
+                    </a>
+                </div>
+                <div className="col-md-12 font-weight-bold h1"
+                style={{backgroundColor:"#c8d6e5", color:"#222f3e"}}>
+                    {shelterName}
+                </div>
             </div>
 
             {/* Room Row Button */}
             <div>
-                {
-                    rooms.map((element) => (
-                        <RoomRow
-                            element={element}
-                            key={element._id}
-                            onDelete={deleteRoom}
-                        />
-                    ))
-                }
+                <table className="table table-responsive-md">
+                    <thead>
+                        <tr>
+                            <th scope="col" style={{textAlign:"center", fontSize:20}}>Name</th>
+                            <th scope="col" style={{textAlign:"center", fontSize:20}}>Nont Type</th>
+                            <th scope="col" style={{textAlign:"center", fontSize:20}}>Amount</th>
+                            <th scope="col" style={{textAlign:"center", fontSize:20}}>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                        rooms.map((element) => (
+                            <RoomRow
+                                element={element}
+                                key={element._id}
+                                onDelete={deleteRoom}
+                            />
+                        ))
+                        }      
+                    </tbody>                
+                </table>
             </div>
         </div>
     )
