@@ -26,6 +26,14 @@ const ShelterManage = (props) => {
         fetchShelters();   
     }, [contextValue]);
 
+    const deleteShelter = async (id) => {
+        try {
+            const response = await ShelterService.deleteShelter(id);
+        } catch (error){
+            console.error(error.message);
+        }
+    };
+
     return (
         <div className="container">
             {/* Header */}
@@ -62,6 +70,7 @@ const ShelterManage = (props) => {
                         <ShelterRow
                         element={element}
                         key={element._id}
+                        onDelete={deleteShelter}
                         />
                     ) )
                 }

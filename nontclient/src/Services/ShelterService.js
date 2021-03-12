@@ -60,6 +60,15 @@ const ShelterService = {
         } catch(error) {
             throw error
         }
+    },
+    deleteShelter: async (id) => {
+        try{
+            let path = "/shelter/delete/" + id;
+            const response = await axios.delete(serverURL + path);
+            return response;
+        } catch(error){
+            throw error
+        }
     }
 };
 

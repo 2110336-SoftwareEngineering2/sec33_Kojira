@@ -6,12 +6,12 @@ import {
     DEFAULT,
     EMPTY,
 } from "../../Constants/FormValidity";
-import NameForm from "./NameForm";
-import DescriptionForm from "./DescriptionForm";
-import PhoneNumberForm from "./PhoneNumberForm";
-import LicenseForm from "./LicenseForm";
-import AddressForm from "./AddressForm";
-import PictureForm from "./PictureForm";
+import NameForm from "./ShelterForm/NameForm";
+import DescriptionForm from "./ShelterForm/DescriptionForm";
+import PhoneNumberForm from "./ShelterForm/PhoneNumberForm";
+import LicenseForm from "./ShelterForm/LicenseForm";
+import AddressForm from "./ShelterForm/AddressForm";
+import PictureForm from "./ShelterForm/PictureForm";
 import Contexts from "../../Utils/Context/Contexts";
 
 const UserContext = Contexts.UserContext;
@@ -209,7 +209,7 @@ const ShelterRegistration  = (props) => {
                     {coordinateValid === VALID && <p>{shelter.coordinate.lat}, {shelter.coordinate.lng}</p>}
                 </div>
             </div>
-            <div className="m-5" style={{ textAlign: "center" }}>
+            <div className="m" style={{ textAlign: "center", paddingBottom: 10 }}>
                 <button
                 type="button"
                 className="btn btn-primary"
@@ -221,14 +221,14 @@ const ShelterRegistration  = (props) => {
         </div>
         }
         {registerStatus === VALID &&
-                <div className="m-5" style={{ textAlign: "center" }}>
-                    <label>
-                        Your shelter is successfully registered.
-                    </label>
-                </div>
-            }
+            <div className="m-3" style={{ textAlign: "center" }}>
+                <label>
+                    Your shelter is successfully registered.
+                </label>
+            </div>
+        }
         {registerStatus === INVALID &&
-            <div className="m-5" style={{ textAlign: "center" }}>
+            <div className="m-3" style={{ textAlign: "center" }}>
                 <label>
                     Cannot register. Please check your input.
                 </label>

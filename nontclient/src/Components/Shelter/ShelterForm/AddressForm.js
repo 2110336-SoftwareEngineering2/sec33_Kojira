@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Shelter.module.css";
+import styles from "../Shelter.module.css";
 import {
   VALID,
   INVALID,
@@ -7,14 +7,14 @@ import {
   EMPTY,
   EXIST,
   CHANGING,
-} from "../../Constants/FormValidity";
+} from "../../../Constants/FormValidity";
 
-const ShelternameForm = (props) => {
+const AddressForm = (props) => {
   return (
     <div className="row">
       <div className="col m-4">
-        <label htmlFor="name-input" className="form-label">
-          Name{" "}
+        <label htmlFor="address-input" className="form-label">
+          Address{" "}
           <abbr className={styles.required} title="required">
             *
           </abbr>
@@ -22,25 +22,24 @@ const ShelternameForm = (props) => {
         <input
           type="text"
           className={"form-control ".concat(
-            props.validName === DEFAULT
+            props.validAddress === DEFAULT
               ? ""
-              : props.validName === VALID
-              ? "form-control is-valid"
-              : "form-control is-invalid"
+              : props.validAddress === VALID
+              ? "is-valid"
+              : "is-invalid"
           )}
-          id="name-input"
-          name="name"
+          id="address-input"
+          name="address"
           onChange={props.onFormChange}
           defaultValue = {props.defaultValue}
-          aria-describedby="name-desc"
           required
         />
         <div id="name-desc" className={"form-text "+styles.fade}>
-          Your name must not longer than 50 characters.
+          Your address must not longer than 500 characters.
         </div>
       </div>
     </div>
   );
 };
 
-export default ShelternameForm;
+export default AddressForm;
