@@ -48,9 +48,11 @@ const ShelterView = (props) => {
                 console.log(shelter?.picture?.[0]?.img);
                 console.log(shelter?.picture?.[0]?.img?.data);
                 console.log(typeof (shelter?.picture?.[0]?.img.data));
+                /*
                 console.log(arrayBufferToBase64(shelter?.picture?.[0]?.img));
-                console.log(Buffer.from(shelter?.picture?.[0]?.img?.data).toString('base64'))
+                console.log(Buffer.from(shelter?.picture?.[0]?.img?.data).toString())
                 console.log("---EndOFuseEffect3----");
+                */
                 
             }
             catch (error) {
@@ -86,10 +88,10 @@ const ShelterView = (props) => {
                 <div className="card-body">
                     <div className="row">
                         <div className="col-md-6">
-                        <img className="align-self-start mr-3 w-50" src={`data:${shelter?.picture?.[0]?.contentType};base64,${arrayBufferToBase64(shelter?.picture?.[0]?.img)}`} alt="shelter image"/>
+                        <img className="w-100 p-3" src={`${'picture' in shelter && 'data' in shelter?.picture?.[0]?.img &&Buffer.from((shelter?.picture?.[0]?.img?.data)).toString()}`} alt="shelter image"/>
                         </div>
                         <div className="col-md-6">
-                            <div className="media-body w-50">
+                            <div className="media-body ">
                                 <div className="mw-100">
                                     <h5 className="mb-1 mr-1">description </h5>
                                     <p className="mw-100">{shelter.description}</p>
@@ -117,13 +119,7 @@ const ShelterView = (props) => {
                                     <h5 className="mb-1 mr-1">coordinate </h5>
                                     
                                     <p>{"latitude :"+shelter?.coordinate?.lat}</p>
-                                    <p>{"longtitude:"+shelter?.coordinate?.lng}</p>
-                                    {/* <p>{`data:${shelter?.picture[0]?.contentType};base64,${shelter?.picture[0]?.name}`}</p> */}
-                                    <p>{`data:${shelter?.picture?.[0]?.contentType};base64,`}</p>
-                                    <p>{//Buffer.from(shelter?.picture?.[0]?.img?.data).toString('base64')
-                                    }</p>
-                                    
-                                    
+                                    <p>{"longtitude:"+shelter?.coordinate?.lng}</p>                                    
                                 <hr/>
                                 </div> 
                                 <div>

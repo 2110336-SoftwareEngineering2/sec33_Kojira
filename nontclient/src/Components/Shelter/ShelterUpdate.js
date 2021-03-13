@@ -138,6 +138,7 @@ const ShelterUpdate = (props) => {
                 let file2 = element.currentTarget.files[0]
                 reader.onload = async (e) => {
                     let buffer2 = reader.result
+                    console.log(buffer2)
                     setPicture(oldArray => [...oldArray, {name:file2.name,img:buffer2,contentType:file2.type}])
                     setPictureValid(VALID) 
                 }
