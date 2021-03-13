@@ -1,7 +1,7 @@
 import React from "react";
+import { Popconfirm } from "antd";
 
 const ShelterRow = (props) => {
-
     return (
         <div className="row mt-2 mb-2 justify-content-center">
             {/* shelter view button */}
@@ -38,14 +38,21 @@ const ShelterRow = (props) => {
                 </a>
             </div>
             {/* shelter delete button */}
-            <div className="col-md-1 p-0">
+            <div className="col col-md-1 p-0">
+                <Popconfirm
+                title="Are you sure to delete this shelter ?"
+                onConfirm={()=>props.onDelete(props.element._id,props.element.name)}
+                okText="Yes"
+                cancelText="No"
+                >
                 <a
                 type="button"
-                className="btn btn-outline-info btn-block text-light bg-danger border-danger" 
+                className="btn btn-outline-info btn-block text-light bg-danger border-danger"
                 >
                     <i className="fa fa-trash" />
                     {" "}Delete
                 </a>
+                </Popconfirm>
             </div>
         </div>
     );

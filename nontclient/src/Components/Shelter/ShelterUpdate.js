@@ -8,13 +8,14 @@ import {
     VALID,
     INVALID,
     DEFAULT,
+    EXIST
 } from "../../Constants/FormValidity";
-import NameForm from "./NameForm";
-import DescriptionForm from "./DescriptionForm";
-import PhoneNumberForm from "./PhoneNumberForm";
-import LicenseForm from "./LicenseForm";
-import AddressForm from "./AddressForm";
-import PictureForm from "./PictureForm";
+import NameForm from "./ShelterForm/NameForm";
+import DescriptionForm from "./ShelterForm/DescriptionForm";
+import PhoneNumberForm from "./ShelterForm/PhoneNumberForm";
+import LicenseForm from "./ShelterForm/LicenseForm";
+import AddressForm from "./ShelterForm/AddressForm";
+import PictureForm from "./ShelterForm/PictureForm";
 
 
 const UserContext = Contexts.UserContext;
@@ -45,6 +46,7 @@ const ShelterUpdate = (props) => {
     }, [shelterID]);
     
     const value = useContext(UserContext);
+    const previousName = shelter.name;
     
     const [license, setLicense] = useState([])
     const [picture, setPicture] = useState([])
@@ -62,6 +64,15 @@ const ShelterUpdate = (props) => {
         validateName: (value) => {
             if (value.length >= 1 && value.length <= 50) return true;
             else return false;
+        },
+        existingName: async () => {
+            let value = document.getElementById("name-input").value
+            if(value.length==0) return
+            let response = await ShelterService.checkValidName(value)
+            if(response.data.exist && value!=previousName) {
+                setNameValid(EXIST)
+            }
+            return
         },
         validateDescriptionAddress: (value) => {
             if (value.length >= 1 && value.length <= 500) return true;
@@ -104,7 +115,9 @@ const ShelterUpdate = (props) => {
             case "description-input":
                 if(validator.validateDescriptionAddress(element.currentTarget.value)){
                     setDescriptionValid(VALID)
-                } else {
+                } else if(document.getElementById("description-input").value.length==0){
+                    setDescriptionValid(DEFAULT)
+                }else {
                     setDescriptionValid(INVALID)
                 }
                 return
@@ -188,6 +201,7 @@ const ShelterUpdate = (props) => {
                 onFormChange={handleFormChange}
                 defaultValue = {shelter.name}
                 validName={nameValid}
+                validateName={validator.existingName}
             />
             <DescriptionForm
                 onFormChange={handleFormChange}
@@ -225,7 +239,7 @@ const ShelterUpdate = (props) => {
                     {coordinateValid === VALID && <p>{shelter.coordinate.lat}, {shelter.coordinate.lng}</p>}
                 </div>
             </div>
-            <div className="m-5" style={{ textAlign: "center" }}>
+            <div className="p-3" style={{ textAlign: "center" }}>
                 <button
                 type="button"
                 className="btn btn-primary"
@@ -237,14 +251,14 @@ const ShelterUpdate = (props) => {
         </div>
         }
         {registerStatus === VALID &&
-                <div className="m-5" style={{ textAlign: "center" }}>
+                <div className="m-3" style={{ textAlign: "center" }}>
                     <label>
                         Your shelter is successfully updated.
                     </label>
                 </div>
             }
         {registerStatus === INVALID &&
-            <div className="m-5" style={{ textAlign: "center" }}>
+            <div className="m-3" style={{ textAlign: "center" }}>
                 <label>
                     Cannot update. Please check your input
                 </label>

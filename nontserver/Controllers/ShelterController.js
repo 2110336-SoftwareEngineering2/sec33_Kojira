@@ -134,11 +134,11 @@ const controller = {
         } catch (error) {
           return res.status(500).send("Cannot access shelter.");
         }
-      },
+    },
 
-      // Update supported_type and
-      // to call from other function in backend only
-      updateSupportedType: async (shelterID) => {
+    // Update supported_type and
+    // to call from other function in backend only
+    updateSupportedType: async (shelterID) => {
         try {
             const nontTypes = await Rooms.find({"shelter_id":shelterID}).distinct("nont_type");
             const newQuery = {
@@ -153,7 +153,30 @@ const controller = {
         catch (error) {
             throw error;
         }
-      },
+    },
+
+    // DELETE shelter
+    deleteShelter: async (req, res) => {
+        try{
+            const deletedShelter = await Shelters.findOneAndDelete({_id: req.params.id})
+            return res.send("Succesfully delete shelter")
+        }catch(error){
+            return res.status(500).send("Cannot delete shelter");
+        }
+    },
+
+    // Check exist name
+    checkValidName: async (req, res) => {
+        try {
+            const nameFindResult = await Shelters.findOne({ name: req.body.name });
+            if (nameFindResult) return res.send({ exist: true });
+            else return res.send({ exist: false });
+        } catch (error) {
+            return res
+            .status(500)
+            .send("Cannot access database.");
+        }
+    }
 
 }
 
