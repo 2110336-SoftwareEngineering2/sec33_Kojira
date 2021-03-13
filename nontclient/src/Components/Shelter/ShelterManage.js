@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import ShelterService from "../../Services/ShelterService";
 import Contexts from "../../Utils/Context/Contexts";
 import ShelterRow from "./ShelterRow";
+import {notification,} from "antd";
 
 const UserContext = Contexts.UserContext;
 
@@ -29,13 +30,32 @@ const ShelterManage = (props) => {
         }
     }
 
-    const deleteShelter = async (id) => {
+    const openNotification = (mode, name) => {
+        if (mode === "success") {
+            notification.success({
+                message: "Shelter deleted.",
+                description: `Shelter ${name} delete successfully.`,
+                placement: "bottomRight",
+            })
+        }
+        else if (mode === "error") {
+            notification.error({ 
+                message: "Shelter deleted.",
+                description: `Cannot delete shelter ${name}.`,
+                placement: "bottomRight",
+            });
+        }        
+    };
+
+    const deleteShelter = async (id, name) => {
         try {
             const response = await ShelterService.deleteShelter(id);
             if(response.status===200){
                 fetchShelters();
+                openNotification("success", name)
             }
         } catch (error){
+            openNotification("error", name)
             console.error(error.message);
         }
     };
@@ -70,7 +90,7 @@ const ShelterManage = (props) => {
             </div>
 
             {/* Shelter Row Button */}
-            <div>
+            <div className="pb-1">
                 {
                     shelters.map( (element) => (
                         <ShelterRow

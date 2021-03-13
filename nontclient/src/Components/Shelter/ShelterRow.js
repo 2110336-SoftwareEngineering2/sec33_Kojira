@@ -41,7 +41,7 @@ const ShelterRow = (props) => {
             <div className="col col-md-1 p-0">
                 <Popconfirm
                 title="Are you sure to delete this shelter ?"
-                onConfirm={()=>props.onDelete(props.element._id)}
+                onConfirm={()=>props.onDelete(props.element._id,props.element.name)}
                 okText="Yes"
                 cancelText="No"
                 >

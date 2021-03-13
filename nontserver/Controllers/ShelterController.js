@@ -134,11 +134,11 @@ const controller = {
         } catch (error) {
           return res.status(500).send("Cannot access shelter.");
         }
-      },
+    },
 
-      // Update supported_type and
-      // to call from other function in backend only
-      updateSupportedType: async (shelterID) => {
+    // Update supported_type and
+    // to call from other function in backend only
+    updateSupportedType: async (shelterID) => {
         try {
             const nontTypes = await Rooms.find({"shelter_id":shelterID}).distinct("nont_type");
             const newQuery = {
@@ -153,19 +153,35 @@ const controller = {
         catch (error) {
             throw error;
         }
-      },
+    },
 
-      //DELETE
-      //Should system delete shelter if it already has rooms/reservations?
-      deleteShelter: async (req, res) => {
-          try{
+    //DELETE
+    //Should system delete shelter if it already has rooms/reservations?
+    deleteShelter: async (req, res) => {
+        try{
             const deletedShelter = await Shelters.findOneAndDelete({_id: req.params.id})
             return res.send("Succesfully delete shelter")
-          }
-          catch(error){
+        }catch(error){
             return res.status(500).send("Cannot delete shelter");
-          }
-      }
+        }
+    },
+
+    //Check exist name
+    checkValidName: async (req, res) => {
+        // const nameSchema = _.pick(schema, ["name"]);
+        // const nameValidator = Joi.object(nameSchema);
+        // const result = nameValidator.validate(req.body);
+        // if (result.error) return res.send({ status: false, exist: false });
+        // try {
+        //     const nameFindResult = await NontSitter.findOne({ name: req.body.name });
+        //     if (nameFindResult) return res.send({ status: false, exist: true });
+        //     else return res.send({ status: true });
+        // } catch (error) {
+        //     return res
+        //     .status(500)
+        //     .send("Cannot access nont-sitter-account database.");
+        // }
+    }
 
 }
 
