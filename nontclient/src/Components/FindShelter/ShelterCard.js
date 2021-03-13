@@ -12,7 +12,9 @@ const ShelterCard = (props) => {
             styles.shelterCard
           }
         >
-          <div className={"d-flex " + styles.image}></div>
+          <div className={"d-flex " + styles.image}>
+            <img src="/no-image.svg" className={styles.noImage} alt=""></img>
+          </div>
           <div className={"d-flex " + styles.shelterName}>{shelter.name}</div>
           <div className="d-flex">
             <div className="mx-3 text-center">
