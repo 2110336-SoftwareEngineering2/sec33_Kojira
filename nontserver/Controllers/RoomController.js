@@ -118,10 +118,15 @@ const controller = {
 
     // DELETE room /room/delete/:id
     deleteRoom: async (req, res) => {
+        // find shelter_id for update supported type
+        // delete room
+        // update supported type
         try{
+            const searchRes = await Rooms.findById(req.params.id);
             const newQuery = {_id: req.params.id};
             const deleteResult = await Rooms.deleteOne(newQuery);
-            return res.send(deleteResult);
+            const updateSupportTypeRes = ShelterController.updateSupportedType(searchRes.shelter_id);
+            return res.send(deleteResult);  
         }
         catch (error) {
             return res.status(500).send("Cannot delete room");
