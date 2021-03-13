@@ -65,7 +65,7 @@ const ShelterUpdate = (props) => {
             if (value.length >= 1 && value.length <= 50) return true;
             else return false;
         },
-        existName: async () => {
+        existingName: async () => {
             let value = document.getElementById("name-input").value
             if(value.length==0) return
             let response = await ShelterService.checkValidName(value)
@@ -201,7 +201,7 @@ const ShelterUpdate = (props) => {
                 onFormChange={handleFormChange}
                 defaultValue = {shelter.name}
                 validName={nameValid}
-                validateName={validator.existName}
+                validateName={validator.existingName}
             />
             <DescriptionForm
                 onFormChange={handleFormChange}
