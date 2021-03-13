@@ -8,6 +8,7 @@ import {
     VALID,
     INVALID,
     DEFAULT,
+    EXIST
 } from "../../Constants/FormValidity";
 import NameForm from "./ShelterForm/NameForm";
 import DescriptionForm from "./ShelterForm/DescriptionForm";
@@ -45,6 +46,7 @@ const ShelterUpdate = (props) => {
     }, [shelterID]);
     
     const value = useContext(UserContext);
+    const previousName = shelter.name;
     
     const [license, setLicense] = useState([])
     const [picture, setPicture] = useState([])
@@ -62,6 +64,15 @@ const ShelterUpdate = (props) => {
         validateName: (value) => {
             if (value.length >= 1 && value.length <= 50) return true;
             else return false;
+        },
+        existName: async () => {
+            let value = document.getElementById("name-input").value
+            if(value.length==0) return
+            let response = await ShelterService.checkValidName(value)
+            if(response.data.exist && value!=previousName) {
+                setNameValid(EXIST)
+            }
+            return
         },
         validateDescriptionAddress: (value) => {
             if (value.length >= 1 && value.length <= 500) return true;
@@ -190,6 +201,7 @@ const ShelterUpdate = (props) => {
                 onFormChange={handleFormChange}
                 defaultValue = {shelter.name}
                 validName={nameValid}
+                validateName={validator.existName}
             />
             <DescriptionForm
                 onFormChange={handleFormChange}
