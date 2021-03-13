@@ -2,3 +2,32 @@
   margin-top: 30vh;
   opacity: 0.5;
 }
+
+.listRow {
+  border-top-width: 1px !important;
+  border-radius: 20px !important;
+  min-height: 150px;
+  font-size: 20px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 8px, rgba(17, 17, 26, 0.024) 0px 4px 16px;
+}
+
+.image {
+  height: 120px;
+  width: 180px;
+  background-color: #ecf0f1;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.noImage {
+  max-height: 100px;
+  max-width: 100px;
+}
+
+@media only screen and (max-width: 992px) {
+  .image {
+    margin-bottom: 1rem;
+  }
+}

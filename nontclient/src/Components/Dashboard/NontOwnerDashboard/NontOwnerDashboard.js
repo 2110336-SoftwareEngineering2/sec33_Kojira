@@ -6,7 +6,7 @@ const NontOwnerDashboard = () => {
     <div className="container">
       <div className="row">
         <div className="col text-center m-3">
-          <h1>Nont Owner Dashboard</h1>
+          <h1>Dashboard</h1>
         </div>
       </div>
       <div className="row">
