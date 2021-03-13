@@ -27,6 +27,10 @@ router
     .get(controller.getShelterByNontSitterID);
     
 router.route('/delete/:id')
-      .delete(controller.deleteShelter);
+    .delete(controller.deleteShelter);
+
+router
+    .route("/check-name")
+    .post(controller.checkValidName);
 
 module.exports = router;

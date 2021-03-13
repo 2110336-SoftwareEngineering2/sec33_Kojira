@@ -13,6 +13,7 @@ const ShelterService = {
             throw error;
         }
     },
+
     getShelterByID: async (id) => {
         try {
             let path = "/shelter/id/" + id;
@@ -23,6 +24,7 @@ const ShelterService = {
             throw error;
         }
     },
+
     getShelterByNontSitterID: async (id) => {
         try {
             let path = "/shelter/nontsitterid/" + id;
@@ -33,6 +35,7 @@ const ShelterService = {
             throw error;
         }
     },
+
     getSheltersByEmail: async (email) => {        
         try {            
             let path = "/shelter/email/" + email;
@@ -43,6 +46,7 @@ const ShelterService = {
             throw error;
         }
     },
+
     registerShelter: async (body) => {
         try{
             let path = '/shelter'
@@ -52,6 +56,7 @@ const ShelterService = {
             throw error
         }
     },
+
     updateShelter: async (body) => {
         try{
             let path = '/shelter'
@@ -61,6 +66,7 @@ const ShelterService = {
             throw error
         }
     },
+
     deleteShelter: async (id) => {
         try{
             let path = "/shelter/delete/" + id;
@@ -68,6 +74,16 @@ const ShelterService = {
             return response;
         } catch(error){
             throw error
+        }
+    },
+
+    checkValidName: async (name) => {
+        try {
+            let path = "/shelter/check-name";
+            const response = await axios.post(serverURL + path, {name,});
+            return response;
+        } catch (error) {
+            throw error;
         }
     }
 };

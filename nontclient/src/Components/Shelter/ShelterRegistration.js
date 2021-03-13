@@ -4,7 +4,7 @@ import {
     VALID,
     INVALID,
     DEFAULT,
-    EMPTY,
+    EXIST,
 } from "../../Constants/FormValidity";
 import NameForm from "./ShelterForm/NameForm";
 import DescriptionForm from "./ShelterForm/DescriptionForm";
@@ -46,6 +46,15 @@ const ShelterRegistration  = (props) => {
             if (value.length >= 1 && value.length <= 50) return true;
             else return false;
         },
+        existName: async () => {
+            let value = document.getElementById("name-input").value
+            if(value.length==0) return
+            let response = await ShelterService.checkValidName(value)
+            if(response.data.exist) {
+                setNameValid(EXIST)
+            }
+            return
+        },
         validateDescriptionAddress: (value) => {
             if (value.length >= 1 && value.length <= 500) return true;
             else return false;
@@ -56,10 +65,6 @@ const ShelterRegistration  = (props) => {
             else return false;
         },
     };
-
-    // async function validateAll() {
-    //
-    // }
 
     async function getLocation() {
         if (navigator.geolocation) {
@@ -80,7 +85,7 @@ const ShelterRegistration  = (props) => {
             case "name-input":
                 if(validator.validateName(element.currentTarget.value)){
                     setNameValid(VALID)
-                } else {
+                }else{
                     setNameValid(INVALID)
                 }
                 return;
@@ -134,8 +139,6 @@ const ShelterRegistration  = (props) => {
     }
     
     async function submitRegistration() {
-        //const validate = this.validateAll
-        //if(!validator) return
         let shelterCoordinate = shelter.coordinate
         if(shelter.coordinate.lat===0 && shelter.coordinate.lng===0) {shelterCoordinate={lat:200,lng:200}}
         const body = {
@@ -171,6 +174,7 @@ const ShelterRegistration  = (props) => {
                 onFormChange={handleFormChange}
                 defaultValue = ""
                 validName={nameValid}
+                validateName={validator.existName}
             />
             <DescriptionForm
                 onFormChange={handleFormChange}

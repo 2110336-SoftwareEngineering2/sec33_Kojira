@@ -155,8 +155,7 @@ const controller = {
         }
     },
 
-    //DELETE
-    //Should system delete shelter if it already has rooms/reservations?
+    // DELETE shelter
     deleteShelter: async (req, res) => {
         try{
             const deletedShelter = await Shelters.findOneAndDelete({_id: req.params.id})
@@ -166,9 +165,17 @@ const controller = {
         }
     },
 
-    //Check exist name
+    // Check exist name
     checkValidName: async (req, res) => {
-        
+        try {
+            const nameFindResult = await Shelters.findOne({ name: req.body.name });
+            if (nameFindResult) return res.send({ exist: true });
+            else return res.send({ exist: false });
+        } catch (error) {
+            return res
+            .status(500)
+            .send("Cannot access database.");
+        }
     }
 
 }

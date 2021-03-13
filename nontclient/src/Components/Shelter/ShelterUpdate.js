@@ -104,7 +104,9 @@ const ShelterUpdate = (props) => {
             case "description-input":
                 if(validator.validateDescriptionAddress(element.currentTarget.value)){
                     setDescriptionValid(VALID)
-                } else {
+                } else if(document.getElementById("description-input").value.length==0){
+                    setDescriptionValid(DEFAULT)
+                }else {
                     setDescriptionValid(INVALID)
                 }
                 return
