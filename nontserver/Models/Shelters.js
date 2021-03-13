@@ -10,7 +10,7 @@ const schema = new Schema(
         description :{type:String},
         address:{type:String, required: true},
         rate:{type:Number,required:true},
-        supported_type:{type:[String]}, //delete required
+        supported_type:{type:[String]},
         coordinate:{type:{lat:{type:Number,required: true},lng:{type:Number,required: true}},required: true},
         phoneNumber: { type: String },
         license:{type:[{name:String , img:Buffer, contentType: String}]}, //required
