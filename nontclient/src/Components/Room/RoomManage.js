@@ -84,22 +84,22 @@ const RoomManage = (props) => {
 
             {/* Back Button, Add Button and Shelter Name */}
             <div
-            className="row mt-2 justify-content-between"
+            className="row mt-2 justify-content-between mx-0"
             >
                 <div className="col col-md-1 my-2"
                     style={{ padding:0 }}>
                     <a
                     type="button"
-                    className="btn btn-outline-light btn-block text-dark bg-light border-dark text-center"
+                    className="btn btn-outline-light text-dark bg-light border-dark text-center float-left"
                     href={"/shelter"}>
                         Back
                     </a>
                 </div>
-                <div className="col col-md-1 my-2 text-right"                
+                <div className="col col-md-1 my-2"                
                 style={{ padding:0 }}>                    
                     <a
                     type="button"
-                    className="btn btn-outline-light btn-block text-light bg-success border-success text-center"
+                    className="btn btn-outline-light text-light bg-success border-success text-center float-right"
                     href={"/room/register/" + shelterID}>
                         Add
                     </a>
