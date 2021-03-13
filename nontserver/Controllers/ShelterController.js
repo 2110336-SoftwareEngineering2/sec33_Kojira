@@ -168,19 +168,7 @@ const controller = {
 
     //Check exist name
     checkValidName: async (req, res) => {
-        // const nameSchema = _.pick(schema, ["name"]);
-        // const nameValidator = Joi.object(nameSchema);
-        // const result = nameValidator.validate(req.body);
-        // if (result.error) return res.send({ status: false, exist: false });
-        // try {
-        //     const nameFindResult = await NontSitter.findOne({ name: req.body.name });
-        //     if (nameFindResult) return res.send({ status: false, exist: true });
-        //     else return res.send({ status: true });
-        // } catch (error) {
-        //     return res
-        //     .status(500)
-        //     .send("Cannot access nont-sitter-account database.");
-        // }
+        
     }
 
 }
