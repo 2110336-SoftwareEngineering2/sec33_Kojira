@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./FindShelter.module.css";
 import { getDistance } from "geolib";
+const _ = require("lodash");
 
 const ShelterCard = (props) => {
   const shelter = props.shelter;
@@ -37,14 +38,14 @@ const ShelterCard = (props) => {
           <div
             className={"d-flex justify-content-center " + styles.shelterName}
           >
-            <div className="d-flex">{shelter.name}</div>
+            <div className="d-flex">
+              {_.truncate(shelter.name, { length: 40 })}
+            </div>
           </div>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex flex-wrap justify-content-center">
             {shelter.supported_type.map((type) => (
-              <div className="d-flex mr-2" key={type}>
-                <span className="badge badge-secondary">
-                  {type}
-                </span>
+              <div className="d-flex mr-2 mb-2" key={type}>
+                <span className="badge badge-secondary">{type}</span>
               </div>
             ))}
           </div>
