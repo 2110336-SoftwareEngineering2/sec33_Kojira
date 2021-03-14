@@ -5,29 +5,7 @@ import { useParams } from "react-router-dom";
 import RoomService from "../../Services/RoomService";
 import UserType from "../../Constants/UserType";
         
-function arrayBufferToBase64(buffer) {
-    let binary = '';
-    let bytes = new Uint8Array(buffer?.data);
-    let len = bytes.byteLength;
-    /*
-    console.log("----Infunction----");
-    console.log(buffer?.data);
-    console.log("typeofbuffer")
-    console.log(typeof(bytes))
-    console.log("lengthofbuffer");
-    console.log(len);
-    console.log("----Endoffunction----");
-    */
-    for (let i = 0; i < len; i++) {
-        binary += String.fromCharCode(bytes[i]);
-    }    
-    return window.btoa(binary);
-}
-// function ToBase64(bufferdata) {
-//     console.log(typeof(bufferdata));
-//     var thumb = new Buffer.from(bufferdata).toString('base64');
-//     return thumb;
-// }
+
 const UserContext = Contexts.UserContext;
 const ShelterView = (props) => {
     const contextValue = useContext(UserContext);
@@ -48,12 +26,7 @@ const ShelterView = (props) => {
                 console.log(shelter?.picture?.[0]?.img);
                 console.log(shelter?.picture?.[0]?.img?.data);
                 console.log(typeof (shelter?.picture?.[0]?.img.data));
-                /*
-                console.log(arrayBufferToBase64(shelter?.picture?.[0]?.img));
-                console.log(Buffer.from(shelter?.picture?.[0]?.img?.data).toString())
-                console.log("---EndOFuseEffect3----");
-                */
-                
+
             }
             catch (error) {
                 console.error(error.message);
@@ -88,7 +61,12 @@ const ShelterView = (props) => {
                 <div className="card-body">
                     <div className="row">
                         <div className="col-md-6">
-                        <img className="w-100 p-3" src={`${'picture' in shelter && 'data' in shelter?.picture?.[0]?.img &&Buffer.from((shelter?.picture?.[0]?.img?.data)).toString()}`} alt="shelter image"/>
+                        {
+                        ( shelter?.picture?.length>0 )&&<img className="w-100 p-3" src={`${'data' in shelter?.picture?.[0]?.img&&Buffer.from((shelter?.picture?.[0]?.img?.data)).toString()}`} alt="shelter image"/>
+                        }
+                        {
+                        (shelter?.picture?.length==0 )&&<img className="w-100 p-3" src="" alt="shelter image"/>
+                        }
                         </div>
                         <div className="col-md-6">
                             <div className="media-body ">
@@ -110,7 +88,6 @@ const ShelterView = (props) => {
                                 <div>
                                     <h5 className="mb-1 mr-1">rate </h5>
                                     <p>{shelter.rate}</p>
-                                    <i className="fas fa-star-half-alt-warning"></i>
 
 
                                 <hr className="mw-100"/>
