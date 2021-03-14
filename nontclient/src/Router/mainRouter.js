@@ -5,6 +5,7 @@ import Login from "../Components/LoginLogout/Login";
 import Registration from "../Components/Registration/Registration";
 import UserSetting from "../Components/UserSetting/UserSetting";
 import Dashboard from "../Components/Dashboard/Dashboard";
+import Reserve from "../Components/Reservation/Reserve";
 
 import GuardedRoute from "./GuardedRoute";
 import NontOwnerRouter from "./NontOwnerRouter";
@@ -72,6 +73,7 @@ function Router() {
           component={NontOwnerRouter}
           auth={auth}
         />
+        <Route path='/reserve' component={Reserve} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>
