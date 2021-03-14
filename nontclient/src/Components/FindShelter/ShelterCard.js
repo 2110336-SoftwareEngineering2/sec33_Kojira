@@ -32,8 +32,17 @@ const ShelterCard = (props) => {
             styles.shelterCard
           }
         >
-          <div className={"d-flex " + styles.image}>
-            <img src="/no-image.svg" className={styles.noImage} alt=""></img>
+          <div className={"d-flex " + styles.imageArea}>
+            {shelter.picture.length > 0 && (
+              <img
+                src={Buffer.from(shelter.picture[0].img).toString()}
+                className={styles.image}
+                alt=""
+              ></img>
+            )}
+            {shelter.picture.length === 0 && (
+              <img src="/no-image.svg" className={styles.noImage} alt=""></img>
+            )}
           </div>
           <div
             className={"d-flex justify-content-center " + styles.shelterName}
