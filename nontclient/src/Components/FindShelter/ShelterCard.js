@@ -52,20 +52,22 @@ const ShelterCard = (props) => {
           <div className="d-flex justify-content-around mb-2">
             <div className="d-flex">
               {[1, 2, 3, 4, 5].map((rating) => {
-                if (Math.round(shelter.rate) >= rating)
+                if (shelter.rate + 0.25 >= rating)
                   return (
                     <span key={rating}>
                       <i className={"fas fa-star " + styles.star}></i>
                     </span>
                   );
-                else
+                else if (shelter.rate + 0.25 >= rating - 0.5) {
                   return (
                     <span key={rating}>
-                      <i
-                        className={
-                          "far fa-star " + styles.star + " " + styles.fade
-                        }
-                      ></i>
+                      <i className={"fas fa-star-half-alt " + styles.star}></i>
+                    </span>
+                  );
+                } else
+                  return (
+                    <span key={rating}>
+                      <i className={"far fa-star " + styles.star}></i>
                     </span>
                   );
               })}
