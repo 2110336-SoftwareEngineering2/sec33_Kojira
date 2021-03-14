@@ -23,7 +23,6 @@ const Homepage = () => {
           You are not logged in
         </h2>
       )}
-      <QRCode />
     </React.Fragment>
   );
 };
