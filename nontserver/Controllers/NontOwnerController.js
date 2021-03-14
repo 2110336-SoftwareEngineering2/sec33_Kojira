@@ -95,7 +95,7 @@ const controller = {
       }
       await NontOwner.findByIdAndUpdate(
         data._id,
-        { $set: data },
+        { $set: _.omit(data, ['_id']) },
         { new: true }
       );
       res.send("The account was successfully updated.");
