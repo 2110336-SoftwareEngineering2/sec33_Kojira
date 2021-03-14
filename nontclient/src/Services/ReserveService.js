@@ -2,11 +2,11 @@ import axios from "axios";
 import serverURL from "../Config/serverURL";
 import getUserTypePath from "../Utils/ServiceUtils/getUserTypePath";
 
-const RegisterService = {
-  registerAccount: async (type, account) => {
+const ReserveService = {
+  getReservations: async (type, userId) => {
     try {
       const path = getUserTypePath(type);
-      const response = await axios.post(serverURL + path, account);
+      const response = await axios.get(serverURL + "/reservations" + path + "/" + userId);
       return response;
     } catch (error) {
       throw error;
@@ -14,4 +14,4 @@ const RegisterService = {
   },
 };
 
-export default RegisterService;
+export default ReserveService;

@@ -37,7 +37,7 @@ const controller = {
     try {
       const nontSitterAccount = await NontSitter.findById(req.params.id);
       if (!nontSitterAccount) return res.status(404).send("User not found");
-      return res.send(_.omit(nontSitterAccount, ['password']));
+      return res.send(_.omit(nontSitterAccount, ["password"]));
     } catch (error) {
       return res.status(500).send("Cannot access nont-sitter accounts.");
     }
@@ -57,12 +57,12 @@ const controller = {
         if (nameFindResult)
           return res.status(403).send("Username already exists.");
       }
-      const nontSitterAccount = await NontSitter.findByIdAndUpdate(
-        data.id,
-        { $set: data },
+      await NontSitter.findByIdAndUpdate(
+        data._id,
+        { $set: _.omit(data, ["_id"]) },
         { new: true }
       );
-      res.send(_.pick(nontSitterAccount, ["_id", "email", "name"]));
+      res.send("The account was successfully updated.");
     } catch (error) {
       return res.status(500).send("Cannot access nont-sitter accounts.");
     }

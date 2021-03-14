@@ -42,15 +42,24 @@
 .image {
   height: 150px;
   width: 100%;
-  background-color: #7fffd4;
+  background-color: #ecf0f1;
   border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.noImage {
+  max-height: 100px;
+  max-width: 100px;
 }
 
 .shelterName {
   font-weight: bold;
+  font-size: large;
+  opacity: 0.75;
   word-break: break-word;
-  max-width: 80%;
-  max-height: 50px;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .star {

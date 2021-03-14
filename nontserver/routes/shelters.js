@@ -9,6 +9,7 @@ router
     .get(controller.getShelters)
     .post(controller.registerShelter)
     .patch(controller.updateShelter);
+
 router
     .route('/id/:id')
     .get(controller.getShelterByID);
@@ -24,5 +25,12 @@ router
 router
     .route("/nontsitterid/:id")
     .get(controller.getShelterByNontSitterID);
+    
+router.route('/delete/:id')
+    .delete(controller.deleteShelter);
+
+router
+    .route("/check-name")
+    .post(controller.checkValidName);
 
 module.exports = router;
