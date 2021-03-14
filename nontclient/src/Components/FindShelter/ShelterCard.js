@@ -74,7 +74,7 @@ const ShelterCard = (props) => {
             {distance && (
               <div className="d-flex">
                 <span className={styles.fade}>
-                  <i class="fas fa-location-arrow mr-1"></i>
+                  <i className="fas fa-location-arrow mr-1"></i>
                   {distance}
                 </span>
               </div>
