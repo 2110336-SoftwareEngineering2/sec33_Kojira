@@ -78,10 +78,10 @@ const controller = {
 
             //check if the supported nont type of room matches with the type of nont
             let nont;
-            req.body.nont_id.forEach(async (element) => {
+            for(const element of req.body.nont_id){
                 nont = await Nont.findById(element);
                 if(nont.type !== room.nont_type) return res.status(403).send('Nont type of some nonts is not supported for the room');
-            });
+            }
 
             //cancel all reservations that are not paid within 1 day (PUT update status:cancelled)
             const newQuery = {status:'payment-pending', status_change_datetime: {$lt:new Date(now.getTime()-1000*3600*24)} };
@@ -90,14 +90,14 @@ const controller = {
 
             //check if the selected nont room is available at the time by looping reservation
             const sameRoom = await Reservation.find({room_id: req.body.room_id});
-            sameRoom.forEach(element => {
+            for(const element of sameRoom){
                 if(element.status !== 'closed' && element.status !== 'cancelled') {
                     if((new Date(req.body.start_datetime).toString()>=element.start_datetime && new Date(req.body.start_datetime).toString()<=element.end_datetime) 
                     || (new Date(req.body.end_datetime).toString()>=element.start_datetime && new Date(req.body.end_datetime).toString()<=element.end_datetime)){
                         return res.status(403).send('The room is not available in this period of time');
                     }
                 }
-            });
+            }
 
             const shelter = await Shelters.findById(room.shelter_id);
             //const firstNont = await Nont.findById((req.body.nont_id)[0]);
