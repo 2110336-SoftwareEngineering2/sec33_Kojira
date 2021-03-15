@@ -1,6 +1,6 @@
 import axios from "axios";
 import serverURL from "../Config/serverURL";
-import { getUserTypePath } from "../Utils/ServiceUtils";
+import getUserTypePath from "../Utils/ServiceUtils/getUserTypePath";
 
 const CheckService = {
 

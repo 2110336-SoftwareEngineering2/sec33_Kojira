@@ -1,7 +1,7 @@
-import UserType from "../Constants/UserType";
-import UserTypeError from "../Constants/ErrorTypes/UserTypeError";
+import UserType from "../../Constants/UserType";
+import UserTypeError from "../../Constants/ErrorTypes/UserTypeError";
 
-export const getUserTypePath = (type) => {
+const getUserTypePath = (type) => {
   let path = "";
   if (type === UserType.NONT_OWNER) {
     path = "/nontOwners";
@@ -12,3 +12,5 @@ export const getUserTypePath = (type) => {
   }
   return path;
 };
+
+export default getUserTypePath;

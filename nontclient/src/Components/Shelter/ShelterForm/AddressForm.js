@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Shelter.module.css";
+import styles from "../Shelter.module.css";
 import {
   VALID,
   INVALID,
@@ -7,7 +7,7 @@ import {
   EMPTY,
   EXIST,
   CHANGING,
-} from "../../Constants/FormValidity";
+} from "../../../Constants/FormValidity";
 
 const AddressForm = (props) => {
   return (
