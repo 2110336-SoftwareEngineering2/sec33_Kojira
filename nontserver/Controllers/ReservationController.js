@@ -17,7 +17,7 @@ const validator = joi.object({
     //nontsitter_id: joiOid.objectId().required(),
     start_datetime: joi.date().required(),
     end_datetime: joi.date().required(),
-    //price: joi.number().integer().min(1).max(3000).required(),
+    price: joi.number().integer().min(1).required(),
     //status: joi.string().valid('payment-pending','paid','checked-in','checked-out','closed','cancelled').required(),
     //status_change_datetime: joi.date().required(),
     //transaction_id: joiOid.objectId(),
@@ -130,7 +130,13 @@ const controller = {
             }
 
             const shelter = await Shelters.findById(room.shelter_id);
-            //const firstNont = await Nont.findById((req.body.nont_id)[0]);
+            
+            // //find day period to calculate price=room price*day period 
+            // const numberOfDay = (start,end) => {
+            //     const msDiff =  new Date(end).getTime()-new Date(start).getTime();
+            //     const dayDiff = Math.ceil(msDiff/(1000*3600*24))
+            //     return dayDiff
+            // }
 
             const newBody = {
                 nont_id: req.body.nont_id,
@@ -140,7 +146,8 @@ const controller = {
                 nontsitter_id: shelter.nont_sitter_id,
                 start_datetime: new Date(req.body.start_datetime).toString(),
                 end_datetime: new Date(req.body.end_datetime).toString(),
-                price: room.price,
+                //price: room.price * numberOfDay(req.body.start_datetime,req.body.end_datetime),
+                price: req.body.price,
                 status: 'payment-pending',
                 nontsitter_check_in: false,
                 nontsitter_check_out: false,
@@ -148,7 +155,7 @@ const controller = {
                 nontowner_check_out: false,
                 reserve_datetime: now.toString(),
                 pay_datetime: '',
-                transaction_id: '',
+                //transaction_id: '',
                 check_in_datetime: '',
                 check_out_datetime: '',
                 cancel_datetime: ''
@@ -168,9 +175,9 @@ const controller = {
             const reservation = await Reservation.findById(req.params.id); //reservation id
             const now = new Date();
             //check if nontowner check in? to verify check in (done by nont sitter)
-            if(reservation.nontowner_check_in === true) {
+            if(reservation.nontowner_check_in === true && reservation.status === 'paid') {
                 const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-                const newUpdate = {status: 'checked-in', nontsitter_check_in: true, check_in_datetime: now.toString()};
+                const newUpdate = {status: 'checked-in', nontsitter_check_in: true};
                 const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
                 return res.send(updatedReservation);      
             } else return res.status(403).send("Cannot verify check-in because nontowner still doesn't check in nont");
@@ -192,7 +199,7 @@ const controller = {
             if(now < new Date(reservation.start_datetime)) return res.status(403).send("Cannot check in before the start time");
 
             const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-            const newUpdate = {nontowner_check_in: true};
+            const newUpdate = {nontowner_check_in: true, check_in_datetime: now.toString()};
             const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
             return res.send(updatedReservation);            
         } 
@@ -207,9 +214,9 @@ const controller = {
             const reservation = await Reservation.findById(req.params.id); //reservation id
             const now = new Date();
             //check if nontowner check out? to verify check out (done by nont sitter)
-            if(reservation.nontowner_check_out === true) {
+            if(reservation.nontowner_check_out === true && reservation.status === 'checked-in') {
                 const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-                const newUpdate = {status: 'checked-out', nontsitter_check_out: true, check_out_datetime: now.toString()};
+                const newUpdate = {status: 'checked-out', nontsitter_check_out: true};
                 const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
                 return res.send(updatedReservation);      
             } else return res.status(403).send("Cannot verify check-out because nontowner still doesn't check out nont");
@@ -228,10 +235,10 @@ const controller = {
           
             //check moment time <= end date time ?
             const now = new Date();
-            if(now > new Date(reservation.end_datetime)) return res.send("Fine payment is needed due to late check-out!");
+            if(now > new Date(reservation.end_datetime)) console.log("Fine payment is needed due to late check-out!");
     
             const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-            const newUpdate = {nontowner_check_out: true};
+            const newUpdate = {nontowner_check_out: true, check_out_datetime: now.toString()};
             const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
             return res.send(updatedReservation);      
         } 
@@ -240,7 +247,7 @@ const controller = {
         }
     },
 
-    //DELETE (but actually does not delete record from db, just change the status:cancelled)
+    //PUT (actually does not delete record from db, just change the status:cancelled)
     cancelReservation: async (req, res) => {
         try{
             const reservation = await Reservation.findById(req.params.id); //reservation id
@@ -263,7 +270,7 @@ const controller = {
         }
     },
 
-    // //use this bottom if we actually want to delete record instead of cancel it  
+    // //use this bottom if we actually want to delete record instead of status:cancelled   
     // deleteReservation: async (req, res) => {
     //     try{
     //         const reservation = await Reservation.findById(req.params.id); //reservation id
