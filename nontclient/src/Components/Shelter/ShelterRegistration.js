@@ -80,6 +80,17 @@ const ShelterRegistration  = (props) => {
         }
     }
 
+    // const fileToDataURL = (file) => {
+    //     let reader = new FileReader();
+    //     reader.onload = async (e) => {
+    //         let buffer = reader.result
+    //         setLicense(oldArray => [...oldArray, {name:file.name,img:buffer,contentType:file.type}])
+    //         setLicenseValid(VALID) 
+    //         console.log(file)
+    //     }
+    //     reader.readAsDataURL(file)
+    // }
+
     async function handleFormChange(element) {
         switch (element.currentTarget.id){
             case "name-input":

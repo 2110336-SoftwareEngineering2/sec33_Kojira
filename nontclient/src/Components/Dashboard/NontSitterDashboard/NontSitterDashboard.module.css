@@ -1,0 +1,12 @@
+.listRow {
+    border-top-width: 1px !important;
+    border-radius: 20px !important;
+    min-height: 150px;
+    font-size: 20px;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 8px, rgba(17, 17, 26, 0.024) 0px 4px 16px;
+}
+
+.loadingStatus {
+    margin-top: 30vh;
+    opacity: 0.5;
+}
