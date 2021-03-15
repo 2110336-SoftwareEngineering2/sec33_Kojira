@@ -5,6 +5,8 @@ import NontUpdate from "../Components/Nont/NontUpdate";
 import NontView from "../Components/Nont/NontView";
 import NontRegistration from "../Components/Nont/NontRegistration";
 import FindShelter from "../Components/FindShelter/FindShelter";
+import ReserveInfo from "../Components/Reservation/ReserveInfo";
+import ShelterView from "../Components/Shelter/ShelterView";
 
 const NontOwnerRouter = (props) => {
   const auth = props.auth;
@@ -34,6 +36,16 @@ const NontOwnerRouter = (props) => {
       <GuardedRoute.NontOwnerGuardedRoute
         path="/findShelter"
         component={FindShelter}
+        auth={auth}
+      />
+      {/* <GuardedRoute.NontOwnerGuardedRoute
+        path="/shelterView/:shelterID"
+        component={ShelterView}
+        auth={auth}
+      /> */}
+      <GuardedRoute.NontSitterGuardedRoute
+        path="/shelterView/:shelterID"
+        component={ShelterView}
         auth={auth}
       />
     </React.Fragment>

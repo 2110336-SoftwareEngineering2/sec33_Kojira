@@ -51,7 +51,9 @@ const ShelterView = (props) => {
         fetchRooms();   
     }, [shelterID]);
     return(
-
+        <>
+        {contextValue.userType === UserType.UNKNOWN_USER_TYPE && <h2>You are not logged in </h2>}
+        {contextValue.userType !== UserType.UNKNOWN_USER_TYPE &&  
         <div className="container">
 
             <div className="card mt-3">
@@ -151,7 +153,8 @@ const ShelterView = (props) => {
 
 
         </div>
-
+        }
+        </>
     );
 
 

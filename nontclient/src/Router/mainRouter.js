@@ -66,9 +66,8 @@ function Router() {
           component={NontSitterRouter}
           auth={auth}
         />
-
         <NontOwnerRouter
-          path={["/nont", "/findShelter"]}
+          path={["/nont", "/findShelter","/shelterView"]}
           component={NontOwnerRouter}
           auth={auth}
         />
