@@ -5,7 +5,6 @@ import ShelterManage from "../Components/Shelter/ShelterManage";
 import ShelterRegistration from "../Components/Shelter/ShelterRegistration";
 import RoomManage from "../Components/Room/RoomManage";
 import RoomUpdate from "../Components/Room/RoomUpdate";
-import ShelterView from "../Components/Shelter/ShelterView";
 import shelterUpdate from "../Components/Shelter/ShelterUpdate";
 
 const NontSitterRouter = (props) => {
@@ -30,11 +29,6 @@ const NontSitterRouter = (props) => {
       <GuardedRoute.NontSitterGuardedRoute
         path="/shelter"
         component={ShelterManage}
-        auth={auth}
-      />
-      <GuardedRoute.NontSitterGuardedRoute
-        path="/shelterView/:shelterID"
-        component={ShelterView}
         auth={auth}
       />
       <GuardedRoute.NontSitterGuardedRoute
