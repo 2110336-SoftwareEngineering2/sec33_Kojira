@@ -99,9 +99,17 @@ const controller = {
             }
 
             //*cancel all reservations that are not paid within 1 day (PUT update status:cancelled)
-            const newQuery = {status:'payment-pending', reserve_datetime: {$lt:new Date(now.getTime()-1000*3600*24)} };
-            const newUpdate = {status:'cancelled', cancel_datetime:now.toString()}; 
-            await Reservation.updateMany(newQuery, newUpdate);
+            //const newQuery = {status:'payment-pending', reserve_datetime: {$lt:new Date(now.getTime()-1000*3600*24)} };
+            //const newUpdate = {status:'cancelled', cancel_datetime:now.toString()}; 
+            //await Reservation.updateMany(newQuery, newUpdate);
+
+            //*cancel all reservations that are not paid within 1 day (PUT update status:cancelled)
+            const unpaidReservation = await Reservation.find({status:'payment-pending'});
+            for(const element of unpaidReservation) {
+                if(new Date(element.reserve_datetime) < new Date(now.getTime()-1000*3600*24)) {
+                    await Reservation.updateOne({_id:element._id},{status:'cancelled', cancel_datetime:now.toString()})
+                }
+            }
 
             //4. check if the selected nont room is available at the time by looping reservation
             const sameRoom = await Reservation.find({room_id: req.body.room_id});
