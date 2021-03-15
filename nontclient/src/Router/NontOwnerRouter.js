@@ -38,16 +38,7 @@ const NontOwnerRouter = (props) => {
         component={FindShelter}
         auth={auth}
       />
-      {/* <GuardedRoute.NontOwnerGuardedRoute
-        path="/shelterView/:shelterID"
-        component={ShelterView}
-        auth={auth}
-      /> */}
-      <GuardedRoute.NontSitterGuardedRoute
-        path="/shelterView/:shelterID"
-        component={ShelterView}
-        auth={auth}
-      />
+
     </React.Fragment>
   );
 };

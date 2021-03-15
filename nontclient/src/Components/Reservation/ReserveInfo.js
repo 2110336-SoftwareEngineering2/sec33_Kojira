@@ -12,8 +12,43 @@ const ReserveInfo = (props) => {
         <div>
         {contextValue.userType === UserType.UNKNOWN_USER_TYPE && <h2>You are not logged in </h2>}
         {contextValue.userType !== UserType.UNKNOWN_USER_TYPE &&  
-            <div>
-            <h1>You are gay</h1>
+            <div className="container mt-5">
+            <div className="card">
+                <div className="card-header text-white bg-primary "><h1 className="text-white my-1 ">Reservation Information</h1></div>
+                <div className="card-body">
+                    <dl className ="row">
+                        <dt className="col-sm-2"><h5>ShelterName:</h5></dt>
+                        <dd className="col-sm-10"><h5>bangkok sheltet</h5></dd>
+                        <dt className="col-sm-2"><h5>Nontowner:</h5></dt>
+                        <dd className="col-sm-10"><h5>porntanat tatiwong</h5></dd>
+                        <dt className="col-sm-2"><h5>Nont:</h5></dt>
+                        <dd className="col-sm-10"><h5>nan,eew,rgrg</h5></dd>
+                        <dt className="col-sm-2"><h5>price</h5></dt>
+                        <dd className="col-sm-10"><h5>500</h5></dd>
+                        <dt className="col-sm-2"><h5>Room:</h5></dt>
+                        <dd className="col-sm-10"><h5>39 rooms</h5></dd>
+                        <dt className="col-sm-2"><h5>CheckIn Date:</h5></dt>
+                        <dd className="col-sm-10"><h5>24/34/5535</h5></dd>
+                        <dt className="col-sm-2"><h5>CheckOut Date:</h5></dt>
+                        <dd className="col-sm-10"><h5>45/67/2568</h5></dd>
+                        <dt className="col-sm-2"><h5>status:</h5></dt>
+                        <dd className="col-sm-10"><h5>Godmode</h5></dd>
+                    </dl>
+                        <div classname="d-flex justify-content-center">
+                            {contextValue.userType === UserType.NONT_OWNER && <div >
+                            <input className="my-1 btn btn-danger" type="button"  value="cancel"/>
+                            <br></br>
+                            </div>
+                            }
+                            <input className="my-1 btn btn-primary" type="button"  value="checkin"/>
+                            <br></br>
+                            <input className="my-1 btn btn-primary" type="button"  value="checkout"/>
+                            <br></br>
+                            <input className="my-1 btn btn-primary" type="button"  value="review"/>
+                        </div>
+                </div>
+
+            </div>
             
             </div>    
         }
