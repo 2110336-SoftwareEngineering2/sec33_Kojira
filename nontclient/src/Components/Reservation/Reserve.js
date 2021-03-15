@@ -122,6 +122,11 @@ const Reserve = (props) => {
                 })
             }
             catch (error) {
+                notification.error({ 
+                    message: "Reservation",
+                    description: `Cannot create a reservation.`,
+                    placement: "bottomRight",
+                });
                 console.error(error.message);
             }
         }
