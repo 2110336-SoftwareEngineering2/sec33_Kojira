@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Contexts from "../../Utils/Context/Contexts";
 import ReservationService from "../../Services/ReserveService";
 import RoomService from "../../Services/RoomService";
+import NontService from "../../Services/NontService";
 import styles from "./Reserve.module.css";
 import moment from "moment";
 import { DatePicker, Select, Statistic } from "antd";
@@ -11,20 +12,49 @@ const UserContext = Contexts.UserContext;
 
 const Reserve = (props) => {
     const [rooms, setRooms] = useState({name:"default room name"});
-    const { roomID } = useParams();
+    const [nonts, setNonts] = useState([]);
+    const [reservations, setReservations] = useState([]);
+    const [nontSelected, setNontSelected] = useState([]);
+    const { roomID } = useParams();    
     const { RangePicker } = DatePicker;
     const {Option} = Select;
+    const contextValue = useContext(UserContext);
+    const nontOwnerID = contextValue._id;
 
     useEffect(() => {
         fetchRooms();
+        fetchReservation();
     }, [roomID]);
+
+    useEffect( () => {
+        fetchNonts();
+    }, [contextValue])
+
+    const fetchReservation = async () => {
+
+    }
 
     const fetchRooms = async () => {
         try {
             if (roomID) {
-                const response = await RoomService.getRoomByID(roomID);
+                let response = await RoomService.getRoomByID(roomID);
                 if (response.data) {
                     setRooms(response.data);
+                    console.log(response.data);
+                }
+            }
+        }
+        catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    const fetchNonts = async () => {
+        try {            
+            if (nontOwnerID) {
+                const response = await NontService.getNontByNontOwnerID(nontOwnerID);
+                if (response.data) {
+                    setNonts(response.data);
                 }
             }
         }
@@ -55,22 +85,25 @@ const Reserve = (props) => {
                     <div className="row m-2">                        
                         <div className="col m-2 col-sm">
                             <label style={{fontSize:"15px", padding:"10px"}}>
-                                Nonts
+                                Nonts{" ("}{nontSelected.length}{"/"}{rooms.amount}{") "}
                             </label>   
                             <Select
                             mode="multiple"
                             placeholder="Press select at least 1 Nont"
                             size="large"
                             style={{maxWidth:"300px", width:"50%"}}
+                            onChange={(value)=>{
+                                if (value.length > rooms.amount) {
+                                    value.pop();
+                                }
+                                setNontSelected(value);
+                            }}
                             >
-                                <Option key="test1">test1</Option>
-                                <Option key="test2">test2</Option>
-                                <Option key="test3">test3</Option>
-                                <Option key="test4">test4</Option>
-                                <Option key="test5">test5</Option>
-                                <Option key="test6">test6</Option>
-                                <Option key="test7">test7</Option>
-                                <Option key="test8">test8</Option>
+                                {
+                                    nonts.filter(nont => (nont.type === rooms.nont_type) ).map( (element) => (
+                                        <Option key={element._id}>{element.name}</Option>
+                                    ))
+                                }
                             </Select>                         
                         </div>                    
                     </div>
