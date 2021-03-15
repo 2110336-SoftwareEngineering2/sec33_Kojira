@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./FindShelter.module.css";
 import { getDistance } from "geolib";
+import StarRating from "./StarRating";
 const _ = require("lodash");
 
 const ShelterCard = (props) => {
@@ -25,7 +26,7 @@ const ShelterCard = (props) => {
 
   return (
     <div className={styles.cardWrapper}>
-      <a className={styles.cardLink} href={"/findShelter/" + shelter._id}>
+      <a className={styles.cardLink} href={"/shelterView/" + shelter._id}>
         <div
           className={
             "card d-flex justify-content-between align-items-strech " +
@@ -60,27 +61,7 @@ const ShelterCard = (props) => {
           </div>
           <div className="d-flex justify-content-around mb-2">
             <div className="d-flex">
-              {[1, 2, 3, 4, 5].map((rating) => {
-                if (shelter.rate + 0.25 >= rating)
-                  return (
-                    <span key={rating}>
-                      <i className={"fas fa-star " + styles.star}></i>
-                    </span>
-                  );
-                else if (shelter.rate + 0.25 >= rating - 0.5) {
-                  return (
-                    <span key={rating}>
-                      <i className={"fas fa-star-half-alt " + styles.star}></i>
-                    </span>
-                  );
-                } else
-                  return (
-                    <span key={rating}>
-                      <i className={"far fa-star " + styles.star}></i>
-                    </span>
-                  );
-              })}
-              <span className={"ml-2  " + styles.fade}>{shelter.rate}</span>
+              <StarRating rate={shelter.rate} />
             </div>
             {distance && (
               <div className="d-flex">
