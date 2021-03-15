@@ -24,7 +24,7 @@ const NontView = () => {
             }
         }     
         fetchNont();   
-    },id);  
+    }, [id]);  
     
     return(
         <div className="container">

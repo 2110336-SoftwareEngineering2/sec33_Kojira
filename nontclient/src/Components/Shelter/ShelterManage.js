@@ -70,23 +70,14 @@ const ShelterManage = (props) => {
 
             {/* Shelter Register Button */}
             <div className="row">
-            <button
-                className="btn btn-lg mt-2 mb-2"
-                id="shelter-register-button"
-                >
-                    <a 
-                    href={"/shelterRegister"}
-                    className="fa fa-plus"
-                    style={{textDecoration:"none"}}
-                    title="Add New Shelter"
-                    />
-                    <label
-                    className="pl-3"
-                    style={{color:"#2980b9"}}
-                    >
+                <div className="col">
+                    <a
+                    type="button"
+                    className="btn btn-outline-light text-light bg-success border-success text-center float-right"
+                    href={"/shelterRegister"}>
                         Add
-                    </label>
-                </button>
+                    </a>
+                </div>
             </div>
 
             {/* Shelter Row Button */}

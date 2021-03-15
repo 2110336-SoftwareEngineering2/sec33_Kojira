@@ -15,6 +15,9 @@ router.route('/nontsitter_id/:id')
 
 router.route('/shelter_id/:id')
       .get(controller.getReservationByShelterID);
+
+router.route('/room_id/:id')
+      .get(controller.getReservationByRoomID);
       
 router.route('/create')
       .post(controller.createReservation);
