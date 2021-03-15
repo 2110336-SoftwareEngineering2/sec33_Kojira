@@ -34,17 +34,22 @@ const ReserveInfo = (props) => {
                         <dt className="col-sm-2"><h5>status:</h5></dt>
                         <dd className="col-sm-10"><h5>Godmode</h5></dd>
                     </dl>
-                        <div classname="d-flex justify-content-center">
-                            {contextValue.userType === UserType.NONT_OWNER && <div >
-                            <input className="my-1 btn btn-danger" type="button"  value="cancel"/>
-                            <br></br>
+                        <div >
+                            <div>
+                                {contextValue.userType === UserType.NONT_OWNER && 
+                                <input className="my-1 btn btn-danger" type="button" value="cancel"/>
+                                
+                                }
                             </div>
-                            }
-                            <input className="my-1 btn btn-primary" type="button"  value="checkin"/>
-                            <br></br>
-                            <input className="my-1 btn btn-primary" type="button"  value="checkout"/>
-                            <br></br>
-                            <input className="my-1 btn btn-primary" type="button"  value="review"/>
+                            <div>
+                                <input className="d-flex align-content-center my-1 btn btn-primary" type="button"  value="checkin"/>
+                            </div>
+                            <div>
+                                <input className="my-1 btn btn-primary" type="button"  value="checkout"/>
+                            </div>
+                            <div>
+                                <input className="my-1 btn btn-primary" type="button"  value="review"/>
+                            </div>
                         </div>
                 </div>
 
