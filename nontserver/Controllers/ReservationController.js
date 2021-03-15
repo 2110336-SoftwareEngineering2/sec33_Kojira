@@ -32,31 +32,46 @@ const validator = joi.object({
 
 const controller = {
     // GET 
-    getReservationByNontOwnerID:  async (req,res) => {
+    getReservationByID: async (req,res) => {
         try{            
-            const reservation = await Reservation.find({"nontowner_id": req.params.id}); //nont owner id
+            const reservation = await Reservation.findById(req.params.id)
+            .populate('nont_id').populate('nontowner_id').populate('room_id').populate('shelter_id').populate('nontsitter_id'); 
             return res.send(reservation);
         }
         catch (error){
-            return res.status(500).send('Cannot access reservation by nontowner id');
+            console.log(error.message);
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
-    getReservationByNontSitterID: async (req, res) => {
+
+    getReservationByNontOwnerID:  async (req,res) => { //nont owner id
         try{            
-            const reservation = await Reservation.find({"nontsitter_id": req.params.id}); //nont sitter id
+            const reservation = await Reservation.find({nontowner_id: req.params.id})
+            .populate('nont_id').populate('room_id').populate('shelter_id'); 
             return res.send(reservation);
         }
         catch (error){
-            return res.status(500).send('Cannot access reservation by nontsitter id');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
-    getReservationByShelterID: async (req, res) => {
+    getReservationByNontSitterID: async (req, res) => { //nont sitter id
         try{            
-            const reservation = await Reservation.find({"shelter_id": req.params.id}); //shelter id
+            const reservation = await Reservation.find({nontsitter_id: req.params.id}) 
+            .populate('nont_id').populate('room_id').populate('shelter_id'); 
             return res.send(reservation);
         }
         catch (error){
-            return res.status(500).send('Cannot access reservation by shelter id');
+            return res.status(500).send('Internal Server Error, Please try again');
+        }
+    },
+    getReservationByShelterID: async (req, res) => { //shelter id
+        try{            
+            const reservation = await Reservation.find({shelter_id: req.params.id})
+            .populate('nont_id').populate('room_id');
+            return res.send(reservation);
+        }
+        catch (error){
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
 
@@ -67,34 +82,49 @@ const controller = {
         if (validationResult.error){
             return res.status(400).send(validationResult.error.details[0].message);
         }
-        try{
+        try{ //assume that the selected nonts (to reserve) are all belongs to 1 nontowner
             const now = new Date();
-            //check if start_datetime must less than end_datetime
+            //1. check if start_datetime must less than end_datetime
             if(req.body.end_datetime <= req.body.start_datetime) return res.status(403).send("start/end datetime is invalid");
            
             const room = await Rooms.findById(req.body.room_id);
-            //check if the number of nont doens't exceed the room capacity (room.amount)
+            //2. check if the number of nont doens't exceed the room capacity (room.amount)
             if((req.body.nont_id).length > room.amount) return res.status(403).send('The room capacity is not enough for all nonts');
 
-            //check if the supported nont type of room matches with the type of nont
+            //3. check if the supported nont type of room matches with the type of nont
             let nont;
             for(const element of req.body.nont_id){
                 nont = await Nont.findById(element);
                 if(nont.type !== room.nont_type) return res.status(403).send('Nont type of some nonts is not supported for the room');
             }
 
-            //cancel all reservations that are not paid within 1 day (PUT update status:cancelled)
-            const newQuery = {status:'payment-pending', status_change_datetime: {$lt:new Date(now.getTime()-1000*3600*24)} };
-            const newUpdate = {$addToSet: {status:'cancelled', status_change_datetime:now.toString()}}; 
+            //*cancel all reservations that are not paid within 1 day (PUT update status:cancelled)
+            const newQuery = {status:'payment-pending', reserve_datetime: {$lt:new Date(now.getTime()-1000*3600*24)} };
+            const newUpdate = {$addToSet: {status:'cancelled', cancel_datetime:now.toString()}}; 
             await Reservation.updateMany(newQuery, newUpdate);
 
-            //check if the selected nont room is available at the time by looping reservation
+            //4. check if the selected nont room is available at the time by looping reservation
             const sameRoom = await Reservation.find({room_id: req.body.room_id});
             for(const element of sameRoom){
-                if(element.status !== 'closed' && element.status !== 'cancelled') {
-                    if((new Date(req.body.start_datetime).toString()>=element.start_datetime && new Date(req.body.start_datetime).toString()<=element.end_datetime) 
-                    || (new Date(req.body.end_datetime).toString()>=element.start_datetime && new Date(req.body.end_datetime).toString()<=element.end_datetime)){
+                if(element.status !== 'checked-out' && element.status !== 'cancelled') {
+                    if((new Date(req.body.start_datetime)>=new Date(element.start_datetime) && new Date(req.body.start_datetime)<=new Date(element.end_datetime)) 
+                    || (new Date(req.body.end_datetime)>=new Date(element.start_datetime) && new Date(req.body.end_datetime)<=new Date(element.end_datetime))
+                    || (new Date(req.body.start_datetime)<new Date(element.start_datetime) && new Date(req.body.end_datetime)>new Date(element.end_datetime))){
                         return res.status(403).send('The room is not available in this period of time');
+                    }
+                }
+            }
+
+            //5. check if some nonts in req.body.nont_id are already reserved in other rooms in the intersect time as selected time
+            const sameNontOwner = await Reservation.find({nontowner_id: nont.nontowner_id});
+            for(const element of sameNontOwner){
+                if(element.status !== 'checked-out' && element.status !== 'cancelled') {
+                    if((new Date(req.body.start_datetime)>=new Date(element.start_datetime) && new Date(req.body.start_datetime)<=new Date(element.end_datetime)) 
+                    || (new Date(req.body.end_datetime)>=new Date(element.start_datetime) && new Date(req.body.end_datetime)<=new Date(element.end_datetime))
+                    || (new Date(req.body.start_datetime)<new Date(element.start_datetime) && new Date(req.body.end_datetime)>new Date(element.end_datetime))){
+                        if((element.nont_id).some((e) => (req.body.nont_id).includes(e.toString()))) { //really confused why toString() is needed???!!!
+                            return res.status(403).send('Some nonts have been reserved in this period of time');
+                        }
                     }
                 }
             }
@@ -112,18 +142,23 @@ const controller = {
                 end_datetime: new Date(req.body.end_datetime).toString(),
                 price: room.price,
                 status: 'payment-pending',
-                status_change_datetime: now.toString(),
                 nontsitter_check_in: false,
                 nontsitter_check_out: false,
                 nontowner_check_in: false,
-                nontowner_check_out: false
+                nontowner_check_out: false,
+                reserve_datetime: now.toString(),
+                pay_datetime: '',
+                transaction_id: '',
+                check_in_datetime: '',
+                check_out_datetime: '',
+                cancel_datetime: ''
             };
             const newReservation = await Reservation.create(newBody);
             return res.send(newReservation);
         }
         catch(error){
             console.log(error.message);
-            return res.status(500).send("Cannot create reservation");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
 
@@ -135,34 +170,75 @@ const controller = {
             //check if nontowner check in? to verify check in (done by nont sitter)
             if(reservation.nontowner_check_in === true) {
                 const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-                const newUpdate = {$addToSet: {nontsitter_check_in:true, status:'checked-in', check_in_datetime: now.toString(), status_change_datetime: now.toString()}};
+                const newUpdate = {                
+                    nont_id: reservation.nont_id,
+                    nontowner_id: reservation.nontowner_id,
+                    room_id: reservation.room_id,
+                    shelter_id: reservation.shelter_id,
+                    nontsitter_id: reservation.nontsitter_id,
+                    start_datetime: reservation.start_datetime,
+                    end_datetime: reservation.end_datetime,
+                    price: reservation.price,
+                    status: 'checked-in', //
+                    nontsitter_check_in: true, //
+                    nontsitter_check_out: reservation.nontsitter_check_out,
+                    nontowner_check_in: reservation.nontowner_check_in, 
+                    nontowner_check_out: reservation.nontowner_check_out,
+                    reserve_datetime: reservation.reserve_datetime,
+                    pay_datetime: reservation.pay_datetime,
+                    transaction_id: reservation.transaction_id,
+                    check_in_datetime: now.toString(), //
+                    check_out_datetime: reservation.check_out_datetime,
+                    cancel_datetime: reservation.cancel_datetime
+                };
                 const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
                 return res.send(updatedReservation);      
             } else return res.status(403).send("Cannot verify check-in because nontowner still doesn't check in nont");
 
         } 
         catch (error) {            
-            return res.status(500).send("Cannot verify check-in");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
  
     nontOwnerCheckIn: async (req, res) => {
         try{
             const reservation = await Reservation.findById(req.params.id); //reservation id
-            const now = new Date();
-            //check moment time >= start date time ?
-            if(now.toString() < reservation.start_datetime) return res.status(403).send("Cannot check in before the start time")
-           
             //check the status is "paid"?
-            if(reservation.status === 'paid') {
-                const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-                const newUpdate = {$addToSet: {nontowner_check_in:true}};
-                const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
-                return res.send(updatedReservation);      
-            } else return res.status(403).send("Cannot check in because the reservation is not paid");
+            if(reservation.status !== 'paid') return res.status(403).send("Cannot check in because the reservation is not paid");
+           
+            //check moment time >= start date time ?
+            const now = new Date();
+            if(now < new Date(reservation.start_datetime)) return res.status(403).send("Cannot check in before the start time");
+
+            const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
+            const newUpdate = {                
+                nont_id: reservation.nont_id,
+                nontowner_id: reservation.nontowner_id,
+                room_id: reservation.room_id,
+                shelter_id: reservation.shelter_id,
+                nontsitter_id: reservation.nontsitter_id,
+                start_datetime: reservation.start_datetime,
+                end_datetime: reservation.end_datetime,
+                price: reservation.price,
+                status: reservation.status,
+                nontsitter_check_in: reservation.nontsitter_check_in,
+                nontsitter_check_out: reservation.nontsitter_check_out,
+                nontowner_check_in: true, //
+                nontowner_check_out: reservation.nontowner_check_out,
+                reserve_datetime: reservation.reserve_datetime,
+                pay_datetime: reservation.pay_datetime,
+                transaction_id: reservation.transaction_id,
+                check_in_datetime: reservation.check_in_datetime,
+                check_out_datetime: reservation.check_out_datetime,
+                cancel_datetime: reservation.cancel_datetime
+            };
+            const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
+            return res.send(updatedReservation);            
         } 
-        catch (error) {            
-            return res.status(500).send("Cannot check in");
+        catch (error) {           
+            console.log(error.message);
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
 
@@ -173,34 +249,74 @@ const controller = {
             //check if nontowner check out? to verify check out (done by nont sitter)
             if(reservation.nontowner_check_out === true) {
                 const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-                const newUpdate = {$addToSet: {nontsitter_check_out:true, status:'checked-out', check_out_datetime: now.toString(), status_change_datetime: now.toString()}};
+                const newUpdate = {                
+                    nont_id: reservation.nont_id,
+                    nontowner_id: reservation.nontowner_id,
+                    room_id: reservation.room_id,
+                    shelter_id: reservation.shelter_id,
+                    nontsitter_id: reservation.nontsitter_id,
+                    start_datetime: reservation.start_datetime,
+                    end_datetime: reservation.end_datetime,
+                    price: reservation.price,
+                    status: 'checked-out', //
+                    nontsitter_check_in: reservation.nontsitter_check_in,
+                    nontsitter_check_out: true, //
+                    nontowner_check_in: reservation.nontowner_check_in, 
+                    nontowner_check_out: reservation.nontowner_check_out, 
+                    reserve_datetime: reservation.reserve_datetime,
+                    pay_datetime: reservation.pay_datetime,
+                    transaction_id: reservation.transaction_id,
+                    check_in_datetime: reservation.check_in_datetime,
+                    check_out_datetime: now.toString(), //
+                    cancel_datetime: reservation.cancel_datetime
+                };
                 const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
                 return res.send(updatedReservation);      
             } else return res.status(403).send("Cannot verify check-out because nontowner still doesn't check out nont");
 
         } 
         catch (error) {            
-            return res.status(500).send("Cannot verify check-out");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
  
     nontOwnerCheckOut: async (req, res) => {
         try{
             const reservation = await Reservation.findById(req.params.id); //reservation id
-            const now = new Date();
-            //check moment time <= end date time ?
-            if(now.toString() > reservation.end_datetime) return res.send("Fine payment is needed due to late check-out!")
-           
             //check the status is "checked-in"?
-            if(reservation.status === 'checked-in') {
-                const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-                const newUpdate = {$addToSet: {nontowner_check_out:true}};
-                const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
-                return res.send(updatedReservation);      
-            } else return res.status(403).send("Cannot check out because nont owner still doesn't check-in nont");
+            if(reservation.status !== 'checked-in') res.status(403).send("Cannot check out because nont owner still doesn't check-in nont");
+          
+            //check moment time <= end date time ?
+            const now = new Date();
+            if(now > new Date(reservation.end_datetime)) return res.send("Fine payment is needed due to late check-out!");
+    
+            const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
+            const newUpdate = {                
+                nont_id: reservation.nont_id,
+                nontowner_id: reservation.nontowner_id,
+                room_id: reservation.room_id,
+                shelter_id: reservation.shelter_id,
+                nontsitter_id: reservation.nontsitter_id,
+                start_datetime: reservation.start_datetime,
+                end_datetime: reservation.end_datetime,
+                price: reservation.price,
+                status: reservation.status,
+                nontsitter_check_in: reservation.nontsitter_check_in,
+                nontsitter_check_out: reservation.nontsitter_check_out,
+                nontowner_check_in: reservation.nontowner_check_in, 
+                nontowner_check_out: true, //
+                reserve_datetime: reservation.reserve_datetime,
+                pay_datetime: reservation.pay_datetime,
+                transaction_id: reservation.transaction_id,
+                check_in_datetime: reservation.check_in_datetime,
+                check_out_datetime: reservation.check_out_datetime,
+                cancel_datetime: reservation.cancel_datetime
+            };
+            const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
+            return res.send(updatedReservation);      
         } 
         catch (error) {            
-            return res.status(500).send("Cannot check out");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
 
@@ -208,20 +324,42 @@ const controller = {
     cancelReservation: async (req, res) => {
         try{
             const reservation = await Reservation.findById(req.params.id); //reservation id
+
+            //check if the status is 'payment-pending'
+            if(reservation.status !== 'payment-pending') return res.status(403).send("Cannot cancel because the reservation is paid");
+    
+            //check if cancel at least 24hours before start_datetime
             const now = new Date();
             const date = new Date();
-            //check if cancel at least 24hours before start_datetime
-            if(reservation.start_datetime < date.setDate(date.getDate()+1).toString()) return res.status(403).send('Reservation cancel within 24 hours before start_datetime is not allowed');
-            //check if the status is 'payment-pending'
-            if(reservation.status === 'payment-pending'){
-                const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-                const newUpdate = {$addToSet: {status:'cancelled', status_change_datetime:now.toString()}};
-                const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
-                res.send(updatedReservation);      
-            } else return res.status(403).send("Cannot cancel because the reservation is paid");
+            if(date.setDate(now.getDate()+1) > new Date(reservation.start_datetime)) return res.status(403).send('Reservation cancel within 24 hours before start_datetime is not allowed');
+        
+            const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
+            const newUpdate = {                
+                nont_id: reservation.nont_id,
+                nontowner_id: reservation.nontowner_id,
+                room_id: reservation.room_id,
+                shelter_id: reservation.shelter_id,
+                nontsitter_id: reservation.nontsitter_id,
+                start_datetime: reservation.start_datetime,
+                end_datetime: reservation.end_datetime,
+                price: reservation.price,
+                status: 'cancelled', //
+                nontsitter_check_in: reservation.nontsitter_check_in,
+                nontsitter_check_out: reservation.nontsitter_check_out,
+                nontowner_check_in: reservation.nontowner_check_in, 
+                nontowner_check_out: reservation.nontowner_check_out, 
+                reserve_datetime: reservation.reserve_datetime,
+                pay_datetime: reservation.pay_datetime,
+                transaction_id: reservation.transaction_id,
+                check_in_datetime: reservation.check_in_datetime,
+                check_out_datetime: reservation.check_out_datetime,
+                cancel_datetime: now.toString() //
+            };
+            const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
+            return res.send(updatedReservation);      
         }
         catch(error){
-            return res.status(500).send("Cannot cancel reservation");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
 
@@ -236,7 +374,7 @@ const controller = {
     //         }else return res.status(403).send("Cannot delete because the reservation is paid")
     //     }
     //     catch(error){
-    //         return res.status(500).send("Cannot delete reservation");
+    //         return res.status(500).send("Internal Server Error, Please try again");
     //     }
     // },
     

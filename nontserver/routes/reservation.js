@@ -3,6 +3,9 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../Controllers/ReservationController');
+
+router.route('/:id')
+      .get(controller.getReservationByID);
   
 router.route('/nontowner_id/:id')
       .get(controller.getReservationByNontOwnerID);
