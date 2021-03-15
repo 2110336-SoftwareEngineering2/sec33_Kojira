@@ -88,7 +88,6 @@ const controller = {
     // POST create new reservation
     createReservation: async (req, res) => {
         const validationResult = validator.validate(req.body);
-        console.log(validationResult);
         if (validationResult.error){
             return res.status(400).send(validationResult.error.details[0].message);
         }

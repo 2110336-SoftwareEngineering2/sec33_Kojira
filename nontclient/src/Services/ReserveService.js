@@ -12,6 +12,27 @@ const ReserveService = {
       throw error;
     }
   },
+  
+  getReservationsByRoomID: async (roomID) => {
+    try {
+      const path = "/reservation/room_id/" + roomID;
+      const response = await axios.get(serverURL + path);
+      return response;
+    }
+    catch (error) {
+      throw error;
+    }
+  },
+
+  addReservation: async (body) => {
+    try{
+        let path = '/reservation/create';
+        const response = await axios.post(serverURL + path, body);
+        return response;
+    } catch (error){
+        throw error;
+    }
+},
 };
 
 export default ReserveService;

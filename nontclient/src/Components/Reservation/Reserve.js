@@ -6,15 +6,18 @@ import RoomService from "../../Services/RoomService";
 import NontService from "../../Services/NontService";
 import styles from "./Reserve.module.css";
 import moment from "moment";
-import { DatePicker, Select, Statistic } from "antd";
+import { DatePicker, Select, Statistic, notification } from "antd";
+import ReserveService from "../../Services/ReserveService";
 
 const UserContext = Contexts.UserContext;
 
 const Reserve = (props) => {
     const [rooms, setRooms] = useState({name:"default room name"});
     const [nonts, setNonts] = useState([]);
-    const [reservations, setReservations] = useState([]);
+    const [reservationsDate, setReservationsDate] = useState([]);
     const [nontSelected, setNontSelected] = useState([]);
+    const [dateSelected, setDateSelected] = useState([]);
+    const [price, setPrice] = useState(0);
     const { roomID } = useParams();    
     const { RangePicker } = DatePicker;
     const {Option} = Select;
@@ -31,7 +34,23 @@ const Reserve = (props) => {
     }, [contextValue])
 
     const fetchReservation = async () => {
-
+        try {
+            if (roomID) {
+                let response = await ReserveService.getReservationsByRoomID(roomID);
+                if (response.data) {
+                    let resDate = 
+                    response.data
+                    .filter(date => (date.status === 'payment-pending' 
+                    || date.status === 'paid' 
+                    || date.status === 'checked-in'));
+                    setReservationsDate(resDate);
+                    console.log(reservationsDate);
+                }
+            }            
+        }
+        catch (error) {
+            console.error(error.message);
+        }
     }
 
     const fetchRooms = async () => {
@@ -40,7 +59,6 @@ const Reserve = (props) => {
                 let response = await RoomService.getRoomByID(roomID);
                 if (response.data) {
                     setRooms(response.data);
-                    console.log(response.data);
                 }
             }
         }
@@ -64,11 +82,56 @@ const Reserve = (props) => {
     }
 
     const disabledDate = (current) => {
-        return current < moment();
+        let re = false;
+        reservationsDate.forEach(date => {
+            if ( (current.isAfter(moment(new Date(date.start_datetime)), 'days') 
+            && current.isBefore(moment(new Date(date.end_datetime)), 'days') )
+            || current.isSame(moment(new Date(date.start_datetime)), 'days') 
+            || current.isSame(moment(new Date(date.end_datetime)), 'days')) {
+                re = true;
+            }
+        });        
+        return (current < moment()) || re;
+    }
+
+    const dateChange = (dates) => {
+        if (dates) {
+            setPrice(rooms.price * Math.max(dates[1].diff(dates[0], 'days')), 1);
+            setDateSelected(dates);
+        }
+        else {
+            setPrice(0);
+        }
     }
 
     const submitReserve = async () => {
-
+        if (nontSelected && nontSelected.length > 0 && dateSelected && dateSelected.length > 0) {
+            const body = {
+                nont_id: nontSelected,
+                room_id: roomID,
+                start_datetime: new Date(dateSelected[0].set({'hour':0, 'minute':0, 'second':0})),
+                end_datetime: new Date(dateSelected[1].set({'hour':23, 'minute':59, 'second':59})),
+                price: price,
+            };
+            try {
+                const response = await ReserveService.addReservation(body);
+                notification.success({
+                    message: "Reservation created.",
+                    description: `Reservation created successfully.`,
+                    placement: "bottomRight",
+                })
+            }
+            catch (error) {
+                console.error(error.message);
+            }
+        }
+        else {
+            notification.error({ 
+                message: "Reservation",
+                description: `Cannot create a reservation. Please fill all required information.`,
+                placement: "bottomRight",
+            });
+        }
     }
 
     return(
@@ -113,12 +176,19 @@ const Reserve = (props) => {
                             <label style={{padding:"10px"}}>
                                 Reservation Time
                             </label>
-                            <RangePicker size="large" disabledDate={disabledDate} format="DD-MM-YYYY" />
+                            <RangePicker 
+                            size="large" 
+                            disabledDate={disabledDate} 
+                            format="DD-MM-YYYY" 
+                            onChange={(dates) => {
+                                dateChange(dates);
+                            }}
+                            />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col m-2 col-sm">
-                            <Statistic title="Total Price" value={0} suffix="baht" />
+                            <Statistic title="Total Price" value={price} suffix="baht" />
                         </div>
                     </div>
                     <div className="row">
