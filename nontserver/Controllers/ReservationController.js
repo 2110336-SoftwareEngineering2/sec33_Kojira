@@ -39,7 +39,7 @@ const controller = {
             return res.send(reservation);
         }
         catch (error){
-            console.log(error.message);
+            //console.log(error.message);
             return res.status(500).send('Internal Server Error, Please try again');
         }
     },
@@ -100,7 +100,7 @@ const controller = {
 
             //*cancel all reservations that are not paid within 1 day (PUT update status:cancelled)
             const newQuery = {status:'payment-pending', reserve_datetime: {$lt:new Date(now.getTime()-1000*3600*24)} };
-            const newUpdate = {$addToSet: {status:'cancelled', cancel_datetime:now.toString()}}; 
+            const newUpdate = {status:'cancelled', cancel_datetime:now.toString()}; 
             await Reservation.updateMany(newQuery, newUpdate);
 
             //4. check if the selected nont room is available at the time by looping reservation
@@ -170,27 +170,7 @@ const controller = {
             //check if nontowner check in? to verify check in (done by nont sitter)
             if(reservation.nontowner_check_in === true) {
                 const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-                const newUpdate = {                
-                    nont_id: reservation.nont_id,
-                    nontowner_id: reservation.nontowner_id,
-                    room_id: reservation.room_id,
-                    shelter_id: reservation.shelter_id,
-                    nontsitter_id: reservation.nontsitter_id,
-                    start_datetime: reservation.start_datetime,
-                    end_datetime: reservation.end_datetime,
-                    price: reservation.price,
-                    status: 'checked-in', //
-                    nontsitter_check_in: true, //
-                    nontsitter_check_out: reservation.nontsitter_check_out,
-                    nontowner_check_in: reservation.nontowner_check_in, 
-                    nontowner_check_out: reservation.nontowner_check_out,
-                    reserve_datetime: reservation.reserve_datetime,
-                    pay_datetime: reservation.pay_datetime,
-                    transaction_id: reservation.transaction_id,
-                    check_in_datetime: now.toString(), //
-                    check_out_datetime: reservation.check_out_datetime,
-                    cancel_datetime: reservation.cancel_datetime
-                };
+                const newUpdate = {status: 'checked-in', nontsitter_check_in: true, check_in_datetime: now.toString()};
                 const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
                 return res.send(updatedReservation);      
             } else return res.status(403).send("Cannot verify check-in because nontowner still doesn't check in nont");
@@ -212,27 +192,7 @@ const controller = {
             if(now < new Date(reservation.start_datetime)) return res.status(403).send("Cannot check in before the start time");
 
             const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-            const newUpdate = {                
-                nont_id: reservation.nont_id,
-                nontowner_id: reservation.nontowner_id,
-                room_id: reservation.room_id,
-                shelter_id: reservation.shelter_id,
-                nontsitter_id: reservation.nontsitter_id,
-                start_datetime: reservation.start_datetime,
-                end_datetime: reservation.end_datetime,
-                price: reservation.price,
-                status: reservation.status,
-                nontsitter_check_in: reservation.nontsitter_check_in,
-                nontsitter_check_out: reservation.nontsitter_check_out,
-                nontowner_check_in: true, //
-                nontowner_check_out: reservation.nontowner_check_out,
-                reserve_datetime: reservation.reserve_datetime,
-                pay_datetime: reservation.pay_datetime,
-                transaction_id: reservation.transaction_id,
-                check_in_datetime: reservation.check_in_datetime,
-                check_out_datetime: reservation.check_out_datetime,
-                cancel_datetime: reservation.cancel_datetime
-            };
+            const newUpdate = {nontowner_check_in: true};
             const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
             return res.send(updatedReservation);            
         } 
@@ -249,27 +209,7 @@ const controller = {
             //check if nontowner check out? to verify check out (done by nont sitter)
             if(reservation.nontowner_check_out === true) {
                 const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-                const newUpdate = {                
-                    nont_id: reservation.nont_id,
-                    nontowner_id: reservation.nontowner_id,
-                    room_id: reservation.room_id,
-                    shelter_id: reservation.shelter_id,
-                    nontsitter_id: reservation.nontsitter_id,
-                    start_datetime: reservation.start_datetime,
-                    end_datetime: reservation.end_datetime,
-                    price: reservation.price,
-                    status: 'checked-out', //
-                    nontsitter_check_in: reservation.nontsitter_check_in,
-                    nontsitter_check_out: true, //
-                    nontowner_check_in: reservation.nontowner_check_in, 
-                    nontowner_check_out: reservation.nontowner_check_out, 
-                    reserve_datetime: reservation.reserve_datetime,
-                    pay_datetime: reservation.pay_datetime,
-                    transaction_id: reservation.transaction_id,
-                    check_in_datetime: reservation.check_in_datetime,
-                    check_out_datetime: now.toString(), //
-                    cancel_datetime: reservation.cancel_datetime
-                };
+                const newUpdate = {status: 'checked-out', nontsitter_check_out: true, check_out_datetime: now.toString()};
                 const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
                 return res.send(updatedReservation);      
             } else return res.status(403).send("Cannot verify check-out because nontowner still doesn't check out nont");
@@ -291,27 +231,7 @@ const controller = {
             if(now > new Date(reservation.end_datetime)) return res.send("Fine payment is needed due to late check-out!");
     
             const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-            const newUpdate = {                
-                nont_id: reservation.nont_id,
-                nontowner_id: reservation.nontowner_id,
-                room_id: reservation.room_id,
-                shelter_id: reservation.shelter_id,
-                nontsitter_id: reservation.nontsitter_id,
-                start_datetime: reservation.start_datetime,
-                end_datetime: reservation.end_datetime,
-                price: reservation.price,
-                status: reservation.status,
-                nontsitter_check_in: reservation.nontsitter_check_in,
-                nontsitter_check_out: reservation.nontsitter_check_out,
-                nontowner_check_in: reservation.nontowner_check_in, 
-                nontowner_check_out: true, //
-                reserve_datetime: reservation.reserve_datetime,
-                pay_datetime: reservation.pay_datetime,
-                transaction_id: reservation.transaction_id,
-                check_in_datetime: reservation.check_in_datetime,
-                check_out_datetime: reservation.check_out_datetime,
-                cancel_datetime: reservation.cancel_datetime
-            };
+            const newUpdate = {nontowner_check_out: true};
             const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
             return res.send(updatedReservation);      
         } 
@@ -334,27 +254,7 @@ const controller = {
             if(date.setDate(now.getDate()+1) > new Date(reservation.start_datetime)) return res.status(403).send('Reservation cancel within 24 hours before start_datetime is not allowed');
         
             const newQuery = {_id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-            const newUpdate = {                
-                nont_id: reservation.nont_id,
-                nontowner_id: reservation.nontowner_id,
-                room_id: reservation.room_id,
-                shelter_id: reservation.shelter_id,
-                nontsitter_id: reservation.nontsitter_id,
-                start_datetime: reservation.start_datetime,
-                end_datetime: reservation.end_datetime,
-                price: reservation.price,
-                status: 'cancelled', //
-                nontsitter_check_in: reservation.nontsitter_check_in,
-                nontsitter_check_out: reservation.nontsitter_check_out,
-                nontowner_check_in: reservation.nontowner_check_in, 
-                nontowner_check_out: reservation.nontowner_check_out, 
-                reserve_datetime: reservation.reserve_datetime,
-                pay_datetime: reservation.pay_datetime,
-                transaction_id: reservation.transaction_id,
-                check_in_datetime: reservation.check_in_datetime,
-                check_out_datetime: reservation.check_out_datetime,
-                cancel_datetime: now.toString() //
-            };
+            const newUpdate = {status: 'cancelled', cancel_datetime: now.toString()};
             const updatedReservation = await Reservation.updateOne(newQuery,newUpdate);
             return res.send(updatedReservation);      
         }
