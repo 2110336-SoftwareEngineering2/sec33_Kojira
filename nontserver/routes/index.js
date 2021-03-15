@@ -8,6 +8,7 @@ const nontSitters = require("./nontSitters");
 const room = require('./room');
 const shelter =require('./shelters');
 const nont = require('./nont');
+const reservation = require('./reservation');
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -19,5 +20,6 @@ router.use("/nontSitters", nontSitters);
 router.use('/room', room);
 router.use("/shelter",shelter);
 router.use("/nont", nont);
+router.use("/reservation", reservation);
 
 module.exports = router;

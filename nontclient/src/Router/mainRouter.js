@@ -5,6 +5,7 @@ import Login from "../Components/LoginLogout/Login";
 import Registration from "../Components/Registration/Registration";
 import UserSetting from "../Components/UserSetting/UserSetting";
 import Dashboard from "../Components/Dashboard/Dashboard";
+import ShelterView from "../Components/Shelter/ShelterView";
 
 import GuardedRoute from "./GuardedRoute";
 import NontOwnerRouter from "./NontOwnerRouter";
@@ -48,6 +49,11 @@ function Router() {
         <GuardedRoute.LoginGuardedRoute
           path="/dashboard"
           component={Dashboard}
+          auth={auth}
+        />
+        <GuardedRoute.LoginGuardedRoute
+          path="/shelterView/:shelterID"
+          component={ShelterView}
           auth={auth}
         />
 
