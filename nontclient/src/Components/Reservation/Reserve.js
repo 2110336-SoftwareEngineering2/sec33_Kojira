@@ -96,7 +96,7 @@ const Reserve = (props) => {
 
     const dateChange = (dates) => {
         if (dates) {
-            setPrice(rooms.price * Math.max(dates[1].diff(dates[0], 'days')), 1);
+            setPrice(rooms.price * Math.max(dates[1].diff(dates[0], 'days'), 1) );
             setDateSelected(dates);
         }
         else {
