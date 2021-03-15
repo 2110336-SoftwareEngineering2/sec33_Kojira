@@ -75,6 +75,16 @@ const controller = {
         }
     },
 
+    getReservationByRoomID: async (req, res) => { // room id
+        try {
+            const reservation = await Reservation.find({room_id: req.params.id});
+            return res.send(reservation);
+        }
+        catch (error) {
+            return res.status(500).send('Internal Server Error, Please try again');
+        }
+    },
+
     // POST create new reservation
     createReservation: async (req, res) => {
         const validationResult = validator.validate(req.body);
