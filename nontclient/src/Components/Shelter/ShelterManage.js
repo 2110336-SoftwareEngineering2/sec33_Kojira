@@ -3,7 +3,6 @@ import ShelterService from "../../Services/ShelterService";
 import Contexts from "../../Utils/Context/Contexts";
 import ShelterRow from "./ShelterRow";
 import {notification,} from "antd";
-import { Component } from "react";
 
 const UserContext = Contexts.UserContext;
 
@@ -23,7 +22,6 @@ const ShelterManage = (props) => {
                 const response = await ShelterService.getShelterByNontSitterID(nontSitterID);
                 if (response.data) {
                     setShelters(response.data);
-                    console.log(Buffer.from(response.data[5].picture[0].img).toString())
                 }
             }
         }
@@ -92,7 +90,6 @@ const ShelterManage = (props) => {
             </div>
 
             {/* Shelter Row Button */}
-            {console.log(shelters)}
             <div className="pb-1">
                 {
                     shelters.map( (element) => (
