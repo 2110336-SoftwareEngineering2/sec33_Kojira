@@ -5,7 +5,6 @@ import Login from "../Components/LoginLogout/Login";
 import Registration from "../Components/Registration/Registration";
 import UserSetting from "../Components/UserSetting/UserSetting";
 import Dashboard from "../Components/Dashboard/Dashboard";
-import Reserve from "../Components/Reservation/Reserve";
 import ShelterView from "../Components/Shelter/ShelterView";
 
 import GuardedRoute from "./GuardedRoute";
@@ -75,11 +74,10 @@ function Router() {
         />
 
         <NontOwnerRouter
-          path={["/nont", "/findShelter"]}
+          path={["/nont", "/findShelter","/reserve"]}
           component={NontOwnerRouter}
           auth={auth}
         />
-        <Route path='/reserve' component={Reserve} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>

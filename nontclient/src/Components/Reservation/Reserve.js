@@ -45,7 +45,10 @@ const Reserve = (props) => {
         <div 
         className="container mt-3" 
         style={{backgroundColor:"#7ed6df", borderRadius:20}}>
-            <h1 style={{textAlign:"center", color:"#30336b"}}>{rooms.name}</h1>
+            {/* Room name header */}
+            <h1 style={{textAlign:"center", color:"#30336b"}}>
+                {rooms.name}
+            </h1>
             <div className="row">
                 <div className="col col-md-12" style={{backgroundColor:"#f5f6fa", borderRadius:20, textAlign:"center"}}>
                     {/* Nont Select */}
@@ -82,7 +85,7 @@ const Reserve = (props) => {
                     </div>
                     <div className="row">
                         <div className="col m-2 col-sm">
-                            <Statistic title="Price" value={0} suffix="baht" />
+                            <Statistic title="Total Price" value={0} suffix="baht" />
                         </div>
                     </div>
                     <div className="row">
