@@ -49,7 +49,8 @@ const NontManage = (props) => {
                 <div className="col">
                     <a
                     type="button"
-                    className="btn btn-outline-light text-light bg-success border-success text-center float-right"
+                    style={{backgroundColor:"blueviolet"}}
+                    className="btn btn-outline-light text-light border-success text-center float-left"
                     href={"/nont/create"}>
                         Add Nont
                     </a>

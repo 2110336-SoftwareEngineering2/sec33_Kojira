@@ -190,6 +190,9 @@ const NontRegistration = (props) => {
                     onChange={handleFormChange}
                 />
             </div>
+            <div style={{paddingLeft:404, color:"red"}}>
+                Overall pictures and medical certificates size must less than 3MB (image files only)
+            </div>
             <div className="m-5" style={{ textAlign: "center" }}>
                 <button
                 className="btn btn-primary"
