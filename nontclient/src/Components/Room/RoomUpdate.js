@@ -75,8 +75,9 @@ const RoomUpdate = (props) => {
                     setAmountValid(INVALID);
                 return;
             case "price-input":
-                if (validator.validatePrice(parseInt(element.currentTarget.value)))
-                    setPriceValid(VALID);
+                if (validator.validatePrice(parseInt(element.currentTarget.value))){
+                     setPriceValid(VALID);
+                }
                 else
                     setPriceValid(INVALID);
                 return;
