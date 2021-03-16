@@ -177,7 +177,7 @@ const ReserveInfo = (props) => {
                         <dt className="col-sm-2"><h5>status:</h5></dt>
                         <dd className="col-sm-10"><h5>{status}</h5></dd>
                     </dl>
-                    {QRcode([reserveID,280])}
+                    {status==="payment-pending"&&(QRcode([reserveID,280]))}
                     
                         <div >
                             <div>
