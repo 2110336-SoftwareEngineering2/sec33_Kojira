@@ -1,17 +1,17 @@
 import React from "react";
+import { Switch } from "react-router-dom";
 import GuardedRoute from "./GuardedRoute";
 import NontManage from "../Components/Nont/NontManage";
 import NontUpdate from "../Components/Nont/NontUpdate";
 import NontView from "../Components/Nont/NontView";
 import NontRegistration from "../Components/Nont/NontRegistration";
 import FindShelter from "../Components/FindShelter/FindShelter";
-import ReserveInfo from "../Components/Reservation/ReserveInfo";
-import ShelterView from "../Components/Shelter/ShelterView";
+import Reserve from "../Components/Reservation/Reserve";
 
 const NontOwnerRouter = (props) => {
   const auth = props.auth;
   return (
-    <React.Fragment>
+    <Switch>
       <GuardedRoute.NontOwnerGuardedRoute
         path="/nont/update/:id"
         component={NontUpdate}
@@ -28,6 +28,7 @@ const NontOwnerRouter = (props) => {
         auth={auth}
       />
       <GuardedRoute.NontOwnerGuardedRoute
+        exact
         path="/nont"
         component={NontManage}
         auth={auth}
@@ -38,8 +39,12 @@ const NontOwnerRouter = (props) => {
         component={FindShelter}
         auth={auth}
       />
-
-    </React.Fragment>
+      <GuardedRoute.NontOwnerGuardedRoute 
+        path="/reserve/:roomID"
+        component={Reserve}
+        auth={auth}
+      />
+    </Switch>
   );
 };
 

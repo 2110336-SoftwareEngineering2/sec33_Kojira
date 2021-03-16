@@ -139,7 +139,7 @@ const ShelterView = (props) => {
                                         </dl> 
                                         {
                                             contextValue.userType === UserType.NONT_OWNER&&(
-                                                <a className="btn btn-primary mt-0" href="#" role="button">reserve</a>
+                                                <a className="btn btn-primary mt-0" href={"/reserve/"+room._id} role="button">reserve</a>
 
                                             )
                                         }       
