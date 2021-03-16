@@ -9,10 +9,7 @@ const room = require("./room");
 const shelter = require("./shelters");
 const nont = require("./nont");
 const payment = require("./payment");
-const room = require('./room');
-const shelter =require('./shelters');
-const nont = require('./nont');
-const reservation = require('./reservation');
+const reservation = require("./reservation");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
