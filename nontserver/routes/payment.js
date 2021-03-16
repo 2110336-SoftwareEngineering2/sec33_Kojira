@@ -5,7 +5,6 @@ const networkInterfaces = os.networkInterfaces();
 const controller = require("../Controllers/PaymentController");
 const RandomCodes = require("random-codes");
 const rc = new RandomCodes();
-//const controller = require('../Controllers/NontController');
 
 router.route("/QR").get(controller.payment);
 

@@ -10,7 +10,6 @@ const QRcode = (props) => {
 
   if (IpAddress === "") {
     axios.post(serverURL + "/payment/getCode").then((respond) => {
-      console.log(respond.data.code);
       setCode(respond.data.code);
     });
 
