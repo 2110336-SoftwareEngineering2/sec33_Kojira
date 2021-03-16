@@ -272,6 +272,7 @@ const controller = {
             //check if the status is 'payment-pending'
             if(reservation.status === 'checked-in') return res.status(403).send("Cannot cancel because nonts are checked-in");
             if(reservation.status === 'checked-out') return res.status(403).send("Cannot cancel because nonts are checked-out");
+            if(reservation.status === 'cancelled') return res.status(403).send("The reservation is already cancelled");
     
             //check if cancel at least 24hours before start_datetime
             const now = new Date();
