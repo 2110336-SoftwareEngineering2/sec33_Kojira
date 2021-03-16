@@ -5,10 +5,13 @@ import UserType from "../../Constants/UserType";
 import { useParams } from "react-router-dom";
 import RoomService from "../../Services/RoomService";
 import NontService from "../../Services/NontService";
+import QRcode from "../../Components/Payment/QRcode";
 import { DatePicker, Select, Statistic, notification } from "antd";
-import moment from "moment";
+import moment, { months } from "moment";
 const UserContext = Contexts.UserContext;
 const ReserveInfo = (props) => {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     const contextValue = useContext(UserContext);
     const {reserveID} = useParams();
     const [Shelter, setshelter] = useState([]);
@@ -168,12 +171,13 @@ const ReserveInfo = (props) => {
                         <dt className="col-sm-2"><h5>RoomType:</h5></dt>
                         <dd className="col-sm-10"><span className="badge badge-primary mr-1">{room.nont_type}</span></dd>
                         <dt className="col-sm-2"><h5>CheckIn Date:</h5></dt>
-                        <dd className="col-sm-10"><h5>{`${(new Date(checkInDate).getDay())} ${(new Date(checkInDate).getDate())} ${(new Date(checkInDate).getMonth())} ${(new Date(checkInDate).getFullYear())} `}</h5></dd>
+                        <dd className="col-sm-10"><h5>{`${days[(new Date(checkInDate).getDay())]} ${(new Date(checkInDate).getDate())} ${months[(new Date(checkInDate).getMonth())]} ${(new Date(checkInDate).getFullYear())} `}</h5></dd>
                         <dt className="col-sm-2"><h5>CheckOut Date:</h5></dt>
-                        <dd className="col-sm-10"><h5>{checkOutDate}</h5></dd>
+                        <dd className="col-sm-10"><h5>{`${days[(new Date(checkInDate).getDay())]} ${(new Date(checkInDate).getDate())} ${months[(new Date(checkInDate).getMonth())]} ${(new Date(checkInDate).getFullYear())}` }</h5></dd>
                         <dt className="col-sm-2"><h5>status:</h5></dt>
                         <dd className="col-sm-10"><h5>{status}</h5></dd>
                     </dl>
+                    {QRcode([reserveID,280])}
                     
                         <div >
                             <div>
