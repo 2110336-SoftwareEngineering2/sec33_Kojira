@@ -4,6 +4,8 @@ import Contexts from "../../../Utils/Context/Contexts";
 import ReserveService from "../../../Services/ReserveService";
 import LoadStatus from "../../../Constants/LoadStatus";
 import ReservationList from "./ReservationList";
+import ReservationHistory from "./ReservationHistory";
+import ReservationStatus from "../../../Constants/ReservationStatus";
 
 const UserContext = Contexts.UserContext;
 
@@ -49,7 +51,24 @@ const LoadingStatus = () => {
         </div>
       )}
       {fetchStatus === LoadStatus.SUCCESS && (
-        <ReservationList reservations={reservations} />
+        <React.Fragment>
+          <h3>Your active reservation</h3>
+          <hr />
+          <ReservationList
+            reservations={reservations.filter(
+              (reservation) =>
+                reservation.status !== ReservationStatus.CHECKED_OUT &&
+                reservation.status !== ReservationStatus.CLOSED
+            )}
+          />
+          <ReservationHistory
+            reservations={reservations.filter(
+              (reservation) =>
+                reservation.status === ReservationStatus.CHECKED_OUT ||
+                reservation.status === ReservationStatus.CLOSED
+            )}
+          />
+        </React.Fragment>
       )}
     </React.Fragment>
   );

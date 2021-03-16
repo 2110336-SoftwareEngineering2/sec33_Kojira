@@ -30,3 +30,44 @@
   max-height: 100px;
   max-width: 100px;
 }
+
+.toggleable {
+  cursor: pointer;
+}
+
+#historyTitle {
+  font-size: x-large;
+  color: black;
+  opacity: 0.25;
+}
+
+.rightDropdown {
+  transition-duration: 500ms;
+}
+
+.downDropdown {
+  transform: rotate(90deg);
+  transition-duration: 500ms;
+}
+
+.collapsible {
+  transition-duration: 500ms;
+}
+
+@keyframes fadeIn {
+  from {
+       opacity: 0;
+  }
+  to {
+       opacity: 1;
+  }
+}
+
+.collapse {
+  display: none;
+}
+
+.expand {
+  display: initial;
+  animation: fadeIn 0.5s;
+}

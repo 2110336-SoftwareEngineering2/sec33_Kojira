@@ -7,7 +7,6 @@ const ReservationList = (props) => {
 
   return (
     <React.Fragment>
-      <h3>Your active reservation</h3>
       <div className="list-group">
         {reservations.map((reservation) => (
           <a href="#" className="m-2" key={reservation._id}>
