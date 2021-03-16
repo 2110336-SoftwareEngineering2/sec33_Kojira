@@ -44,6 +44,18 @@ const NontUpdate = (props) => {
                     const response = await NontService.getNontByID(id);
                     if (response.data) {
                         setNont(response.data);
+                        setMedcer(response.data.medical_certificate.map( (image) => {
+                            return {
+                                name:image.name,
+                                img:Buffer.from(image.img.data).toString()
+                            };
+                        } ));
+                        setPicture(response.data.picture.map( (image) => { 
+                            return { 
+                            img:Buffer.from(image.img.data).toString()
+                            };
+                        } ));
+                        console.log(response.data.medical_certificate);
                     }
                 }
             }
@@ -53,6 +65,7 @@ const NontUpdate = (props) => {
         }
         fetchNontOldData();
     }, [id]);
+    console.log(medcer);
 
     const validator = {
         //Check unique name
