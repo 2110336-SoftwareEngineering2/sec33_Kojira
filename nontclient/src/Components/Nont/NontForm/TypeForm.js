@@ -32,8 +32,8 @@ const TypeForm = (props) => {
           name="type-input"
           onChange={props.onChange} 
           aria-describedby="type-desc"
+          defaultValue={props.defaultValue}
           required>
-          <option value="" style={{fontStyle:"italic"}} selected> select type </option>
           {types.map((type) => (
             <option value={type}> {type} </option>      
           ))}

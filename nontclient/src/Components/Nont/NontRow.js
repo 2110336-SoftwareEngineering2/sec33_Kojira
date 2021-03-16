@@ -14,7 +14,7 @@ const NontRow = (props) => {
                 href={"/nont/"+props.element._id}
                 type="button"
                 className="btn btn-outline-info btn-block font-weight-bold" 
-                style={{textAlign:"center",backgroundColor:"silver",fontSize:18}}
+                style={{textAlign:"center", fontSize:16}}
                 >
                     {props.element.name}
                 </a>
