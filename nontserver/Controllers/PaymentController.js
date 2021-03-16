@@ -10,6 +10,7 @@ const controller = {
     } else {
       //console.log("QR scanned");
       const reservation = await Reservation.findById(req.params.id);
+      console.log(reservation);
       await Reservation.updateOne(
         { _id: req.query.reserveId },
         { status: "paid" }

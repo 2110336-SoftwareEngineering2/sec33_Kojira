@@ -3,7 +3,8 @@ const router = express.Router();
 const os = require("os");
 const networkInterfaces = os.networkInterfaces();
 const controller = require("../Controllers/PaymentController");
-
+const RandomCodes = require("random-codes");
+const rc = new RandomCodes();
 //const controller = require('../Controllers/NontController');
 
 router.route("/QR").get(controller.payment);
@@ -13,8 +14,12 @@ router.route("/getServerIpAddress").get((req, res) => {
 });
 
 router.route("/getCode").post((req, res) => {
-  const code = rc.generate();
-  res.json({ code: code });
+  try {
+    const code = rc.generate();
+    res.json({ code: code });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 module.exports = router;
