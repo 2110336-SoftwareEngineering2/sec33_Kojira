@@ -6,7 +6,7 @@ const ReservationHistory = (props) => {
   const [expand, setExpand] = useState(false);
 
   return (
-    <div className="mt-5">
+    <div className="mt-5" style={{ marginBottom: "10rem" }}>
       <div
         className={styles.toggleable}
         onClick={() => {
@@ -24,8 +24,12 @@ const ReservationHistory = (props) => {
         </span>
         <hr className={styles.horizontalLine} />
       </div>
-      <div className={styles.collapsible + " " + (!expand ? styles.collapse : styles.expand)}>
-          <ReservationList reservations={props.reservations} />
+      <div
+        className={
+          styles.collapsible + " " + (!expand ? styles.collapse : styles.expand)
+        }
+      >
+        <ReservationList reservations={props.reservations} />
       </div>
     </div>
   );

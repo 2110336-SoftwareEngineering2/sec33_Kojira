@@ -9,7 +9,11 @@ const ReservationList = (props) => {
     <React.Fragment>
       <div className="list-group">
         {reservations.map((reservation) => (
-          <a href="#" className="m-2" key={reservation._id}>
+          <a
+            href={"/reserveInfo/" + reservation._id}
+            className="m-2"
+            key={reservation._id}
+          >
             <div
               className={
                 "list-group-item list-group-item-action row d-flex justify-content-between align-items-center " +
@@ -81,7 +85,8 @@ const ReservationList = (props) => {
                           +{reservation.nont_id.length - 2} more nonts
                         </div>
                       );
-                    } else return <React.Fragment key={nont._id}></React.Fragment>;
+                    } else
+                      return <React.Fragment key={nont._id}></React.Fragment>;
                   })}
                 </div>
               </div>
