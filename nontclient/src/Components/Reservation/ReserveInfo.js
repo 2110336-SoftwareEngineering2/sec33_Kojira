@@ -10,6 +10,7 @@ import { DatePicker, Select, Statistic, notification } from "antd";
 import moment, { months } from "moment";
 const UserContext = Contexts.UserContext;
 const ReserveInfo = (props) => {
+    let today = new Date();
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     const contextValue = useContext(UserContext);
@@ -22,6 +23,8 @@ const ReserveInfo = (props) => {
     const [checkInDate,setcheckinDate] = useState();
     const [checkOutDate,setcheckOutDate]= useState();
     const [status,setstatus]= useState();
+    const [ownercheckin,setownercheckin]=useState();
+    const [sittercheckin,setsittercheckin]=useState();
 
     console.log("test"); 
     console.log(String(reserveID));
@@ -34,20 +37,22 @@ const ReserveInfo = (props) => {
                 let response = await ReserveService.getReservationsByID(reserveID);
                 console.log(response);
                 if (response.data) {
+                    setsittercheckin(response.data.nontsitter_check_in);
+                    setownercheckin(response.data.nontowner_check_in); 
                     setshelter(response.data.shelter_id);
                     setowner(response.data.nontowner_id);
                     setPrice(response.data.price);
                     setRoom(response.data.room_id);
-                    setcheckinDate(Date(response.data.start_datetime));
-                    setcheckOutDate(Date(response.data.end_datetime));
+                    setcheckinDate(response.data.start_datetime);
+                    setcheckOutDate(response.data.end_datetime);
                     setstatus(response.data.status);
                     let nontname=[];
                     response.data.nont_id.forEach( nont=>{
                         nontname=[...nontname,nont.name]
                     });
                     setNonts(nontname);
-                    console.log(typeof(checkInDate));
-                    console.log(typeof(checkOutDate));
+                    console.log(checkInDate);
+                    console.log(checkOutDate);
 
 
                 }
@@ -144,6 +149,15 @@ const ReserveInfo = (props) => {
             console.error(error.message);
         }
     }
+    const printstatus = async (status)=>{
+        if(status==='paid'){
+            if(sittercheckin&&!(ownercheckin)){setstatus("paid-wait for nont owner check in");}
+            if(!(sittercheckin)&&ownercheckin){setstatus("paid-wait for nont sitter check in");}
+        }
+        console.log("printstatus");
+        console.log(status);
+        setstatus(status);
+    }
     
 
 
@@ -173,7 +187,7 @@ const ReserveInfo = (props) => {
                         <dt className="col-sm-2"><h5>CheckIn Date:</h5></dt>
                         <dd className="col-sm-10"><h5>{`${days[(new Date(checkInDate).getDay())]} ${(new Date(checkInDate).getDate())} ${months[(new Date(checkInDate).getMonth())]} ${(new Date(checkInDate).getFullYear())} `}</h5></dd>
                         <dt className="col-sm-2"><h5>CheckOut Date:</h5></dt>
-                        <dd className="col-sm-10"><h5>{`${days[(new Date(checkInDate).getDay())]} ${(new Date(checkInDate).getDate())} ${months[(new Date(checkInDate).getMonth())]} ${(new Date(checkInDate).getFullYear())}` }</h5></dd>
+                        <dd className="col-sm-10"><h5>{`${days[(new Date(checkOutDate).getDay())]} ${(new Date(checkOutDate).getDate())} ${months[(new Date(checkOutDate).getMonth())]} ${(new Date(checkOutDate).getFullYear())}` }</h5></dd>
                         <dt className="col-sm-2"><h5>status:</h5></dt>
                         <dd className="col-sm-10"><h5>{status}</h5></dd>
                     </dl>
@@ -192,13 +206,13 @@ const ReserveInfo = (props) => {
                             </div>
                             <div>
                                 {
-                                   (status==="paid")&&<input className="d-flex align-content-center my-1 btn btn-primary" type="button" onClick={oncheckIn} value="checkin"/>
+                                   (status==="paid"&&  today>Date.parse(checkInDate)&&today<Date.parse(checkOutDate))&&<input className="d-flex align-content-center my-1 btn btn-primary" type="button" onClick={oncheckIn} value="checkin"/>
                                 }
                                 
                             </div>
                             <div>
                                 {
-                                    (status==="checked-in")&&<input className="my-1 btn btn-primary" type="button" onClick={oncheckOut} value="checkout"/>
+                                    (status==="checked-in"&&today>Date.parse(checkOutDate))&&<input className="my-1 btn btn-primary" type="button" onClick={oncheckOut} value="checkout"/>
                                 }
                                 
                             </div>
