@@ -4,8 +4,7 @@ import Contexts from "../../Utils/Context/Contexts";
 import { useParams } from "react-router-dom";
 import RoomService from "../../Services/RoomService";
 import UserType from "../../Constants/UserType";
-import styles from "../FindShelter/FindShelter.module.css";
-
+        
 
 const UserContext = Contexts.UserContext;
 const ShelterView = (props) => {
@@ -52,9 +51,7 @@ const ShelterView = (props) => {
         fetchRooms();   
     }, [shelterID]);
     return(
-        <>
-        {contextValue.userType === UserType.UNKNOWN_USER_TYPE && <h2>You are not logged in </h2>}
-        {contextValue.userType !== UserType.UNKNOWN_USER_TYPE &&  
+
         <div className="container">
 
             <div className="card mt-3">
@@ -67,9 +64,9 @@ const ShelterView = (props) => {
                         {
                         ( shelter?.picture?.length>0 )&&<img className="w-100 p-3" src={`${'data' in shelter?.picture?.[0]?.img&&Buffer.from((shelter?.picture?.[0]?.img?.data)).toString()}`} alt="shelter image"/>
                         }
-                        {shelter?.picture?.length === 0 && (
-                        <img src="/no-image.svg" className="w-100 p-3" alt=""></img>
-                         )}
+                        {
+                        (shelter?.picture?.length==0 )&&<img className="w-100 p-3" src="" alt="shelter image"/>
+                        }
                         </div>
                         <div className="col-md-6">
                             <div className="media-body ">
@@ -154,8 +151,7 @@ const ShelterView = (props) => {
 
 
         </div>
-        }
-        </>
+
     );
 
 
