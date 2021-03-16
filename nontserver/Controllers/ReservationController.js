@@ -270,7 +270,8 @@ const controller = {
             const reservation = await Reservation.findById(req.params.id); //reservation id
 
             //check if the status is 'payment-pending'
-            if(reservation.status !== 'payment-pending') return res.status(403).send("Cannot cancel because the reservation is paid");
+            if(reservation.status === 'checked-in') return res.status(403).send("Cannot cancel because nonts are checked-in");
+            if(reservation.status === 'checked-out') return res.status(403).send("Cannot cancel because nonts are checked-out");
     
             //check if cancel at least 24hours before start_datetime
             const now = new Date();
