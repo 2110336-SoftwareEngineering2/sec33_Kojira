@@ -57,7 +57,7 @@ function Router() {
           auth={auth}
         />
         <GuardedRoute.LoginGuardedRoute
-          path="/reserveInfo"
+          path="/reserveInfo/:reserveID"
           component={ReserveInfo}
           auth={auth}
         />
