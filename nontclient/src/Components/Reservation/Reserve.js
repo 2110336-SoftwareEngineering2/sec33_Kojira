@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Contexts from "../../Utils/Context/Contexts";
-import ReservationService from "../../Services/ReserveService";
 import RoomService from "../../Services/RoomService";
 import NontService from "../../Services/NontService";
 import styles from "./Reserve.module.css";
@@ -120,6 +119,10 @@ const Reserve = (props) => {
                     description: `Reservation created successfully.`,
                     placement: "bottomRight",
                 })
+                console.log(response?.data?._id);
+                if('data' in response &&'_id' in response?.data){
+                    window.location.href="/reserveInfo/"+response?.data?._id;
+                }
             }
             catch (error) {
                 notification.error({ 

@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { notification } from "antd";
 import { useParams } from "react-router-dom";
 import NontService from "../../Services/NontService";
 import Contexts from "../../Utils/Context/Contexts";
@@ -20,8 +21,7 @@ const UserContext = Contexts.UserContext;
 const reader = new FileReader();
 
 const NontUpdate = (props) => {
-    const obj = useParams();
-    const nontID = obj.id;
+    const {id} = useParams();
 
     const value = useContext(UserContext);
     
@@ -40,10 +40,22 @@ const NontUpdate = (props) => {
     useEffect(() => {
         async function fetchNontOldData() {
             try {
-                if (nontID) {
-                    const response = await NontService.getNontByID(nontID);
+                if (id) {
+                    const response = await NontService.getNontByID(id);
                     if (response.data) {
                         setNont(response.data);
+                        setMedcer(response.data.medical_certificate.map( (image) => {
+                            return {
+                                name:image.name,
+                                img:Buffer.from(image.img.data).toString()
+                            };
+                        } ));
+                        setPicture(response.data.picture.map( (image) => { 
+                            return { 
+                            img:Buffer.from(image.img.data).toString()
+                            };
+                        } ));
+                        console.log(response.data.medical_certificate);
                     }
                 }
             }
@@ -52,7 +64,8 @@ const NontUpdate = (props) => {
             }
         }
         fetchNontOldData();
-    }, [nontID]);
+    }, [id]);
+    console.log(medcer);
 
     const validator = {
         //Check unique name
@@ -157,11 +170,21 @@ const NontUpdate = (props) => {
         if(pictureValid) { body.picture = picture }
         //if(birthDateValid===VALID) { console.log(birthDateValid);body.birth_date = document.getElementById("birth_date-input").value }
         try {
-            const response = await NontService.updateNont(nontID, body);
+            const response = await NontService.updateNont(id, body);
             setRegisterStatus(VALID);
+            notification.success({
+                message: "Nont",
+                description: `Nont successfully updated.`,
+                placement: "bottomRight",
+            });
             console.log(response);
         } catch (error){
             setRegisterStatus(INVALID);
+            notification.error({ 
+                message: "Nont",
+                description: `Cannot update nont profile.`,
+                placement: "bottomRight",
+            });
             console.error(error.message);
         }
     }
@@ -174,50 +197,58 @@ const NontUpdate = (props) => {
             <h1 className="my-5 text-center">Update Nont</h1>
             <div style={{color:"red"}}>
                 * required
-            </div>   
-            <NameForm
-                onChange={handleFormChange}
-                defaultValue = {nont.name}
-                valid={nameValid}
-            />
-            <div className="row">
-                <TypeForm
-                    onChange={handleFormChange}
-                    defaultValue = {nont.type}
-                    valid={typeValid}
-                />       
-                <SubtypeForm
-                    onChange={handleFormChange}
-                    defaultValue = {nont.subtype}
-                    valid={subtypeValid}
-                />  
-            </div>    
-            <DescriptionForm
-                onChange={handleFormChange}
-                defaultValue = {nont.description}
-                valid={descriptionValid}
-            />
-            <div className="row">
-                <BirthDateForm
-                    onChange={handleFormChange}
-                    defaultValue = {nont.birth_date}
-                    valid={birthDateValid}
-                />
-                <MedicalCertificateForm
-                    onChange={handleFormChange}
-                />
-                <PictureForm
-                    onChange={handleFormChange}
-                />
             </div>
-            <div className="m-5" style={{ textAlign: "center" }}>
-                <button
-                className="btn btn-primary"
-                onClick={submitUpdate}
-                >
-                save and update
-                </button>
-            </div>
+            <form className="form" onSubmit={(e) => {
+            e.preventDefault();
+            submitUpdate();}}
+            >
+                <NameForm
+                    onChange={handleFormChange}
+                    defaultValue = {nont.name}
+                    valid={nameValid}
+                />
+                <div className="row">
+                    <TypeForm
+                        onChange={handleFormChange}
+                        defaultValue = {nont.type}
+                        valid={typeValid}
+                    />       
+                    <SubtypeForm
+                        onChange={handleFormChange}
+                        defaultValue = {nont.subtype}
+                        valid={subtypeValid}
+                    />  
+                </div>    
+                <DescriptionForm
+                    onChange={handleFormChange}
+                    defaultValue = {nont.description}
+                    valid={descriptionValid}
+                />
+                <div className="row">
+                    <BirthDateForm
+                        onChange={handleFormChange}
+                        defaultValue = {nont.birth_date}
+                        valid={birthDateValid}
+                    />
+                    <MedicalCertificateForm
+                        onChange={handleFormChange}
+                    />
+                    <PictureForm
+                        onChange={handleFormChange}
+                    />
+                </div>
+                <div style={{paddingLeft:404, color:"red"}}>
+                    Overall pictures and medical certificates size must less than 3MB (image files only)
+                </div>
+                <div className="m-5" style={{ textAlign: "center" }}>
+                    <button
+                    className="btn btn-primary"
+                    type="submit"
+                    >
+                    save and update
+                    </button>
+                </div>
+            </form>
         </div>
         }
         

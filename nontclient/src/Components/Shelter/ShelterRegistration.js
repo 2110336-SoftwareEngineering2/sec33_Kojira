@@ -1,4 +1,5 @@
 import React, { useContext, useState, Component } from "react";
+import {notification,} from "antd";
 import ShelterService from "../../Services/ShelterService";
 import {
     VALID,
@@ -167,10 +168,20 @@ const ShelterRegistration  = (props) => {
         console.log(body.coordinate)
         try {
             const response = await ShelterService.registerShelter(body);
-            setRegisterStatus(VALID)
+            setRegisterStatus(VALID);            
+            notification.success({
+                message: "Shelter",
+                description: `Shelter successfully created.`,
+                placement: "bottomRight",
+            });
             console.log(response);
         } catch (error){
-            setRegisterStatus(INVALID)
+            setRegisterStatus(INVALID);
+            notification.error({ 
+                message: "Shelter",
+                description: `Cannot create shelter profile.`,
+                placement: "bottomRight",
+            });
             console.error(error.message);
         }
     }

@@ -6,7 +6,7 @@ import Registration from "../Components/Registration/Registration";
 import UserSetting from "../Components/UserSetting/UserSetting";
 import Dashboard from "../Components/Dashboard/Dashboard";
 import ShelterView from "../Components/Shelter/ShelterView";
-
+import ReserveInfo from "../Components/Reservation/ReserveInfo"
 import GuardedRoute from "./GuardedRoute";
 import NontOwnerRouter from "./NontOwnerRouter";
 import NontSitterRouter from "./NontSitterRouter";
@@ -56,6 +56,11 @@ function Router() {
           component={ShelterView}
           auth={auth}
         />
+        <GuardedRoute.LoginGuardedRoute
+          path="/reserveInfo/:reserveID"
+          component={ReserveInfo}
+          auth={auth}
+        />
 
         <Route path="/login" component={Login} />
         <Route path="/register" component={Registration} />
@@ -72,7 +77,6 @@ function Router() {
           component={NontSitterRouter}
           auth={auth}
         />
-
         <NontOwnerRouter
           path={["/nont", "/findShelter","/reserve"]}
           component={NontOwnerRouter}

@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import {notification,} from "antd";
 import ShelterService from "../../Services/ShelterService";
 import Contexts from "../../Utils/Context/Contexts";
 import { useParams } from "react-router-dom";
@@ -175,18 +176,28 @@ const ShelterUpdate = (props) => {
             }
         if (pictureValid){body.picture = picture}
         if (licenseValid){body.license = license}
-        console.log(shelterID)
-        console.log(body.coordinate)
-        console.log(document.getElementById("name-input").value)
-        console.log(document.getElementById("description-input").value)
-        console.log(document.getElementById("phone-input").value,)
-        console.log(document.getElementById("address-input").value)
+        // console.log(shelterID)
+        // console.log(body.coordinate)
+        // console.log(document.getElementById("name-input").value)
+        // console.log(document.getElementById("description-input").value)
+        // console.log(document.getElementById("phone-input").value,)
+        // console.log(document.getElementById("address-input").value)
         try {
            const response = await ShelterService.updateShelter(body); // change this for update not registeration
-           setRegisterStatus(VALID)
-           console.log(response);
+           setRegisterStatus(VALID);
+           notification.success({
+            message: "Shelter",
+            description: `Shelter successfully updated.`,
+            placement: "bottomRight",
+            });
+        //    console.log(response);
         } catch (error){
-            setRegisterStatus(INVALID)
+            setRegisterStatus(INVALID);
+            notification.error({ 
+                message: "Shelter",
+                description: `Cannot update shelter profile.`,
+                placement: "bottomRight",
+            });
            console.error(error.message);
         }
     }

@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { notification } from "antd";
 import NontService from "../../Services/NontService";
 import Contexts from "../../Utils/Context/Contexts";
 import NontRow from "./NontRow";
@@ -30,7 +31,17 @@ const NontManage = (props) => {
         try {
             const response = await NontService.deleteNont(id);
             if(response.status===200) setNonts(nonts.filter((nont) => nont._id !== id));
+            notification.success({
+                message: "Nont",
+                description: `Nont deleted successfully.`,
+                placement: "bottomRight",
+            });
         } catch (error){
+            notification.error({
+                message: "Nont",
+                description: `Cannot delete Nont.`,
+                placement: "bottomRight",
+            });
             console.error(error.message);
         }
     }
@@ -49,7 +60,8 @@ const NontManage = (props) => {
                 <div className="col">
                     <a
                     type="button"
-                    className="btn btn-outline-light text-light bg-success border-success text-center float-right"
+                    style={{backgroundColor:"blueviolet"}}
+                    className="btn btn-outline-light text-light border-success text-center float-left"
                     href={"/nont/create"}>
                         Add Nont
                     </a>
