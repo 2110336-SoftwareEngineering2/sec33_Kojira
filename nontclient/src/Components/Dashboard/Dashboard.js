@@ -1,30 +1,19 @@
 import React, { useContext } from "react";
-import { withRouter } from "react-router";
 import Contexts from "../../Utils/Context/Contexts";
 import QRCode from "../Payment/QRcode";
 
-const UserContext = Contexts.UserContext;
+import UserType from "../../Constants/UserType";
+import NontOwnerDashboard from "./NontOwnerDashboard/NontOwnerDashboard";
+import NontSitterDashboard from "./NontSitterDashboard/NontSitterDashboard";
 
-const Homepage = () => {
-  const value = useContext(UserContext);
-
+const Dashboard = () => {
+  const user = useContext(Contexts.UserContext);
   return (
     <React.Fragment>
-      <h1 className="mt-5" style={{ textAlign: "center" }}>
-        Nont Community of Pet Lovers
-      </h1>
-      {value.login && (
-        <h2 className="mt-5" style={{ textAlign: "center" }}>
-          You are logged in as a {value.userType}
-        </h2>
-      )}
-      {!value.login && (
-        <h2 className="mt-5" style={{ textAlign: "center" }}>
-          You are not logged in
-        </h2>
-      )}
+      {user.userType === UserType.NONT_OWNER && <NontOwnerDashboard />}
+      {user.userType === UserType.NONT_SITTER && <NontSitterDashboard />}
     </React.Fragment>
   );
 };
 
-export default withRouter(Homepage);
+export default Dashboard;

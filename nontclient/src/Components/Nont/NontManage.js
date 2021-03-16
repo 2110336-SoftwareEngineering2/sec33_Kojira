@@ -46,23 +46,15 @@ const NontManage = (props) => {
 
             {/* Nont Register Button */}
             <div className="row">
-            <button
-                className="btn btn-lg mt-2 mb-2"
-                id="nont-register-button"
-                >
-                    <a 
-                    href={"/nont/create"}
-                    className="fa fa-plus"
-                    style={{textDecoration:"none"}}
-                    title="Add New Nont"
-                    />
-                    <label
-                    className="pl-3"
-                    style={{color:"#2980b9"}}
-                    >
+                <div className="col">
+                    <a
+                    type="button"
+                    style={{backgroundColor:"blueviolet"}}
+                    className="btn btn-outline-light text-light border-success text-center float-left"
+                    href={"/nont/create"}>
                         Add Nont
-                    </label>
-                </button>
+                    </a>
+                </div>            
             </div>
 
             {/* Nont Row Button */}

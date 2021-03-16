@@ -1,9 +1,13 @@
 import React from "react";
-import styles from "./Shelter.module.css";
+import styles from "../Shelter.module.css";
 import {
   VALID,
+  INVALID,
   DEFAULT,
-} from "../../Constants/FormValidity";
+  EMPTY,
+  EXIST,
+  CHANGING,
+} from "../../../Constants/FormValidity";
 
 const LicenseForm = (props) => {
     return(

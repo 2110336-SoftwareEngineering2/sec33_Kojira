@@ -9,6 +9,7 @@ const FindShelter = (props) => {
     LoadStatus.LOADING
   );
   const [shelters, setShelters] = useState([]);
+  const [position, setPosition] = useState(null);
 
   useEffect(() => {
     async function fetchShelter() {
@@ -22,6 +23,22 @@ const FindShelter = (props) => {
       }
     }
     fetchShelter();
+  }, []);
+
+  useEffect(() => {
+    async function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    }
+    getLocation();
   }, []);
 
   return (
@@ -48,7 +65,7 @@ const FindShelter = (props) => {
         </div>
       )}
       {fetchShelterStatus === LoadStatus.SUCCESS && (
-        <FindShelterList shelters={shelters} />
+        <FindShelterList shelters={shelters} position={position} />
       )}
     </div>
   );
