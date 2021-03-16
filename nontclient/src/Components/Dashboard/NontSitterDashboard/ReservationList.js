@@ -63,24 +63,24 @@ const ReservationList = () => {
                       </div>
                     </div>
 
-                    <div className="col-6 col-lg-4 d-flex">
+                    <div className="col-6 col-lg-3 d-flex">
                       <div className="row-cols-auto">
                         <div
                           className="col mb-3 text-break"
                           style={{ padding: "0px", opacity: "0.9" }}
                         >
-                          {_.truncate(reservation.nontOwner?reservation.nontOwner:"Owner", { length: 20 })}
+                          {_.truncate(reservation.nontowner_id.name?reservation.nontowner_id.name:"Owner", { length: 20 })}
                         </div>
                         <div
                           className="col text-break"
                           style={{ padding: "0px", opacity: "0.5" }}
                         >
-                          {_.truncate(reservation.nontOwnerPhoneNumber?reservation.nontOwnerPhoneNumber:"0XXXXXXXXX", { length: 20 })}
+                          {_.truncate(reservation.nontowner_id.phoneNumber?reservation.nontowner_id.phoneNumber:"0XXXXXXXXX", { length: 20 })}
                         </div>
                       </div>
                     </div>
 
-                    <div className="col-6 col-lg-2 d-flex">
+                    <div className="col-6 col-lg-3 d-flex">
                       <div className="row-cols-auto">
                         <div
                           className="col mb-3 text-break"
@@ -107,9 +107,21 @@ const ReservationList = () => {
                         </div>
                         <div
                           className="col text-break"
-                          style={{ padding: "0px", opacity: "0.4", fontSize: "15px" }}
+                          style={{ padding: "0px", opacity: "0.4", fontSize: "10px" }}
+                        >
+                          Start/End Date
+                        </div>
+                        <div
+                          className="col text-break"
+                          style={{ padding: "0px", opacity: "0.5", fontSize: "15px" }}
                         >
                           {_.truncate(reservation.start_datetime?reservation.start_datetime.slice(0,15):"XX/XX/XX")}
+                        </div>
+                        <div
+                          className="col text-break"
+                          style={{ padding: "0px", opacity: "0.5", fontSize: "15px" }}
+                        >
+                          {_.truncate(reservation.start_datetime?reservation.end_datetime.slice(0,15):"XX/XX/XX")}
                         </div>
                       </div>
                     </div>

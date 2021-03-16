@@ -57,7 +57,7 @@ const controller = {
     getReservationByNontSitterID: async (req, res) => { //nont sitter id
         try{            
             const reservation = await Reservation.find({nontsitter_id: req.params.id}) 
-            .populate('nont_id').populate('room_id').populate('shelter_id'); 
+            .populate('nont_id').populate('room_id').populate('shelter_id').populate('nontowner_id'); 
             return res.send(reservation);
         }
         catch (error){
