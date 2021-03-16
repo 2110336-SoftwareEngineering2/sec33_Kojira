@@ -2,29 +2,15 @@ import React from "react";
 import styles from "./NontOwnerDashboard.module.css";
 const _ = require("lodash");
 
-const ReservationList = () => {
-  const dummyList = [
-    {
-      shelter: "Shelter1",
-      room: "Room1",
-      nont: "Nont1",
-      nontType: "NontType1",
-      status: "Dummy Status",
-    },
-    {
-      shelter: "Shelter2",
-      room: "Room2",
-      nont: "Nont2",
-      nontType: "NontType2",
-      status: "Dummy Status",
-    },
-  ];
+const ReservationList = props => {
+
+  const reservations = props.reservations;
 
   return (
     <React.Fragment>
       <h3>Your active reservation</h3>
       <div className="list-group">
-        {dummyList.map((reservation) => (
+        {reservations.map((reservation) => (
           <a href="#" className="m-2">
             <div
               className={
@@ -47,13 +33,13 @@ const ReservationList = () => {
                     className="col mb-3 text-break"
                     style={{ padding: "0px", opacity: "0.8" }}
                   >
-                    {_.truncate(reservation.shelter, { length: 20 })}
+                    {_.truncate(reservation.shelter_id.name, { length: 20 })}
                   </div>
                   <div
                     className="col text-break"
                     style={{ padding: "0px", opacity: "0.4" }}
                   >
-                    {_.truncate(reservation.room, { length: 20 })}
+                    {_.truncate(reservation.room_id.name, { length: 20 })}
                   </div>
                 </div>
               </div>
@@ -63,13 +49,13 @@ const ReservationList = () => {
                     className="col mb-3 text-break"
                     style={{ padding: "0px", opacity: "0.8" }}
                   >
-                    {_.truncate(reservation.nont, { length: 20 })}
+                    {_.truncate(reservation.nont_id[0].name, { length: 20 })}
                   </div>
                   <div
                     className="col text-break"
                     style={{ padding: "0px", opacity: "0.4" }}
                   >
-                    {_.truncate(reservation.nontType, { length: 20 })}
+                    {_.truncate(reservation.nont_id[0].type, { length: 20 })}
                   </div>
                 </div>
               </div>
