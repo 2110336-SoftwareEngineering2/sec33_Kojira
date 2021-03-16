@@ -1,4 +1,5 @@
 import React, { useContext, useState, Component } from "react";
+import { notification } from "antd";
 import NontService from "../../Services/NontService";
 import Contexts from "../../Utils/Context/Contexts";
 import {
@@ -119,13 +120,15 @@ const NontRegistration = (props) => {
                 return
             case "picture-input":
                 let file2 = element.currentTarget.files[0];
-                reader.onload = async (e) => {
-                    let buffer2 = reader.result;
-                    //setPicture([...picture, {img:buffer2}]);
-                    setPicture(oldArray => [...oldArray, {img:buffer2}]);
-                    setPictureValid(VALID);
-                }
-                reader.readAsDataURL(element.currentTarget.files[0]);
+                if (file2 instanceof Blob) {
+                    reader.onload = async (e) => {
+                        let buffer2 = reader.result;
+                        //setPicture([...picture, {img:buffer2}]);
+                        setPicture(oldArray => [...oldArray, {img:buffer2}]);
+                        setPictureValid(VALID);
+                    }
+                    reader.readAsDataURL(element.currentTarget.files[0]);
+                }                
                 return
         }
     }
@@ -144,9 +147,19 @@ const NontRegistration = (props) => {
         try {
             const response = await NontService.createNont(body);
             setRegisterStatus(VALID);
+            notification.success({
+                message: "Nont",
+                description: `Nont ${body.name} created successfully.`,
+                placement: "bottomRight",
+            });
             console.log(response);
         } catch (error){
             setRegisterStatus(INVALID);
+            notification.error({ 
+                message: "Nont",
+                description: `Cannot create nont profile.`,
+                placement: "bottomRight",
+            });
             console.error(error.message);
         }
     }
@@ -159,48 +172,53 @@ const NontRegistration = (props) => {
             <h1 className="my-5 text-center">Register Nont</h1>
             <div style={{color:"red"}}>
                 * required
-            </div>   
-            <NameForm
-                onChange={handleFormChange}
-                valid={nameValid}
-            />
-            <div className="row">
-                <TypeForm
-                    onChange={handleFormChange}
-                    valid={typeValid}
-                />       
-                <SubtypeForm
-                    onChange={handleFormChange}
-                    valid={subtypeValid}
-                />  
-            </div>    
-            <DescriptionForm
-                onChange={handleFormChange}
-                valid={descriptionValid}
-            />
-            <div className="row">
-                <BirthDateForm
-                    onChange={handleFormChange}
-                    valid={birthDateValid}
-                />
-                <MedicalCertificateForm
-                    onChange={handleFormChange}
-                />
-                <PictureForm
-                    onChange={handleFormChange}
-                />
             </div>
-            <div style={{paddingLeft:404, color:"red"}}>
-                Overall pictures and medical certificates size must less than 3MB (image files only)
-            </div>
-            <div className="m-5" style={{ textAlign: "center" }}>
-                <button
-                className="btn btn-primary"
-                onClick={submitRegistration}
-                >
-                save and submit
-                </button>
-            </div>
+            <form className="form" onSubmit={(e) => {
+            e.preventDefault();
+            submitRegistration();}}
+            >
+                <NameForm
+                    onChange={handleFormChange}
+                    valid={nameValid}
+                />
+                <div className="row">
+                    <TypeForm
+                        onChange={handleFormChange}
+                        valid={typeValid}
+                    />       
+                    <SubtypeForm
+                        onChange={handleFormChange}
+                        valid={subtypeValid}
+                    />  
+                </div>    
+                <DescriptionForm
+                    onChange={handleFormChange}
+                    valid={descriptionValid}
+                />
+                <div className="row">
+                    <BirthDateForm
+                        onChange={handleFormChange}
+                        valid={birthDateValid}
+                    />
+                    <MedicalCertificateForm
+                        onChange={handleFormChange}
+                    />
+                    <PictureForm
+                        onChange={handleFormChange}
+                    />
+                </div>
+                <div style={{paddingLeft:404, color:"red"}}>
+                    Overall pictures and medical certificates size must less than 3MB (image files only)
+                </div>
+                <div className="m-5" style={{ textAlign: "center" }}>
+                    <button
+                    className="btn btn-primary"
+                    type="submit"
+                    >
+                    save and submit
+                    </button>
+                </div>
+            </form>
         </div>
         }
         

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import {notification,} from "antd";
 import RoomService from "../../Services/RoomService";
 import {
     VALID,
@@ -75,9 +76,19 @@ const RoomRegistration = (props) => {
         try {
             const response = await RoomService.registerRoom(body);
             setRegisterStatus(VALID);
+            notification.success({
+                message: "Room",
+                description: `Room successfully created.`,
+                placement: "bottomRight",
+            });
             console.log(response);
         } catch (error) {
             setRegisterStatus(INVALID);
+            notification.error({ 
+                message: "Room",
+                description: `Cannot create room.`,
+                placement: "bottomRight",
+            });
             console.error(error.message);
         }
     }

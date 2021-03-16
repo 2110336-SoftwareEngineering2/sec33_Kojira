@@ -63,37 +63,42 @@ class LoginFields extends Component {
       <UserContext.Consumer>
         {(value) => {
           return (
-            <div id={styles.LoginFieldsDiv} className={styles.textCenter}>
-              <div className={"row " + styles.center}>
-                <input
-                  onChange={(e) => this.handleOnChangeEmail(e)}
-                  type="email"
-                  id={styles.emailInput}
-                  size="50"
-                  placeholder="Enter your email"
-                ></input>
-              </div>
-              <div className={"row " + styles.center}>
-                <input
-                  onChange={(e) => this.handleOnChangePassword(e)}
-                  type="password"
-                  id={styles.passwordInput}
-                  size="50"
-                  placeholder="Enter your password"
-                ></input>
-              </div>
-              <div className={"row " + styles.center}>
-                <button
-                  id={styles.logInButton}
-                  className="btn btn-success"
-                  onClick={() => this.handleSubmit(value.UpdateUserInfo)}
-                >
-                  Log in
-                </button>
-              </div>
-              {this.state.errMessage !== "" && (
-                <p className={styles.redColor}>{this.state.errMessage}</p>
-              )}
+            <div id={styles.LoginFieldsDiv} className={styles.textCenter}>              
+              <form className="form" onSubmit={(e) => {
+                  e.preventDefault();
+                  this.handleSubmit(value.UpdateUserInfo)}}
+              >
+                <div className={"row " + styles.center}>
+                  <input
+                    onChange={(e) => this.handleOnChangeEmail(e)}
+                    type="email"
+                    id={styles.emailInput}
+                    size="50"
+                    placeholder="Enter your email"
+                  ></input>
+                </div>
+                <div className={"row " + styles.center}>
+                  <input
+                    onChange={(e) => this.handleOnChangePassword(e)}
+                    type="password"
+                    id={styles.passwordInput}
+                    size="50"
+                    placeholder="Enter your password"
+                  ></input>
+                </div>
+                <div className={"row " + styles.center}>
+                  <button
+                    id={styles.logInButton}
+                    className="btn btn-success"
+                    type="submit"
+                  >
+                    Log in
+                  </button>          
+                </div>
+                {this.state.errMessage !== "" && (
+                  <p className={styles.redColor}>{this.state.errMessage}</p>
+                )}
+              </form>
             </div>
           );
         }}
