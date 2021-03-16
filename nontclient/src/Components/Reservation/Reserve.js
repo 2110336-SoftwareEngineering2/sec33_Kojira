@@ -119,7 +119,7 @@ const Reserve = (props) => {
                     message: "Reservation created.",
                     description: `Reservation created successfully.`,
                     placement: "bottomRight",
-                })
+                });
             }
             catch (error) {
                 notification.error({ 
