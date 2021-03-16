@@ -177,8 +177,8 @@ const ReserveInfo = (props) => {
                         <dt className="col-sm-2"><h5>status:</h5></dt>
                         <dd className="col-sm-10"><h5>{status}</h5></dd>
                     </dl>
-                    {QRcode([reserveID,280])}
-                    
+                    {contextValue.userType === UserType.NONT_OWNER && status === 'payment-pending' && <QRcode reserveId={reserveID} size={128} />}
+
                         <div >
                             <div>
                                 {((contextValue.userType === UserType.NONT_OWNER)&&
