@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState} from "react";
+import {notification,} from "antd";
 import RoomService from "../../Services/RoomService";
 import { useParams } from "react-router-dom";
 import {
@@ -74,8 +75,9 @@ const RoomUpdate = (props) => {
                     setAmountValid(INVALID);
                 return;
             case "price-input":
-                if (validator.validatePrice(parseInt(element.currentTarget.value)))
-                    setPriceValid(VALID);
+                if (validator.validatePrice(parseInt(element.currentTarget.value))){
+                     setPriceValid(VALID);
+                }
                 else
                     setPriceValid(INVALID);
                 return;
@@ -102,8 +104,18 @@ const RoomUpdate = (props) => {
             try {
                 const response = await RoomService.updateRoom(roomID, body);
                 setUpdateStatus(VALID);
+                notification.success({
+                    message: "Room",
+                    description: `Room successfully updated.`,
+                    placement: "bottomRight",
+                });
             } catch (error) {
                 setUpdateStatus(INVALID);
+                notification.error({ 
+                    message: "Shelter",
+                    description: `Cannot update room profile.`,
+                    placement: "bottomRight",
+                });
                 console.error(error.message);
             }
         }
@@ -135,10 +147,12 @@ const RoomUpdate = (props) => {
                         id="name-input"
                         name="name"
                         aria-describedby="name-desc"
-                        onChange={handleFormChange, (e)=>{setRoom({
+                        onChange={(e)=>{setRoom({
                             ...room,
                             name: e.target.value,
-                        })}}
+                        })
+                        handleFormChange(e);
+                        }}
                         value={room.name}
                         required />
                     <div id="name-desc" className="form-text">
@@ -167,10 +181,12 @@ const RoomUpdate = (props) => {
                                     ? "is-valid"
                                     : "is-invalid"
                         )}
-                        onChange={handleFormChange, (e)=>{setRoom({
+                        onChange={(e)=>{setRoom({
                             ...room,
                             nont_type: e.target.value,
-                        })}}
+                        })
+                        handleFormChange(e);
+                        }}
                         value={room.nont_type}
                     >
                         <option hidden disabled value="default">Select Nont Type</option>
@@ -203,10 +219,12 @@ const RoomUpdate = (props) => {
                         id="amount-input"
                         name="amount"
                         aria-describedby="amount-desc"
-                        onChange={handleFormChange, (e)=>{setRoom({
+                        onChange={(e)=>{setRoom({
                             ...room,
                             amount: e.target.value,
-                        })}}
+                        })
+                        handleFormChange(e);
+                        }}
                         value={room.amount}
                         required />
                     <div id="amount-desc" className="form-text">
@@ -233,10 +251,12 @@ const RoomUpdate = (props) => {
                         id="price-input"
                         name="price"
                         aria-describedby="price-desc"
-                        onChange={handleFormChange, (e)=>{setRoom({
+                        onChange={(e)=>{setRoom({
                             ...room,
                             price: e.target.value,
-                        })}}
+                        })
+                        handleFormChange(e);
+                        }}
                         value={room.price}
                         required />
                     <div id="price-desc" className="form-text">
