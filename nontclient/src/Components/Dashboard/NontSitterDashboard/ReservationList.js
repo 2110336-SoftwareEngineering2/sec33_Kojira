@@ -38,98 +38,48 @@ const ReservationList = () => {
     <React.Fragment>
         <h3>Your active reservation</h3>
         <div className="list-group">
-          {reservations.map((reservation) => {
-            if(reservation.status==="cancelled") return
-            else{
-              return(
-                <a href="#" className="m-2">
-                  <div className={"list-group-item list-group-item-action row d-flex justify-content-between align-items-center " + styles.listRow}>
-                    
-                    <div className="col-6 col-lg-3 d-flex">
-                      <div className="row-cols-auto">
-                        <div
-                          className="col mb-3 text-break "
-                          style={{ padding: "0px", opacity: "0.9" }}
-                        >
+          <div className="row">
+            {reservations.map((reservation) => {
+              if(reservation.status==="cancelled") return
+              else{
+                return(
+                  <div className="col-lg-6">
+                    <a href="#" className="m-2">
+                      <div className={"card mt-3 " + styles.reservationCard}>
+                        <div className="card-header text-white bg-primary" style={{fontSize: "20px", fontWeight: '600'}}>
                           {_.truncate(reservation.shelter_id.name?reservation.shelter_id.name:"Shelter", { length: 20 })}
                         </div>
-                        <div
-                          className="col text-break"
-                          style={{ padding: "0px", opacity: "0.5" }}
-                        >
-                          {_.truncate(reservation.room_id.name?reservation.room_id.name:"Room", { length: 20 })}
-                        </div>
-                        
-                      </div>
-                    </div>
-
-                    <div className="col-6 col-lg-3 d-flex">
-                      <div className="row-cols-auto">
-                        <div
-                          className="col mb-3 text-break"
-                          style={{ padding: "0px", opacity: "0.9" }}
-                        >
-                          {_.truncate(reservation.nontowner_id.name?reservation.nontowner_id.name:"Owner", { length: 20 })}
-                        </div>
-                        <div
-                          className="col text-break"
-                          style={{ padding: "0px", opacity: "0.5" }}
-                        >
-                          {_.truncate(reservation.nontowner_id.phoneNumber?reservation.nontowner_id.phoneNumber:"0XXXXXXXXX", { length: 20 })}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-6 col-lg-3 d-flex">
-                      <div className="row-cols-auto">
-                        <div
-                          className="col mb-3 text-break"
-                          style={{ padding: "0px", opacity: "0.9" }}
-                        >
-                          {_.truncate(reservation.nont_id[0].type, { length: 20 })}
-                        </div>
-                        <div
-                          className="col text-break"
-                          style={{ padding: "0px", opacity: "0.5" }}
-                        >
-                          {reservation.nont_id.length}
+                        <div className="card-body">
+                          <h5 className="card-title">
+                            {_.truncate(reservation.nontowner_id.name?reservation.nontowner_id.name:"Owner", { length: 20 })}
+                          </h5>
+                          <div className="row align-items-center">
+                            <div className="col-5 text-center" style={{fontSize: "18px", fontWeight: '600', color: "black", opacity: "0.8"}}>
+                              {reservation.status?reservation.status:"?"}
+                            </div>
+                            <div className="col-7" style={{fontSize: "15px", color: "black", opacity: "0.7"}}>
+                              <div className="row">
+                                <strong>Room</strong>{": " + _.truncate(reservation.room_id.name?reservation.room_id.name:"Room", { length: 20 })}
+                              </div>
+                              <div className="row">
+                                <strong>Amount</strong>{": " + reservation.nont_id.length + " " + _.truncate(reservation.nont_id[0].type) + (reservation.nont_id.length==1?"":"s")}
+                              </div>
+                              <div className="row">
+                                <strong>From</strong>{": " + _.truncate(reservation.start_datetime?reservation.start_datetime.slice(0,15):"XX/XX/XX")}
+                              </div>
+                              <div className="row">
+                                <strong>To</strong>{": " + _.truncate(reservation.start_datetime?reservation.end_datetime.slice(0,15):"XX/XX/XX")}
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="col-6 col-lg-3 d-flex">
-                      <div className="row-cols-auto">
-                        <div
-                          className="col text-break"
-                          style={{ padding: "0px", opacity: "0.9" }}
-                        >
-                          {reservation.status?reservation.status:"?"}
-                        </div>
-                        <div
-                          className="col text-break"
-                          style={{ padding: "0px", opacity: "0.4", fontSize: "10px" }}
-                        >
-                          Start/End Date
-                        </div>
-                        <div
-                          className="col text-break"
-                          style={{ padding: "0px", opacity: "0.5", fontSize: "15px" }}
-                        >
-                          {_.truncate(reservation.start_datetime?reservation.start_datetime.slice(0,15):"XX/XX/XX")}
-                        </div>
-                        <div
-                          className="col text-break"
-                          style={{ padding: "0px", opacity: "0.5", fontSize: "15px" }}
-                        >
-                          {_.truncate(reservation.start_datetime?reservation.end_datetime.slice(0,15):"XX/XX/XX")}
-                        </div>
-                      </div>
-                    </div>
+                    </a>
                   </div>
-                </a>
-              )
-            }
-          })}
+                )
+              }
+            })}
+          </div>
         </div>
     </React.Fragment>
   );
