@@ -44,7 +44,7 @@ const ReservationList = () => {
               else{
                 return(
                   <div className="col-lg-6">
-                    <a href="#" className="m-2">
+                    <a href={"/reserveInfo/" + reservation._id} className="m-2">
                       <div className={"card mt-3 " + styles.reservationCard}>
                         <div className="card-header text-white bg-primary" style={{fontSize: "20px", fontWeight: '600'}}>
                           {_.truncate(reservation.shelter_id.name?reservation.shelter_id.name:"Shelter", { length: 20 })}

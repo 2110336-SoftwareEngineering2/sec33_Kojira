@@ -101,6 +101,14 @@ const ReserveService = {
       throw error;
     }
   },
+  getReservationByNontSitterID: async (id) => {
+    try{
+      const response = await axios.get(serverURL + "/reservation/nontsitter_id/" + id);
+      return response;
+    }catch(error){
+      throw error;
+    }
+  }
 };
 
 export default ReserveService;
