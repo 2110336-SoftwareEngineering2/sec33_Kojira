@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import Contexts from "../../Utils/Context/Contexts";
+import QRCode from "../Payment/QRcode";
+
 import UserType from "../../Constants/UserType";
 import NontOwnerDashboard from "./NontOwnerDashboard/NontOwnerDashboard";
 import NontSitterDashboard from "./NontSitterDashboard/NontSitterDashboard";
