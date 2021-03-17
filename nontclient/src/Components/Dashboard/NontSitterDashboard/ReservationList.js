@@ -21,9 +21,6 @@ const ReservationList = () => {
 
   useEffect( () => {  
     fetchReservations();   
-  }, [contextValue]);
-
-  useEffect(() => {
     fetchShelter();
   }, []);
 
@@ -35,6 +32,7 @@ const ReservationList = () => {
         const response = await ShelterService.getShelterByNontSitterID(nontSitterID);
         if (response.data) {
           setShelters(response.data);
+          setShelterSelected(response.data.map((element)=>(element.name)))
         }
       }
     } catch (error) {
@@ -63,8 +61,6 @@ const ReservationList = () => {
         mode="multiple"
         placeholder="Select shelters"
         size="large"
-        defaultValue={[]}
-        defaultKey={[]}
         style={{ width: '100%' }}
         onChange = {(element) => {
           setShelterSelected(element)
