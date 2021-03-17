@@ -25,9 +25,11 @@ const ReserveInfo = (props) => {
     const [status,setstatus]= useState();
     const [ownercheckin,setownercheckin]=useState();
     const [sittercheckin,setsittercheckin]=useState();
+    const [ownercheckOut,setownercheckOut]=useState();
+    const [sittercheckOut,setsittercheckOut]=useState();
 
-    console.log("test"); 
-    console.log(String(reserveID));
+    // console.log("test"); 
+    // console.log(String(reserveID));
     useEffect(() => {
         fetchReservation();
     }, [reserveID]);
@@ -38,7 +40,9 @@ const ReserveInfo = (props) => {
                 console.log(response);
                 if (response.data) {
                     setsittercheckin(response.data.nontsitter_check_in);
-                    setownercheckin(response.data.nontowner_check_in); 
+                    setownercheckin(response.data.nontowner_check_in);
+                    setownercheckOut(response.data.nontowner_check_out);
+                    setsittercheckOut(response.data.nontsitter_check_out); 
                     setshelter(response.data.shelter_id);
                     setowner(response.data.nontowner_id);
                     setPrice(response.data.price);
@@ -53,6 +57,9 @@ const ReserveInfo = (props) => {
                     setNonts(nontname);
                     console.log(checkInDate);
                     console.log(checkOutDate);
+                    if((today.getDate()===(new Date(checkOutDate).getDate())
+                    &&today.getMonth()===(new Date(checkOutDate).getMonth())
+                    &&today.getFullYear()===(new Date(checkOutDate).getFullYear())))console.log("cancheckOut");
 
 
                 }
@@ -89,31 +96,77 @@ const ReserveInfo = (props) => {
             if (reserveID) {
                 
                 if(contextValue.userType === UserType.NONT_OWNER){
-                   let response = await ReserveService.nontOwnerCheckIn(reserveID);
+                   if(!ownercheckin)
+                   {let response = await ReserveService.nontOwnerCheckIn(reserveID);
                    console.log("nontOwnerCheckIn");
                    console.log(response);
+                   notification.success({
+                    message: "notifications",
+                    description: `check-in successfully.`,
+                    placement: "bottomRight",
+                });
+                setownercheckin(!ownercheckin);
+                   }
+                   else{
+                    notification.error({ 
+                        message: "error",
+                        description: `you already check-in please wait for nont sitter check-in.`,
+                        placement: "bottomRight",
+                    });
+                   }
                 }
                 else if(contextValue.userType === UserType.NONT_SITTER){
+                    if(!sittercheckin)
+                    {
                     let response = await ReserveService.nontSitterCheckIn(reserveID);
                     console.log("nontSitterCheckIn");
                     console.log(response);
+                    notification.success({
+                        message: "notifications",
+                        description: `check-in successfully.`,
+                        placement: "bottomRight",
+                        
+                    });
+                    window.location.reload();                        
+                    }else{
+                        notification.error({ 
+                            message: "error",
+                            description: `you already check-in please wait for nont owner check-in.`,
+                            placement: "bottomRight",
+                        });  
+
+                    }
+
                 }
                 
             }
-            window.location.reload();
-            notification.success({
-                message: "notifications",
-                description: `check-in successfully.`,
-                placement: "bottomRight",
-            });
+            if(ownercheckin&&sittercheckin)window.location.reload();
+
             
         }
         catch(error){
+            if(contextValue.userType === UserType.NONT_OWNER&&ownercheckin){
+                notification.error({ 
+                    message: "error",
+                    description: `you already check-in please wait for nont sitter check-in.`,
+                    placement: "bottomRight",
+                });      
+            }
+            else if(contextValue.userType === UserType.NONT_SITTER&&!ownercheckin){
+                notification.error({ 
+                    message: "error",
+                    description: `please wait for nont owner check-in.`,
+                    placement: "bottomRight",
+                });  
+            }
+            else{
             notification.error({ 
                 message: "error",
                 description: `Cannot Checkin.`,
                 placement: "bottomRight",
-            });
+            });                
+            }
+
             console.error(error.message);
         }
     }
@@ -122,42 +175,86 @@ const ReserveInfo = (props) => {
             if (reserveID) {
                 
                 if(contextValue.userType === UserType.NONT_OWNER){
+                    if(!ownercheckOut){
                    let response = await ReserveService.nontOwnerCheckOut(reserveID);
                    console.log("nontOwnerCheckOut");
-                   console.log(response);
-                }
-                else if(contextValue.userType === UserType.NONT_SITTER){
-                    let response = await ReserveService.nontSitterCheckOut(reserveID);
-                    console.log("nontSitterCheckOut");
-                    console.log(response);
-                }
-                window.location.reload();
-                
-                notification.success({
+                   console.log(response);  
+                   notification.success({
                     message: "notifications",
                     description: `check-out successfully.`,
                     placement: "bottomRight",
                 });
+                setownercheckOut(!ownercheckOut);
+
+                    }
+                    else{
+                        notification.error({ 
+                            message: "error",
+                            description: `you already check-out please wait for nont sitter check-out.`,
+                            placement: "bottomRight",
+                        }); 
+                    }
+                }
+                else if(contextValue.userType === UserType.NONT_SITTER){
+                    if(!sittercheckOut){
+                    let response = await ReserveService.nontSitterCheckOut(reserveID);
+                    console.log("nontSitterCheckOut");
+                    console.log(response);
+                    notification.success({
+                        message: "notifications",
+                        description: `check-out successfully.`,
+                        placement: "bottomRight",
+                    });
+                    window.location.reload();
+                    }
+                    else{
+                        notification.error({ 
+                            message: "error",
+                            description: `you already check-out please wait for nont owner check-out.`,
+                            placement: "bottomRight",
+                        });
+                    }
+
+                }
+                if(ownercheckOut&&sittercheckOut)window.location.reload();
+                
+
             }
         }
         catch(error){
+            if(contextValue.userType === UserType.NONT_OWNER&&ownercheckOut){
+                notification.error({ 
+                    message: "error",
+                    description: `you already check-out please wait for nont sitter check-out.`,
+                    placement: "bottomRight",
+                });      
+            }
+            else if(contextValue.userType === UserType.NONT_SITTER&&!ownercheckOut){
+                notification.error({ 
+                    message: "error",
+                    description: `please wait for nont owner check-out.`,
+                    placement: "bottomRight",
+                });  
+            }
+            else{
             notification.error({ 
                 message: "error",
-                description: `Cannot CheckOut.`,
+                description: `Cannot Checkin.`,
                 placement: "bottomRight",
-            });
+            }); 
+            }
             console.error(error.message);
         }
     }
-    const printstatus = async (status)=>{
-        if(status==='paid'){
-            if(sittercheckin&&!(ownercheckin)){setstatus("paid-wait for nont owner check in");}
-            if(!(sittercheckin)&&ownercheckin){setstatus("paid-wait for nont sitter check in");}
-        }
-        console.log("printstatus");
-        console.log(status);
-        setstatus(status);
-    }
+    // const printstatus = async (status)=>{
+    //     if(status==='paid'){
+    //         if(sittercheckin&&!(ownercheckin)){setstatus("paid-wait for nont owner check in");}
+    //         if(!(sittercheckin)&&ownercheckin){setstatus("paid-wait for nont sitter check in");}
+    //     }
+    //     console.log("printstatus");
+    //     console.log(status);
+    //     setstatus(status);
+    // }
     
 
 
@@ -179,7 +276,7 @@ const ReserveInfo = (props) => {
                         <dt className="col-sm-2"><h5>Nont:</h5></dt>
                         <dd className="col-sm-10"><h5>{String(nonts)}</h5></dd>
                         <dt className="col-sm-2"><h5>price</h5></dt>
-                        <dd className="col-sm-10"><h5>{price}</h5></dd>
+                        <dd className="col-sm-10"><h5>{(contextValue.userType === UserType.NONT_OWNER)?price:(price*0.7)}</h5></dd>
                         <dt className="col-sm-2"><h5>Room:</h5></dt>
                         <dd className="col-sm-10"><h5>{room.name}</h5></dd>
                         <dt className="col-sm-2"><h5>RoomType:</h5></dt>
@@ -212,13 +309,17 @@ const ReserveInfo = (props) => {
                             </div>
                             <div>
                                 {
-                                    (status==="checked-in"&&today>Date.parse(checkOutDate))&&<input className="my-1 btn btn-primary" type="button" onClick={oncheckOut} value="checkout"/>
+                                    (status==="checked-in"&&(today>Date.parse(checkOutDate)||
+                                    (today.getDate()===(new Date(checkOutDate).getDate())
+                                    &&today.getMonth()===(new Date(checkOutDate).getMonth())
+                                    &&today.getFullYear()===(new Date(checkOutDate).getFullYear()))
+                                    ))&&<input className="my-1 btn btn-primary" type="button" onClick={oncheckOut} value="checkout"/>
                                 }
                                 
                             </div>
                             <div>
                                 {
-                                     status==="checked-out"&&<input className="my-1 btn btn-primary" type="button"   value="review"/>
+                                     (contextValue.userType === UserType.NONT_OWNER &&status==="checked-out")&&<input className="my-1 btn btn-primary" type="button"   value="review"/>
 
                                 }
                                 
