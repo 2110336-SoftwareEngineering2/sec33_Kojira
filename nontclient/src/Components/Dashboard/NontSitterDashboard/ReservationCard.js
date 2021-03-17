@@ -21,10 +21,10 @@ const ReservationCard = (props) => {
                         {_.truncate(reservation.nontowner_id.name?reservation.nontowner_id.name:"Owner", { length: 20 })}
                         </h5>
                         <div className="row align-items-center">
-                        <div className="col-5 text-center" style={{fontSize: "18px", fontWeight: '600', color: "black", opacity: "0.8"}}>
+                        <div className="col-12 col-md-4 col-sm-3 text-center" style={{fontSize: "18px", fontWeight: '600', color: "black", opacity: "0.8"}}>
                             {reservation.status?reservation.status:"?"}
                         </div>
-                        <div className="col-7" style={{fontSize: "15px", color: "black", opacity: "0.7"}}>
+                        <div className="col-12 col-md-8 col-sm-9" style={{fontSize: "15px", color: "black", opacity: "0.7"}}>
                             <div className="row">
                             <div className="col-4"><strong>Room:</strong></div>
                             <div className="col-8">
