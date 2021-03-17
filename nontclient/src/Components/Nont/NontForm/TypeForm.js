@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import nontTypes from "../../../Constants/nontTypes";
 import {
   VALID,
@@ -11,7 +11,12 @@ import {
 
 const TypeForm = (props) => {
   const types = Object.values(nontTypes);
+  const [selectType, SetSelectType] = useState(props.defaultValue);
 
+  useEffect( () => {
+    SetSelectType(props.defaultValue);
+  }, [props.defaultValue])
+  
   return (
       <div className="col m-4">
         <label htmlFor="type-input" className="form-label">
@@ -30,12 +35,15 @@ const TypeForm = (props) => {
           )}
           id="type-input" 
           name="type-input"
-          onChange={props.onChange} 
+          onChange={(e) => {
+            props.onChange(e);
+            SetSelectType(e.target.value);
+          } }
           aria-describedby="type-desc"
-          defaultValue={props.defaultValue}
+          value={selectType}
           required>
           {types.map((type) => (
-            <option value={type}> {type} </option>      
+            <option key={type} value={type}> {type} </option>      
           ))}
         </select>
 

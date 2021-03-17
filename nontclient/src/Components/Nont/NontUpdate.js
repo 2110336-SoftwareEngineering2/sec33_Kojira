@@ -21,8 +21,7 @@ const UserContext = Contexts.UserContext;
 const reader = new FileReader();
 
 const NontUpdate = (props) => {
-    const obj = useParams();
-    const nontID = obj.id;
+    const {id} = useParams();
 
     const value = useContext(UserContext);
     
@@ -41,10 +40,22 @@ const NontUpdate = (props) => {
     useEffect(() => {
         async function fetchNontOldData() {
             try {
-                if (nontID) {
-                    const response = await NontService.getNontByID(nontID);
+                if (id) {
+                    const response = await NontService.getNontByID(id);
                     if (response.data) {
                         setNont(response.data);
+                        setMedcer(response.data.medical_certificate.map( (image) => {
+                            return {
+                                name:image.name,
+                                img:Buffer.from(image.img.data).toString()
+                            };
+                        } ));
+                        setPicture(response.data.picture.map( (image) => { 
+                            return { 
+                            img:Buffer.from(image.img.data).toString()
+                            };
+                        } ));
+                        console.log(response.data.medical_certificate);
                     }
                 }
             }
@@ -53,7 +64,8 @@ const NontUpdate = (props) => {
             }
         }
         fetchNontOldData();
-    }, [nontID]);
+    }, [id]);
+    console.log(medcer);
 
     const validator = {
         //Check unique name
@@ -158,7 +170,7 @@ const NontUpdate = (props) => {
         if(pictureValid) { body.picture = picture }
         //if(birthDateValid===VALID) { console.log(birthDateValid);body.birth_date = document.getElementById("birth_date-input").value }
         try {
-            const response = await NontService.updateNont(nontID, body);
+            const response = await NontService.updateNont(id, body);
             setRegisterStatus(VALID);
             notification.success({
                 message: "Nont",

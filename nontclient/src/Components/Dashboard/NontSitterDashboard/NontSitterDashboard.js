@@ -1,8 +1,20 @@
 import React from 'react';
+import LoadingReservation from "./LoadingReservation";
 
 const NontSitterDashboard = () => {
   return ( 
-    <h1>Nont Sitter Dashboard</h1>
+    <div className="container">
+       <div className="row">
+        <div className="col text-center m-3">
+          <h1>Dashboard</h1>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <LoadingReservation />
+        </div>
+      </div>
+    </div>
   );
 }
  

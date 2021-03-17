@@ -11,14 +11,19 @@
   box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 8px, rgba(17, 17, 26, 0.024) 0px 4px 16px;
 }
 
-.image {
+.imageArea {
   height: 120px;
   width: 180px;
   background-color: #ecf0f1;
   border-radius: 10px;
-  display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.image {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
 }
 
 .noImage {
@@ -26,8 +31,43 @@
   max-width: 100px;
 }
 
-@media only screen and (max-width: 992px) {
-  .image {
-    margin-bottom: 1rem;
+.toggleable {
+  cursor: pointer;
+}
+
+#historyTitle {
+  font-size: x-large;
+  color: black;
+  opacity: 0.25;
+}
+
+.rightDropdown {
+  transition-duration: 500ms;
+}
+
+.downDropdown {
+  transform: rotate(90deg);
+  transition-duration: 500ms;
+}
+
+.collapsible {
+  transition-duration: 500ms;
+}
+
+@keyframes fadeIn {
+  from {
+       opacity: 0;
   }
+  to {
+       opacity: 1;
+  }
+}
+
+.collapse {
+  display: none;
+}
+
+.expand {
+  display: initial;
+  animation: fadeIn 0.5s;
 }
