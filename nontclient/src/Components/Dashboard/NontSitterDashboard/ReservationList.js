@@ -1,7 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import styles from "./NontSitterDashboard.module.css";
+import ReservationHistory from "./ReservationHistory";
+import ReservationStatus from "../../../Constants/ReservationStatus";
 import ReserveService from "../../../Services/ReserveService";
+import ShelterService from "../../../Services/ShelterService";
+import ReservationCard from "./ReservationCard";
 import Contexts from "../../../Utils/Context/Contexts";
+import { Select } from 'antd';
+
+const { Option } = Select;
 const _ = require("lodash");
 
 const UserContext = Contexts.UserContext;
@@ -9,17 +16,31 @@ const UserContext = Contexts.UserContext;
 const ReservationList = () => {
   const contextValue = useContext(UserContext);
   const [reservations, setReservations] = useState([]);
+  const [shelters, setShelters] = useState([]);
+  const [shelterSelected, setShelterSelected] = useState([]);
 
   useEffect( () => {  
     fetchReservations();   
   }, [contextValue]);
+
+  useEffect(() => {
+    fetchShelter();
+  }, []);
 
   const nontSitterID = contextValue._id;
-  const [expand, setExpand] = useState(false);
 
-  useEffect( () => {  
-    fetchReservations();   
-  }, [contextValue]);
+   const fetchShelter = async () => {
+    try {
+      if (nontSitterID) {
+        const response = await ShelterService.getShelterByNontSitterID(nontSitterID);
+        if (response.data) {
+          setShelters(response.data);
+        }
+      }
+    } catch (error) {
+      console.error("Cannot get shelters' information");
+    }
+  }
 
   const fetchReservations = async () => {
     try {
@@ -37,119 +58,38 @@ const ReservationList = () => {
 
   return (
     <React.Fragment>
-        <h3>Your active reservation</h3>
-        <div className="list-group">
-          <div className="row">
-            {reservations.map((reservation) => {
-              if(reservation.status!=="cancelled"){
-                return(
-                  <div className="col-lg-6">
-                    <a href={"/reserveInfo/" + reservation._id} className="m-2">
-                      <div className={"card mt-3 " + styles.reservationCard}>
-                        <div className="card-header text-white bg-primary" style={{fontSize: "20px", fontWeight: '600'}}>
-                          {_.truncate(reservation.shelter_id.name?reservation.shelter_id.name:"Shelter", { length: 20 })}
-                        </div>
-                        <div className="card-body">
-                          <h5 className="card-title">
-                            {_.truncate(reservation.nontowner_id.name?reservation.nontowner_id.name:"Owner", { length: 20 })}
-                          </h5>
-                          <div className="row align-items-center">
-                            <div className="col-5 text-center" style={{fontSize: "18px", fontWeight: '600', color: "black", opacity: "0.8"}}>
-                              {reservation.status?reservation.status:"?"}
-                            </div>
-                            <div className="col-7" style={{fontSize: "15px", color: "black", opacity: "0.7"}}>
-                              <div className="row">
-                                <strong>Room</strong>{": " + _.truncate(reservation.room_id.name?reservation.room_id.name:"Room", { length: 20 })}
-                              </div>
-                              <div className="row">
-                                <strong>Amount</strong>{": " + reservation.nont_id.length + " " + _.truncate(reservation.nont_id[0].type) + (reservation.nont_id.length==1?"":"s")}
-                              </div>
-                              <div className="row">
-                                <strong>From</strong>{": " + _.truncate(reservation.start_datetime?reservation.start_datetime.slice(0,15):"XX/XX/XX")}
-                              </div>
-                              <div className="row">
-                                <strong>To</strong>{": " + _.truncate(reservation.start_datetime?reservation.end_datetime.slice(0,15):"XX/XX/XX")}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                )
-              }
-            })}
-          </div>
-        </div>
-
-        <div className="mt-5" style={{ marginBottom: "10rem" }}>
-          <div
-            className={styles.toggleable}
-            onClick={() => {
-              setExpand(!expand);
-            }}
-          >
-            <span className="ml-3" id={styles.historyTitle}>
-              <i
-                className={
-                  "fa fa-angle-right mr-3 " +
-                  (expand ? styles.downDropdown : styles.rightDropdown)
-                }
-              ></i>
-              History
-            </span>
-            <hr className={styles.horizontalLine} />
-          </div>
-          <div
-            className={
-              styles.collapsible + " " + (!expand ? styles.collapse : styles.expand)
-            }
-          >
-            <div className="list-group">
-            <div className="row">
-              {reservations.map((reservation) => {
-                if(reservation.status==="cancelled"){
-                  return(
-                    <div className="col-lg-6">
-                      <a href={"/reserveInfo/" + reservation._id} className="m-2">
-                        <div className={"card mt-3 " + styles.reservationCard}>
-                          <div className="card-header text-white bg-primary" style={{fontSize: "20px", fontWeight: '600'}}>
-                            {_.truncate(reservation.shelter_id.name?reservation.shelter_id.name:"Shelter", { length: 20 })}
-                          </div>
-                          <div className="card-body">
-                            <h5 className="card-title">
-                              {_.truncate(reservation.nontowner_id.name?reservation.nontowner_id.name:"Owner", { length: 20 })}
-                            </h5>
-                            <div className="row align-items-center">
-                              <div className="col-5 text-center" style={{fontSize: "18px", fontWeight: '600', color: "black", opacity: "0.8"}}>
-                                {reservation.status?reservation.status:"?"}
-                              </div>
-                              <div className="col-7" style={{fontSize: "15px", color: "black", opacity: "0.7"}}>
-                                <div className="row">
-                                  <strong>Room</strong>{": " + _.truncate(reservation.room_id.name?reservation.room_id.name:"Room", { length: 20 })}
-                                </div>
-                                <div className="row">
-                                  <strong>Amount</strong>{": " + reservation.nont_id.length + " " + _.truncate(reservation.nont_id[0].type) + (reservation.nont_id.length==1?"":"s")}
-                                </div>
-                                <div className="row">
-                                  <strong>From</strong>{": " + _.truncate(reservation.start_datetime?reservation.start_datetime.slice(0,15):"XX/XX/XX")}
-                                </div>
-                                <div className="row">
-                                  <strong>To</strong>{": " + _.truncate(reservation.start_datetime?reservation.end_datetime.slice(0,15):"XX/XX/XX")}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  )
-                }
-              })}
-            </div>
-          </div>
-          </div>
-        </div>
+      <h3>Your active reservation</h3>
+      <Select
+        mode="multiple"
+        placeholder="Select shelters"
+        size="large"
+        defaultValue={[]}
+        defaultKey={[]}
+        style={{ width: '100%' }}
+        onChange = {(element) => {
+          setShelterSelected(element)
+        }}
+      >
+        {shelters.map( (element) => (
+            <Option key={element.name}>{element.name}</Option>
+          ))
+        }
+      </Select>             
+      <ReservationCard
+        reservations={reservations.filter(
+          (reservation) =>
+            reservation.status !== ReservationStatus.CHECKED_OUT &&
+            reservation.status !== ReservationStatus.CLOSED &&
+            shelterSelected.includes(reservation.shelter_id.name)
+        )} 
+      />
+      <ReservationHistory
+        reservations={reservations.filter(
+          (reservation) =>
+            reservation.status === ReservationStatus.CHECKED_OUT ||
+            reservation.status === ReservationStatus.CLOSED
+        )}
+      />
     </React.Fragment>
   );
 };
