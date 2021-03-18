@@ -69,9 +69,9 @@ Everyone needs to add the client and server heroku git url as their remote repos
 2. login in the cli using `heroku login` , probably adding it to environmental path first.., using kojira heroku account email and password provided above.
 3. add the remote client and server via
 
-`git remote add nontclient git@heroku.com:nontclient.git`
+`git remote add nontclient https://git.heroku.com/nontclient.git`
 
-`git remote add nontserver git@heroku.com:nontserver.git`
+`git remote add nontserver https://git.heroku.com/nontserver.git`
 
 4. check if the remote is there using
 
