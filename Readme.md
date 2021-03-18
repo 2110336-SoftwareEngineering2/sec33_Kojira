@@ -59,7 +59,7 @@ client heroku git url : https://git.heroku.com/nontclient.git
 
 server URL : https://nontserver.herokuapp.com
 
-server heroku url : https://git.heroku.com/nontserver.git
+server heroku git url : https://git.heroku.com/nontserver.git
 
 # Todo for everyone
 
