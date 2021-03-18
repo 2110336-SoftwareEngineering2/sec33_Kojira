@@ -6,7 +6,7 @@ import Registration from "../Components/Registration/Registration";
 import UserSetting from "../Components/UserSetting/UserSetting";
 import Dashboard from "../Components/Dashboard/Dashboard";
 import ShelterView from "../Components/Shelter/ShelterView";
-import ReserveInfo from "../Components/Reservation/ReserveInfo"
+import ReserveInfo from "../Components/Reservation/ReserveInfo";
 import GuardedRoute from "./GuardedRoute";
 import NontOwnerRouter from "./NontOwnerRouter";
 import NontSitterRouter from "./NontSitterRouter";
@@ -78,7 +78,7 @@ function Router() {
           auth={auth}
         />
         <NontOwnerRouter
-          path={["/nont", "/findShelter","/reserve"]}
+          path={["/nont", "/findShelter", "/reserve"]}
           component={NontOwnerRouter}
           auth={auth}
         />

@@ -27,7 +27,7 @@ const LoginService = {
           }
           if (respond.data.login) {
             localStorage.setItem("access_token", respond.data.token);
-            component.props.history.push("/dashboard");
+            component.props.history.push("/home");
           } else {
             if (respond.data.error) {
               throw respond.data.error;

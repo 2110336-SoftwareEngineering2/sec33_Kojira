@@ -59,9 +59,19 @@ server URL : https://nontserver.herokuapp.com
 
 # !! Changes after the deployment
 
-1. Heroku does not allow the use of both npm and yarn log files deployed, so I deleted package-log.json (I choose yarn over npm ) files in both client and server, so from now on, **only use yarn**
-2. Heroku deployment of React application require library server in the start scripts. As seen from the picture below, the development scripts is now ***<u>changed</u>*** from `yarn start` to `yarn dev` 
+1. Heroku does not allow the deployment of a project with both `npm`and `yarn`log files , so I deleted `package-log.json` (yes, I choose `yarn` over `npm` ) files in both client and server, **so from now on, only use yarn**
+2. Heroku deployment of React application requires the use of library serve in the start scripts. As seen from the picture below, the client development scripts is now ***<u>changed</u>*** from `yarn start` to `yarn dev` , while the server's development script is still the same.
 
-3. The further deployment needs to be done using `yarn deploy` of which I have already written the scripts.
-4. **serverURL constant is now set to the deployed cloud server URL**, so if you want to test in development mode, the constant needed to be changed, which I also provide both options, local and cloud, in the file, and <u>be sure to set it back before pushing the code</u>.
+3. The further deployment needs to be done using `yarn deploy` of which I have already written the scripts. The deployment needs to be done separately on the client and server
+
+   eg. on client
+
+   `cd nontclient`
+
+   `yarn deploy`
+
+4. **`serverURL` constant is now set to the deployed cloud server's URL**, so if you want to test in development mode, the constant needed to be changed, which I also provide both options, local and cloud, in the file, and <u>be sure to set it back before pushing the code</u>.
+
 5. IP address used for QR code payment is now deleted and QR code <u>doesn't need to be individually set</u> anymore.
+
+![image-20210318220558824](C:\Users\ADMIN\AppData\Roaming\Typora\typora-user-images\image-20210318220558824.png)
