@@ -79,9 +79,7 @@ Everyone needs to add the client and server heroku git url as their remote repos
 
    it should show like this :
 
-   ![image-20210318231845088](C:\Users\ADMIN\AppData\Roaming\Typora\typora-user-images\image-20210318231845088.png)
-
-   
+   ![image1](https://github.com/2110336-SoftwareEngineering2/sec33_Kojira/blob/main/images/image-1.png?raw=true)
 
 # !! Changes after the deployment
 
@@ -102,7 +100,7 @@ Everyone needs to add the client and server heroku git url as their remote repos
 
 6. remove the use of home component, after logging in, go to dashboard
 
-![image-20210318220558824](C:\Users\ADMIN\AppData\Roaming\Typora\typora-user-images\image-20210318220558824.png)
+![image2](https://github.com/2110336-SoftwareEngineering2/sec33_Kojira/blob/main/images/image-2.png?raw=true)
 
 *P.S. The response time of the website decreases after the deployment, emphasizing the importance of the Loading component !!*
 
