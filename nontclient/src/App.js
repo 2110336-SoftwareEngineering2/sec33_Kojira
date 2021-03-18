@@ -57,10 +57,12 @@ const App = (props) => {
   };
 
   return (
-    <UserContext.Provider value={userContextValues}>
-      <NavigationBar />
-      <Router />
-    </UserContext.Provider>
+    <div style={{ paddingBottom: "100px" }}>
+      <UserContext.Provider value={userContextValues}>
+        <NavigationBar />
+        <Router />
+      </UserContext.Provider>
+    </div>
   );
 };
 
