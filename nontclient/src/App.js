@@ -10,7 +10,7 @@ const App = (props) => {
   const [userInfo, setUserInfo] = useState({
     userType: null,
     email: null,
-    login: false,
+    login: localStorage.getItem("access_token") !== null ? true : false,
     name: null,
     _id: null,
     createdAt: null,
