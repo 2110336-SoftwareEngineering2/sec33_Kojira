@@ -39,7 +39,7 @@ download npm first here https://nodejs.org/en/download/ or yarn here https://nod
 
 # Deployment
 
-##### Both client and server is now deployed on heroku account :
+##### Both client and server is now deployed on heroku :
 
 heroku account : 
 
@@ -69,9 +69,9 @@ Everyone needs to add the client and server heroku git url as their remote repos
 2. login in the cli using `heroku login` , probably adding it to environmental path first.., using kojira heroku account email and password provided above.
 3. add the remote client and server via
 
-`git remote add nontclient git@heroku.com:nontclient.git`
+`git remote add nontclient https://git.heroku.com/nontclient.git`
 
-`git remote add nontserver git@heroku.com:nontserver.git`
+`git remote add nontserver https://git.heroku.com/nontserver.git`
 
 4. check if the remote is there using
 
@@ -95,6 +95,8 @@ Everyone needs to add the client and server heroku git url as their remote repos
    `cd nontclient`
 
    `yarn deploy`
+
+   - only the main branch can be deployed to heroku, and before deploying, make sure that the main branch is up-to-date (`git pull`)
 
 4. **`serverURL` constant is now set to the deployed cloud server's URL**, so if you want to test in development mode, the constant needed to be changed, which I also provide both options, local and cloud, in the file, and <u>be sure to set it back before pushing the code</u>.
 
