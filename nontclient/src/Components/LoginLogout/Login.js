@@ -18,7 +18,7 @@ class Login extends Component {
     try {
       const respond = await LoginService.checkLoginStatus();
       if (respond.data.authenticated) {
-        this.props.history.push("/home"); // if already have the token (logged in already) then go to home.
+        this.props.history.push("/dashboard"); // if already have the token (logged in already) then go to home.
       }
     } catch (err) {
       console.log(err);

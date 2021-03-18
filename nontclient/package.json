@@ -29,7 +29,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "react-scripts start",
-    "publishheroku": "cd ../ && git subtree push --prefix nontclient nontclient main",
+    "deploy": "cd ../ && git subtree push --prefix nontclient nontclient main",
     "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {

@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon ./bin/www",
     "test": "mocha",
-    "publishheroku": "cd ../ && git subtree push --prefix nontserver nontserver main"
+    "deploy": "cd ../ && git subtree push --prefix nontserver nontserver main"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
