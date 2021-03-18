@@ -55,7 +55,33 @@ email password :
 
 client URL : https://nontclient.herokuapp.com
 
+client heroku git url : https://git.heroku.com/nontclient.git
+
 server URL : https://nontserver.herokuapp.com
+
+server heroku url : https://git.heroku.com/nontserver.git
+
+# Todo for everyone
+
+Everyone needs to add the client and server heroku git url as their remote repository and set the name of the remote repository to nontclient and nontserver respectively.
+
+1. download the heroku cli [here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+2. login in the cli using `heroku login` , probably adding it to environmental path first.., using kojira heroku account email and password provided above.
+3. add the remote client and server via
+
+`git remote add nontclient git@heroku.com:nontclient.git`
+
+`git remote add nontserver git@heroku.com:nontserver.git`
+
+4. check if the remote is there using
+
+   `git remote --verbose`
+
+   it should show like this :
+
+   ![image-20210318231845088](C:\Users\ADMIN\AppData\Roaming\Typora\typora-user-images\image-20210318231845088.png)
+
+   
 
 # !! Changes after the deployment
 
@@ -74,4 +100,14 @@ server URL : https://nontserver.herokuapp.com
 
 5. IP address used for QR code payment is now deleted and QR code <u>doesn't need to be individually set</u> anymore.
 
+6. remove the use of home component, after logging in, go to dashboard
+
 ![image-20210318220558824](C:\Users\ADMIN\AppData\Roaming\Typora\typora-user-images\image-20210318220558824.png)
+
+*P.S. The response time of the website decreases after the deployment, emphasizing the importance of the Loading component !!*
+
+P.S.2 เวลา deploy แล้วมี error -> ให้ใช้ command 
+
+`heroku logs --remote nontclient --tail` สำหรับ nontclient
+
+`heroku logs --remote nontserver --tail` สำหรับ nontserver
