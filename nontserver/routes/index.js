@@ -10,6 +10,7 @@ const shelter = require("./shelters");
 const nont = require("./nont");
 const payment = require("./payment");
 const reservation = require("./reservation");
+const review = require('./review');
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -23,5 +24,6 @@ router.use("/shelter", shelter);
 router.use("/nont", nont);
 router.use("/payment", payment);
 router.use("/reservation", reservation);
+router.use("/review", review);
 
 module.exports = router;
