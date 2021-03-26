@@ -12,4 +12,12 @@ router
     .route("/shelterid/:id")
     .get(controller.getReviewByShelterID);
 
+router
+    .route("/reservationid/:id")
+    .get(controller.getReviewByReservationID);
+
+router
+    .route("/nontownerid/:id")
+    .get(controller.getReviewByNontOwnerID);
+
 module.exports = router;
