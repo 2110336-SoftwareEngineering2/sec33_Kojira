@@ -43,6 +43,42 @@ const controller = {
             return res.status(500).send("Cannot create review");
         }
     },
+
+    // GET review by shelterID
+    getReviewByShelterID: async (req,res) => {
+        try{            
+            const review = await Review.find({"shelter_id": req.params.id}) 
+            .populate('nontowner_id').populate('reservation_id'); 
+            return res.send(review);
+        }
+        catch (error){
+            return res.status(500).send('Cannot get review by ShelterID');
+        }
+    },
+
+    // GET review by reservationID
+    getReviewByReservationID: async (req,res) => {
+        try{            
+            const review = await Review.find({"reservation_id": req.params.id}) 
+            .populate('nontowner_id').populate('reservation_id').populate('shelter_id'); 
+            return res.send(review);
+        }
+        catch (error){
+            return res.status(500).send('Cannot get review by ReservationID');
+        }
+    },
+
+    // GET review by nontOwnerID
+    getReviewByNontOwnerID: async (req,res) => {
+        try{            
+            const review = await Review.find({"nontowner_id": req.params.id}) 
+            .populate('nontowner_id').populate('reservation_id').populate('shelter_id'); 
+            return res.send(review);
+        }
+        catch (error){
+            return res.status(500).send('Cannot get review by NontOwnerID');
+        }
+    }
 }
 
 module.exports = controller;
