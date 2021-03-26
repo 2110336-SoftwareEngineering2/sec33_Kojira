@@ -43,6 +43,18 @@ const controller = {
             return res.status(500).send("Cannot create review");
         }
     },
+
+    // GET review by shelterID
+    getReviewByShelterID: async (req,res) => {
+        try{            
+            const review = await Review.find({"shelter_id": req.params.id}) 
+            .populate('nontowner_id'); 
+            return res.send(review);
+        }
+        catch (error){
+            return res.status(500).send('Internal Server Error, Please try again');
+        }
+    }
 }
 
 module.exports = controller;

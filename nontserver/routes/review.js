@@ -8,4 +8,8 @@ router.route('/')
     .get(controller.getReviews)
     .post(controller.createReview);
 
+router
+    .route("/shelterid/:id")
+    .get(controller.getReviewByShelterID);
+
 module.exports = router;
