@@ -2,10 +2,14 @@
 
 const express = require("express");
 const router = express.Router();
-const controller = require("../Controllers/NontOwnerController");
+const adminController = require("../Controllers/AdminController");
 const corsOptions = require("../Config/corsOptions");
 const cors = require("cors");
 
-router.route("/login").post(cors(corsOptions), controller.login);
+router.route("/login").post(cors(corsOptions), adminController.login);
+
+router.route("/addAdmin").post(adminController.addAdmin);
+
+router.route("/").get(adminController.getAdmins);
 
 module.exports = router;
