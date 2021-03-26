@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styles from "./App.module.css";
 import Router from "./Router/mainRouter";
 import NavigationBar from "./Components/NavigationBar/NavigationBar";
 import Contexts from "./Utils/Context/Contexts";
@@ -57,7 +58,7 @@ const App = (props) => {
   };
 
   return (
-    <div style={{ paddingBottom: "100px" }}>
+    <div className={styles.App}>
       <UserContext.Provider value={userContextValues}>
         <NavigationBar />
         <Router />
