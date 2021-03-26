@@ -16,6 +16,22 @@ const controller = {
     Admin.find().then((admin) => res.send(admin));
   },
 
+  checkValidEmail: async (req, res) => {
+    const result = await Admin.findOne({ email: req.body.email });
+    if (result) {
+      return false;
+    }
+    return true;
+  },
+
+  checkValidEmailAPI: async (req, res) => {
+    const result = await this.checkValidEmail(req, res);
+    if (result) {
+      res.send({ email_valid: true });
+    }
+    res.send({ email_valid: false });
+  },
+
   // secret is "Kojira_secret_code"
   addAdmin: async (req, res) => {
     const secret = "Kojira_secret_code";
@@ -33,7 +49,8 @@ const controller = {
         correctHashedSecret,
         hashedSecret
       );
-      if (compareResult) {
+      const validEmail = await this.checkValidEmail(req, res);
+      if (compareResult && validEmail) {
         const hashedPassword = await bcrypt.hash(
           req.body.password,
           PASSWORD_HASHING_ROUNDS
