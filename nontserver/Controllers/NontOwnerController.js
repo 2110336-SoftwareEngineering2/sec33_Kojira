@@ -3,7 +3,7 @@
 const NontOwner = require("../Models/NontOwner");
 const _ = require("lodash");
 const Joi = require("joi");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const LoginController = require("./LoginController");
 
 const PASSWORD_HASHING_ROUNDS = 10;

@@ -68,9 +68,11 @@ const LoginService = {
           loaded: true,
         };
       } else {
+        localStorage.removeItem("access_token");
         return { login: false, email: null, userType: null, err: false };
       }
     } catch (err) {
+      localStorage.removeItem("access_token");
       return { login: false, email: null, userType: null, err: true };
     }
   },

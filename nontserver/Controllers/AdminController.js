@@ -2,7 +2,7 @@
 
 const Admin = require("../Models/Admin");
 const LoginController = require("./LoginController");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const PASSWORD_HASHING_ROUNDS = 10;
 

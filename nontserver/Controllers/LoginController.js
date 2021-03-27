@@ -1,5 +1,5 @@
 "use strict";
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const generateAccessToken = require("../Middlewares/JsonWebToken/JwtGenerator");
 const LoginError = require("../Constants/ErrorTypes/LoginError");
 
