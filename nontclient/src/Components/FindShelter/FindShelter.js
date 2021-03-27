@@ -50,7 +50,7 @@ const FindShelter = (props) => {
       </div>
       <Loading status={fetchShelterStatus} />
       {fetchShelterStatus === LoadStatus.SUCCESS && (
-        <FindShelterList shelters={shelters} position={position} />
+        <FindShelterList allShelters={shelters} position={position} />
       )}
     </div>
   );
