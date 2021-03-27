@@ -55,7 +55,7 @@ const ShelterCard = (props) => {
           <div className="d-flex flex-wrap justify-content-center">
             {shelter.supported_type.map((type) => (
               <div className="d-flex mr-2 mb-2" key={type}>
-                <span className="badge badge-secondary">{type}</span>
+                <span className="badge badge-pill badge-primary">{type}</span>
               </div>
             ))}
           </div>
