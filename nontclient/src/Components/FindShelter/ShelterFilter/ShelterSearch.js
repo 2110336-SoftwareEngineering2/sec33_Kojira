@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "../FindShelter.module.css";
 
 const ShelterSearch = (props) => {
   const { filter, setFilter, submitSearch, submitClear } = props;
@@ -10,21 +11,27 @@ const ShelterSearch = (props) => {
 
   return (
     <div className="form-group d-flex m-0">
-      <input
-        type="text"
-        className="form-control mr-2"
-        placeholder="Search shelter"
-        onChange={handleFormChange}
-        value={filter.keywords}
-      />
+      <div className={"d-flex mr-2 " + styles.searchBar}>
+        <div
+          className={"d-flex align-items-center pl-3 " + styles.searchIcon}
+        >
+          <i className={"fas fa-search " + styles.fade}></i>
+        </div>
+        <input
+          type="text"
+          className={"form-control " + styles.searchField}
+          onChange={handleFormChange}
+          value={filter.keywords}
+        />
+      </div>
       <button
         type="button"
         className="btn btn-primary mr-2"
         onClick={submitSearch}
       >
-        <i className="fas fa-search"></i>
+        Apply
       </button>
-      <button type="button" className="btn btn-primary" onClick={submitClear}>
+      <button type="button" className="btn btn-light" onClick={submitClear}>
         Clear
       </button>
     </div>
