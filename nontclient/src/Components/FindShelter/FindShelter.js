@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getDistance } from "geolib";
 import ShelterService from "../../Services/ShelterService";
 import LoadStatus from "../../Constants/LoadStatus";
 import Loading from "../Shared/Loading";
@@ -40,6 +41,21 @@ const FindShelter = (props) => {
     }
     getLocation();
   }, []);
+
+  useEffect(() => {
+    if (position) {
+      shelters.map((shelter) => {
+        const distance = getDistance(
+          { latitude: position.lat, longitude: position.lng },
+          {
+            latitude: shelter.coordinate.lat,
+            longitude: shelter.coordinate.lng,
+          }
+        );
+        shelter['distance'] = distance;
+      });
+    }
+  }, [shelters, position]);
 
   return (
     <div className="container">

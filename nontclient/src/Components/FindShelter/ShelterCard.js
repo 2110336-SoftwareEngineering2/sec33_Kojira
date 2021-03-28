@@ -1,28 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./FindShelter.module.css";
-import { getDistance } from "geolib";
 import StarRating from "./StarRating";
 const _ = require("lodash");
 
 const ShelterCard = (props) => {
   const shelter = props.shelter;
-
-  const [distance, setDistance] = useState(null);
-
-  useEffect(() => {
-    if (props.position) {
-      const distance = getDistance(
-        { latitude: props.position.lat, longitude: props.position.lng },
-        { latitude: shelter.coordinate.lat, longitude: shelter.coordinate.lng }
-      );
-
-      if (distance >= 1000) {
-        setDistance(`${Math.round(distance / 1000)} km`);
-      } else {
-        setDistance(`${distance} m`);
-      }
-    }
-  }, [props.position, shelter.coordinate.lat, shelter.coordinate.lng]);
 
   return (
     <div className={styles.cardWrapper}>
@@ -63,11 +45,13 @@ const ShelterCard = (props) => {
             <div className="d-flex">
               <StarRating rate={shelter.rate} />
             </div>
-            {distance && (
+            {shelter.distance && (
               <div className="d-flex">
                 <span className={styles.fade}>
                   <i className="fas fa-location-arrow mr-1"></i>
-                  {distance}
+                  {shelter.distance >= 1000
+                    ? `${Math.round(shelter.distance / 1000)} km`
+                    : `${shelter.distance} m`}
                 </span>
               </div>
             )}
