@@ -21,16 +21,16 @@ const ShelterSort = (props) => {
     setSortedShelters(_.sortBy(filteredShelters, keyMapper[sortedBy]));
   }, [sortedBy, filteredShelters, setSortedShelters, keyMapper]);
 
-  const sortedByMenu = (
+  const sortingMenu = (
     <Menu>
-      <Menu.Item>Name</Menu.Item>
+      <Menu.Item onClick={() => setSortedBy("Name")}>Name</Menu.Item>
     </Menu>
   );
 
   return (
     <React.Fragment>
       <span className={"mr-1 " + styles.fade}>Sorted by</span>
-      <Dropdown overlay={sortedByMenu} trigger={["click"]}>
+      <Dropdown overlay={sortingMenu} trigger={["click"]}>
         <Button>
           <span className="mr-1">{sortedBy}</span>
           <DownOutlined />
