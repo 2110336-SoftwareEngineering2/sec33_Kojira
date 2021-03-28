@@ -12,6 +12,8 @@ const LoginService = {
           path = "/nontOwners/login";
         } else if (typeOfUser === UserType.NONT_SITTER) {
           path = "/nontSitters/login";
+        } else if (typeOfUser === UserType.ADMIN) {
+          path = "/admin/login";
         } else {
           throw LoginError.USER_TYPE_ERROR;
         }
@@ -21,6 +23,8 @@ const LoginService = {
             password: password,
             userType: typeOfUser,
           });
+
+          //console.log(respond.data);
 
           if (!respond.data) {
             console.log("error");

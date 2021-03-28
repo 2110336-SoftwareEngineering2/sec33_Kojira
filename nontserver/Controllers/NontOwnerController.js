@@ -26,7 +26,7 @@ const controller = {
   getNontOwners: async (req, res) => {
     try {
       const nontOwnerAccounts = await NontOwner.find();
-      return res.send(_.omit(nontOwnerAccounts, ['password']));
+      return res.send(_.omit(nontOwnerAccounts, ["password"]));
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }
@@ -95,7 +95,7 @@ const controller = {
       }
       await NontOwner.findByIdAndUpdate(
         data._id,
-        { $set: _.omit(data, ['_id']) },
+        { $set: _.omit(data, ["_id"]) },
         { new: true }
       );
       res.send("The account was successfully updated.");

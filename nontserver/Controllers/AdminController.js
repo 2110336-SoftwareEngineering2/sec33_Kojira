@@ -3,6 +3,16 @@
 const Admin = require("../Models/Admin");
 const LoginController = require("./LoginController");
 const bcrypt = require("bcryptjs");
+const Joi = require("joi");
+
+const schema = {
+  email: Joi.string().required().email(),
+  password: Joi.string().required().min(8).max(32),
+  userType: Joi.string().required(),
+  secret: Joi.string().required(),
+};
+
+const validator = Joi.object(schema);
 
 const PASSWORD_HASHING_ROUNDS = 10;
 
@@ -35,22 +45,26 @@ const controller = {
   // secret is "Kojira_secret_code"
   addAdmin: async (req, res) => {
     const secret = "Kojira_secret_code";
-    console.log(req.body);
+    const validationResult = validator.validate(req.body);
+    if (validationResult.error) {
+      res.send({
+        err:
+          "review the value of the fields correctly, there should be 4 fields : secret, password, email, and userType. And the password should be between 8 and 32 characters",
+      });
+    }
+
+    //console.log(req.body);
     const correctHashedSecret = await bcrypt.hash(
       secret,
       PASSWORD_HASHING_ROUNDS
     );
     try {
-      const hashedSecret = await bcrypt.hash(
-        req.body.secret,
-        PASSWORD_HASHING_ROUNDS
-      );
       const compareResult = await bcrypt.compare(
-        correctHashedSecret,
-        hashedSecret
+        req.body.secret,
+        correctHashedSecret
       );
-      const validEmail = await this.checkValidEmail(req, res);
-      if (compareResult && validEmail) {
+      const validEmail = await controller.checkValidEmail(req, res);
+      if (compareResult && validEmail && req.body.userType === "admin") {
         const hashedPassword = await bcrypt.hash(
           req.body.password,
           PASSWORD_HASHING_ROUNDS
@@ -62,7 +76,15 @@ const controller = {
         });
         res.send(newAdmin);
       } else {
-        res.send({ err: "can't create admin, secret not correct" });
+        if (!compareResult) {
+          res.send({ err: "can't create admin, secret not correct" });
+        } else if (!validEmail) {
+          res.send({ err: "this admin email is already in the database" });
+        } else {
+          res.send({
+            err: "review your userType field, it should be 'admin' only",
+          });
+        }
       }
     } catch (err) {
       console.log(err);

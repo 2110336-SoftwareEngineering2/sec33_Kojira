@@ -8,7 +8,7 @@ const cors = require("cors");
 
 router.route("/login").post(cors(corsOptions), adminController.login);
 
-router.route("/addAdmin").post(adminController.addAdmin);
+router.route("/create").post(adminController.addAdmin);
 
 router.route("/").get(adminController.getAdmins);
 

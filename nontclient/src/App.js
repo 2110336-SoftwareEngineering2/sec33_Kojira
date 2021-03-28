@@ -56,6 +56,8 @@ const App = (props) => {
     UpdateUserInfo: UpdateUserInfo,
   };
 
+  console.log(userInfo);
+
   return (
     <div style={{ paddingBottom: "100px" }}>
       <UserContext.Provider value={userContextValues}>

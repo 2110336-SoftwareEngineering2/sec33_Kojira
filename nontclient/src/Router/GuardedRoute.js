@@ -48,6 +48,21 @@ const GuardedRoute = {
       />
     );
   },
+  AdminGuardedRoute: ({ component: Component, auth, userType, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={(props) =>
+          (auth.auth && auth.userType == null) ||
+          auth.userType === UserType.ADMIN ? (
+            <Component {...props} />
+          ) : (
+            <Redirect to="/admin/login" />
+          )
+        }
+      />
+    );
+  },
 };
 
 export default GuardedRoute;
