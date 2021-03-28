@@ -7,11 +7,7 @@ const _ = require("lodash");
 const ShelterSort = (props) => {
   const { filteredShelters, setSortedShelters, position } = props;
 
-  const [sortedBy, setSortedBy] = useState("Rating");
-
-  useEffect(() => {
-    if (position) setSortedBy("Distance");
-  }, [position]);
+  const [sortedBy, setSortedBy] = useState(position ? "Distance" : "Rating");
 
   // Map from "sortedBy" to a key in a shelter
   const keyMapper = useMemo(
