@@ -37,7 +37,7 @@ const FindShelterList = (props) => {
           </span>
         </div>
         <div className="d-flex align-items-center">
-          <ShelterSort filteredShelters={filteredShelters} setSortedShelters={setSortedShelters} />
+          <ShelterSort filteredShelters={filteredShelters} setSortedShelters={setSortedShelters} position={props.position} />
         </div>
       </div>
       <div className="row">
@@ -48,7 +48,7 @@ const FindShelterList = (props) => {
             }
             key={shelter._id}
           >
-            <ShelterCard shelter={shelter} position={props.position} />
+            <ShelterCard shelter={shelter} />
           </div>
         ))}
       </div>
