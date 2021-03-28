@@ -14,6 +14,7 @@ const ShelterSort = (props) => {
     () => ({
       Name: "name",
       Distance: "distance",
+      Rating: "rate",
     }),
     []
   );
@@ -26,6 +27,7 @@ const ShelterSort = (props) => {
     <Menu>
       <Menu.Item onClick={() => setSortedBy("Name")}>Name</Menu.Item>
       <Menu.Item onClick={() => setSortedBy("Distance")}>Distance</Menu.Item>
+      <Menu.Item onClick={() => setSortedBy("Rating")}>Rating</Menu.Item>
     </Menu>
   );
 
