@@ -57,6 +57,8 @@ const App = (props) => {
     UpdateUserInfo: UpdateUserInfo,
   };
 
+  console.log(userInfo);
+
   return (
     <div className={styles.App}>
       <UserContext.Provider value={userContextValues}>

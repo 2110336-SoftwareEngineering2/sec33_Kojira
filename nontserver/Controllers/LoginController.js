@@ -1,5 +1,5 @@
 "use strict";
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const generateAccessToken = require("../Middlewares/JsonWebToken/JwtGenerator");
 const LoginError = require("../Constants/ErrorTypes/LoginError");
 
@@ -33,6 +33,7 @@ const controller = {
               name: Result.name,
             });
           } else {
+            console.log("password incorrect");
             res.json({
               login: false,
               error: LoginError.INCORRECT_USERNAME_OR_PASSWORD,
@@ -42,6 +43,7 @@ const controller = {
           throw err;
         }
       } else {
+        console.log("no email found");
         res.json({
           login: false,
           error: LoginError.INCORRECT_USERNAME_OR_PASSWORD,
