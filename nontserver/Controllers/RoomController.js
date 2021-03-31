@@ -93,7 +93,7 @@ const controller = {
         // update supported_type        
     },
 
-    // PUT update room
+    // PATCH update room
     updateRoom: async (req, res) => {
         const validationResult = validator.validate(req.body);
         if (validationResult.error) {            
@@ -109,10 +109,10 @@ const controller = {
                 { new: true }
             );
             const updateSupportTypeRes = ShelterController.updateSupportedType(updateRes.shelter_id);
-            return res.send(updateRes);    
+            return res.send(updateRes);
         } 
         catch (error) {            
-            return res.status(500).send("Cannot create room");
+            return res.status(500).send("Cannot update room");
         }
     },
 
