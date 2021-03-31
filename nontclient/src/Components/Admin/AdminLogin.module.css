@@ -1,0 +1,38 @@
+#LoginHeader {
+  font-size: 60px;
+  color: #3ba3fc;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.fullDiv {
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+#insideDiv {
+  width: 460px;
+}
+
+.hereButton {
+  width: 100px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px !important;
+}
+
+.hereButton:hover {
+  background-color: #5cb85c !important;
+}
+
+#codeBackground {
+  border: 1px solid black !important;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: lightgray;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

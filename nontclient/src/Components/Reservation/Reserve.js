@@ -89,8 +89,8 @@ const Reserve = (props) => {
             || current.isSame(moment(new Date(date.end_datetime)), 'days')) {
                 re = true;
             }
-        });        
-        return (current < moment()) || re;
+        });
+        return (current.isBefore(moment(), 'days')) || re;
     }
 
     const dateChange = (dates) => {
