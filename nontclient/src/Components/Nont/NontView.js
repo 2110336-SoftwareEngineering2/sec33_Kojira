@@ -62,6 +62,7 @@ const NontView = () => {
 
   return (
     <div className="container">
+        
       {/* Loading */}
       <Loading status={fetchNontStatus} />
 
