@@ -8,6 +8,8 @@ import NontService from "../../Services/NontService";
 import QRcode from "../../Components/Payment/QRcode";
 import { DatePicker, Select, Statistic, notification } from "antd";
 import moment, { months } from "moment";
+import styles from "./Reserve.module.css";
+
 const UserContext = Contexts.UserContext;
 const ReserveInfo = (props) => {
     let today = new Date();
@@ -51,7 +53,9 @@ const ReserveInfo = (props) => {
                     setcheckOutDate(response.data.end_datetime);
                     setstatus(response.data.status);
                     let nontname=[];
+                    let nid=[];
                     response.data.nont_id.forEach( nont=>{
+                        //nontname=[...nontname,{nid:nont._id,nname:nont.name}]
                         nontname=[...nontname,nont.name]
                     });
                     setNonts(nontname);
@@ -60,8 +64,6 @@ const ReserveInfo = (props) => {
                     if((today.getDate()===(new Date(checkOutDate).getDate())
                     &&today.getMonth()===(new Date(checkOutDate).getMonth())
                     &&today.getFullYear()===(new Date(checkOutDate).getFullYear())))console.log("cancheckOut");
-
-
                 }
             }            
         }
@@ -134,15 +136,11 @@ const ReserveInfo = (props) => {
                             description: `you already check-in please wait for nont owner check-in.`,
                             placement: "bottomRight",
                         });  
-
                     }
-
                 }
-                
             }
             if(ownercheckin&&sittercheckin)window.location.reload();
 
-            
         }
         catch(error){
             if(contextValue.userType === UserType.NONT_OWNER&&ownercheckin){
@@ -268,13 +266,16 @@ const ReserveInfo = (props) => {
                 <div className="card-body">
                     <dl className ="row">
                         <dt className="col-sm-2"><h5>ShelterName:</h5></dt>
-                        <dd className="col-sm-10"><h5>{Shelter.name}</h5></dd>
+                        <dd className="col-sm-10"><h5><a href={"/shelterView/"+Shelter._id} className={styles.pageLink}>{Shelter.name}</a></h5></dd>
                         <dt className="col-sm-2"><h5>Location</h5></dt>
                         <dd className="col-sm-10"><h5>{Shelter.address}</h5></dd>
                         <dt className="col-sm-2"><h5>Nontowner:</h5></dt>
                         <dd className="col-sm-10"><h5>{owner.name}</h5></dd>
                         <dt className="col-sm-2"><h5>Nont:</h5></dt>
-                        <dd className="col-sm-10"><h5>{String(nonts)}</h5></dd>
+                        <dd className="col-sm-10"><h5>
+                        {/* nonts.map(nont => (<a href={"/nont/"+nont.nid} className={styles.pageLink}>{nont.nname + " "}</a>)) */}
+                        {String(nonts)}
+                        </h5></dd>
                         <dt className="col-sm-2"><h5>price</h5></dt>
                         <dd className="col-sm-10"><h5>{(contextValue.userType === UserType.NONT_OWNER)?price:(price*0.7)}</h5></dd>
                         <dt className="col-sm-2"><h5>Room:</h5></dt>
@@ -303,9 +304,17 @@ const ReserveInfo = (props) => {
                             </div>
                             <div>
                                 {
-                                   (status==="paid"&&  today>Date.parse(checkInDate)&&today<Date.parse(checkOutDate))&&<input className="d-flex align-content-center my-1 btn btn-primary" type="button" onClick={oncheckIn} value="checkin"/>
-                                }
-                                
+                                   (status==="paid"&&  today>Date.parse(checkInDate)&&today<Date.parse(checkOutDate))&&
+                                   <div className="p-3" style={{ textAlign: "center"}}>
+                                        <button
+                                        type="button"
+                                        className="btn btn-primary"
+                                        onClick={oncheckIn}
+                                        >
+                                        checkin
+                                        </button>
+                                    </div>
+                                }   
                             </div>
                             <div>
                                 {
@@ -313,16 +322,23 @@ const ReserveInfo = (props) => {
                                     (today.getDate()===(new Date(checkOutDate).getDate())
                                     &&today.getMonth()===(new Date(checkOutDate).getMonth())
                                     &&today.getFullYear()===(new Date(checkOutDate).getFullYear()))
-                                    ))&&<input className="my-1 btn btn-primary" type="button" onClick={oncheckOut} value="checkout"/>
+                                    ))&&
+                                    <div className="p-3" style={{ textAlign: "center"}}>
+                                        <button
+                                        type="button"
+                                        className="btn btn-primary"
+                                        onClick={oncheckOut}
+                                        >
+                                        checkout
+                                        </button>
+                                    </div>
                                 }
-                                
                             </div>
                             <div>
                                 {
-                                     (contextValue.userType === UserType.NONT_OWNER &&status==="checked-out")&&<input className="my-1 btn btn-primary" type="button"   value="review"/>
+                                    (contextValue.userType === UserType.NONT_OWNER &&status==="checked-out")&&<input className="my-1 btn btn-primary" type="button"   value="review"/>
 
                                 }
-                                
                             </div>
                         </div>
                 </div>
