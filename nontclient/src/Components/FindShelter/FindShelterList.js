@@ -21,14 +21,10 @@ const FindShelterList = (props) => {
 
   return (
     <React.Fragment>
-      <div className="row justify-content-center">
-        <div className="col-12 col-lg-9 text-center m-3">
-          <ShelterFilter
-            allShelters={props.allShelters}
-            setFilteredShelters={setFilteredShelters}
-          />
-        </div>
-      </div>
+      <ShelterFilter
+        allShelters={props.allShelters}
+        setFilteredShelters={setFilteredShelters}
+      />
       <hr />
       <div className="d-flex justify-content-between">
         <div className="d-flex">
@@ -37,7 +33,11 @@ const FindShelterList = (props) => {
           </span>
         </div>
         <div className="d-flex align-items-center">
-          <ShelterSort filteredShelters={filteredShelters} setSortedShelters={setSortedShelters} position={props.position} />
+          <ShelterSort
+            filteredShelters={filteredShelters}
+            setSortedShelters={setSortedShelters}
+            position={props.position}
+          />
         </div>
       </div>
       <div className="row">
