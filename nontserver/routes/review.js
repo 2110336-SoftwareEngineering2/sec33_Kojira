@@ -6,7 +6,8 @@ const controller = require('../Controllers/ReviewController');
 
 router.route('/')
     .get(controller.getReviews)
-    .post(controller.createReview);
+    .post(controller.createReview)
+    .patch(controller.updateReview);
 
 router
     .route("/shelterid/:id")
@@ -19,5 +20,9 @@ router
 router
     .route("/nontownerid/:id")
     .get(controller.getReviewByNontOwnerID);
+
+router
+    .route("/delete/:id")
+    .delete(controller.deleteReview);
 
 module.exports = router;
