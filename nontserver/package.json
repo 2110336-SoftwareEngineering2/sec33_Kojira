@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "test": "mocha"
+    "test": "mocha",
+    "deploy": "cd ../ && git subtree push --prefix nontserver nontserver main"
   },
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "chai": "^4.3.0",
     "chai-http": "^4.3.0",

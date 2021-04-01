@@ -8,25 +8,16 @@ const QRcode = (props) => {
   const [IpAddress, setIpAddress] = useState("");
   const [code, setCode] = useState("");
 
-  if (IpAddress === "") {
+  if (code === "") {
     axios.post(serverURL + "/payment/getCode").then((respond) => {
       setCode(respond.data.code);
-    });
-
-    axios.get(serverURL + "/payment/getServerIpAddress").then((respond) => {
-      setIpAddress(respond.data.ip);
     });
   }
 
   return (
     <QRCode
       value={
-        "http://" +
-        IpAddress +
-        ":5000/payment/QR?reserveId=" +
-        props.reserveId +
-        "&code=" +
-        code
+        serverURL + "/payment/QR?reserveId=" + props.reserveId + "&code=" + code
       }
       size={props.size}
     />

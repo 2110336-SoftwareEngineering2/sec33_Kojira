@@ -20,13 +20,17 @@
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
+    "serve": "^11.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "react-scripts start",
+    "deploy": "cd ../ && git subtree push --prefix nontclient nontclient main",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": [

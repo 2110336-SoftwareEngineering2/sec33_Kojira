@@ -1,11 +1,12 @@
+.reservationCard {
+  border-radius: 10px !important;
+}
+
 .reservationCard:hover {
   box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 8px, rgba(17, 17, 26, 0.024) 0px 4px 16px;
   transition: all 200ms ease-in-out 0s;
   will-change: transform;
-}
-
-.reservationCard:hover {
-    transform: translateY(-10px);
+  transform: translateY(-10px);
 }
 
 .toggleable {
@@ -47,4 +48,8 @@
 .expand {
   display: initial;
   animation: fadeIn 0.5s;
+}
+
+.listRow {
+  border-radius: 20px !important;
 }

@@ -3,6 +3,7 @@
 const Rooms = require('../Models/Room');
 const Shelters = require('../Models/Shelters');
 const NontSitter = require("../Models/NontSitter");
+const Review = require("../Models/Review");
 const _ = require('lodash');
 const Joi = require('joi');
 const nontTypes = require('../Constants/nontTypes');
@@ -137,7 +138,7 @@ const controller = {
     },
 
     // Update supported_type and
-    // to call from other function in backend only
+    // only called from other function in backend only
     updateSupportedType: async (shelterID) => {
         try {
             const nontTypes = await Rooms.find({"shelter_id":shelterID}).distinct("nont_type");
@@ -146,6 +147,32 @@ const controller = {
             }
             const newBody = {
                 supported_type: nontTypes,
+            }
+            const updateRes = await Shelters.updateOne(newQuery, newBody);
+            return updateRes;
+        }
+        catch (error) {
+            throw error;
+        }
+    },
+
+    // Update shelter's rate
+    // only called from other function in backend only
+    updateRate: async (shelterID) => {
+        try {
+            // find new average rate
+            const reviewList = await Review.find({"shelter_id": shelterID}).select({"rate": 1,"_id": 0});
+            const reduceRate = await reviewList.reduce( (previousValue, currentValue) => {
+                return {
+                    rate: previousValue.rate + currentValue.rate,
+                }
+            } );            
+            // update shelter
+            const newQuery = {
+                _id: shelterID,
+            };
+            const newBody = {
+                rate: reduceRate.rate / reviewList.length,
             }
             const updateRes = await Shelters.updateOne(newQuery, newBody);
             return updateRes;

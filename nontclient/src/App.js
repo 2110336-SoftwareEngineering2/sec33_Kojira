@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styles from "./App.module.css";
 import Router from "./Router/mainRouter";
 import NavigationBar from "./Components/NavigationBar/NavigationBar";
 import Contexts from "./Utils/Context/Contexts";
@@ -10,7 +11,7 @@ const App = (props) => {
   const [userInfo, setUserInfo] = useState({
     userType: null,
     email: null,
-    login: false,
+    login: localStorage.getItem("access_token") !== null ? true : false,
     name: null,
     _id: null,
     createdAt: null,
@@ -56,11 +57,15 @@ const App = (props) => {
     UpdateUserInfo: UpdateUserInfo,
   };
 
+  console.log(userInfo);
+
   return (
-    <UserContext.Provider value={userContextValues}>
-      <NavigationBar />
-      <Router />
-    </UserContext.Provider>
+    <div className={styles.App}>
+      <UserContext.Provider value={userContextValues}>
+        <NavigationBar />
+        <Router />
+      </UserContext.Provider>
+    </div>
   );
 };
 

@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import {notification,} from "antd";
+import { notification, } from "antd";
 import { useParams } from "react-router-dom";
 import RoomService from "../../Services/RoomService";
 import ShelterService from "../../Services/ShelterService";
 import Contexts from "../../Utils/Context/Contexts";
 import RoomRow from "./RoomRow";
+import Loading from "../Shared/Loading";
+import LoadStatus from "../../Constants/LoadStatus";
 
 const UserContext = Contexts.UserContext;
 
@@ -13,6 +15,8 @@ const RoomManage = (props) => {
     const [rooms, setRooms] = useState([]);
     const [shelterName, setShelterName] = useState("");
     const { shelterID } = useParams();
+    const [fetchRoomStatus, setFetchRoomStatus] = useState(LoadStatus.LOADING);
+    const [fetchShelterStatus, setFetchShelterStatus] = useState(LoadStatus.LOADING);
 
     useEffect(() => {
         fetchRooms();
@@ -25,10 +29,12 @@ const RoomManage = (props) => {
                     const response = await ShelterService.getShelterByID(shelterID);
                     if (response.data) {
                         setShelterName(response.data.name);
+                        setFetchShelterStatus(LoadStatus.SUCCESS);
                     }
                 }
             }
             catch (error) {
+                setFetchShelterStatus(LoadStatus.FAIL);
                 console.error(error.message);
             }
         }
@@ -41,10 +47,12 @@ const RoomManage = (props) => {
                 const response = await RoomService.getRoomByShelterID(shelterID);
                 if (response.data) {
                     setRooms(response.data);
+                    setFetchRoomStatus(LoadStatus.SUCCESS);
                 }
             }
         }
         catch (error) {
+            setFetchRoomStatus(LoadStatus.FAIL);
             console.error(error.message);
         }
     }
@@ -83,57 +91,73 @@ const RoomManage = (props) => {
         <div className="container">
 
             {/* Back Button, Add Button and Shelter Name */}
-            <div
-            className="row mt-2 justify-content-between mx-0"
+            <div className="d-flex justify-content-between mt-2"
             >
-                <div className="col col-md-1 my-2"
-                    style={{ padding:0 }}>
-                    <a
-                    type="button"
-                    className="btn btn-outline-light text-dark bg-light border-dark text-center float-left"
-                    href={"/shelter"}>
-                        Back
-                    </a>
-                </div>
-                <div className="col col-md-1 my-2"                
-                style={{ padding:0 }}>                    
-                    <a
-                    type="button"
-                    className="btn btn-outline-light text-light bg-success border-success text-center float-right"
-                    href={"/room/register/" + shelterID}>
-                        Add
-                    </a>
-                </div>
-                <div className="col-md-12 font-weight-bold h1"
-                style={{backgroundColor:"#c8d6e5", color:"#222f3e"}}>
-                    {shelterName}
-                </div>
+                {/* Back Button */}
+                <a
+                type="button"
+                className="btn btn-outline-light text-dark bg-light border-dark "
+                href={"/shelter"}>
+                    Back
+                </a>
+                <a
+                type="button"
+                className="btn btn-outline-light text-light bg-success border-success "
+                href={"/room/register/" + shelterID}>
+                    Add
+                </a>
+            </div>
+
+            {/* Loading */}
+            <div className="col col-md-12">
+                <Loading status={fetchRoomStatus && fetchShelterStatus} />
+            </div>
+
+            {/* Shelter Name */}
+            <div className="flex-fill my-2">
+                {
+                    fetchRoomStatus === LoadStatus.SUCCESS &&
+                    fetchShelterStatus === LoadStatus.SUCCESS &&
+                    (
+                        <div className="col-md-12 font-weight-bold h1"
+                        style={{backgroundColor:"#c8d6e5", color:"#222f3e"}}>
+                            {shelterName}
+                        </div>
+                    )
+                }
             </div>
 
             {/* Room Row Button */}
-            <div>
-                <table className="table table-responsive-md">
-                    <thead>
-                        <tr>
-                            <th scope="col" style={{textAlign:"center", fontSize:20}}>Name</th>
-                            <th scope="col" style={{textAlign:"center", fontSize:20}}>Nont Type</th>
-                            <th scope="col" style={{textAlign:"center", fontSize:20}}>Amount</th>
-                            <th scope="col" style={{textAlign:"center", fontSize:20}}>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                        rooms.map((element) => (
-                            <RoomRow
-                                element={element}
-                                key={element._id}
-                                onDelete={deleteRoom}
-                            />
-                        ))
-                        }      
-                    </tbody>                
-                </table>
-            </div>
+            {
+                fetchRoomStatus === LoadStatus.SUCCESS &&
+                fetchShelterStatus === LoadStatus.SUCCESS &&
+                (
+                    <div>
+                        <table className="table table-responsive-md">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style={{textAlign:"center", fontSize:20}}>Name</th>
+                                    <th scope="col" style={{textAlign:"center", fontSize:20}}>Nont Type</th>
+                                    <th scope="col" style={{textAlign:"center", fontSize:20}}>Amount</th>
+                                    <th scope="col" style={{textAlign:"center", fontSize:20}}>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                rooms.map((element) => (
+                                    <RoomRow
+                                        element={element}
+                                        key={element._id}
+                                        onDelete={deleteRoom}
+                                    />
+                                ))
+                                }      
+                            </tbody>                
+                        </table>
+                    </div>
+                )
+            }
+            
         </div>
     )
 }
