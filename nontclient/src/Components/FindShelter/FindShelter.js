@@ -83,7 +83,11 @@ const FindShelter = (props) => {
       <hr />
       <div className="d-flex justify-content-between">
         <div className="d-flex">
-          <span className={styles.fade}>Showing {shelters.length} results</span>
+          {fetchShelterStatus === LoadStatus.SUCCESS && (
+            <span className={styles.fade}>
+              Showing {shelters.length} results
+            </span>
+          )}
         </div>
         <div className="d-flex align-items-center">
           <ShelterSort sortedBy={sortedBy} setSortedBy={setSortedBy} />
