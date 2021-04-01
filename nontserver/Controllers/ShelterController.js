@@ -137,10 +137,10 @@ const controller = {
 
     // Querying => Filtering => Sorting => Pagination
     try {
-      const allShelters = await Shelters.find().lean().exec();
+      let foundShelters = await Shelters.find().lean().exec();
       try {
         const re = new RegExp(keywords, "i");
-        let foundShelters = allShelters.filter(
+        foundShelters = foundShelters.filter(
           (shelter) =>
             shelter.name.match(re) &&
             checkSupportedType(shelter, supported_type)
