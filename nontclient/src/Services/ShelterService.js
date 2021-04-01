@@ -89,14 +89,19 @@ const ShelterService = {
 
     findShelter: async (query={}) => {
         try {
-            let path = "/shelter/findShelter?"
+            let path = "/shelter/findShelters?"
             for (const key in query) {
                 if (Array.isArray(query[key])) {
                     for (const value of query[key]) {
                         path = path + `${key}=${value}&`;
                     }
                 }
-                else if (typeof query[key] === "string" || typeof query[key] === "number") {
+                else if (typeof query[key] === "string") {
+                    if (query[key].length > 0) {
+                        path = path + `${key}=${query[key]}&`;
+                    }
+                }
+                else if (typeof query[key] === "number") {
                     path = path + `${key}=${query[key]}&`;
                 }
                 else {
