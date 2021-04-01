@@ -141,7 +141,7 @@ const controller = {
     // only called from other function in backend only
     updateSupportedType: async (shelterID) => {
         try {
-            const nontTypes = await Rooms.find({"shelter_id":shelterID}).distinct("nont_type");
+            const nontTypes = await Rooms.find({ "shelter_id": shelterID, "exist": true }).distinct("nont_type");
             const newQuery = {
                 _id:shelterID,
             }

@@ -11,6 +11,7 @@ const schema = new Schema(
         amount: {type: Number, required: true},
         price: {type: Number, required: true},
         shelter_id: {type: ObjectId, required: true, ref:"shelters"},
+        exist: {type: Boolean, required: true},
     },
     {
         timestamps: true,
