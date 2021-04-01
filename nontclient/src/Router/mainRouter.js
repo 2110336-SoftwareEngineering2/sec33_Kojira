@@ -10,6 +10,7 @@ import ReserveInfo from "../Components/Reservation/ReserveInfo";
 import GuardedRoute from "./GuardedRoute";
 import NontOwnerRouter from "./NontOwnerRouter";
 import NontSitterRouter from "./NontSitterRouter";
+import AdminRouter from "./AdminRouter";
 import AdminLogin from "../Components/Admin/AdminLogin";
 
 import Contexts from "../Utils/Context/Contexts";
@@ -68,6 +69,11 @@ function Router() {
         <Route path="/home" component={Homepage} />
         <Route path="/admin/login" component={AdminLogin} />
 
+        <AdminRouter
+          path={["/selectdb","/infodb"]}
+          component={AdminRouter}
+          auth={auth}
+        />
         <NontSitterRouter
           path={[
             "/shelter",
