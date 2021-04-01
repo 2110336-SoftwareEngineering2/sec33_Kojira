@@ -12,14 +12,7 @@ const ShelterFilter = (props) => {
   };
   const [filter, setFilter] = useState(defaultFilter);
 
-  function checkSupportedType(shelter) {
-    if (filter.supported_type.length > 0) {
-      const intersectedType = filter.supported_type.filter((type) =>
-        shelter.supported_type.includes(type)
-      );
-      return intersectedType.length > 0;
-    } else return true;
-  }
+  
 
   function submitSearch(event) {
     event.preventDefault();
