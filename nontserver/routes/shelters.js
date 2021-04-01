@@ -11,6 +11,10 @@ router
     .patch(controller.updateShelter);
 
 router
+    .route('/allShelters')
+    .get(controller.getAllShelters)
+
+router
     .route('/id/:id')
     .get(controller.getShelterByID);
 
