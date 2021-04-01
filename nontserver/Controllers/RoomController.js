@@ -1,6 +1,7 @@
 "use strict";
 
 const Rooms = require('../Models/Room');
+const Reservation = require('../Models/Reservation');
 const _ = require('lodash');
 const Joi = require('joi');
 const JoiOid = require('joi-oid');
@@ -151,11 +152,15 @@ const controller = {
         return: updated room, the only field change is exist
     */
     deleteRoom: async (req, res) => {
-        // find shelter_id for update supported type
-        // delete room -> change exist to false
-        // update supported type
-        try{
-            const searchRes = await Rooms.findById(req.params.id);
+        try {
+            // check if there is incompleted reservation with this room_id
+            const reserveRes = await Reservation.findOne({ "room_id": req.params.id, "status": {$in: ['payment-pending','paid','checked-in']} });
+            if (reserveRes) {
+                return res.status(400).send("Cannot delete room. Related reservtion is still not completed.");
+            }
+            // find shelter_id for update supported type
+            const searchRes = await Rooms.findById(req.params.id);            
+            // delete room -> change exist to false
             const newBody = {
                 exist: false,
             };

@@ -57,7 +57,7 @@ const RoomManage = (props) => {
         }
     }
 
-    const openNotification = (mode, name) => {
+    const openNotification = (mode, name, message) => {
         if (mode === "success") {
             notification.success({
                 message: "Room deleted.",
@@ -67,8 +67,8 @@ const RoomManage = (props) => {
         }
         else if (mode === "error") {
             notification.error({ 
-                message: "Room deleted.",
-                description: `Cannot delete room ${name}.`,
+                message: `Cannot delete room ${name}.`,
+                description: `${message}`,
                 placement: "bottomRight",
             });
         }        
@@ -79,10 +79,10 @@ const RoomManage = (props) => {
             const response = await RoomService.deleteRoom(id);
             if (response.status === 200) {
                 fetchRooms();
-                openNotification("success", name);
+                openNotification("success", name, "");
             }
         } catch (error){
-            openNotification("error", name)
+            openNotification("error", name, error.response.data);
             console.error(error.message);
         }
     };
