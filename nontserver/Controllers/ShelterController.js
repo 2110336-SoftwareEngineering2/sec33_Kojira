@@ -8,6 +8,7 @@ const Joi = require("joi");
 const nontTypes = require("../Constants/nontTypes");
 const JoiOid = require("joi-oid");
 const mongoose = require("mongoose");
+const geolib = require("geolib");
 
 const validate_coordinate = Joi.object({
   lat: Joi.number().min(-90).max(90),
@@ -100,7 +101,6 @@ const controller = {
 
   // GET /findShelters
   findShelters: async (req, res) => {
-
     // Predefine functions
     function checkSupportedType(shelter, supportedTypeFilter) {
       if (supportedTypeFilter.length > 0) {
@@ -121,6 +121,12 @@ const controller = {
         ? req.query.supported_type
         : [req.query.supported_type]
       : [];
+    const lat = req.query.lat;
+    const lng = req.query.lng;
+    const position =
+      lat !== undefined && lng !== undefined
+        ? { lat: lat, lng: lng }
+        : undefined;
 
     // Check validity
     const validTypes = Object.values(nontTypes);
@@ -140,7 +146,19 @@ const controller = {
             checkSupportedType(shelter, supported_type)
         );
         foundShelters = _.sortBy(foundShelters, sortedBy);
-        res.send(`${foundShelters.length}`);
+        if (position) {
+          foundShelters.map((shelter) => {
+            const distance = geolib.getDistance(
+              { latitude: position.lat, longitude: position.lng },
+              {
+                latitude: shelter.coordinate.lat,
+                longitude: shelter.coordinate.lng,
+              }
+            );
+            shelter.distance = distance;
+          });
+        }
+        res.send(foundShelters);
       } catch (error) {
         return res.staus(400).send("Error: Invalid query");
       }
