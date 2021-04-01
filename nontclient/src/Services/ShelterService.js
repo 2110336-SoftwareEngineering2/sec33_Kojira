@@ -87,7 +87,7 @@ const ShelterService = {
         }
     },
 
-    findShelter: async (query) => {
+    findShelter: async (query={}) => {
         try {
             let path = "/shelter/findShelter?"
             for (const key in query) {
@@ -103,6 +103,8 @@ const ShelterService = {
                     throw new Error("Invalid query");
                 }
             }
+            const response = await axios.get(serverURL + path);
+            return response
         } catch (error) {
             throw error;
         }
