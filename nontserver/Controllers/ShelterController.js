@@ -137,7 +137,7 @@ const controller = {
 
     // Querying => Filtering => Sorting => Pagination
     try {
-      const allShelters = await Shelters.find();
+      const allShelters = await Shelters.find().lean().exec();
       try {
         const re = new RegExp(keywords, "i");
         let foundShelters = allShelters.filter(
@@ -145,21 +145,20 @@ const controller = {
             shelter.name.match(re) &&
             checkSupportedType(shelter, supported_type)
         );
-        if (sortedBy === 'rate') foundShelters = _.sortBy(foundShelters, sortedBy).reverse();
-        else foundShelters = _.sortBy(foundShelters, sortedBy);
         if (position) {
-          for (const shelter of foundShelters) {
-            const distance = geolib.getDistance(
+          foundShelters.map((shelter) => {
+            shelter.distance = geolib.getDistance(
               { latitude: position.lat, longitude: position.lng },
               {
                 latitude: shelter.coordinate.lat,
                 longitude: shelter.coordinate.lng,
               }
             );
-            shelter.distance = distance;
-          }
+          });
         }
-        console.log(foundShelters);
+        if (sortedBy === "rate")
+          foundShelters = _.sortBy(foundShelters, sortedBy).reverse();
+        else foundShelters = _.sortBy(foundShelters, sortedBy);
         res.send(foundShelters);
       } catch (error) {
         return res.staus(400).send("Error: Invalid query");
