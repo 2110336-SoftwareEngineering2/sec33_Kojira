@@ -13,7 +13,7 @@ const ReservationCard = (props) => {
                 <div className="col-lg-6">
                 <a href={"/reserveInfo/" + reservation._id} className="m-2">
                     <div className={"card mt-3 " + styles.reservationCard}>
-                    <div className="card-header text-white bg-primary" style={{fontSize: "20px", fontWeight: '600'}}>
+                    <div className="card-header text-white bg-primary" style={{fontSize: "20px", fontWeight: '600', borderRadius: "10px 10px 0px 0px"}}>
                         {_.truncate(reservation.shelter_id.name?reservation.shelter_id.name:"Shelter", { length: 20 })}
                     </div>
                     <div className="card-body">
