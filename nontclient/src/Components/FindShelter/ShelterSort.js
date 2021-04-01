@@ -20,7 +20,7 @@ const ShelterSort = (props) => {
   );
 
   useEffect(() => {
-    setSortedShelters();
+    setSortedShelters(_.sortBy(filteredShelters, keyMapper[sortedBy]));
   }, [sortedBy, filteredShelters, setSortedShelters, keyMapper]);
 
   const sortingMenu = (
