@@ -9,6 +9,8 @@ import QRcode from "../../Components/Payment/QRcode";
 import { DatePicker, Select, Statistic, notification } from "antd";
 import moment, { months } from "moment";
 import styles from "./Reserve.module.css";
+import LoadStatus from "../../Constants/LoadStatus";
+import Loading from "../Shared/Loading";
 
 const UserContext = Contexts.UserContext;
 const ReserveInfo = (props) => {
@@ -29,6 +31,9 @@ const ReserveInfo = (props) => {
     const [sittercheckin,setsittercheckin]=useState();
     const [ownercheckOut,setownercheckOut]=useState();
     const [sittercheckOut,setsittercheckOut]=useState();
+    const [fetchReservationStatus, setFetchReservationStatus] = useState(
+        LoadStatus.LOADING
+    );
 
     // console.log("test"); 
     // console.log(String(reserveID));
@@ -59,6 +64,7 @@ const ReserveInfo = (props) => {
                         nontname=[...nontname,nont.name]
                     });
                     setNonts(nontname);
+                    setFetchReservationStatus(LoadStatus.SUCCESS);
                     console.log(checkInDate);
                     console.log(checkOutDate);
                     if((today.getDate()===(new Date(checkOutDate).getDate())
@@ -68,6 +74,7 @@ const ReserveInfo = (props) => {
             }            
         }
         catch (error) {
+            setFetchReservationStatus(LoadStatus.FAIL);
             console.error(error.message);
         }
     }
@@ -261,33 +268,35 @@ const ReserveInfo = (props) => {
         {contextValue.userType === UserType.UNKNOWN_USER_TYPE && <h2>You are not logged in </h2>}
         {contextValue.userType !== UserType.UNKNOWN_USER_TYPE &&  
             <div className="container mt-5">
+            <Loading status={fetchReservationStatus} />
+            {fetchReservationStatus === LoadStatus.SUCCESS && (
             <div className="card">
                 <div className="card-header text-white bg-primary "><h1 className="text-white my-1 ">Reservation Information</h1></div>
                 <div className="card-body">
                     <dl className ="row">
-                        <dt className="col-sm-2"><h5>ShelterName:</h5></dt>
-                        <dd className="col-sm-10"><h5><a href={"/shelterView/"+Shelter._id} className={styles.pageLink}>{Shelter.name}</a></h5></dd>
-                        <dt className="col-sm-2"><h5>Location</h5></dt>
-                        <dd className="col-sm-10"><h5>{Shelter.address}</h5></dd>
-                        <dt className="col-sm-2"><h5>Nontowner:</h5></dt>
-                        <dd className="col-sm-10"><h5>{owner.name}</h5></dd>
-                        <dt className="col-sm-2"><h5>Nont:</h5></dt>
-                        <dd className="col-sm-10"><h5>
-                        {/* nonts.map(nont => (<a href={"/nont/"+nont.nid} className={styles.pageLink}>{nont.nname + " "}</a>)) */}
+                        <dt className="col-12 col-lg-2 col-sm-3"><h5>Shelter Name:</h5></dt>
+                        <dd className="col-12 col-lg-10 col-sm-9"><h5><a href={"/shelterView/"+Shelter._id} className={styles.pageLink}>{Shelter.name}</a></h5></dd>
+                        <dt className="col-12 col-lg-2 col-sm-3"><h5>Location</h5></dt>
+                        <dd className="col-12 col-lg-10 col-sm-9"><h5>{Shelter.address}</h5></dd>
+                        <dt className="col-12 col-lg-2 col-sm-3"><h5>Nont Owner:</h5></dt>
+                        <dd className="col-12 col-lg-10 col-sm-9"><h5>{owner.name}</h5></dd>
+                        <dt className="col-12 col-lg-2 col-sm-3"><h5>Nont:</h5></dt>
+                        <dd className="col-12 col-lg-10 col-sm-9"><h5>
+                        {/* nonts.map(nont => (<a href={"/nont/"+nont.nid} className={styles.pageLink}>{nont.nname}</a>)) */}
                         {String(nonts)}
                         </h5></dd>
-                        <dt className="col-sm-2"><h5>price</h5></dt>
-                        <dd className="col-sm-10"><h5>{(contextValue.userType === UserType.NONT_OWNER)?price:(price*0.7)}</h5></dd>
-                        <dt className="col-sm-2"><h5>Room:</h5></dt>
-                        <dd className="col-sm-10"><h5>{room.name}</h5></dd>
-                        <dt className="col-sm-2"><h5>RoomType:</h5></dt>
-                        <dd className="col-sm-10"><span className="badge badge-primary mr-1">{room.nont_type}</span></dd>
-                        <dt className="col-sm-2"><h5>CheckIn Date:</h5></dt>
-                        <dd className="col-sm-10"><h5>{`${days[(new Date(checkInDate).getDay())]} ${(new Date(checkInDate).getDate())} ${months[(new Date(checkInDate).getMonth())]} ${(new Date(checkInDate).getFullYear())} `}</h5></dd>
-                        <dt className="col-sm-2"><h5>CheckOut Date:</h5></dt>
-                        <dd className="col-sm-10"><h5>{`${days[(new Date(checkOutDate).getDay())]} ${(new Date(checkOutDate).getDate())} ${months[(new Date(checkOutDate).getMonth())]} ${(new Date(checkOutDate).getFullYear())}` }</h5></dd>
-                        <dt className="col-sm-2"><h5>status:</h5></dt>
-                        <dd className="col-sm-10"><h5>{status}</h5></dd>
+                        <dt className="col-12 col-lg-2 col-sm-3"><h5>price</h5></dt>
+                        <dd className="col-12 col-lg-10 col-sm-9"><h5>{(contextValue.userType === UserType.NONT_OWNER)?price:(price*0.7)}</h5></dd>
+                        <dt className="col-12 col-lg-2 col-sm-3"><h5>Room:</h5></dt>
+                        <dd className="col-12 col-lg-10 col-sm-9"><h5>{room.name}</h5></dd>
+                        <dt className="col-12 col-lg-2 col-sm-3"><h5>Room Type:</h5></dt>
+                        <dd className="col-12 col-lg-10 col-sm-9"><span className="badge badge-primary mr-1">{room.nont_type}</span></dd>
+                        <dt className="col-12 col-lg-2 col-sm-3"><h5>CheckIn Date:</h5></dt>
+                        <dd className="col-12 col-lg-10 col-sm-9"><h5>{`${days[(new Date(checkInDate).getDay())]} ${(new Date(checkInDate).getDate())} ${months[(new Date(checkInDate).getMonth())]} ${(new Date(checkInDate).getFullYear())} `}</h5></dd>
+                        <dt className="col-12 col-lg-2 col-sm-3"><h5>CheckOut Date:</h5></dt>
+                        <dd className="col-12 col-lg-10 col-sm-9"><h5>{`${days[(new Date(checkOutDate).getDay())]} ${(new Date(checkOutDate).getDate())} ${months[(new Date(checkOutDate).getMonth())]} ${(new Date(checkOutDate).getFullYear())}` }</h5></dd>
+                        <dt className="col-12 col-lg-2 col-sm-3"><h5>status:</h5></dt>
+                        <dd className="col-12 col-lg-10 col-sm-9"><h5>{status}</h5></dd>
                     </dl>
                     {contextValue.userType === UserType.NONT_OWNER && status === 'payment-pending' && <QRcode reserveId={reserveID} size={128} />}
 
@@ -344,6 +353,7 @@ const ReserveInfo = (props) => {
                 </div>
 
             </div>
+            )}
             
             </div>    
         }
