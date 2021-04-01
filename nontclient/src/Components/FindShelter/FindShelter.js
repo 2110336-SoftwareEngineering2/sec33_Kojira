@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import styles from "./FindShelter.module.css";
 import ShelterService from "../../Services/ShelterService";
 import LoadStatus from "../../Constants/LoadStatus";
 import ShelterFilter from "./ShelterFilter/ShelterFilter";
+import ShelterSort from "./ShelterSort";
 import Loading from "../Shared/Loading";
 import FindShelterList from "./FindShelterList";
 
@@ -16,7 +18,7 @@ const FindShelter = (props) => {
     supported_type: [],
   };
   const [savedFilter, setSavedFilter] = useState(defaultFilter);
-  const [sortedBy, setSortedBy] = useState(position ? "Distance" : "Rating");
+  const [sortedBy, setSortedBy] = useState("Rating");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(20);
 
@@ -34,15 +36,17 @@ const FindShelter = (props) => {
           sortedBy: sortedByMapper[sortedBy],
           pageNumber,
           pageSize,
-          lat: position.lat,
-          lng: position.lng,
         };
+        if (position) {
+          query.lat = position.lat;
+          query.lng = position.lng;
+        }
         const response = await ShelterService.findShelter(query);
         setFetchShelterStatus(LoadStatus.SUCCESS);
         setShelters(response.data);
       } catch (error) {
         setFetchShelterStatus(LoadStatus.FAIL);
-        console.error("Cannot get shelters' information");
+        console.error(error);
       }
     }
     fetchShelter();
@@ -77,6 +81,14 @@ const FindShelter = (props) => {
         setPageNumber={setPageNumber}
       />
       <hr />
+      <div className="d-flex justify-content-between">
+        <div className="d-flex">
+          <span className={styles.fade}>Showing {shelters.length} results</span>
+        </div>
+        <div className="d-flex align-items-center">
+          <ShelterSort sortedBy={sortedBy} setSortedBy={setSortedBy} />
+        </div>
+      </div>
       <Loading status={fetchShelterStatus} />
       {fetchShelterStatus === LoadStatus.SUCCESS && (
         <FindShelterList
