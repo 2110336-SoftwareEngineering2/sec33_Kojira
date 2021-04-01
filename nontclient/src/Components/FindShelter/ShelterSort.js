@@ -5,23 +5,7 @@ import { DownOutlined } from "@ant-design/icons";
 const _ = require("lodash");
 
 const ShelterSort = (props) => {
-  const { filteredShelters, setSortedShelters, position } = props;
-
-  const [sortedBy, setSortedBy] = useState(position ? "Distance" : "Rating");
-
-  // Map from "sortedBy" to a key in a shelter
-  const keyMapper = useMemo(
-    () => ({
-      Name: "name",
-      Distance: "distance",
-      Rating: "rate",
-    }),
-    []
-  );
-
-  useEffect(() => {
-    setSortedShelters(_.sortBy(filteredShelters, keyMapper[sortedBy]));
-  }, [sortedBy, filteredShelters, setSortedShelters, keyMapper]);
+  const { sortedBy, setSortedBy } = props;
 
   const sortingMenu = (
     <Menu>

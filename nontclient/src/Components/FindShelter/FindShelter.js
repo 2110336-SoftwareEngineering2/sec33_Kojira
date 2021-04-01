@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getDistance } from "geolib";
 import ShelterService from "../../Services/ShelterService";
 import LoadStatus from "../../Constants/LoadStatus";
+import ShelterFilter from "./ShelterFilter/ShelterFilter";
 import Loading from "../Shared/Loading";
 import FindShelterList from "./FindShelterList";
 
@@ -11,11 +11,33 @@ const FindShelter = (props) => {
   );
   const [shelters, setShelters] = useState([]);
   const [position, setPosition] = useState(null);
+  const defaultFilter = {
+    keywords: "",
+    supported_type: [],
+  };
+  const [savedFilter, setSavedFilter] = useState(defaultFilter);
+  const [sortedBy, setSortedBy] = useState(position ? "Distance" : "Rating");
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   useEffect(() => {
     async function fetchShelter() {
       try {
-        const response = await ShelterService.getShelters();
+        setFetchShelterStatus(LoadStatus.LOADING);
+        const sortedByMapper = {
+          Name: "name",
+          Distance: "distance",
+          Rating: "rate",
+        };
+        const query = {
+          ...savedFilter,
+          sortedBy: sortedByMapper[sortedBy],
+          pageNumber,
+          pageSize,
+          lat: position.lat,
+          lng: position.lng,
+        };
+        const response = await ShelterService.findShelter(query);
         setFetchShelterStatus(LoadStatus.SUCCESS);
         setShelters(response.data);
       } catch (error) {
@@ -24,7 +46,7 @@ const FindShelter = (props) => {
       }
     }
     fetchShelter();
-  }, []);
+  }, [savedFilter, sortedBy, pageNumber, pageSize, position]);
 
   useEffect(() => {
     async function getLocation() {
@@ -42,21 +64,6 @@ const FindShelter = (props) => {
     getLocation();
   }, []);
 
-  useEffect(() => {
-    if (position) {
-      shelters.map((shelter) => {
-        const distance = getDistance(
-          { latitude: position.lat, longitude: position.lng },
-          {
-            latitude: shelter.coordinate.lat,
-            longitude: shelter.coordinate.lng,
-          }
-        );
-        shelter['distance'] = distance;
-      });
-    }
-  }, [shelters, position]);
-
   return (
     <div className="container">
       <div className="row">
@@ -64,9 +71,19 @@ const FindShelter = (props) => {
           <h1>Find Shelter</h1>
         </div>
       </div>
+      <ShelterFilter
+        defaultFilter={defaultFilter}
+        setSavedFilter={setSavedFilter}
+        setPageNumber={setPageNumber}
+      />
+      <hr />
       <Loading status={fetchShelterStatus} />
       {fetchShelterStatus === LoadStatus.SUCCESS && (
-        <FindShelterList allShelters={shelters} position={position} />
+        <FindShelterList
+          shelters={shelters}
+          sortedBy={sortedBy}
+          setSortedBy={setSortedBy}
+        />
       )}
     </div>
   );

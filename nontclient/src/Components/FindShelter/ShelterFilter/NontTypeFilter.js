@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import nontTypes from "../../../Constants/nontTypes";
 import { Button } from "antd";
 

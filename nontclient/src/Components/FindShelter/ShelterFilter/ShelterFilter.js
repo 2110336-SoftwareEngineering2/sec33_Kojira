@@ -1,38 +1,21 @@
 import React, { useState } from "react";
 import NontTypeFilter from "./NontTypeFilter";
 import ShelterSearch from "./ShelterSearch";
-import nontTypes from "../../../Constants/nontTypes";
 
 const ShelterFilter = (props) => {
-  const { allShelters, setFilteredShelters } = props;
+  const { defaultFilter, setSavedFilter, setPageNumber } = props;
 
-  const defaultFilter = {
-    keywords: "",
-    supported_type: [],
-  };
   const [filter, setFilter] = useState(defaultFilter);
-
-  function checkSupportedType(shelter) {
-    if (filter.supported_type.length > 0) {
-      const intersectedType = filter.supported_type.filter((type) =>
-        shelter.supported_type.includes(type)
-      );
-      return intersectedType.length > 0;
-    } else return true;
-  }
 
   function submitSearch(event) {
     event.preventDefault();
-    const re = new RegExp(filter.keywords, "i");
-    const filteredShelters = allShelters.filter(
-      (shelter) => shelter.name.match(re) && checkSupportedType(shelter)
-    );
-    setFilteredShelters(filteredShelters);
+    setSavedFilter(filter);
   }
 
   function submitClear() {
     setFilter(defaultFilter);
-    setFilteredShelters(allShelters);
+    setSavedFilter(defaultFilter);
+    setPageNumber(1);
   }
 
   return (
