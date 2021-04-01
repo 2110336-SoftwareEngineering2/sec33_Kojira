@@ -8,6 +8,7 @@ const Joi = require("joi");
 const nontTypes = require("../Constants/nontTypes");
 const JoiOid = require("joi-oid");
 const mongoose = require("mongoose");
+
 const validate_coordinate = Joi.object({
   lat: Joi.number().min(-90).max(90),
   lng: Joi.number().min(-180).max(180),
@@ -41,7 +42,6 @@ const validator = Joi.object({
 });
 
 const controller = {
-
   // GET
   getShelters: async (req, res) => {
     try {
@@ -85,7 +85,7 @@ const controller = {
       return res.status(500).send("Cannot access shelter by name");
     }
   },
-  
+
   // GET Shelter by email
   getShelterByEmail: async (req, res) => {
     try {
@@ -100,6 +100,8 @@ const controller = {
 
   // GET /findShelters
   findShelters: async (req, res) => {
+
+    // Predefine functions
     function checkSupportedType(shelter, supportedTypeFilter) {
       if (supportedTypeFilter.length > 0) {
         const intersectedType = supportedTypeFilter.filter((type) =>
@@ -108,6 +110,8 @@ const controller = {
         return intersectedType.length > 0;
       } else return true;
     }
+
+    // Get parameters from URL
     const pageNumber = req.query.pageNumber ? Number(req.query.pageNumber) : 1;
     const pageSize = req.query.pageSize ? Number(req.query.pageSize) : 20;
     const sortedBy = req.query.sortedBy ? req.query.sortedBy : "rate";
@@ -117,6 +121,15 @@ const controller = {
         ? req.query.supported_type
         : [req.query.supported_type]
       : [];
+
+    // Check validity
+    const validTypes = Object.values(nontTypes);
+    for (const type of supported_type) {
+      if (!validTypes.includes(type))
+        return res.status(400).send("Error: Invalid nont type");
+    }
+
+    // Querying => Filtering => Sorting => Pagination
     try {
       const allShelters = await Shelters.find();
       try {
