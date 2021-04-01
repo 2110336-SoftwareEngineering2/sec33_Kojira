@@ -191,7 +191,7 @@ const ShelterView = (props) => {
                 })}
               </ul>
               <div>
-                <h2 className="mt-3 md-0">Review</h2>
+                <h2 className="mt-5 md-0">Review</h2>
 
                 {
                   reviews.map((reviewInfo)=>(

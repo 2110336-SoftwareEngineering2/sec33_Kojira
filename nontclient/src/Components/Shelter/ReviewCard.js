@@ -32,8 +32,7 @@ const ReviewCard =(props)=>{
     return(
         <div>               
         <hr/>
-        <h3 style={{"color":"#3498db"}}><b>{`${name}`.concat( fetchRoom?`@${RoomName}`:" ")}</b></h3>
-        <h5>{`${comment}`}</h5>
+        <h5><b>{`${comment}`}</b></h5>
         <div>
         <h5 >Rating: 
         {[1, 2, 3, 4, 5].map((rating) => {
@@ -56,6 +55,8 @@ const ReviewCard =(props)=>{
             </span>
           );
       })} </h5>
+        <h5 style={{"color":"#3498db"}}><b>{`${name}`.concat( fetchRoom?` : ${RoomName}`:" ")}</b></h5>
+
       <p className="text-right" style={{"opacity": "0.75"}}>{`at ${updatedAt.slice(11, 19)} date ${updatedAt.slice(0, 10)}`}</p>
 
         </div>
