@@ -18,7 +18,7 @@ const ShelterCard = (props) => {
           <div className={"d-flex " + styles.imageArea}>
             {shelter.picture.length > 0 && (
               <img
-                src={Buffer.from(shelter.picture[0].img).toString()}
+                src={atob(shelter.picture[0].img)}
                 className={styles.image}
                 alt=""
               ></img>
