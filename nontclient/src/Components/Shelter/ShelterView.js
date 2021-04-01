@@ -6,17 +6,20 @@ import RoomService from "../../Services/RoomService";
 import UserType from "../../Constants/UserType";
 import Loading from "../Shared/Loading";
 import LoadStatus from "../../Constants/LoadStatus";
-
+import ReviewService from "../../Services/ReviewService";
+import ReviewCard from "./ReviewCard";
 const UserContext = Contexts.UserContext;
 const ShelterView = (props) => {
   const contextValue = useContext(UserContext);
   const [shelter, setShelter] = useState([]);
+  const [reviews,setReviews]=useState([]);
   const [rooms, setRooms] = useState([]);
   const { shelterID } = useParams();
   const [fetchRoomStatus, setFetchRoomStatus] = useState(LoadStatus.LOADING);
   const [fetchShelterStatus, setFetchShelterStatus] = useState(
     LoadStatus.LOADING
   );
+  const [fetchReviewStatus,setFetchReviewStatus] = useState(LoadStatus.LOADING);
 
   useEffect(() => {
     async function fetchShelter() {
@@ -40,6 +43,25 @@ const ShelterView = (props) => {
     fetchShelter();
   }, [shelterID]);
   useEffect(() => {
+    async function fetchReview() {
+      try {
+        if (shelterID) {
+          const response = await ReviewService.getReviewByShelterID(shelterID);
+          console.log({response});
+
+          if (response.data) {
+            setReviews(response.data);
+            setFetchReviewStatus(LoadStatus.SUCCESS);
+          }
+        }
+      } catch (error) {
+        setFetchReviewStatus(LoadStatus.FAIL);
+        console.error(error.message);
+      }
+    }
+    fetchReview();
+  }, [shelterID]);
+  useEffect(() => {
     async function fetchRooms() {
       try {
         if (shelterID) {
@@ -60,11 +82,12 @@ const ShelterView = (props) => {
     <div className="container">
         
       {/* Loading */}
-      <Loading status={fetchRoomStatus && fetchShelterStatus} />
+      <Loading status={fetchRoomStatus && fetchShelterStatus && fetchReviewStatus} />
 
       {/* Content */}
       {fetchShelterStatus === LoadStatus.SUCCESS &&
-        fetchRoomStatus === LoadStatus.SUCCESS && (
+        fetchRoomStatus === LoadStatus.SUCCESS &&
+         fetchReviewStatus===LoadStatus.SUCCESS&& (
           <div className="card mt-3">
             <div className="card-header text-white bg-primary ">
               <h1 className="my-1 text-left">{shelter.name} </h1>
@@ -167,6 +190,18 @@ const ShelterView = (props) => {
                   );
                 })}
               </ul>
+              <div>
+                <h2 className="mt-3 md-0">Review</h2>
+
+                {
+                  reviews.map((reviewInfo)=>(
+                   
+                    <ReviewCard  key={reviewInfo._id} review={reviewInfo}/>
+                  ))
+                }
+                
+              </div>
+              
             </div>
           </div>
         )}
