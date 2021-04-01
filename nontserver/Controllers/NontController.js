@@ -17,7 +17,7 @@ const validate_picture = joi.object({
     img: joi.binary().required()
 });
 
-//validator for POST and PUT
+//validator for create and updateNont
 const validator = joi.object({
     name: joi.string().required().min(1).max(32),
     type: joi.string().valid(...Object.values(nontTypes)).required(),
@@ -103,7 +103,8 @@ const controller = {
                 birth_date: req.body.birth_date.split("T")[0],
                 medical_certificate: req.body.medical_certificate,
                 picture: req.body.picture,
-                nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id)           
+                nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id),
+                exist: true  
             };
             const newNont = await Nont.create(newBody);
          //   return res.send(_.pick(newNont, ["_id","name","type","subtype","description","birth_date","medical_certificate","picture"]));
@@ -132,7 +133,8 @@ const controller = {
                 birth_date: req.body.birth_date.split("T")[0],
                 medical_certificate: req.body.medical_certificate,
                 picture: req.body.picture,
-                nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id)   
+                nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id),
+                exist: true 
             };
             const updatedNont = await Nont.updateOne(newQuery, newBody);
          //   return res.send(_.pick(updatedNont, ["_id","name","type","subtype","description","birth_date","medical_certificate","picture"]));
@@ -142,8 +144,21 @@ const controller = {
             return res.status(500).send("Cannot update nont");
         }
     },
- 
-    //DELETE nont
+
+    //PUT update exist: false (new delete nont)
+    cancelNont: async (req,res) => {
+        try{
+            const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
+            const newBody = {exist: false};
+            const cancelledNont = await Nont.updateOne(newQuery, newBody);
+            return res.send(cancelledNont);
+        }
+        catch(error){
+            return res.status(500).send("Cannot delete nont");
+        }
+    },
+
+    //DELETE (old delete nont)
     deleteNont: async (req, res) => {
         try{
             const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
