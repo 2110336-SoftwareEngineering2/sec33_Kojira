@@ -11,7 +11,7 @@ import moment, { months } from "moment";
 import styles from "./Reserve.module.css";
 import LoadStatus from "../../Constants/LoadStatus";
 import Loading from "../Shared/Loading";
-
+import Review from "./Review";
 const UserContext = Contexts.UserContext;
 const ReserveInfo = (props) => {
     let today = new Date();
@@ -349,6 +349,9 @@ const ReserveInfo = (props) => {
 
                                 }
                             </div>
+                            </div>
+                                    <Review reserveId={reserveID} shelter={Shelter} owner={owner}/>
+                            <div>
                         </div>
                 </div>
 
