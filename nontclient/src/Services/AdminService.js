@@ -66,7 +66,7 @@ const AdminService = {
     },
     getShelters: async () => {
         try {
-            let path = "/shelter";
+            let path = "/shelter/allShelters";
             const response = await axios.get(serverURL + path);
             return response;
         }
