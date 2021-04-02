@@ -197,16 +197,10 @@ const Review =(props)=>{
         <div className="form-group">
 
             <textarea className={" text-left w-100 form-control ".concat(commentValid?"":"is-invalid" )
-            + styles.textarea}
+            }
             rows="4"
             placeholder={comment}
            
-            style={
-              {
-                textAlign: "right"
-                        
-              }    
-            }
             onChange={(e)=>handleComment(e)}
           />
         { !commentValid&&
