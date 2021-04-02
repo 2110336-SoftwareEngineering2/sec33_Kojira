@@ -16,6 +16,8 @@ const FindShelter = (props) => {
   const defaultFilter = {
     keywords: "",
     supported_type: [],
+    minrate: 0,
+    maxrate: 5,
   };
   const [savedFilter, setSavedFilter] = useState(defaultFilter);
   const [sortedBy, setSortedBy] = useState("Rating");

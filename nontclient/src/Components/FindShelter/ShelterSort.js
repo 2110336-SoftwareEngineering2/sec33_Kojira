@@ -17,7 +17,7 @@ const ShelterSort = (props) => {
 
   return (
     <React.Fragment>
-      <span className={"mr-1 " + styles.fade}>Sorted by</span>
+      <span className={styles.inputLabel}>Sorted by</span>
       <Dropdown overlay={sortingMenu} trigger={["click"]}>
         <Button>
           <span className="mr-1">{sortedBy}</span>

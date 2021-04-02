@@ -33,6 +33,12 @@
   box-shadow: none !important;
 }
 
+.inputLabel {
+  margin-right: 1rem;
+  opacity: 0.5;
+  cursor: default;
+}
+
 .textButton {
   background: none !important;
   border: none;

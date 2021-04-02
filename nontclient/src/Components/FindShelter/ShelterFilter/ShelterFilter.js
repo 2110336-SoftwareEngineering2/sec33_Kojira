@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NontTypeFilter from "./NontTypeFilter";
+import RatingFilter from "./RatingFilter";
 import ShelterSearch from "./ShelterSearch";
 
 const ShelterFilter = (props) => {
@@ -20,7 +21,7 @@ const ShelterFilter = (props) => {
 
   return (
     <React.Fragment>
-      <div className="row justify-content-center">
+      <div className="row justify-content-center my-2">
         <div className="col-12 col-lg-9 text-center m-3">
           <form onSubmit={submitSearch}>
             <ShelterSearch
@@ -32,7 +33,16 @@ const ShelterFilter = (props) => {
           </form>
         </div>
       </div>
-      <NontTypeFilter filter={filter} setFilter={setFilter} />
+      <div className="row my-2">
+        <div className="col">
+          <NontTypeFilter filter={filter} setFilter={setFilter} />
+        </div>
+      </div>
+      <div className="row my-2">
+        <div className="col-12 col-md-6">
+          <RatingFilter filter={filter} setFilter={setFilter} />
+        </div>
+      </div>
     </React.Fragment>
   );
 };

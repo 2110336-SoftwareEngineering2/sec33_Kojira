@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "../FindShelter.module.css";
 import nontTypes from "../../../Constants/nontTypes";
 import { Button } from "antd";
 
@@ -23,7 +24,7 @@ const NontTypeFilter = (props) => {
 
   return (
     <div className="d-flex align-items-center">
-      <span>Nont Type</span>
+      <span className={styles.inputLabel}>Nont Type</span>
       <div className="d-flex justify-content-start align-items-center flex-wrap">
         {types.map((type) => (
           <div className="m-1" key={type}>
