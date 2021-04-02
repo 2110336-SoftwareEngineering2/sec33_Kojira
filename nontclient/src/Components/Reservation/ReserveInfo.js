@@ -345,14 +345,13 @@ const ReserveInfo = (props) => {
                             </div>
                             <div>
                                 {
-                                    (contextValue.userType === UserType.NONT_OWNER &&status==="checked-out")&&<input className="my-1 btn btn-primary" type="button"   value="review"/>
+                                    (contextValue.userType === UserType.NONT_OWNER &&status==="checked-out")&& <Review reserveId={reserveID} shelter={Shelter} owner={owner}/>
 
                                 }
                             </div>
                             </div>
-                                    <Review reserveId={reserveID} shelter={Shelter} owner={owner}/>
-                            <div>
-                        </div>
+                                   
+                           
                 </div>
 
             </div>

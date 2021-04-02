@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import {notification,} from "antd";
 import ReviewService from "../../Services/ReviewService";
+import styles from "./Reserve.module.css";
 
 const Review =(props)=>{
     const [starRating, setstarRating] = useState(3);
@@ -193,37 +194,39 @@ const Review =(props)=>{
         </div>
         <div>
         <h2 >comment</h2>
-        <textarea className={"form-control ".concat(commentValid?"":"is-invalid" )
-        }
-        placeholder={comment}
-        style={
-            
-                {
-                    border: "1px solid #a9a9a9",
-                    borderRadius: 5,
-                    padding: 10,
-                    margin: "20px 0",
-                    minHeight: 100,
-                    width: 300
-                }
-        }
-        onChange={(e)=>handleComment(e)}
-       />
+        <div className="form-group">
+
+            <textarea className={" text-left w-100 form-control ".concat(commentValid?"":"is-invalid" )
+            + styles.textarea}
+            rows="4"
+            placeholder={comment}
+           
+            style={
+              {
+                textAlign: "right"
+                        
+              }    
+            }
+            onChange={(e)=>handleComment(e)}
+          />
         { !commentValid&&
         <div className="invalid-feedback">
         comment must not longer than 500 characters.
         </div>
         }
+        </div>
 
         </div>
-        <input className="my-1 btn btn-primary" type="button"   value="review"
-         onClick={submitreview}
-         
-        />
-        <input className="my-1 mx-2 btn btn-danger" type="button"   value="cancel review"
-         onClick={cancelreview}
-        
-        />
+          <div style={{ textAlign: "center"}}>
+          <input className="my-1 btn btn-primary" type="button"   value="review"
+          onClick={submitreview}
+          
+          />
+          <input className="my-1 mx-2 btn btn-danger" type="button"   value="cancel review"
+          onClick={cancelreview}
+          
+          />
+          </div>
 
         </div>
         

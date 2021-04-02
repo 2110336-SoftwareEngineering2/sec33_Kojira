@@ -10,7 +10,7 @@ const ReviewCard =(props)=>{
     const {nontowner_id,rate,comment,updatedAt,reservation_id}=props.review;
     console.log({props,nontowner_id,rate,comment});
     const {name}=nontowner_id;
-    const RoomID=reservation_id.room_id;
+    const RoomID=((reservation_id)&&"room_id" in reservation_id)? reservation_id.room_id:"";
     useEffect(()=>{
         async function fetchRoom (){
             try{
@@ -32,7 +32,7 @@ const ReviewCard =(props)=>{
     return(
         <div>               
         <hr/>
-        <h5><b>{`${comment}`}</b></h5>
+        <h5>{`${comment}`}</h5>
         <div>
         <h5 >Rating: 
         {[1, 2, 3, 4, 5].map((rating) => {
