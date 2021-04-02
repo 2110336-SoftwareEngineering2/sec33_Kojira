@@ -37,6 +37,9 @@ router.route('/verify_check_out/:id')
 router.route('/check_out/:id')
       .put(controller.nontOwnerCheckOut);
 
+router.route('/update/:id')
+      .put(controller.updateReservation);
+
 router.route('/cancel/:id')
       .put(controller.cancelReservation);
 

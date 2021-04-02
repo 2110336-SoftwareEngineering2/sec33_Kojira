@@ -36,7 +36,7 @@ const controller = {
     // GET
     getNonts: async (req,res) => {
         try{            
-            const nont = await Nont.find({exist: true});
+            const nont = await Nont.find();
             return res.send(nont);
         }
         catch (error){
