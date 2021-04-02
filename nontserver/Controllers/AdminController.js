@@ -50,6 +50,7 @@ const controller = {
         err:
           "review the value of the fields correctly, there should be 4 fields : secret, password, email, and userType. And the password should be between 8 and 32 characters",
       });
+      return;
     }
     const correctHashedSecret =
       "$2a$10$sqfN2S74083aR/6brb3cb.iR5Ky1ZzS5pOkPymwSXAuY4Cy5EZNhC";
