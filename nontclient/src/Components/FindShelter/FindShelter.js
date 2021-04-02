@@ -52,19 +52,19 @@ const FindShelter = (props) => {
     fetchShelter();
   }, [savedFilter, sortedBy, pageNumber, pageSize, position]);
 
-  useEffect(() => {
-    async function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          setPosition({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
+  async function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setPosition({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
         });
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-      }
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
     }
+  }
+  useEffect(() => {
     getLocation();
   }, []);
 
