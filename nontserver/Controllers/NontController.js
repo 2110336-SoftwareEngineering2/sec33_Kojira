@@ -7,6 +7,7 @@ const _ = require('lodash');
 const joi = require('joi');
 const joiOid = require('joi-oid');
 const mongoose = require('mongoose');
+const Reservation = require('../Models/Reservation');
 
 const validate_certificate = joi.object({
     name: joi.string().required(),
@@ -39,7 +40,7 @@ const controller = {
             return res.send(allNonts);
         }
         catch (error){
-            return res.status(500).send('Cannot access nonts');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
     // GET NONT BY ID : maybe not need
@@ -50,7 +51,7 @@ const controller = {
             return res.send(nont);
         }
         catch (error){
-            return res.status(500).send('Cannot access nont by id');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
     //GET NONT BY NAME 
@@ -61,7 +62,7 @@ const controller = {
             return res.send(nont);
         }
         catch (error){
-            return res.status(500).send('Cannot access nonts by name');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
     getNontByType:  async (req,res) => {
@@ -71,7 +72,7 @@ const controller = {
             return res.send(nont);
         }
         catch (error){
-            return res.status(500).send('Cannot access nonts by type');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
     getNontByNontOwnerID:  async (req,res) => {
@@ -81,7 +82,7 @@ const controller = {
             return res.send(nont);
         }
         catch (error){
-            return res.status(500).send('Cannot access nonts by type');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
     // POST create new nont
@@ -112,7 +113,7 @@ const controller = {
         }
         catch(error){
             console.log(error.message);
-            return res.status(500).send("Cannot create nont");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
 
@@ -141,20 +142,28 @@ const controller = {
             return res.send(updatedNont);
         } 
         catch (error) {            
-            return res.status(500).send("Cannot update nont");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
 
     //PUT update exist: false (new delete nont)
     cancelNont: async (req,res) => {
         try{
+            //check if nont is reserved : cannot change to exist:false
+            const existReservation = await Reservation.find({status: {$ne: "cancelled"}});
+            for (const reservation of existReservation) {
+                if(reservation.nont_id.some((nont_id) => nont_id==req.params.id)){
+                    return res.status(403).send("Cannot delete this nont as it's still reserved");
+                }
+            };
+            //
             const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
             const newBody = {exist: false};
             const cancelledNont = await Nont.updateOne(newQuery, newBody);
             return res.send(cancelledNont);
         }
         catch(error){
-            return res.status(500).send("Cannot delete nont");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
 
@@ -166,7 +175,7 @@ const controller = {
             return res.send("Successfully deleted");
         }
         catch(error){
-            return res.status(500).send("Cannot delete nont");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
     
