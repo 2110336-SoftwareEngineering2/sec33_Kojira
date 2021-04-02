@@ -40,6 +40,15 @@ const NavigationLeftLinks = (props) => {
           </li>
         </React.Fragment>
       )}
+      {props.userType === UserType.ADMIN && (
+        <React.Fragment>
+          <li className="nav-item">
+            <a className={"nav-link " + styles.leftLink} href="/selectdb">
+              Select DB
+            </a>
+          </li>
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 };

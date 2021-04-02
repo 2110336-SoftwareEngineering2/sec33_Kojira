@@ -32,6 +32,15 @@ const validator = joi.object({
 
 const controller = {
     // GET 
+    getReservation: async (req,res) => {
+        try{            
+            const reservation = await Reservation.find(); 
+            return res.send(reservation);
+        }
+        catch (error){
+            return res.status(500).send('Internal Server Error, Please try again');
+        }
+    },
     getReservationByID: async (req,res) => {
         try{            
             const reservation = await Reservation.findById(req.params.id)

@@ -5,7 +5,7 @@ import RoomService from "../../Services/RoomService";
 import ShelterService from "../../Services/ShelterService";
 import Contexts from "../../Utils/Context/Contexts";
 import RoomRow from "./RoomRow";
-import Loading from "../Shared/Loading";
+import Loading, { calculateLoadStatus } from "../Shared/Loading";
 import LoadStatus from "../../Constants/LoadStatus";
 
 const UserContext = Contexts.UserContext;
@@ -20,6 +20,12 @@ const RoomManage = (props) => {
 
     useEffect(() => {
         fetchRooms();
+        console.log("LOAD LOAD", LoadStatus.LOADING && LoadStatus.LOADING);
+        console.log("SUCCESS SUCCESS", LoadStatus.SUCCESS && LoadStatus.SUCCESS);
+        console.log("FAIL FAIL", LoadStatus.FAIL && LoadStatus.FAIL);
+        console.log("LOAD SUCCESS", LoadStatus.LOADING && LoadStatus.SUCCESS);
+        console.log("LOAD FAIL", LoadStatus.LOADING && LoadStatus.FAIL);
+        console.log("SUCCESS FAIL", LoadStatus.SUCCESS && LoadStatus.FAIL);
     }, [shelterID]);
 
     useEffect(() => {
@@ -110,7 +116,7 @@ const RoomManage = (props) => {
 
             {/* Loading */}
             <div className="col col-md-12">
-                <Loading status={fetchRoomStatus && fetchShelterStatus} />
+                <Loading status={calculateLoadStatus(fetchRoomStatus, fetchShelterStatus)} />
             </div>
 
             {/* Shelter Name */}
