@@ -44,7 +44,6 @@ const controller = {
 
   // secret is "Kojira_secret_code"
   addAdmin: async (req, res) => {
-    const secret = "Kojira_secret_code";
     const validationResult = validator.validate(req.body);
     if (validationResult.error) {
       res.send({
@@ -52,12 +51,8 @@ const controller = {
           "review the value of the fields correctly, there should be 4 fields : secret, password, email, and userType. And the password should be between 8 and 32 characters",
       });
     }
-
-    //console.log(req.body);
-    const correctHashedSecret = await bcrypt.hash(
-      secret,
-      PASSWORD_HASHING_ROUNDS
-    );
+    const correctHashedSecret =
+      "$2a$10$sqfN2S74083aR/6brb3cb.iR5Ky1ZzS5pOkPymwSXAuY4Cy5EZNhC";
     try {
       const compareResult = await bcrypt.compare(
         req.body.secret,
