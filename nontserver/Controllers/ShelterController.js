@@ -101,7 +101,6 @@ const controller = {
 
   // GET /findShelters
   findShelters: async (req, res) => {
-    // Predefine functions
     function checkSupportedType(shelter, supportedTypeFilter) {
       if (supportedTypeFilter.length > 0) {
         const intersectedType = supportedTypeFilter.filter((type) =>
@@ -111,44 +110,40 @@ const controller = {
       } else return true;
     }
 
-    // Get parameters from URL
-    try {
-      const pageNumber = req.query.pageNumber
-        ? Number(req.query.pageNumber)
-        : 1;
-      const pageSize = req.query.pageSize ? Number(req.query.pageSize) : 20;
-      const sortedBy = req.query.sortedBy ? req.query.sortedBy : "rate";
-      const keywords = req.query.keywords ? req.query.keywords : "";
-      const supported_type = req.query.supported_type
-        ? Array.isArray(req.query.supported_type)
-          ? req.query.supported_type
-          : [req.query.supported_type]
-        : [];
-      const rate =
-        req.query.minrate && req.query.maxrate
-          ? [Number(req.query.minrate), Number(req.query.maxrate)]
-          : [0, Infinity];
-      const lat = req.query.lat;
-      const lng = req.query.lng;
-      const position =
-        lat !== undefined && lng !== undefined
-          ? { lat: lat, lng: lng }
-          : undefined;
-    } catch (error) {
-      return res.status(400).send("Error: Invalid query");
-    }
-
-    // Check validity
-    const validTypes = Object.values(nontTypes);
-    for (const type of supported_type) {
-      if (!validTypes.includes(type))
-        return res.status(400).send("Error: Invalid nont type");
-    }
-
-    // Querying => Filtering => Sorting => Pagination
     try {
       let foundShelters = await Shelters.find().lean().exec();
       try {
+        // Get paramters
+        const pageNumber = req.query.pageNumber
+          ? Number(req.query.pageNumber)
+          : 1;
+        const pageSize = req.query.pageSize ? Number(req.query.pageSize) : 20;
+        const sortedBy = req.query.sortedBy ? req.query.sortedBy : "rate";
+        const keywords = req.query.keywords ? req.query.keywords : "";
+        const supported_type = req.query.supported_type
+          ? Array.isArray(req.query.supported_type)
+            ? req.query.supported_type
+            : [req.query.supported_type]
+          : [];
+        const rate =
+          req.query.minrate && req.query.maxrate
+            ? [Number(req.query.minrate), Number(req.query.maxrate)]
+            : [0, Infinity];
+        const lat = req.query.lat;
+        const lng = req.query.lng;
+        const position =
+          lat !== undefined && lng !== undefined
+            ? { lat: lat, lng: lng }
+            : undefined;
+
+        // Validation
+        const validTypes = Object.values(nontTypes);
+        for (const type of supported_type) {
+          if (!validTypes.includes(type))
+            return res.status(400).send("Error: Invalid nont type");
+        }
+
+        // Filtering => Sorting => Pagination
         const re = new RegExp(keywords, "i");
         foundShelters = foundShelters.filter(
           (shelter) =>
@@ -173,7 +168,7 @@ const controller = {
         else foundShelters = _.sortBy(foundShelters, sortedBy);
         res.send(foundShelters);
       } catch (error) {
-        return res.staus(400).send("Error: Invalid query");
+        return res.status(400).send("Error: Invalid query");
       }
     } catch (error) {
       return res.status(500).send("Cannot access shelters");
