@@ -41,7 +41,8 @@ const InfoDB = (props) => {
         if (fetchFunction) {
             const response = await fetchFunction();
             if (response.data) {
-                response.data.forEach(element => {
+                console.log(response.data);
+                Array.from(response.data).forEach(element => {
                     for (const [key, value] of Object.entries(element)) {
                         console.log(key, typeof(value), value);
                     }
@@ -52,8 +53,8 @@ const InfoDB = (props) => {
 
     return(
         <div className="container-fluid">
-            {dbname}
-            
+            <h1>{dbname}</h1>
+            <h3>Under Construction</h3>
             {/* Loading */}
             {/* <Loading status={fetchDataStatus} /> */}
             {/* <table className="table table-responsive-md table-bordered">
