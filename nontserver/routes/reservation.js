@@ -4,6 +4,9 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../Controllers/ReservationController');
 
+router.route('/')
+      .get(controller.getReservation);
+
 router.route('/:id')
       .get(controller.getReservationByID);
   

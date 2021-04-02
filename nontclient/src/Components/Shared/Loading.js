@@ -3,7 +3,7 @@ import styles from "./Loading.module.css";
 import LoadStatus from "../../Constants/LoadStatus";
 
 const Loading = (props) => {
-  const { status } = props;
+  const { status } = props;  
 
   return (
     <React.Fragment>
@@ -38,6 +38,22 @@ const Loading = (props) => {
       )}
     </React.Fragment>
   );
+};
+
+export function calculateLoadStatus (...LoadStatusArray) {
+  let failFound = false;
+  let loadingFound = false;
+  LoadStatusArray.forEach(LS => {
+    if (LS === LoadStatus.FAIL) {
+      failFound = true;
+    }
+    if (LS === LoadStatus.LOADING) {
+      loadingFound = true;
+    }
+  });
+  if (failFound) return LoadStatus.FAIL;
+  else if (loadingFound) return LoadStatus.LOADING;
+  return LoadStatus.SUCCESS;
 };
 
 export default Loading;

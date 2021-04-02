@@ -17,7 +17,13 @@ const NavigationBar = () => {
         </a>
       }
       {
-        (value.userType !== UserType.NONT_OWNER && value.userType !== UserType.NONT_SITTER) &&
+        (value.userType === UserType.ADMIN) &&
+        <a className="navbar-brand" href="/selectdb">
+          <img src="/nont-logo.svg" id={styles.logo} alt="Nont logo"></img>
+        </a>
+      }
+      {
+        (value.userType !== UserType.NONT_OWNER && value.userType !== UserType.NONT_SITTER && value.userType !== UserType.ADMIN) &&
         <a className="navbar-brand" href="/home">
           <img src="/nont-logo.svg" id={styles.logo} alt="Nont logo"></img>
         </a>
