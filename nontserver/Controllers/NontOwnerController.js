@@ -26,7 +26,7 @@ const controller = {
   getNontOwners: async (req, res) => {
     try {
       const nontOwnerAccounts = await NontOwner.find();
-      return res.send(_.omit(nontOwnerAccounts, ["password"]));
+      return res.send(nontOwnerAccounts);
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }
