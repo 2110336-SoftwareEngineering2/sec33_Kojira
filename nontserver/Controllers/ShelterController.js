@@ -127,7 +127,10 @@ const controller = {
           : [];
         const rate =
           req.query.minrate && req.query.maxrate
-            ? [Number(req.query.minrate), Number(req.query.maxrate)]
+            ? [
+                Math.min(Number(req.query.minrate), 0),
+                Math.max(Number(req.query.maxrate), 5),
+              ]
             : [0, 5];
         const lat = req.query.lat;
         const lng = req.query.lng;
