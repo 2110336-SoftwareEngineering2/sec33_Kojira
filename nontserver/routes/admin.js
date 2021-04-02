@@ -10,6 +10,6 @@ router.route("/login").post(cors(corsOptions), adminController.login);
 
 router.route("/create").post(adminController.addAdmin);
 
-router.route("/").get(adminController.getAdmins);
+//router.route("/").get(adminController.getAdmins);
 
 module.exports = router;

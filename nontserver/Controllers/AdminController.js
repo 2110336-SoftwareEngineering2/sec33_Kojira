@@ -22,9 +22,9 @@ const controller = {
     await LoginController.login(req, res, Admin);
   },
 
-  getAdmins: async (req, res) => {
-    Admin.find().then((admin) => res.send(admin));
-  },
+  // getAdmins: async (req, res) => {
+  //   Admin.find().then((admin) => res.send(admin));
+  // },
 
   checkValidEmail: async (req, res) => {
     const result = await Admin.findOne({ email: req.body.email });
