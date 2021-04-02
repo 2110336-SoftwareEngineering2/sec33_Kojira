@@ -132,6 +132,13 @@ const controller = {
                 Math.min(Number(req.query.maxrate), 5),
               ]
             : [0, 5];
+        const distance =
+          req.query.mindistance && req.query.maxdistance
+            ? [
+                Math.max(Number(req.query.mindistance), 0),
+                Math.min(Number(req.query.maxdistance), 100),
+              ]
+            : [0, 100];
         const lat = req.query.lat;
         const lng = req.query.lng;
         const position =
@@ -145,16 +152,8 @@ const controller = {
           if (!validTypes.includes(type))
             return res.status(400).send("Error: Invalid nont type");
         }
-
-        // Filtering => Sorting => Pagination
-        const re = new RegExp(keywords, "i");
-        foundShelters = foundShelters.filter(
-          (shelter) =>
-            shelter.name.match(re) &&
-            checkSupportedType(shelter, supported_type) &&
-            shelter.rate >= rate[0] &&
-            shelter.rate <= rate[1]
-        );
+        
+        // Calculate distance
         if (position) {
           foundShelters.map((shelter) => {
             shelter.distance = geolib.getDistance(
@@ -166,6 +165,18 @@ const controller = {
             );
           });
         }
+
+        // Filtering => Sorting => Pagination
+        const re = new RegExp(keywords, "i");
+        foundShelters = foundShelters.filter(
+          (shelter) =>
+            shelter.name.match(re) &&
+            checkSupportedType(shelter, supported_type) &&
+            shelter.rate >= rate[0] &&
+            shelter.rate <= rate[1] &&
+            (!position || shelter.distance >= distance[0] * 1000) &&
+            (!position || shelter.distance <= distance[1] * 1000 || distance[1] === 100)
+        );
         if (sortedBy === "rate")
           foundShelters = _.sortBy(foundShelters, sortedBy).reverse();
         else foundShelters = _.sortBy(foundShelters, sortedBy);
