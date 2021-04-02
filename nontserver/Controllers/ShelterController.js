@@ -46,7 +46,6 @@ const controller = {
     getAllShelters: async (req,res) => {
         try{            
             const allShelters = await Shelters.find();
-            if(Object.keys(allShelters).length===0)res.send(`there is no shelters`);
             return res.send(allShelters);
         }
         catch (error){
