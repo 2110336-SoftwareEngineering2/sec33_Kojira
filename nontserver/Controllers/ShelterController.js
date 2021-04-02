@@ -121,6 +121,10 @@ const controller = {
         ? req.query.supported_type
         : [req.query.supported_type]
       : [];
+    const rate =
+      req.query.minrate && req.query.maxrate
+        ? [req.query.minrate, req.query.maxrate]
+        : [0, Infinity];
     const lat = req.query.lat;
     const lng = req.query.lng;
     const position =
@@ -143,7 +147,9 @@ const controller = {
         foundShelters = foundShelters.filter(
           (shelter) =>
             shelter.name.match(re) &&
-            checkSupportedType(shelter, supported_type)
+            checkSupportedType(shelter, supported_type) &&
+            shelter.rate >= rate[0] &&
+            shelter.rate <= rate[1]
         );
         if (position) {
           foundShelters.map((shelter) => {
