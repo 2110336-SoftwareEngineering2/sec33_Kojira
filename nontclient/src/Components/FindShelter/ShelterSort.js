@@ -5,12 +5,12 @@ import { DownOutlined } from "@ant-design/icons";
 const _ = require("lodash");
 
 const ShelterSort = (props) => {
-  const { sortedBy, setSortedBy } = props;
+  const { sortedBy, setSortedBy, position } = props;
 
   const sortingMenu = (
     <Menu>
       <Menu.Item onClick={() => setSortedBy("Name")}>Name</Menu.Item>
-      <Menu.Item onClick={() => setSortedBy("Distance")}>Distance</Menu.Item>
+      {position && <Menu.Item onClick={() => setSortedBy("Distance")}>Distance</Menu.Item>}
       <Menu.Item onClick={() => setSortedBy("Rating")}>Rating</Menu.Item>
     </Menu>
   );

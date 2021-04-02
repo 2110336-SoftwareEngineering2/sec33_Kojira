@@ -92,7 +92,7 @@ const FindShelter = (props) => {
           )}
         </div>
         <div className="d-flex align-items-center">
-          <ShelterSort sortedBy={sortedBy} setSortedBy={setSortedBy} />
+          <ShelterSort sortedBy={sortedBy} setSortedBy={setSortedBy} position={position} />
         </div>
       </div>
       <Loading status={fetchShelterStatus} />
