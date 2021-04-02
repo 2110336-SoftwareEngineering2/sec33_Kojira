@@ -24,7 +24,12 @@ const RatingFilter = (props) => {
   return (
     <div className="d-flex align-items-center">
       <span className={styles.inputLabel}>Rating</span>
-      <InputNumber min={0} max={5} value={filter.minrate} onChange={onMinChange} />
+      <InputNumber
+        min={0}
+        max={5}
+        value={filter.minrate}
+        onChange={onMinChange}
+      />
       <Slider
         range
         min={0}
@@ -32,9 +37,15 @@ const RatingFilter = (props) => {
         step={0.1}
         value={[filter.minrate, filter.maxrate]}
         style={{ width: "100%", marginLeft: "1rem", marginRight: "1rem" }}
+        marks={{ 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }}
         onChange={onSliderChange}
       />
-      <InputNumber min={0} max={5} value={filter.maxrate} onChange={onMaxChange} />
+      <InputNumber
+        min={0}
+        max={5}
+        value={filter.maxrate}
+        onChange={onMaxChange}
+      />
     </div>
   );
 };
