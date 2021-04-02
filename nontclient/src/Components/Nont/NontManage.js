@@ -19,7 +19,7 @@ const NontManage = (props) => {
                 if (contextValue._id){
                     const response = await NontService.getNontByNontOwnerID(contextValue._id); 
                     if (response.data) {
-                        setNonts(response.data.filter((nont) => nont.exist === true));
+                        setNonts(response.data);
                         setFetchNontStatus(LoadStatus.SUCCESS);
                     }
                 } 

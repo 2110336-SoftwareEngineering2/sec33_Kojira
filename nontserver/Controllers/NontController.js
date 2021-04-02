@@ -36,8 +36,8 @@ const controller = {
     // GET
     getNonts: async (req,res) => {
         try{            
-            const allNonts = await Nont.find();
-            return res.send(allNonts);
+            const nont = await Nont.find({exist: true});
+            return res.send(nont);
         }
         catch (error){
             return res.status(500).send('Internal Server Error, Please try again');
@@ -46,7 +46,7 @@ const controller = {
     // GET NONT BY ID : maybe not need
     getNontByID:  async (req,res) => {
         try{            
-            const nont = await Nont.findById(req.params.id);
+            const nont = await Nont.find({_id: req.params.id, exist: true});
           //  if(nont === null) return res.send(`there is no nont with id: ${req.params.id}`);
             return res.send(nont);
         }
@@ -57,7 +57,7 @@ const controller = {
     //GET NONT BY NAME 
     getNontByName:  async (req,res) => {
         try{            
-            const nont = await Nont.find({"name": req.params.name});
+            const nont = await Nont.find({"name": req.params.name, exist: true});
             //if(Object.keys(nont).length === 0) return res.send(`there is no nont with name: ${req.params.name}`);
             return res.send(nont);
         }
@@ -67,7 +67,7 @@ const controller = {
     },
     getNontByType:  async (req,res) => {
         try{            
-            const nont = await Nont.find({"type": req.params.type});
+            const nont = await Nont.find({"type": req.params.type, exist: true});
           //  if(Object.keys(nont).length === 0) return res.send(`there is no nont with type: ${req.params.type}`);
             return res.send(nont);
         }
@@ -77,7 +77,7 @@ const controller = {
     },
     getNontByNontOwnerID:  async (req,res) => {
         try{            
-            const nont = await Nont.find({"nontowner_id": req.params.id});
+            const nont = await Nont.find({"nontowner_id": req.params.id, exist: true});
            // if(Object.keys(nont).length === 0) return res.send(`there is no nont with nontowner_id: ${req.params.id}`);
             return res.send(nont);
         }
