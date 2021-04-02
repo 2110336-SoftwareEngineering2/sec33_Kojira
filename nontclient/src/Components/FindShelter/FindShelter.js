@@ -18,6 +18,8 @@ const FindShelter = (props) => {
     supported_type: [],
     minrate: 0,
     maxrate: 5,
+    mindistance: 0,
+    maxdistance: 100,
   };
   const [savedFilter, setSavedFilter] = useState(defaultFilter);
   const [sortedBy, setSortedBy] = useState("Rating");
@@ -81,6 +83,7 @@ const FindShelter = (props) => {
         defaultFilter={defaultFilter}
         setSavedFilter={setSavedFilter}
         setPageNumber={setPageNumber}
+        position={position}
       />
       <hr />
       <div className="d-flex justify-content-between">

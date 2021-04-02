@@ -39,6 +39,7 @@ const RatingFilter = (props) => {
         style={{ width: "100%", marginLeft: "1rem", marginRight: "1rem" }}
         marks={{ 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }}
         onChange={onSliderChange}
+        tooltipVisible={false}
       />
       <InputNumber
         min={0}

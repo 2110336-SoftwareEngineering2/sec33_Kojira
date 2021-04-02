@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import DistanceFilter from "./DistanceFilter";
 import NontTypeFilter from "./NontTypeFilter";
 import RatingFilter from "./RatingFilter";
 import ShelterSearch from "./ShelterSearch";
 
 const ShelterFilter = (props) => {
-  const { defaultFilter, setSavedFilter, setPageNumber } = props;
+  const { defaultFilter, setSavedFilter, setPageNumber, position } = props;
 
   const [filter, setFilter] = useState(defaultFilter);
 
@@ -39,8 +40,11 @@ const ShelterFilter = (props) => {
         </div>
       </div>
       <div className="row my-2">
-        <div className="col-12 col-md-6">
+        <div className="col-12 col-lg-6">
           <RatingFilter filter={filter} setFilter={setFilter} />
+        </div>
+        <div className="col-12 col-lg-6">
+          <DistanceFilter filter={filter} setFilter={setFilter} position={position} />
         </div>
       </div>
     </React.Fragment>
