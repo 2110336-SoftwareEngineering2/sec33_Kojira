@@ -41,4 +41,8 @@ router
     .route("/remove/:id")
     .delete(controller.removeShelter);
 
+router
+    .route("/findShelters")
+    .get(controller.findShelters);
+    
 module.exports = router;
