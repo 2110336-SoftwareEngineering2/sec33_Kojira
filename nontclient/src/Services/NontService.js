@@ -75,7 +75,7 @@ const NontService = {
     deleteNont: async (id) => {
         try{
             let path = "/nont/delete/" + id;
-            const response = await axios.put(serverURL + path);
+            const response = await axios.patch(serverURL + path);
             return response;
         }
         catch(error){
