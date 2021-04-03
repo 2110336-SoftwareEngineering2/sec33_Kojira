@@ -25,6 +25,9 @@ router.route('/create')
 router.route('/update/:id')
       .put(controller.updateNont);
 
+router.route('/cancel/:id')
+      .put(controller.cancelNont);
+
 router.route('/delete/:id')
       .delete(controller.deleteNont);
 

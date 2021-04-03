@@ -2,13 +2,16 @@ import React, { useContext, useState, useEffect } from "react";
 import ShelterService from "../../Services/ShelterService";
 import Contexts from "../../Utils/Context/Contexts";
 import ShelterRow from "./ShelterRow";
-import {notification,} from "antd";
+import { notification, } from "antd";
+import Loading from "../Shared/Loading";
+import LoadStatus from "../../Constants/LoadStatus";
 
 const UserContext = Contexts.UserContext;
 
 const ShelterManage = (props) => {
     const contextValue = useContext(UserContext);
     const [shelters, setShelters] = useState([]);
+    const [fetchShelterStatus, setFetchShelterStatus] = useState(LoadStatus.LOADING);
     
     useEffect( () => {  
         fetchShelters();   
@@ -22,10 +25,12 @@ const ShelterManage = (props) => {
                 const response = await ShelterService.getShelterByNontSitterID(nontSitterID);
                 if (response.data) {
                     setShelters(response.data);
+                    setFetchShelterStatus(LoadStatus.SUCCESS);
                 }
             }
         }
         catch (error) {
+            setFetchShelterStatus(LoadStatus.FAIL);
             console.error(error.message);
         }
     }
@@ -65,33 +70,52 @@ const ShelterManage = (props) => {
             {/* Header */}
             <h1 className="my-5 text-center">Shelter Management</h1>
 
+            {/* Loading */}
+            <Loading status={fetchShelterStatus} />
+
             {/* User */}
-            <h2 className="my-5 text-center">Name: {contextValue.name}</h2>
+            {
+                fetchShelterStatus === LoadStatus.SUCCESS &&
+                (
+                    <h2 className="my-5 text-center">Name: {contextValue.name}</h2>
+                )
+            }            
 
             {/* Shelter Register Button */}
-            <div className="row">
-                <div className="col">
-                    <a
-                    type="button"
-                    className="btn btn-outline-light text-light bg-success border-success text-center float-right"
-                    href={"/shelterRegister"}>
-                        Add
-                    </a>
-                </div>
-            </div>
+            {
+                fetchShelterStatus === LoadStatus.SUCCESS &&
+                (
+                    <div className="row">
+                        <div className="col">
+                            <a
+                            type="button"
+                            className="btn btn-outline-light text-light bg-success border-success text-center float-right"
+                            href={"/shelterRegister"}>
+                                Add
+                            </a>
+                        </div>
+                    </div>
+                )
+            }            
 
             {/* Shelter Row Button */}
-            <div className="pb-1">
-                {
-                    shelters.map( (element) => (
-                        <ShelterRow
-                        element={element}
-                        key={element._id}
-                        onDelete={deleteShelter}
-                        />
-                    ) )
-                }
-            </div>
+            {
+                fetchShelterStatus === LoadStatus.SUCCESS &&
+                (
+                    <div className="pb-1">
+                        {
+                            shelters.map( (element) => (
+                                <ShelterRow
+                                element={element}
+                                key={element._id}
+                                onDelete={deleteShelter}
+                                />
+                            ) )
+                        }
+                    </div>
+                )
+            }
+            
         </div>
     );
 }

@@ -13,7 +13,8 @@ const schema = new Schema({
     birth_date: {type:String, required:true},
     medical_certificate: {type:[{name: {type:String}, img:Buffer}]},
     picture: {type:[{img:Buffer}]},
-    nontowner_id: {type:ObjectId, ref:'NontOwner', required:true}
+    nontowner_id: {type:ObjectId, ref:'NontOwner', required:true},
+    exist: {type:Boolean, required:true}
 });
 
 //schema.index({ name: 1, nontowner_id: 1 }, { unique: true });  //unique index on properties name and nontowner_id

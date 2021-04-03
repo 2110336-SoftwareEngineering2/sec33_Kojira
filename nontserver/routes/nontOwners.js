@@ -26,4 +26,8 @@ router
 
 router.route("/login").post(cors(corsOptions), controller.login);
 
+router
+  .route("/update/:id")
+  .put(controller.updateNontOwner);
+
 module.exports = router;

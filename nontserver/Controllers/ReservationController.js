@@ -32,6 +32,15 @@ const validator = joi.object({
 
 const controller = {
     // GET 
+    getReservation: async (req,res) => {
+        try{            
+            const reservation = await Reservation.find(); 
+            return res.send(reservation);
+        }
+        catch (error){
+            return res.status(500).send('Internal Server Error, Please try again');
+        }
+    },
     getReservationByID: async (req,res) => {
         try{            
             const reservation = await Reservation.findById(req.params.id)
@@ -261,6 +270,23 @@ const controller = {
         } 
         catch (error) {            
             return res.status(500).send("Internal Server Error, Please try again");
+        }
+    },
+
+    updateReservation: async (req, res) => {
+        const validationResult = validator.validate(req.body);
+        if (validationResult.error) {         
+            console.log(validationResult.error);   
+            return res.status(400).send(validationResult.error.details[0].message);
+        }
+        try {
+          const newQuery = {_id: req.params.id};
+          const newBody = req.body;
+          const updatedReservation = await Reservation.updateOne(newQuery, newBody);
+          return res.send(newBody);
+        }
+        catch(error) {
+          return res.status(500).send("Internal Server Error, Please try again");
         }
     },
 

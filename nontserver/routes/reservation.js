@@ -4,6 +4,9 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../Controllers/ReservationController');
 
+router.route('/')
+      .get(controller.getReservation);
+
 router.route('/:id')
       .get(controller.getReservationByID);
   
@@ -33,6 +36,9 @@ router.route('/verify_check_out/:id')
 
 router.route('/check_out/:id')
       .put(controller.nontOwnerCheckOut);
+
+router.route('/update/:id')
+      .put(controller.updateReservation);
 
 router.route('/cancel/:id')
       .put(controller.cancelReservation);

@@ -16,6 +16,7 @@ const schema = new Schema(
         license:{type:[{name:String , img:Buffer, contentType: String}]}, //required
         picture:{type:[{name:String , img:Buffer, contentType: String}]}, //required
         nont_sitter_id: {type: ObjectId, required:true, ref:"nontSitters"},
+        exist: {type:Boolean, required: true}
     },
     {
         timestamps: true,

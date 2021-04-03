@@ -7,6 +7,7 @@ const _ = require('lodash');
 const joi = require('joi');
 const joiOid = require('joi-oid');
 const mongoose = require('mongoose');
+const Reservation = require('../Models/Reservation');
 
 const validate_certificate = joi.object({
     name: joi.string().required(),
@@ -17,7 +18,7 @@ const validate_picture = joi.object({
     img: joi.binary().required()
 });
 
-//validator for POST and PUT
+//validator for create and updateNont
 const validator = joi.object({
     name: joi.string().required().min(1).max(32),
     type: joi.string().valid(...Object.values(nontTypes)).required(),
@@ -35,53 +36,53 @@ const controller = {
     // GET
     getNonts: async (req,res) => {
         try{            
-            const allNonts = await Nont.find();
-            return res.send(allNonts);
+            const nont = await Nont.find();
+            return res.send(nont);
         }
         catch (error){
-            return res.status(500).send('Cannot access nonts');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
     // GET NONT BY ID : maybe not need
     getNontByID:  async (req,res) => {
         try{            
-            const nont = await Nont.findById(req.params.id);
+            const nont = await Nont.findOne({_id: req.params.id});
           //  if(nont === null) return res.send(`there is no nont with id: ${req.params.id}`);
             return res.send(nont);
         }
         catch (error){
-            return res.status(500).send('Cannot access nont by id');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
     //GET NONT BY NAME 
     getNontByName:  async (req,res) => {
         try{            
-            const nont = await Nont.find({"name": req.params.name});
+            const nont = await Nont.find({"name": req.params.name, exist: true});
             //if(Object.keys(nont).length === 0) return res.send(`there is no nont with name: ${req.params.name}`);
             return res.send(nont);
         }
         catch (error){
-            return res.status(500).send('Cannot access nonts by name');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
     getNontByType:  async (req,res) => {
         try{            
-            const nont = await Nont.find({"type": req.params.type});
+            const nont = await Nont.find({"type": req.params.type, exist: true});
           //  if(Object.keys(nont).length === 0) return res.send(`there is no nont with type: ${req.params.type}`);
             return res.send(nont);
         }
         catch (error){
-            return res.status(500).send('Cannot access nonts by type');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
     getNontByNontOwnerID:  async (req,res) => {
         try{            
-            const nont = await Nont.find({"nontowner_id": req.params.id});
+            const nont = await Nont.find({"nontowner_id": req.params.id, exist: true});
            // if(Object.keys(nont).length === 0) return res.send(`there is no nont with nontowner_id: ${req.params.id}`);
             return res.send(nont);
         }
         catch (error){
-            return res.status(500).send('Cannot access nonts by type');
+            return res.status(500).send('Internal Server Error, Please try again');
         }
     },
     // POST create new nont
@@ -103,7 +104,8 @@ const controller = {
                 birth_date: req.body.birth_date.split("T")[0],
                 medical_certificate: req.body.medical_certificate,
                 picture: req.body.picture,
-                nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id)           
+                nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id),
+                exist: true  
             };
             const newNont = await Nont.create(newBody);
          //   return res.send(_.pick(newNont, ["_id","name","type","subtype","description","birth_date","medical_certificate","picture"]));
@@ -111,7 +113,7 @@ const controller = {
         }
         catch(error){
             console.log(error.message);
-            return res.status(500).send("Cannot create nont");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
 
@@ -132,18 +134,40 @@ const controller = {
                 birth_date: req.body.birth_date.split("T")[0],
                 medical_certificate: req.body.medical_certificate,
                 picture: req.body.picture,
-                nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id)   
+                nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id),
+                exist: true 
             };
             const updatedNont = await Nont.updateOne(newQuery, newBody);
          //   return res.send(_.pick(updatedNont, ["_id","name","type","subtype","description","birth_date","medical_certificate","picture"]));
             return res.send(updatedNont);
         } 
         catch (error) {            
-            return res.status(500).send("Cannot update nont");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
- 
-    //DELETE nont
+
+    //PUT update exist: false (new delete nont)
+    cancelNont: async (req,res) => {
+        try{
+            //check if nont is reserved : cannot change to exist:false
+            const existReservation = await Reservation.find({status: {$ne: "cancelled"}});
+            for (const reservation of existReservation) {
+                if(reservation.nont_id.some((nont_id) => nont_id==req.params.id)){
+                    return res.status(403).send("Cannot delete this nont as it's still reserved");
+                }
+            };
+            //
+            const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
+            const newBody = {exist: false};
+            const cancelledNont = await Nont.updateOne(newQuery, newBody);
+            return res.send(cancelledNont);
+        }
+        catch(error){
+            return res.status(500).send("Internal Server Error, Please try again");
+        }
+    },
+
+    //DELETE (old delete nont)
     deleteNont: async (req, res) => {
         try{
             const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
@@ -151,7 +175,7 @@ const controller = {
             return res.send("Successfully deleted");
         }
         catch(error){
-            return res.status(500).send("Cannot delete nont");
+            return res.status(500).send("Internal Server Error, Please try again");
         }
     },
     
