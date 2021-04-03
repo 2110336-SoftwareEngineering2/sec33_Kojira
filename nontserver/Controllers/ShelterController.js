@@ -197,7 +197,9 @@ const controller = {
         }
     },
 
-    // DELETE shelter
+    /*
+    PATCH /shelter/delete/:id
+    */
     deleteShelter: async (req, res) => {
         try{
             const roomRes = await Rooms.find({ "shelter_id": req.params.id, "exist": true })
@@ -266,7 +268,22 @@ const controller = {
             .status(500)
             .send("Cannot access database.");
         }
-    }
+    },
+
+    /*
+    DELETE /shelter/remove/:id
+    */
+    removeShelter: async (req, res) => {
+        try {
+            // remove shelter
+            const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
+            const deleted = await Shelters.deleteOne(newQuery);
+            return res.send(deleted);
+        }
+        catch(error) {
+            return res.status(500).send("Cannot remove shelter");
+        }
+    },
 
 }
 

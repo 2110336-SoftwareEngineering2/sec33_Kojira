@@ -162,6 +162,22 @@ const controller = {
       return res.status(500).send("Internal Server Error, Please try again");
     }
   },
+
+  /* 
+  DELETE /nontSitters/remove/:id
+  */
+  removeNontSitter: async (req, res) => {
+    try {      
+      // remove nontSitter
+      const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
+      const deleted = await NontSitter.deleteOne(newQuery);
+      return res.send(deleted);
+    }
+    catch (error) {
+      return res.status(500).send("Cannot remove NontSitter");
+    }
+  },
+
 };
 
 module.exports = controller;

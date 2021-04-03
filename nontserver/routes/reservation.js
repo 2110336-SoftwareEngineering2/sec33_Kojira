@@ -41,7 +41,10 @@ router.route('/update/:id')
       .put(controller.updateReservation);
 
 router.route('/cancel/:id')
-      .put(controller.cancelReservation);
+      .patch(controller.cancelReservation);
+
+router.route("/remove/:id")
+      .delete(controller.removeReservation);
 
  
 module.exports = router;

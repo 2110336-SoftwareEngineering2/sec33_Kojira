@@ -31,6 +31,10 @@ router
 
 router
     .route("/delete/:id")
-    .delete(controller.deleteRoom);
+    .patch(controller.deleteRoom);
+
+router
+    .route("/remove/:id")
+    .delete(controller.removeRoom);
 
 module.exports = router;

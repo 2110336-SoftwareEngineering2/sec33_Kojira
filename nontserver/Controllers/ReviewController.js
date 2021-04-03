@@ -35,7 +35,7 @@ const controller = {
     },
 
     /* 
-    POST /
+    POST /review
         create new review
         field required: nontowner_id, shelter_id, reservation_id, rate, comment
         (comment can be empty string but should have field)
@@ -104,7 +104,7 @@ const controller = {
     },
 
     /*
-    PATCH /
+    PATCH /review
         update review
         field required: _id, rate, comment
         (_id is review_id, other id object should not be changed)
@@ -134,12 +134,13 @@ const controller = {
     },
 
     /*
-    DELETE /delete/:id
-        delete review (remove from database)
+    DELETE /review/remove/:id
+        remove review
         field required: _id
         (_id is review_id)
+        return: deleted result
     */
-    deleteReview: async (req,res) => {
+    removeReview: async (req,res) => {
         try {
             // search review
             const searchRes = await Review.findById(req.params.id);
