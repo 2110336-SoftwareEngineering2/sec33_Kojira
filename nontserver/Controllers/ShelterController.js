@@ -115,10 +115,6 @@ const controller = {
       let foundShelters = await Shelters.find().lean().exec();
       try {
         // Get paramters
-        const pageNumber = req.query.pageNumber
-          ? Number(req.query.pageNumber)
-          : 1;
-        const pageSize = req.query.pageSize ? Number(req.query.pageSize) : 20;
         const sortedBy = req.query.sortedBy ? req.query.sortedBy : "rate";
         const keywords = req.query.keywords ? req.query.keywords : "";
         const supported_type = req.query.supported_type

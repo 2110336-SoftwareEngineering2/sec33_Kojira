@@ -24,7 +24,7 @@ const FindShelter = (props) => {
   const [savedFilter, setSavedFilter] = useState(defaultFilter);
   const [sortedBy, setSortedBy] = useState("Rating");
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
+  const [pageSize, setPageSize] = useState(24);
 
   useEffect(() => {
     async function fetchShelter() {
@@ -39,8 +39,6 @@ const FindShelter = (props) => {
         const query = {
           ...savedFilter,
           sortedBy: sortedByMapper[sortedBy],
-          pageNumber,
-          pageSize,
         };
         if (position) {
           query.lat = position.lat;
@@ -55,7 +53,7 @@ const FindShelter = (props) => {
       }
     }
     fetchShelter();
-  }, [savedFilter, sortedBy, pageNumber, pageSize, position]);
+  }, [savedFilter, sortedBy, position]);
 
   async function getLocation() {
     if (navigator.geolocation) {
@@ -103,8 +101,9 @@ const FindShelter = (props) => {
       {fetchShelterStatus === LoadStatus.SUCCESS && (
         <FindShelterList
           shelters={shelters}
-          sortedBy={sortedBy}
-          setSortedBy={setSortedBy}
+          pageSize={pageSize}
+          pageNumber={pageNumber}
+          setPageNumber={setPageNumber}
         />
       )}
     </div>
