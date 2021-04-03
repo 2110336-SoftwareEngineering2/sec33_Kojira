@@ -33,6 +33,16 @@ const controller = {
             return res.status(500).send('Cannot access reviews');
         }
     },
+    getReviewByID: async (req,res) => {
+        try {
+            const review = await Review.findOne({_id: req.params.id});
+            return res.send(review);
+        }
+        catch (error) {
+            return res.status(500).send('Cannot access review by id');
+        }
+    },
+    
 
     /* 
     POST /
