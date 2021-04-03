@@ -2,14 +2,14 @@
 
 const Rooms = require("../Models/Room");
 const Shelters = require("../Models/Shelters");
-const Room = require("../Models/Room");
 const NontSitter = require("../Models/NontSitter");
+const Review = require("../Models/Review");
 const _ = require("lodash");
 const Joi = require("joi");
 const nontTypes = require("../Constants/nontTypes");
 const JoiOid = require("joi-oid");
 const mongoose = require("mongoose");
-const geolib = require("geolib");
+const Reservation = require("../Models/Reservation");
 
 const validate_coordinate = Joi.object({
   lat: Joi.number().min(-90).max(90),
@@ -44,10 +44,20 @@ const validator = Joi.object({
 });
 
 const controller = {
+  // GET all shelters
+  getAllShelters: async (req, res) => {
+    try {
+      const allShelters = await Shelters.find();
+      return res.send(allShelters);
+    } catch (error) {
+      return res.status(500).send("Cannot access Shelters");
+    }
+  },
+
   // GET
   getShelters: async (req, res) => {
     try {
-      const allShelters = await Shelters.find();
+      const allShelters = await Shelters.find({ exist: true });
       if (Object.keys(allShelters).length === 0)
         res.send(`there is no shelters`);
       return res.send(allShelters);
@@ -55,31 +65,37 @@ const controller = {
       return res.status(500).send("Cannot access Shelters");
     }
   },
-
   // GET Shelter BY ID
   getShelterByID: async (req, res) => {
     try {
       const Shelter = await Shelters.findById(req.params.id);
+      if (!Shelter.exist) {
+        return res.status(404).send("Shelter with this id is no longer exist.");
+      }
       return res.send(Shelter);
     } catch (error) {
       return res.status(500).send("Cannot access shelter by id");
     }
   },
-
   // GET Shelter by nont_sitter_id
   getShelterByNontSitterID: async (req, res) => {
     try {
-      const Shelter = await Shelters.find({ nont_sitter_id: req.params.id });
+      const Shelter = await Shelters.find({
+        nont_sitter_id: req.params.id,
+        exist: true,
+      });
       return res.send(Shelter);
     } catch (error) {
       return res.status(500).send("Cannot access shelter by id");
     }
   },
-
   // GET Shelter BY NAME
   getShelterByName: async (req, res) => {
     try {
-      const Shelter = await Shelters.find({ name: req.params.name });
+      const Shelter = await Shelters.find({
+        name: req.params.name,
+        exist: true,
+      });
       if (Object.keys(Shelter).length === 0)
         res.send(`there is no shelter name ${req.params.name} `);
       return res.send(Shelter);
@@ -87,8 +103,7 @@ const controller = {
       return res.status(500).send("Cannot access shelter by name");
     }
   },
-
-  // GET Shelter by email
+  // GET Shelter by email ?
   getShelterByEmail: async (req, res) => {
     try {
       const Shelter = await Shelters.find({
@@ -99,7 +114,6 @@ const controller = {
       return res.status(500).send("Cannot access shelter by email");
     }
   },
-
   // GET /findShelters
   findShelters: async (req, res) => {
     function checkSupportedType(shelter, supportedTypeFilter) {
@@ -227,6 +241,7 @@ const controller = {
     try {
       const newBody = {
         ...req.body,
+        exist: true,
       };
       const newShelter = await Shelters.create(newBody);
       return res.send(
@@ -260,12 +275,13 @@ const controller = {
   },
 
   // Update supported_type and
-  // to call from other function in backend only
+  // only called from other function in backend only
   updateSupportedType: async (shelterID) => {
     try {
-      const nontTypes = await Rooms.find({ shelter_id: shelterID }).distinct(
-        "nont_type"
-      );
+      const nontTypes = await Rooms.find({
+        shelter_id: shelterID,
+        exist: true,
+      }).distinct("nont_type");
       const newQuery = {
         _id: shelterID,
       };
@@ -279,14 +295,99 @@ const controller = {
     }
   },
 
+  // Update shelter's rate
+  // only called from other function in backend only
+  updateRate: async (shelterID) => {
+    try {
+      // find new average rate
+      const reviewList = await Review.find({ shelter_id: shelterID }).select({
+        rate: 1,
+        _id: 0,
+      });
+      const reduceRate = await reviewList.reduce(
+        (previousValue, currentValue) => {
+          return {
+            rate: previousValue.rate + currentValue.rate,
+          };
+        }
+      );
+      // update shelter
+      const newQuery = {
+        _id: shelterID,
+      };
+      const newBody = {
+        rate: reduceRate.rate / reviewList.length,
+      };
+      const updateRes = await Shelters.updateOne(newQuery, newBody);
+      return updateRes;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   // DELETE shelter
   deleteShelter: async (req, res) => {
     try {
-      const deletedShelter = await Shelters.findOneAndDelete({
-        _id: req.params.id,
+      const roomRes = await Rooms.find({
+        shelter_id: req.params.id,
+        exist: true,
       });
-      return res.send("Succesfully delete shelter");
+      var x = 0;
+      if (roomRes.length !== 0) {
+        roomRes.map(async (room) => {
+          try {
+            var reserveRes = await Reservation.findOne({
+              room_id: room._id,
+              status: { $in: ["payment-pending", "paid", "checked-in"] },
+            });
+            x = x + 1;
+            if (reserveRes) {
+              x = -1;
+              return res
+                .status(400)
+                .send(
+                  "Cannot delete shelter. Related reservation is still not completed."
+                );
+            }
+          } catch (error) {
+            console.log(error);
+          }
+          if (x === roomRes.length) {
+            roomRes.map(async (room) => {
+              var newRoom = {
+                exist: false,
+              };
+              await Rooms.findByIdAndUpdate(
+                room._id,
+                { $set: newRoom },
+                { new: true }
+              );
+            });
+            var newBody = {
+              exist: false,
+              supported_type: [],
+            };
+            var updateShelterRes = await Shelters.findByIdAndUpdate(
+              req.params.id,
+              { $set: newBody },
+              { new: true }
+            );
+            return res.send(updateShelterRes);
+          }
+        });
+      } else {
+        var newRoom = {
+          exist: false,
+        };
+        var updateShelterRes = await Shelters.findByIdAndUpdate(
+          req.params.id,
+          { $set: newRoom },
+          { new: true }
+        );
+        return res.send(updateShelterRes);
+      }
     } catch (error) {
+      console.log(error);
       return res.status(500).send("Cannot delete shelter");
     }
   },
