@@ -16,8 +16,7 @@ const FindShelter = (props) => {
   const defaultFilter = {
     keywords: "",
     supported_type: [],
-    minrate: 0,
-    maxrate: 5,
+    minRate: 0,
     maxDistance: 100,
   };
   const [savedFilter, setSavedFilter] = useState(defaultFilter);

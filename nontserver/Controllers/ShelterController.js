@@ -125,13 +125,9 @@ const controller = {
             ? req.query.supported_type
             : [req.query.supported_type]
           : [];
-        const rate =
-          req.query.minrate && req.query.maxrate
-            ? [
-                Math.max(Number(req.query.minrate), 0),
-                Math.min(Number(req.query.maxrate), 5),
-              ]
-            : [0, 5];
+        const minRate = req.query.minRate
+          ? Math.min(Math.max(Number(req.query.minRate), 0), 5)
+          : 0;
         const maxDistance = req.query.maxDistance
           ? Math.max(Math.min(Number(req.query.maxDistance), 100), 1)
           : 100;
@@ -168,11 +164,10 @@ const controller = {
           (shelter) =>
             shelter.name.match(re) &&
             checkSupportedType(shelter, supported_type) &&
-            shelter.rate >= rate[0] &&
-            shelter.rate <= rate[1] &&
+            shelter.rate >= minRate &&
             (!position ||
               shelter.distance <= maxDistance * 1000 ||
-              maxDistance[1] === 100)
+              maxDistance === 100)
         );
         if (sortedBy === "rate")
           foundShelters = _.sortBy(foundShelters, sortedBy).reverse();
