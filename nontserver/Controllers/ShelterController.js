@@ -10,6 +10,7 @@ const nontTypes = require('../Constants/nontTypes');
 const JoiOid = require('joi-oid');
 const mongoose = require("mongoose");
 const Reservation = require('../Models/Reservation');
+const geolib = require('geolib');
 
 const validate_coordinate = Joi.object({
     lat:Joi.number().min(-90).max(90),
@@ -184,7 +185,7 @@ const controller = {
                             maxDistance === 100)
                 );
                 for (const shelter of foundShelters) {
-                    const rooms = await Room.find({ shelter_id: shelter._id })
+                    const rooms = await Rooms.find({ shelter_id: shelter._id })
                         .lean()
                         .exec();
                     const matchedRooms = rooms.filter(
@@ -220,6 +221,7 @@ const controller = {
 
                 res.send(foundShelters);
             } catch (error) {
+                console.log(error);
                 return res.status(400).send("Error: Invalid query");
             }
         } catch (error) {
