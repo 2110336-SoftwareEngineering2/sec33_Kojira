@@ -6,18 +6,30 @@ const FindShelterList = (props) => {
   const { shelters } = props;
 
   return (
-    <div className="row">
-      {shelters.map((shelter) => (
+    <React.Fragment>
+      {shelters.length === 0 && (
         <div
-          className={
-            "col-12 col-sm-6 col-md-4 col-lg-3 " + styles.shelterCardCol
-          }
-          key={shelter._id}
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
         >
-          <ShelterCard shelter={shelter} />
+          <span className={styles.fade} style={{ fontSize: "3rem" }}>{"No shelters found :("}</span>
         </div>
-      ))}
-    </div>
+      )}
+      {shelters.length > 0 && (
+        <div className="row">
+          {shelters.map((shelter) => (
+            <div
+              className={
+                "col-12 col-sm-6 col-md-4 col-lg-3 " + styles.shelterCardCol
+              }
+              key={shelter._id}
+            >
+              <ShelterCard shelter={shelter} />
+            </div>
+          ))}
+        </div>
+      )}
+    </React.Fragment>
   );
 };
 
