@@ -196,7 +196,7 @@ const InfoDB = (props) => {
                             fontSize: 18,
                           }}
                         >
-                          <a type="button" className="btn btn-warning" href="#">
+                          <a type="button" className="btn btn-warning" href={"/editdb/"+dbname+"/"+element._id}>
                             Update
                           </a>
                         </td>
