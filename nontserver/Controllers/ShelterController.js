@@ -183,6 +183,17 @@ const controller = {
                 supported_type.length === 0) &&
               room.amount >= nontAmount
           );
+          let totalPrice = 0;
+          let minPrice = 3000;
+          let maxPrice = 0;
+          for (const room of matchedRooms) {
+            totalPrice = totalPrice + room.price;
+            if (room.price < minPrice) minPrice = room.price;
+            if (room.price > maxPrice) maxPrice = room.price;
+          }
+          shelter.avgPrice = totalPrice / matchedRooms.length;
+          shelter.minPrice = minPrice;
+          shelter.maxPrice = maxPrice;
           if (matchedRooms.length > 0) shelter.found = true;
         }
         foundShelters = foundShelters.filter(
