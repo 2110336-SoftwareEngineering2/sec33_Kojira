@@ -1,28 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./FindShelter.module.css";
-import { getDistance } from "geolib";
 import StarRating from "./StarRating";
 const _ = require("lodash");
 
 const ShelterCard = (props) => {
   const shelter = props.shelter;
-
-  const [distance, setDistance] = useState(null);
-
-  useEffect(() => {
-    if (props.position) {
-      const distance = getDistance(
-        { latitude: props.position.lat, longitude: props.position.lng },
-        { latitude: shelter.coordinate.lat, longitude: shelter.coordinate.lng }
-      );
-
-      if (distance >= 1000) {
-        setDistance(`${Math.round(distance / 1000)} km`);
-      } else {
-        setDistance(`${distance} m`);
-      }
-    }
-  }, [props.position, shelter.coordinate.lat, shelter.coordinate.lng]);
 
   return (
     <div className={styles.cardWrapper}>
@@ -36,7 +18,7 @@ const ShelterCard = (props) => {
           <div className={"d-flex " + styles.imageArea}>
             {shelter.picture.length > 0 && (
               <img
-                src={Buffer.from(shelter.picture[0].img).toString()}
+                src={atob(shelter.picture[0].img)}
                 className={styles.image}
                 alt=""
               ></img>
@@ -55,19 +37,26 @@ const ShelterCard = (props) => {
           <div className="d-flex flex-wrap justify-content-center">
             {shelter.supported_type.map((type) => (
               <div className="d-flex mr-2 mb-2" key={type}>
-                <span className="badge badge-secondary">{type}</span>
+                <span className="badge badge-pill badge-primary">{type}</span>
               </div>
             ))}
+          </div>
+          <div className="d-flex justify-content-center">
+            <span className={styles.fade}>{`฿${Math.round(
+              shelter.minPrice
+            )} ~ ฿${Math.round(shelter.maxPrice)}`}</span>
           </div>
           <div className="d-flex justify-content-around mb-2">
             <div className="d-flex">
               <StarRating rate={shelter.rate} />
             </div>
-            {distance && (
+            {shelter.distance && (
               <div className="d-flex">
                 <span className={styles.fade}>
                   <i className="fas fa-location-arrow mr-1"></i>
-                  {distance}
+                  {shelter.distance >= 1000
+                    ? `${Math.round(shelter.distance / 1000)} km`
+                    : `${shelter.distance} m`}
                 </span>
               </div>
             )}
