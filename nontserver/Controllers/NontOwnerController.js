@@ -26,7 +26,7 @@ const controller = {
   getNontOwners: async (req, res) => {
     try {
       const nontOwnerAccounts = await NontOwner.find();
-      return res.send(_.omit(nontOwnerAccounts, ["password"]));
+      return res.send(nontOwnerAccounts);
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }
@@ -138,6 +138,24 @@ const controller = {
 
   // POST /nontOwners/login
   login: async (req, res) => LoginController.login(req, res, NontOwner),
+
+  //PUT /nontOwners/update/:id
+  updateNontOwner: async (req, res) => {
+    const validationResult = validator.validate(req.body);
+    if (validationResult.error) {         
+        console.log(validationResult.error);   
+        return res.status(400).send(validationResult.error.details[0].message);
+    }
+    try {
+      const newQuery = {_id: req.params.id};
+      const newBody = req.body;
+      const updatedNontOwner = await NontOwner.updateOne(newQuery, newBody);
+      return res.send(newBody);
+    }
+    catch(error) {
+      return res.status(500).send("Internal Server Error, Please try again");
+    }
+  },
 };
 
 module.exports = controller;
