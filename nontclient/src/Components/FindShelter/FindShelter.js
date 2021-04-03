@@ -18,8 +18,7 @@ const FindShelter = (props) => {
     supported_type: [],
     minrate: 0,
     maxrate: 5,
-    mindistance: 0,
-    maxdistance: 100,
+    maxDistance: 100,
   };
   const [savedFilter, setSavedFilter] = useState(defaultFilter);
   const [sortedBy, setSortedBy] = useState("Rating");
