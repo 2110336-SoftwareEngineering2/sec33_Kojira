@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Popconfirm } from "antd";
+import { Popconfirm, notification, } from "antd";
 import Loading from "../Shared/Loading";
 import LoadStatus from "../../Constants/LoadStatus";
 import AdminService from "../../Services/AdminService";
@@ -70,10 +70,57 @@ const InfoDB = (props) => {
     const newColumnDisplayStatus = { ...columnDisplayStatus };
     newColumnDisplayStatus[key] = !newColumnDisplayStatus[key];
     setColumnDisplayStatus(newColumnDisplayStatus);
-    // console.log(dbData);
   };
 
-  const onDeleteConfirm = async (id) => {};
+  const onDeleteConfirm = async (id) => {
+    let removeFunction = null;
+    switch (dbname) {
+      case "nontOwners":
+        removeFunction = AdminService.removeNontOwners;
+        break;
+      case "nontSitters":
+        removeFunction = AdminService.removeNontSitters;
+        break;
+      case "nonts":
+        removeFunction = AdminService.removeNonts;
+        break;
+      case "reservations":
+        removeFunction = AdminService.removeReservations;
+        break;
+      case "reviews":
+        removeFunction = AdminService.removeReviews;
+        break;
+      case "rooms":
+        removeFunction = AdminService.removeRooms;
+        break;
+      case "shelters":
+        removeFunction = AdminService.removeShelters;
+        break;
+    }
+    if (removeFunction) {
+      try {
+        const response = await removeFunction(id);
+        if (response.status === 200) {
+          fetchData();
+          notification.success({
+            message: "Entry removed.",
+            description: `Entry _id: ${id} removed successfully`,
+            placement: "bottomRight",
+        })
+        }
+        else {
+          notification.error({ 
+            message: `Cannot remove entry.`,
+            description: `Cannot remove entry _id: ${id}`,
+            placement: "bottomRight",
+        });
+        }
+      }
+      catch (error) {
+        console.error(error.message);
+      }
+    }
+  };
 
   return (
     <div className="container-fluid">
@@ -209,7 +256,7 @@ const InfoDB = (props) => {
                           }}
                         >
                           <Popconfirm
-                            title="Are you sure to delete this entry ?"
+                            title="Remove entry cannot revert. Are you sure to remove this entry ?"
                             onConfirm={() => onDeleteConfirm(element._id)}
                             okText="Yes"
                             cancelText="No"
@@ -219,7 +266,7 @@ const InfoDB = (props) => {
                               className="btn btn-danger"
                               href="#"
                             >
-                              Delete
+                              Remove
                             </a>
                           </Popconfirm>
                         </td>
