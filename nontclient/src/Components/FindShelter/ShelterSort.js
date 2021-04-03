@@ -10,8 +10,9 @@ const ShelterSort = (props) => {
   const sortingMenu = (
     <Menu>
       <Menu.Item onClick={() => setSortedBy("Name")}>Name</Menu.Item>
-      {position && <Menu.Item onClick={() => setSortedBy("Distance")}>Distance</Menu.Item>}
       <Menu.Item onClick={() => setSortedBy("Rating")}>Rating</Menu.Item>
+      {position && <Menu.Item onClick={() => setSortedBy("Distance")}>Distance</Menu.Item>}
+      <Menu.Item onClick={() => setSortedBy("Price")}>Price</Menu.Item>
     </Menu>
   );
 

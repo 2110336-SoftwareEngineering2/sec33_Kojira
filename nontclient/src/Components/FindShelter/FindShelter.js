@@ -31,8 +31,9 @@ const FindShelter = (props) => {
         setFetchShelterStatus(LoadStatus.LOADING);
         const sortedByMapper = {
           Name: "name",
-          Distance: "distance",
           Rating: "rate",
+          Distance: "distance",
+          Price: "avgPrice",
         };
         const query = {
           ...savedFilter,
