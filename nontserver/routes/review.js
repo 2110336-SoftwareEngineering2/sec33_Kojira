@@ -25,7 +25,7 @@ router
     .get(controller.getReviewByNontOwnerID);
 
 router
-    .route("/delete/:id")
-    .delete(controller.deleteReview);
+    .route("/remove/:id")
+    .delete(controller.removeReview);
 
 module.exports = router;

@@ -145,7 +145,7 @@ const Review =(props)=>{
       const cancelreview = async()=>{
         try{
             if(haveReview){
-              const response = await ReviewService.deleteReview(reviewID);
+              const response = await ReviewService.removeReview(reviewID);
               console.log({response});
               setHaveReview(false);
               notification.success({

@@ -70,7 +70,7 @@ const ShelterService = {
     deleteShelter: async (id) => {
         try{
             let path = "/shelter/delete/" + id;
-            const response = await axios.delete(serverURL + path);
+            const response = await axios.patch(serverURL + path);
             return response;
         } catch(error){
             throw error

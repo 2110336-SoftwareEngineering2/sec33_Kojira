@@ -85,7 +85,7 @@ const ReserveService = {
   cancelReservation : async (reservationID) => {
     try {
       const path = "/reservation/cancel/" + reservationID;
-      const response = await axios.put(serverURL + path);
+      const response = await axios.patch(serverURL + path);
       return response;
     }
     catch (error) {

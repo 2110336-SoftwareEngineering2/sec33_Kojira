@@ -32,25 +32,6 @@ const NontManage = (props) => {
         fetchNonts();   
     },[contextValue]);
 
-    const cancelNont = async (id) => {
-        try {
-            const response = await NontService.cancelNont(id);
-            if(response.status===200) setNonts(nonts.filter((nont) => nont._id !== id));
-            notification.success({
-                message: "Nont",
-                description: `Nont deleted successfully.`,
-                placement: "bottomRight",
-            });
-        } catch (error){
-            notification.error({
-                message: "Nont",
-                description: `Cannot delete Nont.`,
-                placement: "bottomRight",
-            });
-            console.error(error.message);
-        }       
-    }
-
     const deleteNont = async (id) => {    //DELETE
         try {
             const response = await NontService.deleteNont(id);
@@ -68,7 +49,7 @@ const NontManage = (props) => {
             });
             console.error(error.message);
         }
-    }
+    };
 
 
     return (
@@ -115,7 +96,7 @@ const NontManage = (props) => {
                                 <NontRow
                                 element={nont}
                                 key={nont._id}
-                                onDelete={cancelNont}
+                                onDelete={deleteNont}
                                 />
                             ))
                         }

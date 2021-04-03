@@ -156,6 +156,24 @@ const controller = {
       return res.status(500).send("Internal Server Error, Please try again");
     }
   },
+
+  /* 
+  DELETE /nontOwners/remove/:id
+    field required: nontowner_id
+    return: delete status
+  */
+  removeNontOwner: async (req, res) => {
+    try {      
+      // remove nontOwner
+      const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
+      const deleted = await NontOwner.deleteOne(newQuery);
+      return res.send(deleted);
+    }
+    catch (error) {
+      return res.status(500).send("Cannot remove NontOwner");
+    }
+  },
+
 };
 
 module.exports = controller;
