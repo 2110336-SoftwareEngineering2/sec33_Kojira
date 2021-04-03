@@ -4,7 +4,7 @@ import ShelterCard from "./ShelterCard";
 import { Pagination } from "antd";
 
 const FindShelterList = (props) => {
-  const { shelters, pageSize, pageNumber, setPageNumber } = props;
+  const { shelters, pageSize, pageNumber, setPageNumber, setPageSize } = props;
 
   return (
     <React.Fragment>
@@ -40,12 +40,17 @@ const FindShelterList = (props) => {
           <div className="row mt-5">
             <div className="col d-flex justify-content-center">
               <Pagination
+                showSizeChanger
                 current={pageNumber}
                 total={shelters.length}
                 pageSize={pageSize}
-                onChange={(element) => {
-                  setPageNumber(element);
+                onChange={(number) => {
+                  setPageNumber(number);
                 }}
+                onShowSizeChange={(_, size) => {
+                  setPageSize(size);
+                }}
+                pageSizeOptions={[12, 24, 36, 48, 60]}
               />
             </div>
           </div>

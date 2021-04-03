@@ -104,6 +104,7 @@ const FindShelter = (props) => {
           pageSize={pageSize}
           pageNumber={pageNumber}
           setPageNumber={setPageNumber}
+          setPageSize={setPageSize}
         />
       )}
     </div>
