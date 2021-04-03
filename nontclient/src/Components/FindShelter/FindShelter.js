@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import styles from "./FindShelter.module.css";
+import FindShelterList from "./FindShelterList";
 import ShelterService from "../../Services/ShelterService";
 import LoadStatus from "../../Constants/LoadStatus";
-import ShelterFilter from "./ShelterFilter/ShelterFilter";
-import ShelterSort from "./ShelterSort";
 import Loading from "../Shared/Loading";
-import FindShelterList from "./FindShelterList";
 
 const FindShelter = (props) => {
   const [fetchShelterStatus, setFetchShelterStatus] = useState(
@@ -13,99 +10,47 @@ const FindShelter = (props) => {
   );
   const [shelters, setShelters] = useState([]);
   const [position, setPosition] = useState(null);
-  const defaultFilter = {
-    keywords: "",
-    supported_type: [],
-    minRate: 0,
-    maxDistance: 100,
-    nontAmount: 1,
-    maxPrice: 3000,
-  };
-  const [savedFilter, setSavedFilter] = useState(defaultFilter);
-  const [sortedBy, setSortedBy] = useState("Rating");
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(24);
 
   useEffect(() => {
     async function fetchShelter() {
       try {
-        setFetchShelterStatus(LoadStatus.LOADING);
-        const sortedByMapper = {
-          Name: "name",
-          Rating: "rate",
-          Distance: "distance",
-          Price: "avgPrice",
-        };
-        const query = {
-          ...savedFilter,
-          sortedBy: sortedByMapper[sortedBy],
-        };
-        if (position) {
-          query.lat = position.lat;
-          query.lng = position.lng;
-        }
-        const response = await ShelterService.findShelter(query);
+        const response = await ShelterService.getShelters();
         setFetchShelterStatus(LoadStatus.SUCCESS);
         setShelters(response.data);
       } catch (error) {
         setFetchShelterStatus(LoadStatus.FAIL);
-        console.error(error);
+        console.error("Cannot get shelters' information");
       }
     }
     fetchShelter();
-  }, [savedFilter, sortedBy, position]);
+  }, []);
 
-  async function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  }
   useEffect(() => {
+    async function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    }
     getLocation();
   }, []);
 
   return (
     <div className="container">
       <div className="row">
-        <div className="col text-center mt-3">
+        <div className="col text-center m-3">
           <h1>Find Shelter</h1>
-        </div>
-      </div>
-      <ShelterFilter
-        defaultFilter={defaultFilter}
-        setSavedFilter={setSavedFilter}
-        setPageNumber={setPageNumber}
-        position={position}
-      />
-      <hr />
-      <div className="d-flex justify-content-between">
-        <div className="d-flex">
-          {fetchShelterStatus === LoadStatus.SUCCESS && (
-            <span className={styles.fade}>
-              Showing {shelters.length} results
-            </span>
-          )}
-        </div>
-        <div className="d-flex align-items-center">
-          <ShelterSort sortedBy={sortedBy} setSortedBy={setSortedBy} position={position} />
         </div>
       </div>
       <Loading status={fetchShelterStatus} />
       {fetchShelterStatus === LoadStatus.SUCCESS && (
-        <FindShelterList
-          shelters={shelters}
-          pageSize={pageSize}
-          pageNumber={pageNumber}
-          setPageNumber={setPageNumber}
-          setPageSize={setPageSize}
-        />
+        <FindShelterList shelters={shelters} position={position} />
       )}
     </div>
   );
