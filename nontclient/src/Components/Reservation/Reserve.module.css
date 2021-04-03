@@ -5,3 +5,8 @@
 .pageLink {
     color: #045eb8 !important;
   }
+
+::placeholder {
+
+    text-align: left;
+}

@@ -11,7 +11,7 @@ import moment, { months } from "moment";
 import styles from "./Reserve.module.css";
 import LoadStatus from "../../Constants/LoadStatus";
 import Loading from "../Shared/Loading";
-
+import Review from "./Review";
 const UserContext = Contexts.UserContext;
 const ReserveInfo = (props) => {
     let today = new Date();
@@ -345,11 +345,13 @@ const ReserveInfo = (props) => {
                             </div>
                             <div>
                                 {
-                                    (contextValue.userType === UserType.NONT_OWNER &&status==="checked-out")&&<input className="my-1 btn btn-primary" type="button"   value="review"/>
+                                    (contextValue.userType === UserType.NONT_OWNER &&status==="checked-out")&& <Review reserveId={reserveID} shelter={Shelter} owner={owner}/>
 
                                 }
                             </div>
-                        </div>
+                            </div>
+                                   
+                           
                 </div>
 
             </div>
