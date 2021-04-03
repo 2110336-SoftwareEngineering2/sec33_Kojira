@@ -41,6 +41,11 @@ const ShelterCard = (props) => {
               </div>
             ))}
           </div>
+          <div className="d-flex justify-content-center">
+            <span className={styles.fade}>{`฿${Math.round(
+              shelter.minPrice
+            )} ~ ฿${Math.round(shelter.maxPrice)}`}</span>
+          </div>
           <div className="d-flex justify-content-around mb-2">
             <div className="d-flex">
               <StarRating rate={shelter.rate} />
