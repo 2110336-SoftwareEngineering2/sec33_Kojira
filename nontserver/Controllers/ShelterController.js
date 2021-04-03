@@ -2,6 +2,7 @@
 
 const Rooms = require("../Models/Room");
 const Shelters = require("../Models/Shelters");
+const Room = require("../Models/Room");
 const NontSitter = require("../Models/NontSitter");
 const _ = require("lodash");
 const Joi = require("joi");
@@ -131,6 +132,9 @@ const controller = {
         const maxDistance = req.query.maxDistance
           ? Math.max(Math.min(Number(req.query.maxDistance), 100), 1)
           : 100;
+        const nontAmount = req.query.nontAmount
+          ? Math.min(Math.max(Number(req.query.nontAmount), 1), 20)
+          : 1;
         const lat = req.query.lat;
         const lng = req.query.lng;
         const position =
@@ -158,7 +162,7 @@ const controller = {
           });
         }
 
-        // Filtering => Sorting => Pagination
+        // Filter
         const re = new RegExp(keywords, "i");
         foundShelters = foundShelters.filter(
           (shelter) =>
@@ -169,9 +173,27 @@ const controller = {
               shelter.distance <= maxDistance * 1000 ||
               maxDistance === 100)
         );
+        for (const shelter of foundShelters) {
+          const rooms = await Room.find({ shelter_id: shelter._id })
+            .lean()
+            .exec();
+          const matchedRooms = rooms.filter(
+            (room) =>
+              (supported_type.includes(room.nont_type) ||
+                supported_type.length === 0) &&
+              room.amount >= nontAmount
+          );
+          if (matchedRooms.length > 0) shelter.found = true;
+        }
+        foundShelters = foundShelters.filter(
+          (shelter) => shelter.found && shelter.exist
+        );
+
+        // Sort
         if (sortedBy === "rate")
           foundShelters = _.sortBy(foundShelters, sortedBy).reverse();
         else foundShelters = _.sortBy(foundShelters, sortedBy);
+
         res.send(foundShelters);
       } catch (error) {
         return res.status(400).send("Error: Invalid query");
