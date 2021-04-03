@@ -37,8 +37,4 @@ router
     .route("/check-name")
     .post(controller.checkValidName);
 
-router
-    .route("/findShelters")
-    .get(controller.findShelters);
-    
 module.exports = router;

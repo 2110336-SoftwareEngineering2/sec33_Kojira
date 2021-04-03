@@ -1,47 +1,6 @@
-.searchBar {
-  width: 100%;
-  background-color: white;
-  border: 1px solid #ced4da;
-  border-radius: 1rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.searchBar:focus-within {
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-.searchIcon {
-  height: calc(1.5em + 0.75rem + 2px);
-  font-size: 1rem;
-  color: #495057;
-  background-clip: padding-box;
-  border: none;
-}
-
-.searchField {
-  border: none !important;
-  border-radius: 0 !important;
-  background-color: transparent !important;
-}
-
-.searchField:focus {
-  box-shadow: none !important;
-}
-
-.inputLabel {
-  margin-right: 0.5rem;
+.loadingStatus {
+  margin-top: 30vh;
   opacity: 0.5;
-  cursor: default;
-  font-weight: bold;
-}
-
-.textButton {
-  background: none !important;
-  border: none;
-  padding: 0 !important;
-  font-family: arial, sans-serif;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 .shelterCardCol {
@@ -71,8 +30,7 @@
   min-width: 225px;
   max-width: 300px;
   border-radius: 20px !important;
-  box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 8px,
-    rgba(17, 17, 26, 0.024) 0px 4px 16px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 8px, rgba(17, 17, 26, 0.024) 0px 4px 16px;
   transition: all 200ms ease-in-out 0s;
   will-change: transform;
 }
@@ -115,5 +73,5 @@
 }
 
 .fade {
-  opacity: 0.5;
+  opacity: 0.25;
 }
