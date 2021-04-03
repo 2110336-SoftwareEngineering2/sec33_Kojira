@@ -17,18 +17,18 @@ const DistanceFilter = (props) => {
     <div className="d-flex align-items-center">
       <span className={styles.inputLabel}>Maximum Distance</span>
       <Slider
-        min={1}
+        min={0}
         max={100}
         step={1}
         value={filter.maxDistance}
-        style={{ width: "100%", marginRight: "1rem" }}
+        style={{ width: "100%", marginRight: "1.5rem" }}
         marks={{ 0: 0, 20: 20, 40: 40, 60: 60, 80: 80, 100: "INF" }}
         onChange={onSliderChange}
         tooltipVisible={false}
         disabled={!position}
       />
       <InputNumber
-        min={1}
+        min={0}
         max={100}
         value={filter.maxDistance >= 100 ? "INF" : filter.maxDistance}
         style={{ marginRight: "0.5rem" }}

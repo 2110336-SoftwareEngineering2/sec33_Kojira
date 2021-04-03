@@ -19,6 +19,7 @@ const FindShelter = (props) => {
     minRate: 0,
     maxDistance: 100,
     nontAmount: 1,
+    maxPrice: 3000,
   };
   const [savedFilter, setSavedFilter] = useState(defaultFilter);
   const [sortedBy, setSortedBy] = useState("Rating");

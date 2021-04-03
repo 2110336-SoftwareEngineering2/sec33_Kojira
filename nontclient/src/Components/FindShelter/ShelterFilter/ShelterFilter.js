@@ -3,6 +3,7 @@ import NontTypeFilter from "./NontTypeFilter";
 import RatingFilter from "./RatingFilter";
 import DistanceFilter from "./DistanceFilter";
 import NontAmountFilter from "./NontAmountFilter";
+import PriceFilter from "./PriceFilter";
 import ShelterSearch from "./ShelterSearch";
 
 const ShelterFilter = (props) => {
@@ -53,7 +54,7 @@ const ShelterFilter = (props) => {
           <NontAmountFilter filter={filter} setFilter={setFilter} />
         </div>
         <div className="col-12 col-lg-6">
-
+          <PriceFilter filter={filter} setFilter={setFilter} />
         </div>
       </div>
     </React.Fragment>

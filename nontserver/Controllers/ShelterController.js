@@ -135,6 +135,9 @@ const controller = {
         const nontAmount = req.query.nontAmount
           ? Math.min(Math.max(Number(req.query.nontAmount), 1), 20)
           : 1;
+        const maxPrice = req.query.maxPrice
+          ? Math.max(Math.min(Number(req.query.maxPrice), 3000), 0)
+          : 3000;
         const lat = req.query.lat;
         const lng = req.query.lng;
         const position =
@@ -181,19 +184,20 @@ const controller = {
             (room) =>
               (supported_type.includes(room.nont_type) ||
                 supported_type.length === 0) &&
-              room.amount >= nontAmount
+              room.amount >= nontAmount &&
+              room.price <= maxPrice
           );
           let totalPrice = 0;
-          let minPrice = 3000;
-          let maxPrice = 0;
+          let shelterMinPrice = 3000;
+          let shelterMaxPrice = 0;
           for (const room of matchedRooms) {
             totalPrice = totalPrice + room.price;
-            if (room.price < minPrice) minPrice = room.price;
-            if (room.price > maxPrice) maxPrice = room.price;
+            if (room.price < shelterMinPrice) shelterMinPrice = room.price;
+            if (room.price > shelterMaxPrice) shelterMaxPrice = room.price;
           }
           shelter.avgPrice = totalPrice / matchedRooms.length;
-          shelter.minPrice = minPrice;
-          shelter.maxPrice = maxPrice;
+          shelter.minPrice = shelterMinPrice;
+          shelter.maxPrice = shelterMaxPrice;
           if (matchedRooms.length > 0) shelter.found = true;
         }
         foundShelters = foundShelters.filter(
