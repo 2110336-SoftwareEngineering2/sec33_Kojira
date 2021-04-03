@@ -10,6 +10,7 @@ const nontTypes = require('../Constants/nontTypes');
 const JoiOid = require('joi-oid');
 const mongoose = require("mongoose");
 const Reservation = require('../Models/Reservation');
+const geolib = require('geolib');
 
 const validate_coordinate = Joi.object({
     lat:Joi.number().min(-90).max(90),
@@ -108,6 +109,125 @@ const controller = {
             return res.status(500).send('Cannot access shelter by email');
         }
     }, 
+
+    // GET /findShelters
+    findShelters: async (req, res) => {
+        function checkSupportedType(shelter, supportedTypeFilter) {
+            if (supportedTypeFilter.length > 0) {
+                const intersectedType = supportedTypeFilter.filter((type) =>
+                    shelter.supported_type.includes(type)
+                );
+                return intersectedType.length > 0;
+            } else return true;
+        }
+
+        try {
+            let foundShelters = await Shelters.find().lean().exec();
+            try {
+                // Get paramters
+                const sortedBy = req.query.sortedBy
+                    ? req.query.sortedBy
+                    : "rate";
+                const keywords = req.query.keywords ? req.query.keywords : "";
+                const supported_type = req.query.supported_type
+                    ? Array.isArray(req.query.supported_type)
+                        ? req.query.supported_type
+                        : [req.query.supported_type]
+                    : [];
+                const minRate = req.query.minRate
+                    ? Math.min(Math.max(Number(req.query.minRate), 0), 5)
+                    : 0;
+                const maxDistance = req.query.maxDistance
+                    ? Math.max(Math.min(Number(req.query.maxDistance), 100), 1)
+                    : 100;
+                const nontAmount = req.query.nontAmount
+                    ? Math.min(Math.max(Number(req.query.nontAmount), 1), 20)
+                    : 1;
+                const maxPrice = req.query.maxPrice
+                    ? Math.max(Math.min(Number(req.query.maxPrice), 3000), 0)
+                    : 3000;
+                const lat = req.query.lat;
+                const lng = req.query.lng;
+                const position =
+                    lat !== undefined && lng !== undefined
+                        ? { lat: lat, lng: lng }
+                        : undefined;
+
+                // Validation
+                const validTypes = Object.values(nontTypes);
+                for (const type of supported_type) {
+                    if (!validTypes.includes(type))
+                        return res.status(400).send("Error: Invalid nont type");
+                }
+
+                // Calculate distance
+                if (position) {
+                    foundShelters.map((shelter) => {
+                        shelter.distance = geolib.getDistance(
+                            { latitude: position.lat, longitude: position.lng },
+                            {
+                                latitude: shelter.coordinate.lat,
+                                longitude: shelter.coordinate.lng,
+                            }
+                        );
+                    });
+                }
+
+                // Filter
+                const re = new RegExp(keywords, "i");
+                foundShelters = foundShelters.filter(
+                    (shelter) =>
+                        shelter.name.match(re) &&
+                        checkSupportedType(shelter, supported_type) &&
+                        shelter.rate >= minRate &&
+                        (!position ||
+                            shelter.distance <= maxDistance * 1000 ||
+                            maxDistance === 100)
+                );
+                for (const shelter of foundShelters) {
+                    const rooms = await Rooms.find({ shelter_id: shelter._id })
+                        .lean()
+                        .exec();
+                    const matchedRooms = rooms.filter(
+                        (room) =>
+                            (supported_type.includes(room.nont_type) ||
+                                supported_type.length === 0) &&
+                            room.amount >= nontAmount &&
+                            room.price <= maxPrice
+                    );
+                    let totalPrice = 0;
+                    let shelterMinPrice = 3000;
+                    let shelterMaxPrice = 0;
+                    for (const room of matchedRooms) {
+                        totalPrice = totalPrice + room.price;
+                        if (room.price < shelterMinPrice)
+                            shelterMinPrice = room.price;
+                        if (room.price > shelterMaxPrice)
+                            shelterMaxPrice = room.price;
+                    }
+                    shelter.avgPrice = totalPrice / matchedRooms.length;
+                    shelter.minPrice = shelterMinPrice;
+                    shelter.maxPrice = shelterMaxPrice;
+                    if (matchedRooms.length > 0) shelter.found = true;
+                }
+                foundShelters = foundShelters.filter(
+                    (shelter) => shelter.found && shelter.exist
+                );
+
+                // Sort
+                if (sortedBy === "rate")
+                    foundShelters = _.sortBy(foundShelters, sortedBy).reverse();
+                else foundShelters = _.sortBy(foundShelters, sortedBy);
+
+                res.send(foundShelters);
+            } catch (error) {
+                console.log(error);
+                return res.status(400).send("Error: Invalid query");
+            }
+        } catch (error) {
+            return res.status(500).send("Cannot access shelters");
+        }
+    },
 
     // POST add new shelter
     registerShelter: async (req, res) => {
