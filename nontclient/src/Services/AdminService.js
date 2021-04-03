@@ -14,9 +14,29 @@ const AdminService = {
             throw error;
         }
     },
+    getNontOwnerByID: async (id) => {
+        try {
+            let path = "/nontOwners/"+id;
+            const response = await axios.get(serverURL + path);
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    },
     getNontSitters: async () => {
         try {
             let path = "/nontSitters";
+            const response = await axios.get(serverURL + path);
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    },
+    getNontSitterByID: async (id) => {
+        try {
+            let path = "/nontSitters/"+id;
             const response = await axios.get(serverURL + path);
             return response;
         }
@@ -34,9 +54,29 @@ const AdminService = {
             throw error;
         }
     },
+    getNontByID: async (id) => {
+        try {
+            let path = "/nont/"+id;
+            const response = await axios.get(serverURL + path);
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    },
     getReservations: async () => {
         try {
             let path = "/reservation";
+            const response = await axios.get(serverURL + path);
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    },
+    getReservationByID: async (id) => {
+        try {
+            let path = "/reservation/"+id;
             const response = await axios.get(serverURL + path);
             return response;
         }
@@ -54,6 +94,16 @@ const AdminService = {
             throw error;
         }
     },
+    getReviewByID: async (id) => {
+        try {
+            let path = "/review/"+id;
+            const response = await axios.get(serverURL + path);
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    },
     getRooms: async () => {
         try {
             let path = "/room";
@@ -64,9 +114,29 @@ const AdminService = {
             throw error;
         }
     },
+    getRoomByID: async (id) => {
+        try {
+            let path = "/room/id/"+id;
+            const response = await axios.get(serverURL + path);
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    },
     getShelters: async () => {
         try {
             let path = "/shelter/allShelters";
+            const response = await axios.get(serverURL + path);
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    },
+    getShelterByID: async (id) => {
+        try {
+            let path = "/shelter/id/"+id;
             const response = await axios.get(serverURL + path);
             return response;
         }

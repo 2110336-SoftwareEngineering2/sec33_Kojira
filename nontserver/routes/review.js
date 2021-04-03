@@ -9,6 +9,9 @@ router.route('/')
     .post(controller.createReview)
     .patch(controller.updateReview);
 
+router.route('/:id')
+    .get(controller.getReviewByID);
+
 router
     .route("/shelterid/:id")
     .get(controller.getReviewByShelterID);

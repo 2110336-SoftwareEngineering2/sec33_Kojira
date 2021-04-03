@@ -46,7 +46,7 @@ const controller = {
     // GET NONT BY ID : maybe not need
     getNontByID:  async (req,res) => {
         try{            
-            const nont = await Nont.find({_id: req.params.id, exist: true});
+            const nont = await Nont.findOne({_id: req.params.id});
           //  if(nont === null) return res.send(`there is no nont with id: ${req.params.id}`);
             return res.send(nont);
         }

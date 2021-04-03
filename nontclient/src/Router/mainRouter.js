@@ -70,7 +70,7 @@ function Router() {
         <Route path="/admin/login" component={AdminLogin} />
 
         <AdminRouter
-          path={["/selectdb","/infodb"]}
+          path={["/selectdb","/infodb","/editdb",]}
           component={AdminRouter}
           auth={auth}
         />
