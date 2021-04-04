@@ -20,12 +20,6 @@ const RoomManage = (props) => {
 
     useEffect(() => {
         fetchRooms();
-        console.log("LOAD LOAD", LoadStatus.LOADING && LoadStatus.LOADING);
-        console.log("SUCCESS SUCCESS", LoadStatus.SUCCESS && LoadStatus.SUCCESS);
-        console.log("FAIL FAIL", LoadStatus.FAIL && LoadStatus.FAIL);
-        console.log("LOAD SUCCESS", LoadStatus.LOADING && LoadStatus.SUCCESS);
-        console.log("LOAD FAIL", LoadStatus.LOADING && LoadStatus.FAIL);
-        console.log("SUCCESS FAIL", LoadStatus.SUCCESS && LoadStatus.FAIL);
     }, [shelterID]);
 
     useEffect(() => {
