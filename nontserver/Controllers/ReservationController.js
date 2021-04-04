@@ -319,7 +319,7 @@ const controller = {
     },
 
     /*
-    DELETE 
+    DELETE /reservation/remove/:id
     */
     removeReservation: async (req, res) => {
         try{
@@ -335,8 +335,7 @@ const controller = {
         catch(error){
             return res.status(500).send("Internal Server Error, Please try again");
         }
-    },
-    
+    },    
 }
 
 module.exports = controller;
