@@ -178,6 +178,16 @@ const controller = {
         }
     },
 
+    //PUT
+    adminUpdateRoom: async (req, res) => {
+        try {
+          const newQuery = {_id: req.params.id};
+          const newBody = req.body;
+          const updatedRoom = await Rooms.updateOne(newQuery, newBody);
+          return res.send(newBody);
+        }
+        catch(error) {
+          return res.status(500).send("Internal Server Error, Please try again");
     /* 
     DELETE /room/remove/:id 
         field required: room_id

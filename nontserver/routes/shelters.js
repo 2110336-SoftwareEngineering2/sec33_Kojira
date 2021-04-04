@@ -37,6 +37,10 @@ router
     .route("/check-name")
     .post(controller.checkValidName);
 
+router
+    .route('/admin_update/:id')
+    .put(controller.adminUpdateShelter);
+
 router 
     .route("/remove/:id")
     .delete(controller.removeShelter);

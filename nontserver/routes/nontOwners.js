@@ -27,8 +27,8 @@ router
 router.route("/login").post(cors(corsOptions), controller.login);
 
 router
-  .route("/update/:id")
-  .put(controller.updateNontOwner);
+  .route("/admin_update/:id")
+  .put(controller.adminUpdateNontOwner);
 
 router
   .route("/remove/:id")

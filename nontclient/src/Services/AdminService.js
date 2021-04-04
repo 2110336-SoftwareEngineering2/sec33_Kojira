@@ -84,7 +84,7 @@ const AdminService = {
     },
     getReservationByID: async (id) => {
         try {
-            let path = "/reservation/"+id;
+            let path = "/reservation/unpop/"+id;
             const response = await axios.get(serverURL + path);
             return response;
         }
@@ -162,7 +162,7 @@ const AdminService = {
     // PUT nontOwners
     updateNontOwner: async (id, body) => {
         try {
-            let path = "/nontOwners/update/" + id;
+            let path = "/nontOwners/admin_update/" + id;
             const response = await axios.put(serverURL + path, body);
             return response;
         }
@@ -174,7 +174,7 @@ const AdminService = {
     // PUT nontSitters
     updateNontSitter: async (id, body) => {
         try {
-            let path = "/nontSitters/update/" + id;
+            let path = "/nontSitters/admin_update/" + id;
             const response = await axios.put(serverURL + path, body);
             return response;
         }
@@ -186,7 +186,7 @@ const AdminService = {
     // PUT nonts
     updateNont: async (id, body) => {
         try {
-            let path = "/nont/update/" + id;
+            let path = "/nont/admin_update/" + id;
             const response = await axios.put(serverURL + path, body);
             return response;
         }
@@ -198,7 +198,7 @@ const AdminService = {
     // PUT reservations
     updateReservation: async (id, body) => {
         try {
-            let path = "/reservation/update/" + id;
+            let path = "/reservation/admin_update/" + id;
             const response = await axios.put(serverURL + path, body);
             return response;
         }
@@ -210,7 +210,7 @@ const AdminService = {
     // PUT rooms
     updateRoom: async (id, body) => {
         try {
-            let path = "/room/update/" + id;
+            let path = "/room/admin_update/" + id;
             const response = await axios.put(serverURL + path, body);
             return response;
         }
@@ -222,7 +222,7 @@ const AdminService = {
     // PUT shelters
     updateShelter: async (id, body) => {
         try {
-            let path = "/shelter/" + id;
+            let path = "/shelter/admin_update/" + id;
             const response = await axios.put(serverURL + path, body);
             return response;
         }
@@ -234,7 +234,7 @@ const AdminService = {
     // PUT reviews
     updateReview: async (id, body) => {
         try {
-            let path = "/review/" + id;
+            let path = "/review/admin_update/" + id;
             const response = await axios.put(serverURL + path, body);
             return response;
         }

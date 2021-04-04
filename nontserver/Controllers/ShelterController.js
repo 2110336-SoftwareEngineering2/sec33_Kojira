@@ -405,6 +405,18 @@ const controller = {
         }
     },
 
+    //PUT
+    adminUpdateShelter: async (req, res) => {
+        try {
+          const newQuery = {_id: req.params.id};
+          const newBody = req.body;
+          const updatedShelter = await Shelters.updateOne(newQuery, newBody);
+          return res.send(newBody);
+        }
+        catch(error) {
+          return res.status(500).send("Internal Server Error, Please try again");
+        }
+    },
 }
 
 module.exports = controller;

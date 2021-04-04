@@ -31,5 +31,7 @@ router.route('/delete/:id')
 router.route('/remove/:id')
       .delete(controller.removeNont);
 
- 
+router.route('/admin_update/:id')
+      .put(controller.adminUpdateNont);
+
 module.exports = router;

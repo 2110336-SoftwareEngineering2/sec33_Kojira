@@ -139,13 +139,8 @@ const controller = {
   // POST /nontOwners/login
   login: async (req, res) => LoginController.login(req, res, NontOwner),
 
-  //PUT /nontOwners/update/:id
-  updateNontOwner: async (req, res) => {
-    const validationResult = validator.validate(req.body);
-    if (validationResult.error) {         
-        console.log(validationResult.error);   
-        return res.status(400).send(validationResult.error.details[0].message);
-    }
+  //PUT /nontOwners/admin_update/:id
+  adminUpdateNontOwner: async (req, res) => {
     try {
       const newQuery = {_id: req.params.id};
       const newBody = req.body;

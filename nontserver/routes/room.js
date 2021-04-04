@@ -37,4 +37,8 @@ router
     .route("/remove/:id")
     .delete(controller.removeRoom);
 
+router
+    .route('/admin_update/:id')
+    .put(controller.adminUpdateRoom);
+
 module.exports = router;
