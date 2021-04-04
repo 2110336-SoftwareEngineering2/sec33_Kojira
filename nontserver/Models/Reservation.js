@@ -34,12 +34,11 @@ const schema = new Schema({
 
 // cascade delete by pre hook
 schema.pre('deleteOne', { document: false, query: true }, async function () {
-    // console.log(this.getFilter());
     // 'this' is Query, call getFilter to convert it to Object, eg. { _id: 60693e5aa23ff3002298878d }
     // The object will be the same as the one that send through method, in this case Model.deleteOne(query)
     // find all review that have matched reservation_id
     const reviewRes = await require('./Review').find({reservation_id: this.getFilter()["_id"]});
-    // call deleteOne of each review
+    // call deleteOne for each review
     reviewRes.forEach( async (element) => {
         await require('./Review').deleteOne({ _id: element._id});
     });
