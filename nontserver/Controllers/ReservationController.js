@@ -53,6 +53,17 @@ const controller = {
         }
     },
 
+    getReservationUnpopByID: async (req,res) => {
+        try{            
+            const reservation = await Reservation.findById(req.params.id);
+            return res.send(reservation);
+        }
+        catch (error){
+            //console.log(error.message);
+            return res.status(500).send('Internal Server Error, Please try again');
+        }
+    },
+
     getReservationByNontOwnerID:  async (req,res) => { //nont owner id
         try{            
             const reservation = await Reservation.find({nontowner_id: req.params.id})
@@ -273,12 +284,7 @@ const controller = {
         }
     },
 
-    updateReservation: async (req, res) => {
-        const validationResult = validator.validate(req.body);
-        if (validationResult.error) {         
-            console.log(validationResult.error);   
-            return res.status(400).send(validationResult.error.details[0].message);
-        }
+    adminUpdateReservation: async (req, res) => {
         try {
           const newQuery = {_id: req.params.id};
           const newBody = req.body;

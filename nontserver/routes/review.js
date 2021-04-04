@@ -28,4 +28,8 @@ router
     .route("/delete/:id")
     .delete(controller.deleteReview);
 
+router
+    .route('/admin_update/:id')
+    .put(controller.adminUpdateReview);
+
 module.exports = router;

@@ -9,6 +9,9 @@ router.route('/')
 
 router.route('/:id')
       .get(controller.getReservationByID);
+
+router.route('/unpop/:id')
+      .get(controller.getReservationUnpopByID);
   
 router.route('/nontowner_id/:id')
       .get(controller.getReservationByNontOwnerID);
@@ -37,11 +40,11 @@ router.route('/verify_check_out/:id')
 router.route('/check_out/:id')
       .put(controller.nontOwnerCheckOut);
 
-router.route('/update/:id')
-      .put(controller.updateReservation);
-
 router.route('/cancel/:id')
       .put(controller.cancelReservation);
+
+router.route('/admin_update/:id')
+      .put(controller.adminUpdateReservation);
 
  
 module.exports = router;

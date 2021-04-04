@@ -37,4 +37,8 @@ router
     .route("/check-name")
     .post(controller.checkValidName);
 
+router
+    .route('/admin_update/:id')
+    .put(controller.adminUpdateShelter);
+
 module.exports = router;
