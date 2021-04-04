@@ -70,7 +70,7 @@ const ShelterService = {
     deleteShelter: async (id) => {
         try{
             let path = "/shelter/delete/" + id;
-            const response = await axios.delete(serverURL + path);
+            const response = await axios.patch(serverURL + path);
             return response;
         } catch(error){
             throw error
@@ -85,7 +85,36 @@ const ShelterService = {
         } catch (error) {
             throw error;
         }
-    }
+    },
+
+    findShelter: async (query={}) => {
+        try {
+            let path = "/shelter/findShelters?"
+            for (const key in query) {
+                if (Array.isArray(query[key])) {
+                    for (const value of query[key]) {
+                        path = path + `${key}=${value}&`;
+                    }
+                }
+                else if (typeof query[key] === "string") {
+                    if (query[key].length > 0) {
+                        path = path + `${key}=${query[key]}&`;
+                    }
+                }
+                else if (typeof query[key] === "number") {
+                    path = path + `${key}=${query[key]}&`;
+                }
+                else {
+                    throw new Error("Invalid query");
+                }
+            }
+            const response = await axios.get(serverURL + path);
+            return response
+        } catch (error) {
+            throw error;
+        }
+    },
+
 };
 
 export default ShelterService;

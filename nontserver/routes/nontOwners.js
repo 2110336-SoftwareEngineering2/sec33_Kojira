@@ -30,4 +30,8 @@ router
   .route("/admin_update/:id")
   .put(controller.adminUpdateNontOwner);
 
+router
+  .route("/remove/:id")
+  .delete(controller.removeNontOwner);
+
 module.exports = router;

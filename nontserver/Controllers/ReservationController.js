@@ -296,7 +296,10 @@ const controller = {
         }
     },
 
-    //PUT (actually does not delete record from db, just change the status:cancelled)
+    /*
+    PATCH /reservation/cancel/:id
+        change status of reservation to cancelled
+    */
     cancelReservation: async (req, res) => {
         try{
             const reservation = await Reservation.findById(req.params.id); //reservation id
@@ -321,21 +324,24 @@ const controller = {
         }
     },
 
-    // //use this bottom if we actually want to delete record instead of status:cancelled   
-    // deleteReservation: async (req, res) => {
-    //     try{
-    //         const reservation = await Reservation.findById(req.params.id); //reservation id
-    //         if(reservation.status === 'payment-pending'){
-    //             const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
-    //             const deletedReservation = await Reservation.deleteOne(newQuery);
-    //             return res.send("Successfully deleted");
-    //         }else return res.status(403).send("Cannot delete because the reservation is paid")
-    //     }
-    //     catch(error){
-    //         return res.status(500).send("Internal Server Error, Please try again");
-    //     }
-    // },
-    
+    /*
+    DELETE /reservation/remove/:id
+    */
+    removeReservation: async (req, res) => {
+        try{
+            const reservation = await Reservation.findById(req.params.id); //reservation id
+            if (reservation.status === 'payment-pending') {
+                const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)}; //reservation id
+                const deletedReservation = await Reservation.deleteOne(newQuery);
+                return res.send(deletedReservation);
+            }
+            else 
+                return res.status(403).send("Cannot delete because the reservation is paid")
+        }
+        catch(error){
+            return res.status(500).send("Internal Server Error, Please try again");
+        }
+    },    
 }
 
 module.exports = controller;

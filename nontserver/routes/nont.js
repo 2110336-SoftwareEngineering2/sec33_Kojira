@@ -25,11 +25,11 @@ router.route('/create')
 router.route('/update/:id')
       .put(controller.updateNont);
 
-router.route('/cancel/:id')
-      .put(controller.cancelNont);
-
 router.route('/delete/:id')
-      .delete(controller.deleteNont);
+      .patch(controller.deleteNont);
+
+router.route('/remove/:id')
+      .delete(controller.removeNont);
 
 router.route('/admin_update/:id')
       .put(controller.adminUpdateNont);

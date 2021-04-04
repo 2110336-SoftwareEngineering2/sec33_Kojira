@@ -30,4 +30,8 @@ router
   .route("/admin_update/:id")
   .put(controller.adminUpdateNontSitter);
 
+router
+  .route("/remove/:id")
+  .delete(controller.removeNontSitter);
+
 module.exports = router;

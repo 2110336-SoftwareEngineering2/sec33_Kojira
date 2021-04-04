@@ -31,7 +31,11 @@ router
 
 router
     .route("/delete/:id")
-    .delete(controller.deleteRoom);
+    .patch(controller.deleteRoom);
+
+router
+    .route("/remove/:id")
+    .delete(controller.removeRoom);
 
 router
     .route('/admin_update/:id')

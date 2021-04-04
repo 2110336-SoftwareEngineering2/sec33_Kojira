@@ -72,19 +72,19 @@ const NontService = {
             throw error;
         }
     },
-    cancelNont: async (id) => {
+    deleteNont: async (id) => {
         try{
-            let path = "/nont/cancel/" + id;
-            const response = await axios.put(serverURL + path);
+            let path = "/nont/delete/" + id;
+            const response = await axios.patch(serverURL + path);
             return response;
         }
         catch(error){
             throw error;
         }
     },
-    deleteNont: async (id) => {
+    removeNont: async (id) => {
         try {
-            let path = "/nont/delete/" + id;
+            let path = "/nont/remove/" + id;
             const response = await axios.delete(serverURL + path);
             return response;
         }

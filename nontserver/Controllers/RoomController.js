@@ -147,7 +147,7 @@ const controller = {
     },
 
     /* 
-    DELETE /room/delete/:id 
+    PATCH /room/delete/:id 
         field required: room_id
         return: updated room, the only field change is exist
     */
@@ -188,6 +188,25 @@ const controller = {
         }
         catch(error) {
           return res.status(500).send("Internal Server Error, Please try again");
+    /* 
+    DELETE /room/remove/:id 
+        field required: room_id
+        return: deleted result
+    */
+    removeRoom: async (req, res) => {
+        try {
+            // check if there is incompleted reservation with this room_id
+            const reserveRes = await Reservation.findOne({ "room_id": req.params.id, "status": {$in: ['payment-pending','paid','checked-in']} });
+            if (reserveRes) {
+                return res.status(400).send("Cannot delete room. Related reservtion is still not completed.");
+            }
+            // remove room
+            const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
+            const deleted = await Rooms.deleteOne(newQuery);
+            return res.send(deleted);
+        }
+        catch(error) {
+            return res.status(500).send("Cannot remove room");
         }
     },
 }

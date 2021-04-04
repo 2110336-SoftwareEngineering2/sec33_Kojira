@@ -31,7 +31,7 @@ router
     .get(controller.getShelterByNontSitterID);
     
 router.route('/delete/:id')
-    .delete(controller.deleteShelter);
+    .patch(controller.deleteShelter);
 
 router
     .route("/check-name")
@@ -41,4 +41,12 @@ router
     .route('/admin_update/:id')
     .put(controller.adminUpdateShelter);
 
+router 
+    .route("/remove/:id")
+    .delete(controller.removeShelter);
+
+router
+    .route("/findShelters")
+    .get(controller.findShelters);
+    
 module.exports = router;

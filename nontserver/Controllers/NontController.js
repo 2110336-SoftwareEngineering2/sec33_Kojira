@@ -146,17 +146,17 @@ const controller = {
         }
     },
 
-    //PUT update exist: false (new delete nont)
-    cancelNont: async (req,res) => {
+    /*
+    PATCH /nont/delete/:id
+    */
+    deleteNont: async (req,res) => {
         try{
-            //check if nont is reserved : cannot change to exist:false
-            const existReservation = await Reservation.find({status: {$ne: "cancelled"}});
-            for (const reservation of existReservation) {
-                if(reservation.nont_id.some((nont_id) => nont_id==req.params.id)){
-                    return res.status(403).send("Cannot delete this nont as it's still reserved");
-                }
-            };
-            //
+            // check if there is incompleted reservation with this nont_id
+            const reserveRes = await Reservation.findOne({"nont_id": { $elemMatch: {$eq: req.params.id}}, "status": {$in: ['payment-pending','paid','checked-in']} });
+            if (reserveRes) {
+                return res.status(400).send("Cannot delete nont. Related reservtion is still not completed.");
+            }
+            // delete nont by change exist to false
             const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
             const newBody = {exist: false};
             const cancelledNont = await Nont.updateOne(newQuery, newBody);
@@ -168,13 +168,19 @@ const controller = {
     },
 
     //DELETE (old delete nont)
-    deleteNont: async (req, res) => {
-        try{
+    removeNont: async (req, res) => {
+        try {
+            // check if there is incompleted reservation with this nont_id
+            const reserveRes = await Reservation.findOne({"nont_id": { $elemMatch: {$eq: req.params.id}}, "status": {$in: ['payment-pending','paid','checked-in']} });
+            if (reserveRes) {
+                return res.status(400).send("Cannot remove nont. Related reservtion is still not completed.");
+            }
+            // remove nont
             const newQuery = { _id: mongoose.Types.ObjectId(req.params.id)};
             const deletedNont = await Nont.deleteOne(newQuery);
-            return res.send("Successfully deleted");
+            return res.send(deletedNont);
         }
-        catch(error){
+        catch(error) {
             return res.status(500).send("Internal Server Error, Please try again");
         }
     },

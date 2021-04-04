@@ -41,7 +41,10 @@ router.route('/check_out/:id')
       .put(controller.nontOwnerCheckOut);
 
 router.route('/cancel/:id')
-      .put(controller.cancelReservation);
+      .patch(controller.cancelReservation);
+
+router.route("/remove/:id")
+      .delete(controller.removeReservation);
 
 router.route('/admin_update/:id')
       .put(controller.adminUpdateReservation);
