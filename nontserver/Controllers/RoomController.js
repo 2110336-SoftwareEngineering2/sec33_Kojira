@@ -188,6 +188,8 @@ const controller = {
         }
         catch(error) {
           return res.status(500).send("Internal Server Error, Please try again");
+        }
+    },
     /* 
     DELETE /room/remove/:id 
         field required: room_id
