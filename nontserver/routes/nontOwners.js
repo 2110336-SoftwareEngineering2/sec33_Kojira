@@ -9,7 +9,7 @@ const cors = require("cors");
 router
   .route("/")
   .get(controller.getNontOwners)
-  .post(controller.registerNontOwner)
+  .post(controller.create)
   .patch(controller.updateAccount);
 
 router
@@ -32,6 +32,6 @@ router
 
 router
   .route("/remove/:id")
-  .delete(controller.removeNontOwner);
+  .delete(controller.remove);
 
 module.exports = router;
