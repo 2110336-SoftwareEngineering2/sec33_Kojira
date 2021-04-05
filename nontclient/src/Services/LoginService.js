@@ -28,8 +28,7 @@ const LoginService = {
 
           if (!respond.data) {
             console.log("error");
-          }
-          if (respond.data.login) {
+          } else if (respond.data.login) {
             localStorage.setItem("access_token", respond.data.token);
             component.props.history.push("/home");
           } else {
