@@ -71,16 +71,16 @@ const EditDB = (props) => {
             setShowModal(false);
             const response = await updateFunction(id, body);
             notification.success({
-                message: "Document",
-                description: `data successfully updated.`,
+                message: "Data successfully updated.",
+                description: ``,
                 placement: "bottomRight",
             });
             setUpdateSuccess(true);
             console.log(response);
         } catch (error) {
             notification.error({
-                message: "Document",
-                description: `Cannot update data.`,
+                message: "Cannot update data",
+                description: `Some type of inputs is wrong`,
                 placement: "bottomRight",
             });
             setUpdateSuccess(false);
@@ -130,15 +130,41 @@ const EditDB = (props) => {
     }
 
     const updateReservation = () => {
+        try {
+            var parsed_nont_id = JSON.parse(document.getElementById("Nont ID").value);
+        } catch(error) {
+            notification.error({
+                message: "Cannot update data",
+                description: `Nont ID must be JSON array of ObjectID string(s)`,
+                placement: "bottomRight",
+            });
+            setUpdateSuccess(false);
+            setShowModal(false);
+            console.log(error.message);
+            return;
+        }
+  
+        const price = Number(document.getElementById("Price").value);
+        if(Number.isNaN(price)) {
+            notification.error({
+                message: "Cannot update data",
+                description: `Price must be number`,
+                placement: "bottomRight",
+            });
+            setUpdateSuccess(false);
+            setShowModal(false);
+            console.log("Price must be number");  
+            return;          
+        }
         body = {
-            nont_id: JSON.parse(document.getElementById("Nont ID").value),
+            nont_id: parsed_nont_id,
             nontowner_id: document.getElementById("Nontowner ID").value,
             room_id: document.getElementById("Room ID").value,
             shelter_id: document.getElementById("Shelter ID").value,
             nontsitter_id: document.getElementById("Nontsitter ID").value,
             start_datetime: document.getElementById("Start Date").value,
             end_datetime: document.getElementById("End Date").value,
-            price: Number(document.getElementById("Price").value),
+            price: price,
             status: document.getElementById("Status").value,
             nontsitter_check_in: document.getElementById("Nontsitter Check In").value,
             nontsitter_check_out: document.getElementById("Nontsitter Check Out").value,
@@ -156,24 +182,61 @@ const EditDB = (props) => {
     }
 
     const updateReview = () => {
+        const rate = Number(document.getElementById("Rate").value)
+        if(Number.isNaN(rate)) {
+            notification.error({
+                message: "Cannot update data",
+                description: `Rate must be number`,
+                placement: "bottomRight",
+            });
+            setUpdateSuccess(false);
+            setShowModal(false);
+            console.log("Rate must be number");  
+            return;          
+        }   
         body = {
             nontowner_id: document.getElementById("Nontowner ID").value,
             shelter_id: document.getElementById("Shelter ID").value,
             reservation_id: document.getElementById("Reservation ID").value,
-            rate: Number(document.getElementById("Rate").value),
+            rate: rate,
             comment: document.getElementById("Comment").value,
-        };
+        };     
         updateFunction = AdminService.updateReview;
         console.log(body);
         updateDB(body, updateFunction);
+        
     }
 
     const updateRoom = () => {
+        const amount = Number(document.getElementById("Amount (capacity)").value);
+        if(Number.isNaN(amount)) {
+            notification.error({
+                message: "Cannot update data",
+                description: `Amount must be number`,
+                placement: "bottomRight",
+            });
+            setUpdateSuccess(false);
+            setShowModal(false);
+            console.log("Amount must be number");  
+            return;       
+        } 
+        const price = Number(document.getElementById("Price (per day)").value);  
+        if(Number.isNaN(price)) {
+            notification.error({
+                message: "Cannot update data",
+                description: `Price must be number`,
+                placement: "bottomRight",
+            });
+            setUpdateSuccess(false);
+            setShowModal(false);
+            console.log("Price must be number");  
+            return;          
+        } 
         body = {
             name: document.getElementById("Name").value,
             nont_type: document.getElementById("Nont Type").value,
-            amount: Number(document.getElementById("Amount (capacity)").value),
-            price: Number(document.getElementById("Price (per day)").value),
+            amount: amount,
+            price: price,
             shelter_id: document.getElementById("Shelter ID").value,
             exist: document.getElementById("Exist").value
         };
@@ -183,13 +246,51 @@ const EditDB = (props) => {
     }
 
     const updateShelter = () => {
+        const rate = Number(document.getElementById("Rate").value);
+        if(Number.isNaN(rate)) {
+            notification.error({
+                message: "Cannot update data",
+                description: `Rate must be number`,
+                placement: "bottomRight",
+            });
+            setUpdateSuccess(false);
+            setShowModal(false);
+            console.log("Rate must be number");  
+            return;          
+        } 
+        try {
+            var parsed_supported_type = JSON.parse(document.getElementById("Supported Nont Type").value);
+        } catch (error) {
+            notification.error({
+                message: "Cannot update data",
+                description: `Supported Nont Type must be JSON array`,
+                placement: "bottomRight",
+            });
+            setUpdateSuccess(false);
+            setShowModal(false);
+            console.log(error.message); 
+            return;           
+        }
+        try {
+            var parsed_coordinate = JSON.parse(document.getElementById("Coordinate").value);
+        } catch (error) {
+            notification.error({
+                message: "Cannot update data",
+                description: `Coordinate must be JSON object`,
+                placement: "bottomRight",
+            });
+            setUpdateSuccess(false);
+            setShowModal(false);
+            console.log(error.message);  
+            return;            
+        }
         body = {
             name: document.getElementById("Name").value,
             description: document.getElementById("Description").value,
             address: document.getElementById("Address").value,
-            rate: Number(document.getElementById("Rate").value),
-            supported_type: JSON.parse(document.getElementById("Supported Nont Type").value),
-            coordinate: JSON.parse(document.getElementById("Coordinate").value),
+            rate: rate,
+            supported_type: parsed_supported_type,
+            coordinate: parsed_coordinate,
             phoneNumber: document.getElementById("Phone Number").value,
             nont_sitter_id: document.getElementById("Nontsitter ID").value,
             exist: document.getElementById("Exist").value
@@ -200,337 +301,347 @@ const EditDB = (props) => {
     }
 
     return (
-        <div className="container">
+        <div className="container-fluid">
 
             {/* Loading */}
             <Loading status={fetchDataStatus} />
             {/* Content */}
 
             {fetchDataStatus === LoadStatus.SUCCESS && (
-                <div>
-                    <div>
+                <div className="text-center">
+                    <div className="text-dark text-center font-weight-bold bg-warning py-1" style={{ fontSize: 30 }}>
                         Edit the document of {dbname}
                     </div>
                     <form onSubmit={(e) => {
                         e.preventDefault();
                         setShowModal(true);
                     }}>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        ID
+                        <div className="table-responsive">
+                            <div>
+                                <table className="table table-sm table-striped table-success table-hover table-bordered" style={{ borderWidth: 12 }}>
+                                    <thead style={{ fontSize: 16 }}>
+                                        <tr style={{ height: 53 }}>
+                                            <th style={{ borderWidth: 2, width: "25%", verticalAlign: "middle" }}>
+                                                ID
                                     </th>
-                                    <th>
-                                        {data._id}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {dbname === "nontOwners" &&
-                                    nontOwnerField.map((element) => {
-                                        let oldVal;
-                                        switch (element) {
-                                            case "Email":
-                                                oldVal = data.email;
-                                                break;
-                                            case "Name":
-                                                oldVal = data.name;
-                                                break;
-                                            case "Phone Number":
-                                                oldVal = data.phoneNumber;
-                                                break;
-                                            case "Bank Account":
-                                                oldVal = data.bankAccount;
-                                                break;
+                                            <th style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                {data._id}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style={{ fontSize: 15 }}>
+                                        {dbname === "nontOwners" &&
+                                            nontOwnerField.map((element) => {
+                                                let oldVal;
+                                                switch (element) {
+                                                    case "Email":
+                                                        oldVal = data.email;
+                                                        break;
+                                                    case "Name":
+                                                        oldVal = data.name;
+                                                        break;
+                                                    case "Phone Number":
+                                                        oldVal = data.phoneNumber;
+                                                        break;
+                                                    case "Bank Account":
+                                                        oldVal = data.bankAccount;
+                                                        break;
+                                                }
+                                                return (
+                                                    <tr>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            {element}
+                                                        </td>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            <input type="text" id={element} defaultValue={oldVal} className="form-control text-center" />
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
                                         }
-                                        return (
-                                            <tr>
-                                                <td>
-                                                    {element}
-                                                </td>
-                                                <td>
-                                                    <input type="text" id={element} defaultValue={oldVal} />
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
 
-                                {dbname === "nontSitters" &&
-                                    nontSitterField.map((element) => {
-                                        let oldVal;
-                                        switch (element) {
-                                            case "Email":
-                                                oldVal = data.email;
-                                                break;
-                                            case "Name":
-                                                oldVal = data.name;
-                                                break;
-                                            case "Phone Number":
-                                                oldVal = data.phoneNumber;
-                                                break;
-                                            case "Bank Account":
-                                                oldVal = data.bankAccount;
-                                                break;
+                                        {dbname === "nontSitters" &&
+                                            nontSitterField.map((element) => {
+                                                let oldVal;
+                                                switch (element) {
+                                                    case "Email":
+                                                        oldVal = data.email;
+                                                        break;
+                                                    case "Name":
+                                                        oldVal = data.name;
+                                                        break;
+                                                    case "Phone Number":
+                                                        oldVal = data.phoneNumber;
+                                                        break;
+                                                    case "Bank Account":
+                                                        oldVal = data.bankAccount;
+                                                        break;
+                                                }
+                                                return (
+                                                    <tr>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            {element}
+                                                        </td>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            <input type="text" id={element} defaultValue={oldVal} className="form-control text-center" />
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
                                         }
-                                        return (
-                                            <tr>
-                                                <td>
-                                                    {element}
-                                                </td>
-                                                <td>
-                                                    <input type="text" id={element} defaultValue={oldVal} />
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
 
-                                {dbname === "nonts" &&
-                                    nontField.map((element) => {
-                                        let oldVal;
-                                        switch (element) {
-                                            case "Name":
-                                                oldVal = data.name;
-                                                break;
-                                            case "Type":
-                                                oldVal = data.type;
-                                                break;
-                                            case "Subtype":
-                                                oldVal = data.subtype;
-                                                break;
-                                            case "Description":
-                                                oldVal = data.description;
-                                                break;
-                                            case "Birthdate":
-                                                oldVal = data.birth_date;
-                                                break;
-                                            case "Nontowner ID":
-                                                oldVal = data.nontowner_id;
-                                                break;
-                                            case "Exist":
-                                                oldVal = data.exist;
-                                                break;
+                                        {dbname === "nonts" &&
+                                            nontField.map((element) => {
+                                                let oldVal;
+                                                switch (element) {
+                                                    case "Name":
+                                                        oldVal = data.name;
+                                                        break;
+                                                    case "Type":
+                                                        oldVal = data.type;
+                                                        break;
+                                                    case "Subtype":
+                                                        oldVal = data.subtype;
+                                                        break;
+                                                    case "Description":
+                                                        oldVal = data.description;
+                                                        break;
+                                                    case "Birthdate":
+                                                        oldVal = data.birth_date;
+                                                        break;
+                                                    case "Nontowner ID":
+                                                        oldVal = data.nontowner_id;
+                                                        break;
+                                                    case "Exist":
+                                                        oldVal = data.exist;
+                                                        break;
+                                                }
+                                                return (
+                                                    <tr>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            {element}
+                                                        </td>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            <input type="text" id={element} defaultValue={oldVal} className="form-control text-center" />
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
                                         }
-                                        return (
-                                            <tr>
-                                                <td>
-                                                    {element}
-                                                </td>
-                                                <td>
-                                                    <input type="text" id={element} defaultValue={oldVal} />
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
 
-                                {dbname === "reservations" &&
-                                    reservationField.map((element) => {
-                                        let oldVal;
-                                        switch (element) {
-                                            case "Nont ID":
-                                                oldVal = JSON.stringify(data.nont_id);
-                                                break;
-                                            case "Nontowner ID":
-                                                oldVal = data.nontowner_id;
-                                                break;
-                                            case "Room ID":
-                                                oldVal = data.room_id;
-                                                break;
-                                            case "Shelter ID":
-                                                oldVal = data.shelter_id;
-                                                break;
-                                            case "Nontsitter ID":
-                                                oldVal = data.nontsitter_id;
-                                                break;
-                                            case "Start Date":
-                                                oldVal = data.start_datetime;
-                                                break;
-                                            case "End Date":
-                                                oldVal = data.end_datetime;
-                                                break;
-                                            case "Price":
-                                                oldVal = data.price;
-                                                break;
-                                            case "Status":
-                                                oldVal = data.status;
-                                                break;
-                                            case "Nontsitter Check In":
-                                                oldVal = data.nontsitter_check_in;
-                                                break;
-                                            case "Nontsitter Check Out":
-                                                oldVal = data.nontsitter_check_out;
-                                                break;
-                                            case "Nontowner Check In":
-                                                oldVal = data.nontowner_check_in;
-                                                break;
-                                            case "Nontowner Check Out":
-                                                oldVal = data.nontowner_check_out;
-                                                break;
-                                            case "Reservation Time":
-                                                oldVal = data.reserve_datetime;
-                                                break;
-                                            case "Payment Time":
-                                                oldVal = data.pay_datetime;
-                                                break;
-                                            case "Check In Time":
-                                                oldVal = data.check_in_datetime;
-                                                break;
-                                            case "Check Out Time":
-                                                oldVal = data.check_out_datetime;
-                                                break;
-                                            case "Reservation Cancel Time":
-                                                oldVal = data.cancel_datetime;
-                                                break;
+                                        {dbname === "reservations" &&
+                                            reservationField.map((element) => {
+                                                let oldVal;
+                                                switch (element) {
+                                                    case "Nont ID":
+                                                        oldVal = JSON.stringify(data.nont_id);
+                                                        break;
+                                                    case "Nontowner ID":
+                                                        oldVal = data.nontowner_id;
+                                                        break;
+                                                    case "Room ID":
+                                                        oldVal = data.room_id;
+                                                        break;
+                                                    case "Shelter ID":
+                                                        oldVal = data.shelter_id;
+                                                        break;
+                                                    case "Nontsitter ID":
+                                                        oldVal = data.nontsitter_id;
+                                                        break;
+                                                    case "Start Date":
+                                                        oldVal = data.start_datetime;
+                                                        break;
+                                                    case "End Date":
+                                                        oldVal = data.end_datetime;
+                                                        break;
+                                                    case "Price":
+                                                        oldVal = data.price;
+                                                        break;
+                                                    case "Status":
+                                                        oldVal = data.status;
+                                                        break;
+                                                    case "Nontsitter Check In":
+                                                        oldVal = data.nontsitter_check_in;
+                                                        break;
+                                                    case "Nontsitter Check Out":
+                                                        oldVal = data.nontsitter_check_out;
+                                                        break;
+                                                    case "Nontowner Check In":
+                                                        oldVal = data.nontowner_check_in;
+                                                        break;
+                                                    case "Nontowner Check Out":
+                                                        oldVal = data.nontowner_check_out;
+                                                        break;
+                                                    case "Reservation Time":
+                                                        oldVal = data.reserve_datetime;
+                                                        break;
+                                                    case "Payment Time":
+                                                        oldVal = data.pay_datetime;
+                                                        break;
+                                                    case "Check In Time":
+                                                        oldVal = data.check_in_datetime;
+                                                        break;
+                                                    case "Check Out Time":
+                                                        oldVal = data.check_out_datetime;
+                                                        break;
+                                                    case "Reservation Cancel Time":
+                                                        oldVal = data.cancel_datetime;
+                                                        break;
+                                                }
+                                                return (
+                                                    <tr>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            {element}
+                                                        </td>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            <input type="text" id={element} defaultValue={oldVal} className="form-control text-center" />
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
                                         }
-                                        return (
-                                            <tr>
-                                                <td>
-                                                    {element}
-                                                </td>
-                                                <td>
-                                                    <input type="text" id={element} defaultValue={oldVal} />
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
 
-                                {dbname === "reviews" &&
-                                    reviewField.map((element) => {
-                                        let oldVal;
-                                        switch (element) {
-                                            case "Nontowner ID":
-                                                oldVal = data.nontowner_id;
-                                                break;
-                                            case "Shelter ID":
-                                                oldVal = data.shelter_id;
-                                                break;
-                                            case "Reservation ID":
-                                                oldVal = data.reservation_id;
-                                                break;
-                                            case "Rate":
-                                                oldVal = data.rate;
-                                                break;
-                                            case "Comment":
-                                                oldVal = data.comment;
-                                                break;
+                                        {dbname === "reviews" &&
+                                            reviewField.map((element) => {
+                                                let oldVal;
+                                                switch (element) {
+                                                    case "Nontowner ID":
+                                                        oldVal = data.nontowner_id;
+                                                        break;
+                                                    case "Shelter ID":
+                                                        oldVal = data.shelter_id;
+                                                        break;
+                                                    case "Reservation ID":
+                                                        oldVal = data.reservation_id;
+                                                        break;
+                                                    case "Rate":
+                                                        oldVal = data.rate;
+                                                        break;
+                                                    case "Comment":
+                                                        oldVal = data.comment;
+                                                        break;
+                                                }
+                                                return (
+                                                    <tr>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            {element}
+                                                        </td>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            <input type="text" id={element} defaultValue={oldVal} className="form-control text-center" />
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
                                         }
-                                        return (
-                                            <tr>
-                                                <td>
-                                                    {element}
-                                                </td>
-                                                <td>
-                                                    <input type="text" id={element} defaultValue={oldVal} />
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
 
-                                {dbname === "rooms" &&
-                                    roomField.map((element) => {
-                                        let oldVal;
-                                        switch (element) {
-                                            case "Name":
-                                                oldVal = data.name;
-                                                break;
-                                            case "Nont Type":
-                                                oldVal = data.nont_type;
-                                                break;
-                                            case "Amount (capacity)":
-                                                oldVal = data.amount;
-                                                break;
-                                            case "Price (per day)":
-                                                oldVal = data.price;
-                                                break;
-                                            case "Shelter ID":
-                                                oldVal = data.shelter_id;
-                                                break;
-                                            case "Exist":
-                                                oldVal = data.exist;
-                                                break;
+                                        {dbname === "rooms" &&
+                                            roomField.map((element) => {
+                                                let oldVal;
+                                                switch (element) {
+                                                    case "Name":
+                                                        oldVal = data.name;
+                                                        break;
+                                                    case "Nont Type":
+                                                        oldVal = data.nont_type;
+                                                        break;
+                                                    case "Amount (capacity)":
+                                                        oldVal = data.amount;
+                                                        break;
+                                                    case "Price (per day)":
+                                                        oldVal = data.price;
+                                                        break;
+                                                    case "Shelter ID":
+                                                        oldVal = data.shelter_id;
+                                                        break;
+                                                    case "Exist":
+                                                        oldVal = data.exist;
+                                                        break;
+                                                }
+                                                return (
+                                                    <tr>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            {element}
+                                                        </td>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            <input type="text" id={element} defaultValue={oldVal} className="form-control text-center" />
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
                                         }
-                                        return (
-                                            <tr>
-                                                <td>
-                                                    {element}
-                                                </td>
-                                                <td>
-                                                    <input type="text" id={element} defaultValue={oldVal} />
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
 
-                                {dbname === "shelters" &&
-                                    shelterField.map((element) => {
-                                        let oldVal;
-                                        switch (element) {
-                                            case "Name":
-                                                oldVal = data.name;
-                                                break;
-                                            case "Description":
-                                                oldVal = data.description;
-                                                break;
-                                            case "Address":
-                                                oldVal = data.address;
-                                                break;
-                                            case "Rate":
-                                                oldVal = data.rate;
-                                                break;
-                                            case "Supported Nont Type":
-                                                oldVal = JSON.stringify(data.supported_type);
-                                                break;
-                                            case "Coordinate":
-                                                oldVal = JSON.stringify(data.coordinate);
-                                                break;
-                                            case "Phone Number":
-                                                oldVal = data.phoneNumber;
-                                                break;
-                                            case "Nontsitter ID":
-                                                oldVal = data.nont_sitter_id;
-                                                break;
-                                            case "Exist":
-                                                oldVal = data.exist;
-                                                break;
+                                        {dbname === "shelters" &&
+                                            shelterField.map((element) => {
+                                                let oldVal;
+                                                switch (element) {
+                                                    case "Name":
+                                                        oldVal = data.name;
+                                                        break;
+                                                    case "Description":
+                                                        oldVal = data.description;
+                                                        break;
+                                                    case "Address":
+                                                        oldVal = data.address;
+                                                        break;
+                                                    case "Rate":
+                                                        oldVal = data.rate;
+                                                        break;
+                                                    case "Supported Nont Type":
+                                                        oldVal = JSON.stringify(data.supported_type);
+                                                        break;
+                                                    case "Coordinate":
+                                                        oldVal = JSON.stringify(data.coordinate);
+                                                        break;
+                                                    case "Phone Number":
+                                                        oldVal = data.phoneNumber;
+                                                        break;
+                                                    case "Nontsitter ID":
+                                                        oldVal = data.nont_sitter_id;
+                                                        break;
+                                                    case "Exist":
+                                                        oldVal = data.exist;
+                                                        break;
+                                                }
+                                                return (
+                                                    <tr>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            {element}
+                                                        </td>
+                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                            <input type="text" id={element} defaultValue={oldVal} className="form-control text-center" />
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
                                         }
-                                        return (
-                                            <tr>
-                                                <td>
-                                                    {element}
-                                                </td>
-                                                <td>
-                                                    <input type="text" id={element} defaultValue={oldVal} />
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
-                        <a href={"/infodb/"+dbname} type="button" className="btn" style={{borderColor: "black"}}>
-                            back to {dbname}
-                        </a>
-
-                        <button type="submit">
-                            submit update
+                        <div className="row">
+                            <div className="col-3">
+                                <a href={"/infodb/" + dbname} className="font-weight-bold" style={{ fontSize: 18 }}> {/*fontSize: 18, marginLeft: 80, marginRight:490*/}
+                                    <i className="fa fa-backward m-2" />
+                                    back to {dbname}
+                                </a>
+                            </div>
+                            <div className="col">
+                                <button type="submit" className="btn btn-warning text-dark font-weight-bold border-dark" style={{ fontSize: 18 }}>
+                                    submit update
                         </button>
+                            </div>
+                        </div>
                     </form>
 
-                    <div>
-                        {updateSuccess && 
-                            <div style={{color: "green"}}>
+                    <div >
+                        {updateSuccess &&
+                            <div className="mt-4" style={{ color: "green", fontSize: 18 }}>
                                 Successfully Updated :)
                             </div>
-                        }        
-                        {updateSuccess===false &&
-                            <div style={{color: "red"}}>
+                        }
+                        {updateSuccess === false &&
+                            <div className="mt-4" style={{ color: "red", fontSize: 18 }}>
                                 Unsuccessfully Updated! Please check the type of inputs.
                             </div>
                         }
@@ -538,19 +649,21 @@ const EditDB = (props) => {
                 </div>
             )}
 
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
-                <Modal.Header className="bg-warning" closeButton>
-                    <div className="font-weight-bold" style={{ marginLeft: "185px" }}>
+            <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+                <Modal.Header className="bg-warning justify-content-center"> {/*no close button*/}
+                    <div className="font-weight-bold text-danger" style={{ fontSize: 20 }}>
                         !! WARNING !!
                     </div>
                 </Modal.Header>
-                <Modal.Body>
-                    <div style={{ marginLeft: "97px" }}>
-                        The updated data may conflict with other collections.
-                        Are you sure to update document using this data?
+                <Modal.Body style={{ margin: "auto" }}>
+                    <div className="font-weight-bold">
+                        The updated data may conflict with other documents.
+                    </div>
+                    <div className="font-weight-bold">
+                        - Are you sure to update document using this data? -
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className="justify-content-center">
                     <button onClick={() => {
                         switch (dbname) {
                             case "nontOwners": return updateNontOwner();
@@ -562,10 +675,10 @@ const EditDB = (props) => {
                             case "shelters": return updateShelter();
                         }
                     }}
-                        className="btn text-light bg-success border-danger" style={{ marginRight: "60px" }} >
+                        className="btn bg-success text-light border-danger">
                         YES
                     </button>
-                    <button onClick={() => setShowModal(false)} className="btn text-light bg-danger border-danger" style={{ marginRight: "145px" }}>
+                    <button onClick={() => setShowModal(false)} className="btn bg-danger text-light border-danger ml-5">
                         NO
                     </button>
                 </Modal.Footer>
