@@ -11,7 +11,7 @@ import {
 
 const PhoneNumberForm = (props) => {
   return (
-    <div className="col m-4">
+    <div className="col-12 col-sm m-4">
       <label htmlFor="phone-input" className="form-label">
         Phone Number{" "}
       </label>

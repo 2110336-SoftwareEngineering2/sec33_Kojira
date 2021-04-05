@@ -14,6 +14,7 @@ import LicenseForm from "./ShelterForm/LicenseForm";
 import AddressForm from "./ShelterForm/AddressForm";
 import PictureForm from "./ShelterForm/PictureForm";
 import Contexts from "../../Utils/Context/Contexts";
+import { Popconfirm } from "antd";
 
 const UserContext = Contexts.UserContext;
 const reader = new FileReader();
@@ -162,7 +163,7 @@ const ShelterRegistration  = (props) => {
             picture: picture,
             license: license,
             supported_type: [],
-            rate: 3,
+            rate: 0,
             nont_sitter_id: value._id
         }
         console.log(body.coordinate)
@@ -217,6 +218,13 @@ const ShelterRegistration  = (props) => {
                         onFormChange={handleFormChange}
                     />
             </div>
+            <div className="row justify-content-end">
+                <div className="col-12 col-sm-8 text-left">
+                    <div style={{paddingLeft:"25px", color:"red"}}>
+                        Overall pictures and licenses size must less than 3MB (image files only)
+                    </div>
+                </div>
+            </div>
             <AddressForm
                     onFormChange={handleFormChange}
                     defaultValue = ""
@@ -224,15 +232,28 @@ const ShelterRegistration  = (props) => {
             />
             <div className="row">
                 <div className="col m-4">
-                    <a 
-                        type="button" 
-                        className="btn btn-secondary" 
-                        onClick={getLocation}
+                    <div className="mb-2" style={{color:"red"}}>
+                            * This shelter's location is required based on your current location
+                        </div>
+                    <Popconfirm
+                        placement="rightBottom"
+                        title={<>
+                                <p>Your current location is</p>
+                                <p>{coordinateValid !== VALID?"waiting...":(shelter.coordinate.lat+", "+shelter.coordinate.lng)}</p>
+                            </>}
+                        okText="Ok"
+                        cancelText="Cancel"
                     >
-                    <i className="fas fa-map-marker-alt" />
-                    {" "}Location
-                    </a>
-                    {coordinateValid === VALID && <p>{shelter.coordinate.lat}, {shelter.coordinate.lng}</p>}
+                        <a 
+                            type="button" 
+                            className="btn btn-secondary" 
+                            onClick={getLocation}
+                        >   
+                        <i className="fas fa-map-marker-alt" />
+                        {" "}Location
+                        </a> 
+                    </Popconfirm>
+                    {coordinateValid === VALID && <p>Already got location!</p>}
                 </div>
             </div>
             <div className="p-3" style={{ textAlign: "center"}}>
