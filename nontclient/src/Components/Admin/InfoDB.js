@@ -129,7 +129,7 @@ const InfoDB = (props) => {
 
       {fetchDataStatus === LoadStatus.SUCCESS && (
         <div>
-          <div className="d-flex flex-column border border-dark border-3 rounded my-2 ">
+          <div className="d-flex flex-column border border-dark border-3 rounded my-2">
             <div
               className="flex-fill bg-dark text-white font-weight-bold"
               style={{ textAlign: "center", fontSize: 25 }}
