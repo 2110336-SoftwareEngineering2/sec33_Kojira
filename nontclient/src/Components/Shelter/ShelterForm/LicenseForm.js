@@ -11,7 +11,7 @@ import {
 
 const LicenseForm = (props) => {
     return(
-    <div className="col m-4 mb-3">
+    <div className="col-12 col-sm m-4 mb-3">
         <label htmlFor="license-input"  className="form-label">
             License
         </label>
@@ -21,7 +21,6 @@ const LicenseForm = (props) => {
             id="license-input"
             name="license" 
             onChange={props.onFormChange}
-            multiple
         />
     </div>
     )

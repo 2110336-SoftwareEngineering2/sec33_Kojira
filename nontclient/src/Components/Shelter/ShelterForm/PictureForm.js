@@ -11,7 +11,7 @@ import {
 
 const PictureForm = (props) => {
     return(
-    <div className="col m-4 mb-3">
+    <div className="col-12 col-sm m-4 mb-3">
         <label htmlFor="picture-input"  className="form-label">
             Picture
         </label>
@@ -21,7 +21,6 @@ const PictureForm = (props) => {
             id="picture-input"
             name="picture" 
             onChange={props.onFormChange}
-            multiple
         />
     </div>
     )
