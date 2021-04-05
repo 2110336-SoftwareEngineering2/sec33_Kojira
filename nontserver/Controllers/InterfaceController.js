@@ -1,5 +1,4 @@
 class InterfaceController {
-    static Nont = require("../Models/Nont");
     constructor() {
         this.mongoose = require("mongoose");
         this.joi = require('joi');
