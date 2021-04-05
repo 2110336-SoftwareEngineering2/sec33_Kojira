@@ -14,6 +14,7 @@ class LoginFields extends Component {
       email: "",
       password: "",
       errMessage: "",
+      loading: false,
     };
   }
 
@@ -44,12 +45,14 @@ class LoginFields extends Component {
   }
 
   handleSubmit(updateUserInfo) {
+    this.setState({ loading: true });
     LoginService.Login(
       this.state.email,
       this.state.password,
       this.props.UserType,
       this
     ).then((result) => {
+      this.setState({ loading: false });
       if (result !== true) {
         this.handleLoginError(result);
       } else {
@@ -63,10 +66,13 @@ class LoginFields extends Component {
       <UserContext.Consumer>
         {(value) => {
           return (
-            <div id={styles.LoginFieldsDiv} className={styles.textCenter}>              
-              <form className="form" onSubmit={(e) => {
+            <div id={styles.LoginFieldsDiv} className={styles.textCenter}>
+              <form
+                className="form"
+                onSubmit={(e) => {
                   e.preventDefault();
-                  this.handleSubmit(value.UpdateUserInfo)}}
+                  this.handleSubmit(value.UpdateUserInfo);
+                }}
               >
                 <div className={"row " + styles.center}>
                   <input
@@ -93,10 +99,17 @@ class LoginFields extends Component {
                     type="submit"
                   >
                     Log in
-                  </button>          
+                  </button>
                 </div>
                 {this.state.errMessage !== "" && (
                   <p className={styles.redColor}>{this.state.errMessage}</p>
+                )}
+                {this.state.loading && (
+                  <div
+                    class="spinner-border"
+                    id={styles.spinner}
+                    role="status"
+                  ></div>
                 )}
               </form>
             </div>
