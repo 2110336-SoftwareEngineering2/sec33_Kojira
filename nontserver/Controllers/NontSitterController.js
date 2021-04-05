@@ -173,31 +173,3 @@ remove = async (req, res) => {
 }
 
 module.exports = new NontSitterController();
-
-// const NontSitter = require("../Models/NontSitter");
-// const _ = require("lodash");
-// const Joi = require("joi");
-// const bcrypt = require("bcryptjs");
-// const LoginController = require("./LoginController");
-
-// const PASSWORD_HASHING_ROUNDS = 10;
-
-// const schema = {
-//   email: Joi.string().required().email(),
-//   password: Joi.string().required().min(8).max(32),
-//   name: Joi.string().required().min(1).max(64),
-//   phoneNumber: Joi.string()
-//     .length(10)
-//     .pattern(/^[0-9]+$/),
-//   bankAccount: Joi.string()
-//     .length(10)
-//     .pattern(/^[0-9]+$/),
-// };
-// const validator = Joi.object(schema);
-
-// const controller = {
-  
-
-// };
-
-

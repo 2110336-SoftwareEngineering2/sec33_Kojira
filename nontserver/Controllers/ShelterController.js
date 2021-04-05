@@ -276,7 +276,7 @@ class ShelterController extends InterfaceController {
   // only called from other function in backend only
   updateSupportedType = async (shelterID) => {
     try {
-      const nontTypes = await this.Room.find({
+      const nontType = await this.Room.find({
         shelter_id: shelterID,
         exist: true,
       }).distinct("nont_type");
@@ -284,7 +284,7 @@ class ShelterController extends InterfaceController {
         _id: shelterID,
       };
       const newBody = {
-        supported_type: nontTypes,
+        supported_type: nontType,
       };
       const updateRes = await this.Shelter.updateOne(newQuery, newBody);
       return updateRes;

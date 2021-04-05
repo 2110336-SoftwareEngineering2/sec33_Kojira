@@ -22,9 +22,7 @@ class NontController extends InterfaceController {
         .required(),
       subtype: this.joi.string().optional().allow("").max(50),
       description: this.joi.string().optional().allow("").max(500),
-      // birth_date: joi.date().valid('YYYY-MM-DD').required(),
       birth_date: this.joi.date().required(),
-      // birth_date: joi.string().regex(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/).required(),
       medical_certificate: this.joi.array().items(this.validate_certificate),
       picture: this.joi.array().items(this.validate_picture),
       nontowner_id: this.joiOid.objectId().required(),
@@ -98,7 +96,7 @@ class NontController extends InterfaceController {
         birth_date: req.body.birth_date.split("T")[0],
         medical_certificate: req.body.medical_certificate,
         picture: req.body.picture,
-        nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id),
+        nontowner_id: this.mongoose.Types.ObjectId(req.body.nontowner_id),
         exist: true,
       };
       const newNont = await this.Nont.create(newBody);
@@ -116,7 +114,7 @@ class NontController extends InterfaceController {
       return res.status(400).send(validationResult.error.details[0].message);
     }
     try {
-      const newQuery = { _id: mongoose.Types.ObjectId(req.params.id) };
+      const newQuery = { _id: this.mongoose.Types.ObjectId(req.params.id) };
       const newBody = {
         name: req.body.name,
         type: req.body.type,
@@ -125,7 +123,7 @@ class NontController extends InterfaceController {
         birth_date: req.body.birth_date.split("T")[0],
         medical_certificate: req.body.medical_certificate,
         picture: req.body.picture,
-        nontowner_id: mongoose.Types.ObjectId(req.body.nontowner_id),
+        nontowner_id: this.mongoose.Types.ObjectId(req.body.nontowner_id),
         exist: true,
       };
       const updatedNont = await this.Nont.updateOne(newQuery, newBody);
@@ -153,7 +151,7 @@ class NontController extends InterfaceController {
           );
       }
       // delete nont by change exist to false
-      const newQuery = { _id: mongoose.Types.ObjectId(req.params.id) };
+      const newQuery = { _id: this.mongoose.Types.ObjectId(req.params.id) };
       const newBody = { exist: false };
       const cancelledNont = await this.Nont.updateOne(newQuery, newBody);
       return res.send(cancelledNont);
@@ -178,7 +176,7 @@ class NontController extends InterfaceController {
           );
       }
       // remove nont
-      const newQuery = { _id: mongoose.Types.ObjectId(req.params.id) };
+      const newQuery = { _id: this.mongoose.Types.ObjectId(req.params.id) };
       const deletedNont = await this.Nont.deleteOne(newQuery);
       return res.send(deletedNont);
     } catch (error) {
