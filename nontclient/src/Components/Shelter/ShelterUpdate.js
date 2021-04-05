@@ -171,7 +171,7 @@ const ShelterUpdate = (props) => {
             description: document.getElementById("description-input").value,
             phoneNumber: document.getElementById("phone-input").value,
             address: document.getElementById("address-input").value,
-            rate: 3,
+            rate: shelter.rate,
             nont_sitter_id: value._id
             }
         if (pictureValid){body.picture = picture}
