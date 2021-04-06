@@ -4,7 +4,7 @@ import Contexts from "../../Utils/Context/Contexts";
 import { useParams } from "react-router-dom";
 import RoomService from "../../Services/RoomService";
 import UserType from "../../Constants/UserType";
-import Loading from "../Shared/Loading";
+import Loading, {calculateLoadStatus} from "../Shared/Loading";
 import LoadStatus from "../../Constants/LoadStatus";
 import ReviewService from "../../Services/ReviewService";
 import ReviewCard from "./ReviewCard";
@@ -82,8 +82,7 @@ const ShelterView = (props) => {
     <div className="container">
         
       {/* Loading */}
-      <Loading status={(fetchShelterStatus===LoadStatus.FAIL||fetchRoomStatus===LoadStatus.FAIL||fetchReviewStatus===LoadStatus.FAIL)?
-        LoadStatus.FAIL: (fetchShelterStatus && fetchRoomStatus && fetchReviewStatus)} />
+      <Loading status={calculateLoadStatus(fetchShelterStatus,fetchRoomStatus,fetchReviewStatus)} />
       {/* Content */}
       {fetchShelterStatus === LoadStatus.SUCCESS &&
         fetchRoomStatus === LoadStatus.SUCCESS &&
