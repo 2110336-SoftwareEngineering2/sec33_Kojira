@@ -82,8 +82,8 @@ const ShelterView = (props) => {
     <div className="container">
         
       {/* Loading */}
-      <Loading status={fetchRoomStatus && fetchShelterStatus && fetchReviewStatus} />
-
+      <Loading status={(fetchShelterStatus===LoadStatus.FAIL||fetchRoomStatus===LoadStatus.FAIL||fetchReviewStatus===LoadStatus.FAIL)?
+        LoadStatus.FAIL: (fetchShelterStatus && fetchRoomStatus && fetchReviewStatus)} />
       {/* Content */}
       {fetchShelterStatus === LoadStatus.SUCCESS &&
         fetchRoomStatus === LoadStatus.SUCCESS &&
