@@ -88,7 +88,7 @@ const FindShelter = (props) => {
       <div className="d-flex justify-content-between">
         <div className="d-flex">
           {fetchShelterStatus === LoadStatus.SUCCESS && (
-            <span className={styles.fade}>
+            <span className={styles.fade} style={{ cursor: 'default' }}>
               Showing {shelters.length} results
             </span>
           )}
