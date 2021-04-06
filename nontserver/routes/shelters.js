@@ -7,7 +7,7 @@ const controller = require('../Controllers/ShelterController.js');
 router
     .route('/')
     .get(controller.getShelters)
-    .post(controller.registerShelter)
+    .post(controller.create)
     .patch(controller.updateShelter);
 
 router
@@ -43,7 +43,7 @@ router
 
 router 
     .route("/remove/:id")
-    .delete(controller.removeShelter);
+    .delete(controller.remove);
 
 router
     .route("/findShelters")

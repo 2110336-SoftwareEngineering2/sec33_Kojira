@@ -26,7 +26,7 @@ router.route('/room_id/:id')
       .get(controller.getReservationByRoomID);
       
 router.route('/create')
-      .post(controller.createReservation);
+      .post(controller.create);
 
 router.route('/verify_check_in/:id')
       .put(controller.nontSitterCheckIn);
@@ -44,7 +44,7 @@ router.route('/cancel/:id')
       .patch(controller.cancelReservation);
 
 router.route("/remove/:id")
-      .delete(controller.removeReservation);
+      .delete(controller.remove);
 
 router.route('/admin_update/:id')
       .put(controller.adminUpdateReservation);

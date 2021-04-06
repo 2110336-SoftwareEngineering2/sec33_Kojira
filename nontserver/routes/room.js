@@ -7,7 +7,7 @@ const controller = require('../Controllers/RoomController');
 router
     .route('/')
     .get(controller.getRooms)
-    .post(controller.registerRoom);
+    .post(controller.create);
 
 router
     .route('/id/:id')
@@ -35,7 +35,7 @@ router
 
 router
     .route("/remove/:id")
-    .delete(controller.removeRoom);
+    .delete(controller.remove);
 
 router
     .route('/admin_update/:id')

@@ -20,7 +20,7 @@ router.route('/nontowner_id/:id')
       .get(controller.getNontByNontOwnerID);
       
 router.route('/create')
-      .post(controller.createNont);
+      .post(controller.create);
 
 router.route('/update/:id')
       .put(controller.updateNont);
@@ -29,7 +29,7 @@ router.route('/delete/:id')
       .patch(controller.deleteNont);
 
 router.route('/remove/:id')
-      .delete(controller.removeNont);
+      .delete(controller.remove);
 
 router.route('/admin_update/:id')
       .put(controller.adminUpdateNont);

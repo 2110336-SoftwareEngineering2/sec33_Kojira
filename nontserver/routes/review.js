@@ -6,7 +6,7 @@ const controller = require('../Controllers/ReviewController');
 
 router.route('/')
     .get(controller.getReviews)
-    .post(controller.createReview)
+    .post(controller.create)
     .patch(controller.updateReview);
 
 router.route('/:id')
@@ -26,7 +26,7 @@ router
 
 router
     .route("/remove/:id")
-    .delete(controller.removeReview);
+    .delete(controller.remove);
 
 router
     .route('/admin_update/:id')
