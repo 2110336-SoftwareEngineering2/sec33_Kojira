@@ -345,7 +345,7 @@ const ReserveInfo = (props) => {
                             </div>
                             <div>
                                 {
-                                    (contextValue.userType === UserType.NONT_OWNER &&status==="checked-out")&& <Review reserveId={reserveID} shelter={Shelter} owner={owner}/>
+                                    (contextValue.userType === UserType.NONT_OWNER &&status==="checked-out"&&Shelter.exist)&& <Review reserveId={reserveID} shelter={Shelter} owner={owner}/>
 
                                 }
                             </div>
