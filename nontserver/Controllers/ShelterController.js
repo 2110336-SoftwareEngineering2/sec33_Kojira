@@ -177,6 +177,7 @@ class ShelterController extends InterfaceController {
         const re = new RegExp(keywords, "i");
         foundShelters = foundShelters.filter(
           (shelter) =>
+            shelter.exist &&
             shelter.name.match(re) &&
             checkSupportedType(shelter, supported_type) &&
             shelter.rate >= minRate &&
@@ -190,6 +191,7 @@ class ShelterController extends InterfaceController {
             .exec();
           const matchedRooms = rooms.filter(
             (room) =>
+              room.exist &&
               (supported_type.includes(room.nont_type) ||
                 supported_type.length === 0) &&
               room.amount >= nontAmount &&
@@ -209,7 +211,7 @@ class ShelterController extends InterfaceController {
           if (matchedRooms.length > 0) shelter.found = true;
         }
         foundShelters = foundShelters.filter(
-          (shelter) => shelter.found && shelter.exist
+          (shelter) => shelter.found
         );
 
         // Sort
