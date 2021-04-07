@@ -327,10 +327,7 @@ const ReserveInfo = (props) => {
                             </div>
                             <div>
                                 {
-                                    (status==="checked-in"&&(today>Date.parse(checkOutDate)||
-                                    (today.getDate()===(new Date(checkOutDate).getDate())
-                                    &&today.getMonth()===(new Date(checkOutDate).getMonth())
-                                    &&today.getFullYear()===(new Date(checkOutDate).getFullYear()))
+                                    (status==="checked-in"&&(today>=Date.parse(checkInDate)
                                     ))&&
                                     <div className="p-3" style={{ textAlign: "center"}}>
                                         <button

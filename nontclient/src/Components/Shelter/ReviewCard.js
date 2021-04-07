@@ -6,7 +6,7 @@ import RoomService from "../../Services/RoomService";
 
 const ReviewCard =(props)=>{
     const [fetchRoom,setFetchRoom]=useState(false);
-    const [RoomName,setRoomName]=useState("Room is no loger exits");
+    const [RoomName,setRoomName]=useState("Room is no longer exist");
     const {nontowner_id,rate,comment,updatedAt,reservation_id}=props.review;
     console.log({props,nontowner_id,rate,comment});
     const {name}=nontowner_id;
@@ -32,6 +32,7 @@ const ReviewCard =(props)=>{
     return(
         <div>               
         <hr/>
+        <h5><b>@{RoomName}</b></h5>
         <h5>{`${comment}`}</h5>
         <div>
         <h5 >Rating: 
@@ -55,7 +56,7 @@ const ReviewCard =(props)=>{
             </span>
           );
       })} </h5>
-        <h5 style={{"color":"#3498db"}}><b>{`${name}`.concat( fetchRoom?` : ${RoomName}`:" ")}</b></h5>
+        <h5 className="text-right" style={{}}><b>{`${name}`}</b></h5>
 
       <p className="text-right" style={{"opacity": "0.75"}}>{`at ${updatedAt.slice(11, 19)} date ${updatedAt.slice(0, 10)}`}</p>
 
