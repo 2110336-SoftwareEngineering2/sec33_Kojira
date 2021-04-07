@@ -327,8 +327,7 @@ const ReserveInfo = (props) => {
                             </div>
                             <div>
                                 {
-                                    (status==="checked-in"&&(today>=Date.parse(checkInDate)
-                                    ))&&
+                                    (status==="checked-in"&&(today>=Date.parse(checkInDate)) &&
                                     <div className="p-3" style={{ textAlign: "center"}}>
                                         <button
                                         type="button"
@@ -337,7 +336,7 @@ const ReserveInfo = (props) => {
                                         >
                                         checkout
                                         </button>
-                                    </div>
+                                    </div>)
                                 }
                             </div>
                             <div>

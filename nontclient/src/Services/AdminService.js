@@ -128,7 +128,7 @@ const AdminService = {
     },
     getRoomByID: async (id) => {
         try {
-            let path = "/room/id/"+id;
+            let path = "/room/admin_get/"+id;
             const response = await axios.get(serverURL + path);
             return response;
         }
@@ -150,7 +150,7 @@ const AdminService = {
     },
     getShelterByID: async (id) => {
         try {
-            let path = "/shelter/id/"+id;
+            let path = "/shelter/admin_get/"+id;
             const response = await axios.get(serverURL + path);
             return response;
         }

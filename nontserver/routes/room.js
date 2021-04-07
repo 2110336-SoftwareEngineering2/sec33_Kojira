@@ -41,4 +41,8 @@ router
     .route('/admin_update/:id')
     .put(controller.adminUpdateRoom);
 
+router
+    .route('/admin_get/:id')
+    .get(controller.adminGetRoom);
+
 module.exports = router;
