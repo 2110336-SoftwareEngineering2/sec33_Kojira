@@ -103,9 +103,9 @@ const ShelterView = (props) => {
                       }`}
                       alt="shelter image"
                     />
-                  )}
+                  )}                
                   {shelter?.picture?.length == 0 && (
-                    <img className="w-100 p-3" src="" alt="shelter image" />
+                    <img className="w-100 p-3" src="/no-image.svg" alt="shelter image" />
                   )}
                 </div>
                 <div className="col-md-6">

@@ -96,20 +96,21 @@ const NontView = () => {
                 />
               )}
               {nont?.picture?.length == 0 && (
-                <div style={{ position: "relative" }}>
+                <div className="d-flex justify-content-center align-items-center">
                   <img
-                    className="align-self-start mr-3"
-                    style={{ width: "480px", border: "groove orange 5px" }}
-                    src="https://previews.123rf.com/images/vasilyrosca/vasilyrosca1808/vasilyrosca180800001/107234907-tv-no-signal-background-illustration-no-signal-television-screen-graphic-broadcast-design-.jpg"
+                    className="align-self-start"
+                    style={{ width: "100%", border: "groove orange 4px" }}
+                    src="/no-image.svg"
+                    // src="https://previews.123rf.com/images/vasilyrosca/vasilyrosca1808/vasilyrosca180800001/107234907-tv-no-signal-background-illustration-no-signal-television-screen-graphic-broadcast-design-.jpg"
                     alt="nont no image"
                   />
-                  <b>
+                  {/* <b>
                     {" "}
                     <h1 style={{ position: "absolute", top: 150, left: 89 }}>
                       {" "}
                       No Image Found{" "}
                     </h1>{" "}
-                  </b>
+                  </b> */}
                 </div>
               )}
 
