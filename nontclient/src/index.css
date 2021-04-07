@@ -1,12 +1,14 @@
 body {
-  background-image: url("https://image.freepik.com/free-vector/seamless-pattern-with-pet-shop-products-funny-domestic-animals-white_198278-4258.jpg") !important;
+  background-image: url(./Images/background.jpg) !important;
   background-size: 300px !important;
   background-attachment: fixed !important;
 }
 
 div.container, div.container-fluid {
+  margin-top: 3% !important;
   background-color: #fffaf7 !important;
   border: dotted 7px #bda4a4 !important;
+  padding-top: 3% !important;
   padding-bottom: 5% !important
 }
 
