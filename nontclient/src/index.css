@@ -1,3 +1,15 @@
 body {
-  background-color: #ecf0f1 !important;
+  background-image: url("https://image.freepik.com/free-vector/seamless-pattern-with-pet-shop-products-funny-domestic-animals-white_198278-4258.jpg") !important;
+  background-size: 300px !important;
+  background-attachment: fixed !important;
 }
+
+div.container, div.container-fluid {
+  background-color: #fffaf7 !important;
+  border: dotted 7px #bda4a4 !important;
+  padding-bottom: 5% !important
+}
+
+/* https://media.istockphoto.com/vectors/vet-seamless-pattern-vector-id868292512?b=1&k=6&m=868292512&s=612x612&w=0&h=0-7xMi-FUgcEANbX2mFQU4Mq78vrEAYB4wVfapbtl-M= */
+
+
