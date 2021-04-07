@@ -171,11 +171,13 @@ const ShelterUpdate = (props) => {
             description: document.getElementById("description-input").value,
             phoneNumber: document.getElementById("phone-input").value,
             address: document.getElementById("address-input").value,
+            picture:shelter.picture,
+            license:shelter.license,
             rate: shelter.rate,
             nont_sitter_id: value._id
             }
-        if (pictureValid){body.picture = picture}
-        if (licenseValid){body.license = license}
+        if (picture.length>0){body.picture = picture}
+        if (license.length>0){body.license = license}
         // console.log(shelterID)
         // console.log(body.coordinate)
         // console.log(document.getElementById("name-input").value)
