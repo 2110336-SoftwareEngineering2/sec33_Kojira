@@ -249,8 +249,6 @@ const Registration = (props) => {
   }
 
   return (
-    <div id={styles.screen}>
-      <div id={styles.padder}>
         <div className="container" id={styles.container}>
           <h1 className="mb-4 text-center" id={styles.header}>
             Create an account
@@ -304,8 +302,6 @@ const Registration = (props) => {
             </div>
           </form>
         </div>
-      </div>
-    </div>
   );
 };
 
