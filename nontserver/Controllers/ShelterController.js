@@ -365,7 +365,7 @@ class ShelterController extends InterfaceController {
         _id: shelterID,
       };
       const newBody = {
-        rate: reduceRate.rate / reviewList.length,
+        rate: Math.round(reduceRate.rate / reviewList.length * 100) / 100 ,
       };
       const updateRes = await this.Shelter.updateOne(newQuery, newBody);
       return updateRes;
