@@ -43,7 +43,6 @@ class RoomController extends InterfaceController {
             return res.status(500).send('Cannot access rooms by id');
         }
     }
-
     /* 
     GET /room/shelterid/:id
         field required: shelter_id
@@ -169,6 +168,16 @@ class RoomController extends InterfaceController {
         }
         catch (error) {
             return res.status(500).send("Cannot delete room");
+        }
+    }
+    
+    adminGetRoom =  async (req,res) => {
+        try {
+            const roomRes = await this.Room.findById(req.params.id);
+            return res.send(roomRes);
+        }
+        catch (error) {
+            return res.status(500).send('Cannot access rooms by id');
         }
     }
 
