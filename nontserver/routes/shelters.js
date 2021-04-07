@@ -38,6 +38,10 @@ router
     .post(controller.checkValidName);
 
 router
+    .route('/admin_get/:id')
+    .get(controller.adminGetShelter);
+
+router
     .route('/admin_update/:id')
     .put(controller.adminUpdateShelter);
 

@@ -470,6 +470,15 @@ DELETE /shelter/remove/:id
     }
   };
 
+  adminGetShelter = async (req, res) => {
+    try {
+      const shelterRes = await this.Shelter.findById(req.params.id);
+      return res.send(shelterRes);
+    } catch (error) {
+      return res.status(500).send("Cannot access shelter by id");
+    }
+  };
+
   //PUT
   adminUpdateShelter = async (req, res) => {
     try {
