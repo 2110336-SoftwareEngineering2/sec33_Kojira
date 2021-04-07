@@ -20,6 +20,7 @@ const FindShelter = (props) => {
     maxDistance: 100,
     nontAmount: 1,
     maxPrice: 3000,
+    date: null,
   };
   const [savedFilter, setSavedFilter] = useState(defaultFilter);
   const [sortedBy, setSortedBy] = useState("Rating");
@@ -40,6 +41,15 @@ const FindShelter = (props) => {
           ...savedFilter,
           sortedBy: sortedByMapper[sortedBy],
         };
+        if (query.date) {
+          query.startYear = query.date[0].getFullYear();
+          query.startMonth = query.date[0].getMonth();
+          query.startDate = query.date[0].getDate();
+          query.endYear = query.date[1].getFullYear();
+          query.endMonth = query.date[1].getMonth();
+          query.endDate = query.date[1].getDate();
+        }
+        delete query.date;
         if (position) {
           query.lat = position.lat;
           query.lng = position.lng;
@@ -88,7 +98,7 @@ const FindShelter = (props) => {
       <div className="d-flex justify-content-between">
         <div className="d-flex">
           {fetchShelterStatus === LoadStatus.SUCCESS && (
-            <span className={styles.fade}>
+            <span className={styles.fade} style={{ cursor: 'default' }}>
               Showing {shelters.length} results
             </span>
           )}

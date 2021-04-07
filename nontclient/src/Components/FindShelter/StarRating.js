@@ -26,7 +26,7 @@ const StarRating = (props) => {
             </span>
           );
       })}
-      <span className={"ml-2  " + styles.fade}>{shelter.rate}</span>
+      <span className={"ml-2  " + styles.fade}>{shelter.rate > 0 ? shelter.rate : "No rating"}</span>
     </React.Fragment>
   );
 };

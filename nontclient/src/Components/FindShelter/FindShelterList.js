@@ -50,7 +50,7 @@ const FindShelterList = (props) => {
                 onShowSizeChange={(_, size) => {
                   setPageSize(size);
                 }}
-                pageSizeOptions={[12, 24, 36, 48, 60]}
+                pageSizeOptions={[12, 24, 36, 48]}
               />
             </div>
           </div>

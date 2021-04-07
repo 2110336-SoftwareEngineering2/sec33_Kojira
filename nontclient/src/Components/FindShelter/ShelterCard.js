@@ -42,7 +42,7 @@ const ShelterCard = (props) => {
             ))}
           </div>
           <div className="d-flex justify-content-center">
-            <span className={styles.fade}>{`฿${Math.round(
+            <span className={styles.fade} style={{ fontSize: '1rem', fontWeight: 'bold' }}>{`฿${Math.round(
               shelter.minPrice
             )} ~ ฿${Math.round(shelter.maxPrice)}`}</span>
           </div>

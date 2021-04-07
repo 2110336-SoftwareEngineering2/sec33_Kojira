@@ -104,6 +104,9 @@ const ShelterService = {
                 else if (typeof query[key] === "number") {
                     path = path + `${key}=${query[key]}&`;
                 }
+                else if (query[key] === null || query[key] === undefined) {
+                    continue;
+                }
                 else {
                     throw new Error("Invalid query");
                 }
