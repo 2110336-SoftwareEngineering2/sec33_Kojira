@@ -50,7 +50,7 @@ const ShelterCard = (props) => {
             <div className="d-flex">
               <StarRating rate={shelter.rate} />
             </div>
-            {shelter.distance && (
+            {shelter.distance !== undefined && (
               <div className="d-flex">
                 <span className={styles.fade}>
                   <i className="fas fa-location-arrow mr-1"></i>
