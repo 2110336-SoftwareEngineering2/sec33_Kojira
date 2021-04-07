@@ -146,6 +146,28 @@ class ShelterController extends InterfaceController {
         const maxPrice = req.query.maxPrice
           ? Math.max(Math.min(Number(req.query.maxPrice), 3000), 0)
           : 3000;
+        const startDate =
+          req.query.startYear && req.query.startMonth && req.query.startDate
+            ? new Date(
+                Number(req.query.startYear),
+                Number(req.query.startMonth),
+                Number(req.query.startDate),
+                0,
+                0,
+                0
+              )
+            : undefined;
+        const endDate =
+          req.query.endYear && req.query.endMonth && req.query.endDate
+            ? new Date(
+                Number(req.query.endYear),
+                Number(req.query.endMonth),
+                Number(req.query.endDate),
+                23,
+                59,
+                59
+              )
+            : undefined;
         const lat = req.query.lat;
         const lng = req.query.lng;
         const position =
@@ -189,7 +211,7 @@ class ShelterController extends InterfaceController {
           const rooms = await this.Room.find({ shelter_id: shelter._id })
             .lean()
             .exec();
-          const matchedRooms = rooms.filter(
+          let matchedRooms = rooms.filter(
             (room) =>
               room.exist &&
               (supported_type.includes(room.nont_type) ||
@@ -197,6 +219,29 @@ class ShelterController extends InterfaceController {
               room.amount >= nontAmount &&
               room.price <= maxPrice
           );
+          if (startDate && endDate) {
+            for (const room of matchedRooms) {
+              const reservations = await this.Reservation.find({
+                room_id: room._id,
+              })
+                .lean()
+                .exec();
+              for (const reservation of reservations) {
+                if (
+                  reservation.status === "checked-out" ||
+                  reservation.status === "cancelled"
+                )
+                  continue;
+                if (
+                  startDate <= new Date(reservation.end_datetime) &&
+                  endDate >= new Date(reservation.start_datetime)
+                ) {
+                  room.discard = true;
+                }
+              }
+            }
+          }
+          matchedRooms = matchedRooms.filter((room) => !room.discard);
           let totalPrice = 0;
           let shelterMinPrice = 3000;
           let shelterMaxPrice = 0;
@@ -210,10 +255,11 @@ class ShelterController extends InterfaceController {
           shelter.maxPrice = shelterMaxPrice;
           if (matchedRooms.length > 0) shelter.found = true;
         }
-        foundShelters = foundShelters.filter(
-          (shelter) => shelter.found
-        );
-
+        foundShelters = foundShelters.filter((shelter) => {
+          const found = shelter.found;
+          delete shelter.found;
+          return found;
+        });
         // Sort
         if (sortedBy === "rate")
           foundShelters = this._.sortBy(foundShelters, sortedBy).reverse();
@@ -225,6 +271,7 @@ class ShelterController extends InterfaceController {
         return res.status(400).send("Error: Invalid query");
       }
     } catch (error) {
+      console.log(error);
       return res.status(500).send("Cannot access shelters");
     }
   };
@@ -263,7 +310,7 @@ class ShelterController extends InterfaceController {
           { new: true }
         );
         return res.send(
-            this._.pick(Shelter, ["_id", "name", "rate", "phonenumber"])
+          this._.pick(Shelter, ["_id", "name", "rate", "phonenumber"])
         );
       } catch (error) {
         console.log(error);
@@ -300,7 +347,9 @@ class ShelterController extends InterfaceController {
   updateRate = async (shelterID) => {
     try {
       // find new average rate
-      const reviewList = await this.Review.find({ shelter_id: shelterID }).select({
+      const reviewList = await this.Review.find({
+        shelter_id: shelterID,
+      }).select({
         rate: 1,
         _id: 0,
       });
@@ -397,7 +446,9 @@ PATCH /shelter/delete/:id
   // Check exist name
   checkValidName = async (req, res) => {
     try {
-      const nameFindResult = await this.Shelter.findOne({ name: req.body.name });
+      const nameFindResult = await this.Shelter.findOne({
+        name: req.body.name,
+      });
       if (nameFindResult) return res.send({ exist: true });
       else return res.send({ exist: false });
     } catch (error) {
