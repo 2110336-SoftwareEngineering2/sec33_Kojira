@@ -10,16 +10,6 @@
   max-width: 960px;
 }
 
-#screen {
-  background-color: #F1F9FE;
-  height: 100%;
-}
-
-#padder {
-  padding-top: 2.5vh;
-  padding-bottom: 5vh;
-}
-
 #container {
   max-width: 960px !important;
   margin-top: 2.5vh;
