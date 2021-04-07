@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../FindShelter.module.css";
+import moment from "moment";
 import { DatePicker } from "antd";
 const { RangePicker } = DatePicker;
 
@@ -32,7 +33,14 @@ const DateFilter = (props) => {
   return (
     <div className="d-flex align-items-center">
       <span className={styles.inputLabel}>Available Date</span>
-      <RangePicker format="D-M-YYYY" onChange={onChange} />
+      <RangePicker
+        format="D-M-YYYY"
+        value={
+          filter.date ? [moment(filter.date[0]), moment(filter.date[1])] : null
+        }
+        disabledDate={(element) => element.isBefore(moment(), "days")}
+        onChange={onChange}
+      />
     </div>
   );
 };
