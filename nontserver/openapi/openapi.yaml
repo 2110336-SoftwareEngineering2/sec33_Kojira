@@ -7,13 +7,24 @@ servers:
   - description: Nont server 
     url: https://nontserver.herokuapp.com
 paths:
+  # room
   /room:
     $ref: 'room.yaml#/~1room'
   /room/id/{id}:
-    $ref: 'room.yaml#/~1room~1id~1%7Bid%7D'
-components:
-  schemas:
-    Room:
-      $ref: 'schema.yaml#/Room'
-    Rooms:
-      $ref: 'schema.yaml#/Rooms'
+    $ref: 'room.yaml#/~1room~1id~1{id}'
+  /room/name/{name}:
+    $ref: 'room.yaml#/~1room~1name~1{name}'
+  /room/nont-type/{type}:
+    $ref: 'room.yaml#/~1room~1nont-type~1{type}'
+  /room/shelterid/{id}:
+    $ref: 'room.yaml#/~1room~1shelterid~1{id}'
+  /room/update/{id}:
+    $ref: 'room.yaml#/~1room~1update~1{id}'
+  /room/delete/{id}:
+    $ref: 'room.yaml#/~1room~1delete~1{id}'
+  /room/remove/{id}:
+    $ref: 'room.yaml#/~1room~1remove~1{id}'
+  /room/admin_update/{id}:
+    $ref: 'room.yaml#/~1room~1admin_update~1{id}'
+  /room/admin_get/{id}:
+    $ref: 'room.yaml#/~1room~1admin_get~1{id}'

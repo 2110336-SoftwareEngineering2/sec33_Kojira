@@ -1,13 +1,28 @@
 /room:
-      get:
-        description: fetch all rooms
-        responses:
-          200:
-            description: Success Response
-            content:
-              application/json:
-                schema:
-                  $ref: 'schema.yaml#/Rooms'
+  get:
+    description: fetch all rooms
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "schema.yaml#/Rooms"
+  post:
+    description: create new room
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/createBody"
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "schema.yaml#/Room"
 /room/id/{id}:
   get:
     description: fetch one room using room_id
@@ -23,4 +38,174 @@
         content:
           application/json:
             schema:
-              $ref: 'schema.yaml#/Room'
+              $ref: "schema.yaml#/Room"
+/room/name/{name}:
+  get:
+    description: fetch rooms using room_name
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "schema.yaml#/Rooms"
+/room/nont-type/{type}:
+  get:
+    description: fetch rooms using nont_type
+    parameters:
+      - in: path
+        name: type
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "schema.yaml#/Rooms"
+/room/shelterid/{id}:
+  get:
+    description: fetch rooms using shelter_id
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "schema.yaml#/Rooms"
+/room/update/{id}:
+  patch:
+    description: update room
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/updateBody"
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "schema.yaml#/Room"
+/room/delete/{id}:
+  patch:
+    description: delete room (update exist to false)
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "schema.yaml#/Room"
+/room/remove/{id}:
+  delete:
+    description: remove room from database
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+/room/admin_update/{id}:
+  put:
+    description: update room
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/updateBody"
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "schema.yaml#/Room"
+/room/admin_get/{id}:
+  get:
+    description: fetch one room using room_id
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "schema.yaml#/Room"
+
+components:
+  requestBodies:
+    createBody:
+      type: object
+      required:
+        - name
+        - nont_type
+        - amount
+        - price
+        - shelter_id
+      properties:
+        name:
+          type: string
+        nont_type:
+          type: string
+        amount:
+          type: number
+        price:
+          type: number
+        shelter_id:
+          type: string
+
+    updateBody:
+      type: object
+      properties:
+        name:
+          type: string
+        nont_type:
+          type: string
+        amount:
+          type: number
+        price:
+          type: number
