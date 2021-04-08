@@ -23,10 +23,6 @@ router
     .get(controller.getShelterByName);
 
 router
-    .route("/email/:email")
-    .get(controller.getShelterByEmail);
-
-router
     .route("/nontsitterid/:id")
     .get(controller.getShelterByNontSitterID);
     

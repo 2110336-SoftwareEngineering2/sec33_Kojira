@@ -100,17 +100,6 @@ class ShelterController extends InterfaceController {
       return res.status(500).send("Cannot access shelter by name");
     }
   };
-  // GET Shelter by email ?
-  getShelterByEmail = async (req, res) => {
-    try {
-      const shelterRes = await this.Shelter.find({
-        nont_sitter_email: req.params.email,
-      });
-      return res.send(shelterRes);
-    } catch (error) {
-      return res.status(500).send("Cannot access shelter by email");
-    }
-  };
 
   // GET /findShelters
   findShelters = async (req, res) => {
