@@ -1,0 +1,26 @@
+/room:
+      get:
+        description: fetch all rooms
+        responses:
+          200:
+            description: Success Response
+            content:
+              application/json:
+                schema:
+                  $ref: 'schema.yaml#/Rooms'
+/room/id/{id}:
+  get:
+    description: fetch one room using room_id
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: 'schema.yaml#/Room'

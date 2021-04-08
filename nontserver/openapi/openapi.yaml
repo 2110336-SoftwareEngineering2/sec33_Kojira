@@ -1,0 +1,19 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Nont API
+  description: ''
+servers:
+  - description: Nont server 
+    url: https://nontserver.herokuapp.com
+paths:
+  /room:
+    $ref: 'room.yaml#/~1room'
+  /room/id/{id}:
+    $ref: 'room.yaml#/~1room~1id~1%7Bid%7D'
+components:
+  schemas:
+    Room:
+      $ref: 'schema.yaml#/Room'
+    Rooms:
+      $ref: 'schema.yaml#/Rooms'
