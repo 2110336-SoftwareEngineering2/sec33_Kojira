@@ -13,8 +13,7 @@ const NontRow = (props) => {
                 <a
                 href={"/nont/"+props.element._id}
                 type="button"
-                className="btn btn-outline-info btn-block font-weight-bold" 
-                style={{textAlign:"center", fontSize:16}}
+                className="button-text btn btn-outline-info btn-block font-weight-bold text-center" 
                 >
                     {props.element.name}
                 </a>
@@ -23,7 +22,7 @@ const NontRow = (props) => {
                 <a
                 href={"/nont/update/"+props.element._id}
                 type="button"
-                className="btn btn-outline-info btn-block text-light bg-success border-success" 
+                className="button-text btn btn-outline-info btn-block text-light bg-success border-success" 
                 >
 
                     <i className="fas fa-edit" />
@@ -33,7 +32,7 @@ const NontRow = (props) => {
             {/* nont delete button */}
             <div className="col-md-1 p-0">
                 <button
-                className="btn btn-outline-info btn-block text-light bg-danger border-danger" 
+                className="button-text btn btn-outline-info btn-block text-light bg-danger border-danger" 
                 onClick={() => setShowModal(true)}
                 >
                     <i className="fa fa-trash" />
@@ -41,22 +40,22 @@ const NontRow = (props) => {
                 </button>
 
                 {/* Modal */}
-                <Modal show={showModal} onHide={() => setShowModal(false)}>
-                    <Modal.Header className="bg-warning" closeButton>
-                        <div className="font-weight-bold" style={{marginLeft:"185px"}}>
+                <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+                    <Modal.Header className="bg-warning justify-content-center"> {/*no close button*/}
+                        <div className="header text-danger">
                             !! WARNING !! 
                         </div>
                     </Modal.Header>
-                    <Modal.Body>
-                        <div style={{marginLeft:"97px"}}>
+                    <Modal.Body style={{ margin: "auto" }}>
+                        <div>
                             Are you sure to delete this nont profile?
                         </div>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <button onClick={()=>onDelete(id)} className="btn text-light bg-success border-danger" style={{marginRight:"60px"}} >
+                    <Modal.Footer className="justify-content-center">
+                        <button onClick={()=>onDelete(id)} className="btn text-light bg-success border-danger">
                             YES
                         </button>
-                        <button onClick={()=>setShowModal(false)} className="btn text-light bg-danger border-danger" style={{marginRight:"145px"}}> 
+                        <button onClick={()=>setShowModal(false)} className="btn text-light bg-danger border-danger ml-5"> 
                             NO
                         </button>
                     </Modal.Footer>

@@ -70,24 +70,24 @@ const NontView = () => {
       {fetchNontStatus === LoadStatus.SUCCESS && (
         <div className="card mt-3 text-center">
           <div className="card-header bg-success">
-            <h1 className="my-1 font-weight-bold text-white">{nont.name} </h1>
+            <div className="title my-1 text-white">{nont.name} </div>
           </div>
           <div className="card-header bg-info">
-            <h4 className="my-1 text-white">
+            <div className="subtitle my-1 text-white">
               {" "}
               <b>Type :</b> {nont.type}{" "}
-            </h4>
-            <h4 className="my-1 mt-3 text-white">
+            </div>
+            <div className="subtitle my-1 mt-3 text-white">
               {" "}
               <b>Breed :</b> {nont.subtype}{" "}
-            </h4>
+            </div>
           </div>
           <div className="card-body">
             <div className="media">
               {nont?.picture?.length > 0 && (
                 <img
                   className="align-self-start mr-3"
-                  style={{ width: "500px", border: "groove orange 5px" }}
+                  style={{ width: "500px", border: "groove orange 4px" }}
                   src={`${
                     "data" in nont?.picture?.[0]?.img &&
                     Buffer.from(nont?.picture?.[0]?.img?.data).toString()
@@ -99,7 +99,7 @@ const NontView = () => {
                 <div className="d-flex justify-content-center align-items-center">
                   <img
                     className="align-self-start"
-                    style={{ width: "100%", border: "groove orange 4px" }}
+                    style={{ width: "480px", border: "groove orange 4px" }}
                     src="/no-image.svg"
                     // src="https://previews.123rf.com/images/vasilyrosca/vasilyrosca1808/vasilyrosca180800001/107234907-tv-no-signal-background-illustration-no-signal-television-screen-graphic-broadcast-design-.jpg"
                     alt="nont no image"
@@ -116,26 +116,26 @@ const NontView = () => {
 
               <div className="media-body w-50">
                 <div className="mw-100">
-                  <h5 className="mb-3 mr-1">
+                  <div className="header mb-3 mr-1">
                     {" "}
                     <b> Description </b>{" "}
-                  </h5>
-                  <h6> {nont.description} </h6>
+                  </div>
+                  <div> {nont.description} </div>
                   <hr />
                 </div>
                 <div>
-                  <h5 className="mb-3 mr-1">
+                  <div className="header mb-3 mr-1">
                     {" "}
                     <b> Date of birth </b>
-                  </h5>
+                  </div>
                   <p>{nont.birth_date && toDate(nont.birth_date)}</p>
                   <hr className="mw-100" />
                 </div>
                 <div>
-                  <h5 className="mb-1 mr-1">
+                  <div className="header mb-1 mr-1">
                     {" "}
                     <b> Medical certificate </b>
-                  </h5>
+                  </div>
                   <br />
                   {nont?.medical_certificate?.length > 0 && (
                     <img

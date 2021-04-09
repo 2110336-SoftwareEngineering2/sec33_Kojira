@@ -7,7 +7,7 @@ import {
 const MedicalCertificateForm = (props) => {
     return(
     <div className="col m-4 mb-3">
-        <label htmlFor="medical_certificate-input"  className="form-label">
+        <label htmlFor="medical_certificate-input"  className="emphasis form-label">
             Medical certificate
         </label>
         <input 

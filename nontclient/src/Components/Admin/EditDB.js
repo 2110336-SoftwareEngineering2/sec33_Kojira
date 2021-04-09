@@ -309,7 +309,7 @@ const EditDB = (props) => {
 
             {fetchDataStatus === LoadStatus.SUCCESS && (
                 <div className="text-center">
-                    <div className="text-dark text-center font-weight-bold bg-warning py-1" style={{ fontSize: 30 }}>
+                    <div className="title text-dark text-center font-weight-bold bg-warning py-1">
                         Edit the document of {dbname}
                     </div>
                     <form onSubmit={(e) => {
@@ -319,17 +319,17 @@ const EditDB = (props) => {
                         <div className="table-responsive">
                             <div>
                                 <table className="table table-sm table-striped table-success table-hover table-bordered" style={{ borderWidth: 12 }}>
-                                    <thead style={{ fontSize: 16 }}>
+                                    <thead className="header">
                                         <tr style={{ height: 53 }}>
                                             <th style={{ borderWidth: 2, width: "25%", verticalAlign: "middle" }}>
                                                 ID
-                                    </th>
+                                            </th>
                                             <th style={{ borderWidth: 2, verticalAlign: "middle" }}>
                                                 {data._id}
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody style={{ fontSize: 15 }}>
+                                    <tbody>
                                         {dbname === "nontOwners" &&
                                             nontOwnerField.map((element) => {
                                                 let oldVal;
@@ -349,7 +349,7 @@ const EditDB = (props) => {
                                                 }
                                                 return (
                                                     <tr>
-                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                        <td className="emphasis" style={{ borderWidth: 2, verticalAlign: "middle" }}>
                                                             {element}
                                                         </td>
                                                         <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
@@ -379,7 +379,7 @@ const EditDB = (props) => {
                                                 }
                                                 return (
                                                     <tr>
-                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                        <td className="emphasis" style={{ borderWidth: 2, verticalAlign: "middle" }}>
                                                             {element}
                                                         </td>
                                                         <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
@@ -418,7 +418,7 @@ const EditDB = (props) => {
                                                 }
                                                 return (
                                                     <tr>
-                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                        <td className="emphasis" style={{ borderWidth: 2, verticalAlign: "middle" }}>
                                                             {element}
                                                         </td>
                                                         <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
@@ -490,7 +490,7 @@ const EditDB = (props) => {
                                                 }
                                                 return (
                                                     <tr>
-                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                        <td className="emphasis" style={{ borderWidth: 2, verticalAlign: "middle" }}>
                                                             {element}
                                                         </td>
                                                         <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
@@ -523,7 +523,7 @@ const EditDB = (props) => {
                                                 }
                                                 return (
                                                     <tr>
-                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                        <td className="emphasis" style={{ borderWidth: 2, verticalAlign: "middle" }}>
                                                             {element}
                                                         </td>
                                                         <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
@@ -559,7 +559,7 @@ const EditDB = (props) => {
                                                 }
                                                 return (
                                                     <tr>
-                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                        <td className="emphasis" style={{ borderWidth: 2, verticalAlign: "middle" }}>
                                                             {element}
                                                         </td>
                                                         <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
@@ -604,7 +604,7 @@ const EditDB = (props) => {
                                                 }
                                                 return (
                                                     <tr>
-                                                        <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
+                                                        <td className="emphasis" style={{ borderWidth: 2, verticalAlign: "middle" }}>
                                                             {element}
                                                         </td>
                                                         <td style={{ borderWidth: 2, verticalAlign: "middle" }}>
@@ -621,13 +621,13 @@ const EditDB = (props) => {
 
                         <div className="row">
                             <div className="col-3">
-                                <a href={"/infodb/" + dbname} className="font-weight-bold" style={{ fontSize: 18 }}> {/*fontSize: 18, marginLeft: 80, marginRight:490*/}
+                                <a href={"/infodb/" + dbname} className="button-text font-weight-bold"> 
                                     <i className="fa fa-backward m-2" />
                                     back to {dbname}
                                 </a>
                             </div>
                             <div className="col">
-                                <button type="submit" className="btn btn-warning text-dark font-weight-bold border-dark" style={{ fontSize: 18 }}>
+                                <button type="submit" className="button-text btn btn-warning text-dark border-dark">
                                     submit update
                         </button>
                             </div>
@@ -636,12 +636,12 @@ const EditDB = (props) => {
 
                     <div >
                         {updateSuccess &&
-                            <div className="mt-4" style={{ color: "green", fontSize: 18 }}>
+                            <div className="emphasis mt-4 text-success">
                                 Successfully Updated :)
                             </div>
                         }
                         {updateSuccess === false &&
-                            <div className="mt-4" style={{ color: "red", fontSize: 18 }}>
+                            <div className="emphasis mt-4 text-danger">
                                 Unsuccessfully Updated! Please check the type of inputs.
                             </div>
                         }
@@ -651,15 +651,15 @@ const EditDB = (props) => {
 
             <Modal show={showModal} centered onHide={() => setShowModal(false)}>
                 <Modal.Header className="bg-warning justify-content-center"> {/*no close button*/}
-                    <div className="font-weight-bold text-danger" style={{ fontSize: 20 }}>
+                    <div className="header text-danger">
                         !! WARNING !!
                     </div>
                 </Modal.Header>
                 <Modal.Body style={{ margin: "auto" }}>
-                    <div className="font-weight-bold">
+                    <div>
                         The updated data may conflict with other documents.
                     </div>
-                    <div className="font-weight-bold">
+                    <div>
                         - Are you sure to update document using this data? -
                     </div>
                 </Modal.Body>

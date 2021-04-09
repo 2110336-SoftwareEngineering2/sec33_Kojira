@@ -1,9 +1,10 @@
 body {
   background-image: url(./Images/background1.jpg) !important;
-  background-size: 300px !important;
+  background-size: 400px !important;
   background-attachment: fixed !important;
 }
 
+/* box -> color, padding, margin */
 div.container, div.container-fluid {
   margin-top: 3% !important;
   background-color: #fffaf7 !important;
@@ -12,6 +13,23 @@ div.container, div.container-fluid {
   padding-bottom: 5% !important
 }
 
-/* https://media.istockphoto.com/vectors/vet-seamless-pattern-vector-id868292512?b=1&k=6&m=868292512&s=612x612&w=0&h=0-7xMi-FUgcEANbX2mFQU4Mq78vrEAYB4wVfapbtl-M= */
-
-
+/* text -> fontsize, fontweight */
+.title {
+  font-size: 32px !important;
+  font-weight: 800 !important;
+}
+.subtitle {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+}
+.header {
+  font-size: 18.72px !important;
+  font-weight: 600 !important;
+}
+.emphasis {
+  font-size: 16px !important;
+  font-weight: 500 !important; 
+}
+.button-text {
+  font-size: 16px !important;
+}

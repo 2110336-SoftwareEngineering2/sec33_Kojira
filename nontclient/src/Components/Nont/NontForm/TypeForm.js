@@ -19,7 +19,7 @@ const TypeForm = (props) => {
   
   return (
       <div className="col m-4">
-        <label htmlFor="type-input" className="form-label">
+        <label htmlFor="type-input" className="emphasis form-label">
           Type{" "}
           <abbr style={{color:"red"}} title="required"> 
             *
@@ -48,7 +48,7 @@ const TypeForm = (props) => {
         </select>
 
         {props.valid === INVALID && document.getElementById("type-input").value.length === 0 &&
-        <div id="type-desc" className="form-text" style={{color:"red"}}>
+        <div id="type-desc" className="form-text text-danger">
           Type is required.
         </div>}
 

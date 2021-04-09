@@ -55,7 +55,7 @@ const NontManage = (props) => {
     return (
         <div className="container">
             {/* Header */}
-            <h1 className="my-5 text-center font-weight-bold">Nont Management</h1>
+            <div className="title my-5 text-center">Nont Management</div>
 
             {/* Loading */}
             <Loading status={fetchNontStatus} />
@@ -64,7 +64,7 @@ const NontManage = (props) => {
             {
                 fetchNontStatus === LoadStatus.SUCCESS &&
                 (
-                    <h2 className="my-5 text-center text-body">Name: {contextValue.name}</h2>
+                    <div className="subtitle my-5 text-center text-body">Name: {contextValue.name}</div>
                 )
             }            
 
@@ -77,7 +77,7 @@ const NontManage = (props) => {
                             <a
                             type="button"
                             style={{backgroundColor:"blueviolet"}}
-                            className="btn btn-outline-light text-light border-success text-center float-left"
+                            className="button-text btn btn-outline-light text-light border-success text-center float-left"
                             href={"/nont/create"}>
                                 Add Nont
                             </a>

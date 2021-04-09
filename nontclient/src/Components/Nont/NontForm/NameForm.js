@@ -12,7 +12,7 @@ const NameForm = (props) => {
   return (
     <div className="row">
       <div className="col m-4">
-        <label htmlFor="name-input" className="form-label">
+        <label htmlFor="name-input" className="emphasis form-label">
           Name{" "}
           <abbr style={{color:"red"}} title="required">
             *
@@ -35,12 +35,12 @@ const NameForm = (props) => {
           required
         />
         {props.valid === INVALID && document.getElementById("name-input").value.length !== 0 &&
-        <div id="name-desc" className="form-text" style={{color:"red"}}>
+        <div id="name-desc" className="form-text text-danger">
           Name must not be longer than 32 characters.
         </div>}
 
         {props.valid === INVALID && document.getElementById("name-input").value.length === 0 &&
-        <div id="name-desc" className="form-text" style={{color:"red"}}>
+        <div id="name-desc" className="form-text text-danger">
           Name is required.
         </div>}
 

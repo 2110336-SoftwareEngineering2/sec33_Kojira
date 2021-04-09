@@ -11,7 +11,7 @@ import {
 const SubtypeForm = (props) => {
   return (
       <div className="col m-4">
-        <label htmlFor="subtype-input" className="form-label">
+        <label htmlFor="subtype-input" className="emphasis form-label">
           Subtype / Breed {" "}
         </label>
         <input
@@ -31,7 +31,7 @@ const SubtypeForm = (props) => {
         />
 
         {props.valid === INVALID && 
-        <div id="subtype-desc" className="form-text" style={{color:"red"}}>
+        <div id="subtype-desc" className="form-text text-danger">
           Subtype must not be longer than 50 characters.
         </div>}
 
