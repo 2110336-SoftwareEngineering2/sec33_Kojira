@@ -6,6 +6,8 @@ info:
 servers:
   - description: Nont server 
     url: https://nontserver.herokuapp.com
+  - description: Localhost server
+    url: http://localhost:5000
 paths:
   # room
   /room:

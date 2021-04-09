@@ -1,0 +1,25 @@
+/shelter/allShelters:
+  get:
+    description: fetch all shelters
+    tags:
+      - shelters
+/shelter:
+  get:
+    description: fetch all shelters with exist true
+    tags:
+      - shelters
+/shelter/id/{id}:
+  get:
+    description: fetch shelter by shelter_id with exist true
+    tags:
+      - shelters
+/shelter/nontsitterid/{id}:
+  get:
+    description: fetch shelter by nont_sitter_id with exist true
+    tags:
+      - shelters
+/shelter/name/{name}:
+  get:
+    description: fetch Shelter by shelter_name with exist true
+    tags:
+      - shelters
