@@ -30,3 +30,15 @@ paths:
     $ref: 'RoomRoute.yaml#/~1room~1admin_update~1{id}'
   /room/admin_get/{id}:
     $ref: 'RoomRoute.yaml#/~1room~1admin_get~1{id}'
+
+  # shelter
+  /shelter:
+    $ref: 'ShelterRoute.yaml#/~1shelter'
+  /shelter/allShelters:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1allShelters'
+  /shelter/id/{id}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1id~1{id}'
+  /shelter/nontsitterid/{id}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1nontsitterid~1{id}'
+  /shelter/name/{name}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1name~1{name}'

@@ -3,23 +3,101 @@
     description: fetch all shelters
     tags:
       - shelters
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelters"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /shelter:
   get:
     description: fetch all shelters with exist true
     tags:
       - shelters
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelters"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /shelter/id/{id}:
   get:
     description: fetch shelter by shelter_id with exist true
     tags:
       - shelters
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelter"
+      404:
+        description: shelter_id is not found
+        content:
+          text/plain:
+            schema:
+              type: string
+      500:
+        $ref: "#/components/responseMessage/status500"
 /shelter/nontsitterid/{id}:
   get:
     description: fetch shelter by nont_sitter_id with exist true
     tags:
       - shelters
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelters"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /shelter/name/{name}:
   get:
     description: fetch Shelter by shelter_name with exist true
     tags:
       - shelters
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelters"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+components:
+  responseMessage:
+    status500:
+      description: Internal Server Error
+      content:
+        text/plain:
+          schema:
+            type: string
