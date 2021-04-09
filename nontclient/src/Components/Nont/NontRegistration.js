@@ -25,11 +25,11 @@ const NontRegistration = (props) => {
         type: "",
         subtype: "",
         description: "",
-        birth_date: "" ,
+        birth_date: "",
     })
-    
+
     const value = useContext(UserContext);
-    
+
     const [medcer, setMedcer] = useState([])
     const [picture, setPicture] = useState([])
     const [registerStatus, setRegisterStatus] = useState(DEFAULT);
@@ -49,57 +49,57 @@ const NontRegistration = (props) => {
         },
         validateType: (value) => {
             const types = Object.values(nontTypes); //array
-            if (types.some((type) => type==value)) return true;
+            if (types.some((type) => type == value)) return true;
             else return false;
         },
         validateSubtype: (value) => {
-            if(value.length == 0 || value.length <= 50) return true;
+            if (value.length == 0 || value.length <= 50) return true;
             else return false;
         },
         validateDescription: (value) => {
-            if(value.length == 0 || value.length <= 500) return true;
+            if (value.length == 0 || value.length <= 500) return true;
             else return false;
-        },       
+        },
         validateBirthDate: (value) => {
-            if(value.length == 0) return false;
+            if (value.length == 0) return false;
             else return true;
         },
 
-        
+
     };
 
     async function handleFormChange(element) {
-        switch (element.currentTarget.id){
+        switch (element.currentTarget.id) {
             case "name-input":
-                if(validator.validateName(element.currentTarget.value)){
+                if (validator.validateName(element.currentTarget.value)) {
                     setNameValid(VALID);
                 } else {
                     setNameValid(INVALID);
                 }
                 return;
             case "type-input":
-                if(validator.validateType(element.currentTarget.value)){
+                if (validator.validateType(element.currentTarget.value)) {
                     setTypeValid(VALID);
                 } else {
                     setTypeValid(INVALID);
-                }   
+                }
                 return;
             case "subtype-input":
-                if(validator.validateSubtype(element.currentTarget.value)){
+                if (validator.validateSubtype(element.currentTarget.value)) {
                     setSubtypeValid(VALID);
                 } else {
                     setSubtypeValid(INVALID);
-                }   
+                }
                 return;
             case "description-input":
-                if(validator.validateDescription(element.currentTarget.value)){
+                if (validator.validateDescription(element.currentTarget.value)) {
                     setDescriptionValid(VALID);
                 } else {
                     setDescriptionValid(INVALID);
                 }
                 return;
             case "birth_date-input":
-                if(validator.validateBirthDate(element.currentTarget.value)){
+                if (validator.validateBirthDate(element.currentTarget.value)) {
                     setBirthDateValid(VALID);
                 } else {
                     setBirthDateValid(INVALID);
@@ -112,9 +112,9 @@ const NontRegistration = (props) => {
                     let buffer = reader.result
                     //let binaryString = new Buffer(buffer.split(",")[1],"base64");
                     //setMedcer([...medcer, {name:file.name,img:buffer}])
-                    setMedcer(oldArray => [...oldArray, {name:file.name,img:buffer}]);
+                    setMedcer(oldArray => [...oldArray, { name: file.name, img: buffer }]);
                     //console.log(typeof arrayBuffer)
-                    setMedcerValid(VALID) 
+                    setMedcerValid(VALID)
                 }
                 reader.readAsDataURL(element.currentTarget.files[0]);
                 return
@@ -124,11 +124,11 @@ const NontRegistration = (props) => {
                     reader.onload = async (e) => {
                         let buffer2 = reader.result;
                         //setPicture([...picture, {img:buffer2}]);
-                        setPicture(oldArray => [...oldArray, {img:buffer2}]);
+                        setPicture(oldArray => [...oldArray, { img: buffer2 }]);
                         setPictureValid(VALID);
                     }
                     reader.readAsDataURL(element.currentTarget.files[0]);
-                }                
+                }
                 return
         }
     }
@@ -153,9 +153,9 @@ const NontRegistration = (props) => {
                 placement: "bottomRight",
             });
             console.log(response);
-        } catch (error){
+        } catch (error) {
             setRegisterStatus(INVALID);
-            notification.error({ 
+            notification.error({
                 message: "Nont",
                 description: `Cannot create nont profile.`,
                 placement: "bottomRight",
@@ -164,83 +164,82 @@ const NontRegistration = (props) => {
         }
     }
 
-    return(
+    return (
         <>
-        {value.userType !== "Nont Owner" && <h2>You are not logged in as Nont Owner</h2>}
-        {value.userType === "Nont Owner" && 
-        <div className="container">
-            <h1 className="my-5 text-center">Register Nont</h1>
-            <div style={{color:"red"}}>
-                * required
-            </div>
-            <form className="form" onSubmit={(e) => {
-            e.preventDefault();
-            submitRegistration();}}
-            >
-                <NameForm
-                    onChange={handleFormChange}
-                    valid={nameValid}
-                />
-                <div className="row">
-                    <TypeForm
-                        onChange={handleFormChange}
-                        valid={typeValid}
-                    />       
-                    <SubtypeForm
-                        onChange={handleFormChange}
-                        valid={subtypeValid}
-                    />  
-                </div>    
-                <DescriptionForm
-                    onChange={handleFormChange}
-                    valid={descriptionValid}
-                />
-                <div className="row">
-                    <BirthDateForm
-                        onChange={handleFormChange}
-                        valid={birthDateValid}
-                    />
-                    <MedicalCertificateForm
-                        onChange={handleFormChange}
-                    />
-                    <PictureForm
-                        onChange={handleFormChange}
-                    />
-                </div>
-                <div style={{paddingLeft:404, color:"red"}}>
-                    Overall pictures and medical certificates size must less than 3MB (image files only)
-                </div>
-                <div className="m-5" style={{ textAlign: "center" }}>
-                    <button
-                    className="btn btn-primary"
-                    type="submit"
+            {value.userType !== "Nont Owner" && <h2>You are not logged in as Nont Owner</h2>}
+            {value.userType === "Nont Owner" &&
+                <div className="container">
+                    <div className="title my-5 text-center">Register Nont</div>
+                    <div className="emphasis text-danger">
+                        * required
+                    </div>
+                    <form className="form" onSubmit={(e) => {
+                        e.preventDefault();
+                        submitRegistration();
+                    }}
                     >
-                    save and submit
-                    </button>
-                </div>
-            </form>
-        </div>
-        }
-        
-        {registerStatus === VALID &&
-                <div className="m-5" style={{ textAlign: "center", color:"green" }}>
-                    <label>
-                        Your Nont is successfully registered.
-                    </label>
+                        <NameForm
+                            onChange={handleFormChange}
+                            valid={nameValid}
+                        />
+                        <div className="row">
+                            <TypeForm
+                                onChange={handleFormChange}
+                                valid={typeValid}
+                            />
+                            <SubtypeForm
+                                onChange={handleFormChange}
+                                valid={subtypeValid}
+                            />
+                        </div>
+                        <DescriptionForm
+                            onChange={handleFormChange}
+                            valid={descriptionValid}
+                        />
+                        <div className="row">
+                            <BirthDateForm
+                                onChange={handleFormChange}
+                                valid={birthDateValid}
+                            />
+                            <MedicalCertificateForm
+                                onChange={handleFormChange}
+                            />
+                            <PictureForm
+                                onChange={handleFormChange}
+                            />
+                        </div>
+                        <div className="text-danger" style={{ paddingLeft: "50%" }}>
+                            Overall pictures and medical certificates size must less than 3MB (image files only)
+                        </div>
+                        <div className="m-5 text-center">
+                            <button
+                                className="button-text btn btn-primary"
+                                type="submit"
+                            >
+                                save and submit
+                            </button>
+                        </div>
+                    </form>
+
+                    {registerStatus === VALID &&
+                        <div className="emphasis m-5 text-center text-success">
+                            <label>
+                                Your Nont is successfully registered :)
+                            </label>
+                        </div>
+                    }
+
+                    {registerStatus === INVALID &&
+                        <div className="emphasis m-5 text-center text-danger">
+                            <label>
+                                Cannot register! Please check your input.
+                             </label>
+                        </div>
+                    }
                 </div>
             }
-        
-        {registerStatus === INVALID &&
-            <div className="m-5" style={{ textAlign: "center", color:"red"}}>
-                <label>
-                    Cannot register! Please check your input.
-                </label>
-            </div>
-        }
         </>
     )
-
-
 };
 
 export default NontRegistration;

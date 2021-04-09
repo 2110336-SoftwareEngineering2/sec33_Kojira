@@ -12,7 +12,7 @@ const DescriptionForm = (props) => {
   return (
     <div className="row">
       <div className="col m-4">
-        <label htmlFor="description-input" className="form-label">
+        <label htmlFor="description-input" className="emphasis form-label">
           Description {" "}
         </label>
         <textarea
@@ -31,7 +31,7 @@ const DescriptionForm = (props) => {
         />
 
         {props.valid === INVALID && 
-        <div id="description-desc" className="form-text" style={{color:"red"}}>
+        <div id="description-desc" className="form-text text-danger">
           Description must not be longer than 500 characters.
         </div>}
         

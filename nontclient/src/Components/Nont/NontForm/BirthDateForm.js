@@ -11,7 +11,7 @@ import {
 const BirthDateForm = (props) => {
   return (
       <div className="col m-4">
-        <label htmlFor="birth_date-input" className="form-label">
+        <label htmlFor="birth_date-input" className="emphasis form-label">
           Date of birth{" "}
           <abbr style={{color:"red"}} title="required">
             *
@@ -37,7 +37,7 @@ const BirthDateForm = (props) => {
         />
 
         {props.valid === INVALID && document.getElementById("birth_date-input").value.length === 0 &&
-        <div id="birth_date-desc" className="form-text" style={{color:"red"}}>
+        <div id="birth_date-desc" className="form-text text-danger">
           Date of birth is required.
         </div>}
 

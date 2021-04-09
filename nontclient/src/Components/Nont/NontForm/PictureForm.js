@@ -7,7 +7,7 @@ import {
 const PictureForm = (props) => {
     return(
     <div className="col m-4 mb-3">
-        <label htmlFor="picture-input"  className="form-label">
+        <label htmlFor="picture-input"  className="emphasis form-label">
             Picture
         </label>
         <input 
