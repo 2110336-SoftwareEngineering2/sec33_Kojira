@@ -9,13 +9,9 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Rooms"
+              $ref: "RoomSchema.yaml#/Rooms"
       500:
-        description: Internal Server Error
-        content:
-          text/plain:
-            schema:
-              type: string
+        $ref: "#/components/responseMessage/status500"
   post:
     description: create new room
     tags: 
@@ -32,7 +28,11 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      400:
+        $ref: "#/components/responseMessage/status400"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/id/{id}:
   get:
     description: fetch one room using room_id
@@ -50,13 +50,9 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
       500:
-        description: Internal Server Error
-        content:
-          text/plain:
-            schema:
-              type: string
+        $ref: "#/components/responseMessage/status500"
 /room/name/{name}:
   get:
     description: fetch rooms using room_name
@@ -74,7 +70,9 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Rooms"
+              $ref: "RoomSchema.yaml#/Rooms"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/nont-type/{type}:
   get:
     description: fetch rooms using nont_type
@@ -92,7 +90,9 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Rooms"
+              $ref: "RoomSchema.yaml#/Rooms"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/shelterid/{id}:
   get:
     description: fetch rooms using shelter_id
@@ -110,7 +110,9 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Rooms"
+              $ref: "RoomSchema.yaml#/Rooms"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/update/{id}:
   patch:
     description: update room
@@ -134,7 +136,11 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      400:
+        $ref: "#/components/responseMessage/status400"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/delete/{id}:
   patch:
     description: delete room (update exist to false)
@@ -152,7 +158,11 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      400:
+        $ref: "#/components/responseMessage/status400"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/remove/{id}:
   delete:
     description: remove room from database
@@ -167,6 +177,10 @@
     responses:
       200:
         description: Success Response
+      400:
+        $ref: "#/components/responseMessage/status400"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/admin_update/{id}:
   put:
     description: update room
@@ -190,7 +204,9 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/admin_get/{id}:
   get:
     description: fetch one room using room_id
@@ -208,7 +224,9 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      500:
+        $ref: "#/components/responseMessage/status500"
 
 components:
   requestBodies:
@@ -243,3 +261,17 @@ components:
           type: number
         price:
           type: number
+  responseMessage:
+    status400:
+      description: Data Validation Error
+      content:
+        text/plain:
+          schema:
+            type: string
+    status500:
+      description: Internal Server Error
+      content:
+        text/plain:
+          schema:
+            type: string
+
