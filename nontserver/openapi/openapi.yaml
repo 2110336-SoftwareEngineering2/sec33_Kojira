@@ -28,3 +28,7 @@ paths:
     $ref: 'room.yaml#/~1room~1admin_update~1{id}'
   /room/admin_get/{id}:
     $ref: 'room.yaml#/~1room~1admin_get~1{id}'
+  /nontOwners/login:
+    $ref: 'login.yaml#/~1test'
+
+  
