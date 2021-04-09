@@ -1,7 +1,7 @@
 /nont:
   get:
     tags: 
-      - Nont
+      - nonts
     description: Fetch all nonts' document
     responses:
       200:
@@ -13,7 +13,7 @@
 /nont/{id}:
   get:
     tags: 
-      - Nont 
+      - nonts
     description: Fetch nont's document by its ID
     parameters:
       - in: path
@@ -31,7 +31,7 @@
 /nont/name/{name}:
   get:
     tags: 
-      - Nont
+      - nonts
     description: Fetch nont's document by its name
     parameters:
       - in: path
@@ -49,7 +49,7 @@
 /nont/type/{type}:
   get:
     tags: 
-      - Nont
+      - nonts
     description: Fetch nont's document by its type
     parameters:
       - in: path
@@ -67,7 +67,7 @@
 /nont/nontowner_id/{id}:
   get:
     tags: 
-      - Nont
+      - nonts
     description: Fetch nont's document by its nontowner's ID
     parameters:
       - in: path
@@ -85,7 +85,7 @@
 /nont/create:
   post:
     tags: 
-      - Nont
+      - nonts
     description: Create nont's document
     requestBody:
       required: true
@@ -103,7 +103,7 @@
 /nont/update/{id}:
   put:
     tags: 
-      - Nont
+      - nonts
     description: Update nont's document by its ID
     parameters:
       - in: path
@@ -127,7 +127,7 @@
 /nont/delete/{id}:
   patch:
     tags: 
-      - Nont
+      - nonts
     description: Delete nont's document by its ID (exist=false)
     parameters:
       - in: path
@@ -145,7 +145,7 @@
 /nont/remove/{id}:
   delete:
     tags: 
-      - Nont
+      - nonts
     description: Remove nont's document by its ID
     parameters:
       - in: path
@@ -163,7 +163,7 @@
 /nont/admin_update/{id}:
   put:
     tags: 
-      - Nont
+      - nonts
     description: Admin update nont's document by its ID
     parameters:
       - in: path

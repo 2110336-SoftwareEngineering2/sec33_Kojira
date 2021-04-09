@@ -1,19 +1,21 @@
 /room:
   get:
-    tags: 
-      - Room
     description: fetch all rooms
+    tags: 
+      - rooms
     responses:
       200:
         description: Success Response
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Rooms"
+              $ref: "RoomSchema.yaml#/Rooms"
+      500:
+        $ref: "#/components/responseMessage/status500"
   post:
-    tags: 
-      - Room
     description: create new room
+    tags: 
+      - rooms
     requestBody:
       required: true
       content:
@@ -26,12 +28,16 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      400:
+        $ref: "#/components/responseMessage/status400"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/id/{id}:
   get:
-    tags: 
-      - Room
     description: fetch one room using room_id
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -44,12 +50,14 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/name/{name}:
   get:
-    tags: 
-      - Room
     description: fetch rooms using room_name
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: name
@@ -62,12 +70,14 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Rooms"
+              $ref: "RoomSchema.yaml#/Rooms"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/nont-type/{type}:
   get:
-    tags: 
-      - Room
     description: fetch rooms using nont_type
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: type
@@ -80,12 +90,14 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Rooms"
+              $ref: "RoomSchema.yaml#/Rooms"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/shelterid/{id}:
   get:
-    tags: 
-      - Room
     description: fetch rooms using shelter_id
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -98,12 +110,14 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Rooms"
+              $ref: "RoomSchema.yaml#/Rooms"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/update/{id}:
   patch:
-    tags: 
-      - Room
     description: update room
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -122,12 +136,16 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      400:
+        $ref: "#/components/responseMessage/status400"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/delete/{id}:
   patch:
-    tags: 
-      - Room
     description: delete room (update exist to false)
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -140,12 +158,16 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      400:
+        $ref: "#/components/responseMessage/status400"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/remove/{id}:
   delete:
-    tags: 
-      - Room
     description: remove room from database
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -155,11 +177,15 @@
     responses:
       200:
         description: Success Response
+      400:
+        $ref: "#/components/responseMessage/status400"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/admin_update/{id}:
   put:
-    tags: 
-      - Room
     description: update room
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -178,12 +204,14 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      500:
+        $ref: "#/components/responseMessage/status500"
 /room/admin_get/{id}:
   get:
-    tags: 
-      - Room
     description: fetch one room using room_id
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -196,7 +224,9 @@
         content:
           application/json:
             schema:
-              $ref: "schema.yaml#/Room"
+              $ref: "RoomSchema.yaml#/Room"
+      500:
+        $ref: "#/components/responseMessage/status500"
 
 components:
   requestBodies:
@@ -231,3 +261,17 @@ components:
           type: number
         price:
           type: number
+  responseMessage:
+    status400:
+      description: Data Validation Error
+      content:
+        text/plain:
+          schema:
+            type: string
+    status500:
+      description: Internal Server Error
+      content:
+        text/plain:
+          schema:
+            type: string
+
