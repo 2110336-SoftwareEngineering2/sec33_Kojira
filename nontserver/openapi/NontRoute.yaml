@@ -1,0 +1,186 @@
+/nont:
+  get:
+    tags: 
+      - nonts
+    description: Fetch all nonts' document
+    responses:
+      200:
+        description: Successfully fetched
+        content:
+          application/json:
+            schema:
+              $ref: 'NontSchema.yaml#/res/nonts'
+/nont/{id}:
+  get:
+    tags: 
+      - nonts
+    description: Fetch nont's document by its ID
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully fetched
+        content:
+          application/json:
+            schema:
+              $ref: 'NontSchema.yaml#/res/nont'
+/nont/name/{name}:
+  get:
+    tags: 
+      - nonts
+    description: Fetch nont's document by its name
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully fetched
+        content:
+          application/json:
+            schema:
+              $ref: 'NontSchema.yaml#/res/nont'
+/nont/type/{type}:
+  get:
+    tags: 
+      - nonts
+    description: Fetch nont's document by its type
+    parameters:
+      - in: path
+        name: type
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully fetched
+        content:
+          application/json:
+            schema:
+              $ref: 'NontSchema.yaml#/res/nont'
+/nont/nontowner_id/{id}:
+  get:
+    tags: 
+      - nonts
+    description: Fetch nont's document by its nontowner's ID
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully fetched
+        content:
+          application/json:
+            schema:
+              $ref: 'NontSchema.yaml#/res/nont'
+/nont/create:
+  post:
+    tags: 
+      - nonts
+    description: Create nont's document
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'NontSchema.yaml#/req_body/create'
+    responses:
+      200:
+        description: Successfully created
+        content:
+          application/json:
+            schema:
+              $ref: 'NontSchema.yaml#/res/nont'
+/nont/update/{id}:
+  put:
+    tags: 
+      - nonts
+    description: Update nont's document by its ID
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'NontSchema.yaml#/req_body/update'
+    responses:
+      200:
+        description: Successfully updated
+        content:
+          application/json:
+            schema:
+              $ref: 'NontSchema.yaml#/res/nont'
+/nont/delete/{id}:
+  patch:
+    tags: 
+      - nonts
+    description: Delete nont's document by its ID (exist=false)
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully deleted
+        content:
+          application/json:
+            schema:
+              $ref: 'NontSchema.yaml#/res/nont'
+/nont/remove/{id}:
+  delete:
+    tags: 
+      - nonts
+    description: Remove nont's document by its ID
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully removed
+        content:
+          application/json:
+            schema:
+              $ref: 'NontSchema.yaml#/res/nont'
+/nont/admin_update/{id}:
+  put:
+    tags: 
+      - nonts
+    description: Admin update nont's document by its ID
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'NontSchema.yaml#/req_body/admin_update'
+    responses:
+      200:
+        description: Successfully admined deleted
+        content:
+          application/json:
+            schema:
+              $ref: 'NontSchema.yaml#/res/nont'

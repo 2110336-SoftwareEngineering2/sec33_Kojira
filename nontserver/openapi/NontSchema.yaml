@@ -1,0 +1,164 @@
+res:
+  nont:
+    type: object
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+      subtype:
+        type: string
+      description:
+        type: string
+      birth_date:
+        type: string
+      medical_certificate:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            img:
+              type: string
+      picture:
+        type: array
+        items:
+          type: object
+          properties:
+            img:
+              type: string
+      nontowner_id:
+        type: string
+      exist:
+        type: boolean
+      __v:
+        type: integer
+  nonts:
+    type: array
+    items:
+      $ref: '#/res/nont'
+req_body:
+  create:
+    type: object
+    required:
+      - name
+      - type
+      - birth_date
+      - nontowner_id
+    properties:
+      name:
+        type: string
+      type:
+        description: large dog, medium dog, small dog, cat, hamster, rabbit or bird 
+        type: string
+      subtype:
+        type: string
+      description:
+        type: string
+      birth_date:
+        description: YYYY-MM-DD format
+        type: string
+      medical_certificate:
+        description: array of object(name, img) type
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            img:
+              description: string (buffer) type
+              type: string
+      picture:
+        description: array of object(img)
+        type: array
+        items:
+          type: object
+          properties:
+            img:
+              description: string (buffer) type
+              type: string
+      nontowner_id:
+        type: string
+  update:
+    type: object
+    required:
+      - name
+      - type
+      - birth_date
+      - nontowner_id
+    properties:
+      name:
+        type: string
+      type:
+        description: large dog, medium dog, small dog, cat, hamster, rabbit or bird 
+        type: string
+      subtype:
+        type: string
+      description:
+        type: string
+      birth_date:
+        description: YYYY-MM-DD format
+        type: string
+      medical_certificate:
+        description: array of object(name, img) type
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            img:
+              description: string (buffer) type
+              type: string
+      picture:
+        description: array of object(img)
+        type: array
+        items:
+          type: object
+          properties:
+            img:
+              description: string (buffer) type
+              type: string
+      nontowner_id:
+        type: string
+  admin_update:
+    type: object
+    properties:
+      name:
+        type: string
+      type:
+        description: large dog, medium dog, small dog, cat, hamster, rabbit or bird 
+        type: string
+      subtype:
+        type: string
+      description:
+        type: string
+      birth_date:
+        description: YYYY-MM-DD format
+        type: string
+      medical_certificate:
+        description: array of object(name, img) type
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            img:
+              description: string (buffer) type
+              type: string
+      picture:
+        description: array of object(img)
+        type: array
+        items:
+          type: object
+          properties:
+            img:
+              description: string (buffer) type
+              type: string
+      nontowner_id:
+        type: string
