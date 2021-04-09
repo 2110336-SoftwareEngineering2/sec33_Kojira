@@ -1,6 +1,8 @@
 /room:
   get:
     description: fetch all rooms
+    tags: 
+      - rooms
     responses:
       200:
         description: Success Response
@@ -8,8 +10,16 @@
           application/json:
             schema:
               $ref: "schema.yaml#/Rooms"
+      500:
+        description: Internal Server Error
+        content:
+          text/plain:
+            schema:
+              type: string
   post:
     description: create new room
+    tags: 
+      - rooms
     requestBody:
       required: true
       content:
@@ -26,6 +36,8 @@
 /room/id/{id}:
   get:
     description: fetch one room using room_id
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -39,9 +51,17 @@
           application/json:
             schema:
               $ref: "schema.yaml#/Room"
+      500:
+        description: Internal Server Error
+        content:
+          text/plain:
+            schema:
+              type: string
 /room/name/{name}:
   get:
     description: fetch rooms using room_name
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: name
@@ -58,6 +78,8 @@
 /room/nont-type/{type}:
   get:
     description: fetch rooms using nont_type
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: type
@@ -74,6 +96,8 @@
 /room/shelterid/{id}:
   get:
     description: fetch rooms using shelter_id
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -90,6 +114,8 @@
 /room/update/{id}:
   patch:
     description: update room
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -112,6 +138,8 @@
 /room/delete/{id}:
   patch:
     description: delete room (update exist to false)
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -128,6 +156,8 @@
 /room/remove/{id}:
   delete:
     description: remove room from database
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -140,6 +170,8 @@
 /room/admin_update/{id}:
   put:
     description: update room
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
@@ -162,6 +194,8 @@
 /room/admin_get/{id}:
   get:
     description: fetch one room using room_id
+    tags: 
+      - rooms
     parameters:
       - in: path
         name: id
