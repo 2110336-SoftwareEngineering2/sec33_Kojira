@@ -126,7 +126,7 @@ class NontController extends InterfaceController {
         nontowner_id: this.mongoose.Types.ObjectId(req.body.nontowner_id),
         exist: true,
       };
-      const updatedNont = await this.Nont.updateOne(newQuery, newBody);
+      const updatedNont = await this.Nont.findByIdAndUpdate(newQuery, newBody);
       return res.send(updatedNont);
     } catch (error) {
       return res.status(500).send("Internal Server Error, Please try again");
@@ -153,7 +153,7 @@ class NontController extends InterfaceController {
       // delete nont by change exist to false
       const newQuery = { _id: this.mongoose.Types.ObjectId(req.params.id) };
       const newBody = { exist: false };
-      const cancelledNont = await this.Nont.updateOne(newQuery, newBody);
+      const cancelledNont = await this.Nont.findByIdAndUpdate(newQuery, newBody);
       return res.send(cancelledNont);
     } catch (error) {
       return res.status(500).send("Internal Server Error, Please try again");
@@ -177,7 +177,7 @@ class NontController extends InterfaceController {
       }
       // remove nont
       const newQuery = { _id: this.mongoose.Types.ObjectId(req.params.id) };
-      const deletedNont = await this.Nont.deleteOne(newQuery);
+      const deletedNont = await this.Nont.findByIdAndDelete(newQuery);
       return res.send(deletedNont);
     } catch (error) {
       return res.status(500).send("Internal Server Error, Please try again");
@@ -189,8 +189,8 @@ class NontController extends InterfaceController {
     try {
       const newQuery = { _id: req.params.id };
       const newBody = req.body;
-      const updatedNont = await this.Nont.updateOne(newQuery, newBody);
-      return res.send(newBody);
+      const updatedNont = await this.Nont.findByIdAndUpdate(newQuery, newBody);
+      return res.send(updatedNont);
     } catch (error) {
       return res.status(500).send("Internal Server Error, Please try again");
     }

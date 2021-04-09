@@ -1,5 +1,7 @@
 /room:
   get:
+    tags: 
+      - Room
     description: fetch all rooms
     responses:
       200:
@@ -9,6 +11,8 @@
             schema:
               $ref: "schema.yaml#/Rooms"
   post:
+    tags: 
+      - Room
     description: create new room
     requestBody:
       required: true
@@ -25,6 +29,8 @@
               $ref: "schema.yaml#/Room"
 /room/id/{id}:
   get:
+    tags: 
+      - Room
     description: fetch one room using room_id
     parameters:
       - in: path
@@ -41,6 +47,8 @@
               $ref: "schema.yaml#/Room"
 /room/name/{name}:
   get:
+    tags: 
+      - Room
     description: fetch rooms using room_name
     parameters:
       - in: path
@@ -57,6 +65,8 @@
               $ref: "schema.yaml#/Rooms"
 /room/nont-type/{type}:
   get:
+    tags: 
+      - Room
     description: fetch rooms using nont_type
     parameters:
       - in: path
@@ -73,6 +83,8 @@
               $ref: "schema.yaml#/Rooms"
 /room/shelterid/{id}:
   get:
+    tags: 
+      - Room
     description: fetch rooms using shelter_id
     parameters:
       - in: path
@@ -89,6 +101,8 @@
               $ref: "schema.yaml#/Rooms"
 /room/update/{id}:
   patch:
+    tags: 
+      - Room
     description: update room
     parameters:
       - in: path
@@ -111,6 +125,8 @@
               $ref: "schema.yaml#/Room"
 /room/delete/{id}:
   patch:
+    tags: 
+      - Room
     description: delete room (update exist to false)
     parameters:
       - in: path
@@ -127,6 +143,8 @@
               $ref: "schema.yaml#/Room"
 /room/remove/{id}:
   delete:
+    tags: 
+      - Room
     description: remove room from database
     parameters:
       - in: path
@@ -139,6 +157,8 @@
         description: Success Response
 /room/admin_update/{id}:
   put:
+    tags: 
+      - Room
     description: update room
     parameters:
       - in: path
@@ -161,6 +181,8 @@
               $ref: "schema.yaml#/Room"
 /room/admin_get/{id}:
   get:
+    tags: 
+      - Room
     description: fetch one room using room_id
     parameters:
       - in: path

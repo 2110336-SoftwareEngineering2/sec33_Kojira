@@ -6,6 +6,9 @@ info:
 servers:
   - description: Nont server 
     url: https://nontserver.herokuapp.com
+tags:
+  - name: Room
+  - name: Nont
 paths:
   # room
   /room:
@@ -28,3 +31,25 @@ paths:
     $ref: 'room.yaml#/~1room~1admin_update~1{id}'
   /room/admin_get/{id}:
     $ref: 'room.yaml#/~1room~1admin_get~1{id}'
+  # nont
+  /nont:
+    $ref: 'NontRoute.yaml#/~1nont'
+  /nont/{id}:
+    $ref: 'NontRoute.yaml#/~1nont~1{id}'
+  /nont/name/{name}:
+    $ref: 'NontRoute.yaml#/~1nont~1name~1{name}'
+  /nont/type/{type}:
+    $ref: 'NontRoute.yaml#/~1nont~1type~1{type}'
+  /nont/nontowner_id/{id}:
+    $ref: 'NontRoute.yaml#/~1nont~1nontowner_id~1{id}'
+  /nont/create:
+    $ref: 'NontRoute.yaml#/~1nont~1create'
+  /nont/update/{id}:
+    $ref: 'NontRoute.yaml#/~1nont~1update~1{id}'
+  /nont/delete/{id}:
+    $ref: 'NontRoute.yaml#/~1nont~1delete~1{id}'
+  /nont/remove/{id}:
+    $ref: 'NontRoute.yaml#/~1nont~1remove~1{id}'
+  /nont/admin_update/{id}:
+    $ref: 'NontRoute.yaml#/~1nont~1admin_update~1{id}'
+  #
