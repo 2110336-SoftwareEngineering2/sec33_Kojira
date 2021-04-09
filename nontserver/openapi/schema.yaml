@@ -1,0 +1,28 @@
+Room:
+  type: object
+  properties:
+    _id:
+      type: string
+    name:
+      type: string
+    nont_type:
+      type: string
+    amount:
+      type: number
+    price:
+      type: number
+    shelter_id:
+      type: string
+    exist:
+      type: boolean
+    createdAt:
+      type: string
+    updatedAt:
+      type: string
+    __v:
+      type: integer
+Rooms:
+  description: array of Room
+  type: array
+  items:
+    $ref: '#/Room'
