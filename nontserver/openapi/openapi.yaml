@@ -72,7 +72,7 @@ paths:
   #/reservation/shelter_id/{id}:
   #/reservation/room_id/{id}:
   /reservation/create:
-    $ref: 'ReservationRoute.yaml#/~1reservation'
+    $ref: 'ReservationRoute.yaml#/~1reservation~1create'
   /reservation/verify_check_in/{id}:
     $ref: 'ReservationRoute.yaml#/~1reservation~1verify_check_in~1{id}'
   /reservation/check_in/{id}:

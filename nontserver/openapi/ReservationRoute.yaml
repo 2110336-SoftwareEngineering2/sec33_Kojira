@@ -1,10 +1,10 @@
-#/reservation:
-#/reservation/{id}:
-#/reservation/unpop/{id}:
-#/reservation/nontowner_id/{id}:
-#/reservation/nontsitter_id/{id}:
-#/reservation/shelter_id/{id}:
-#/reservation/room_id/{id}:
+# /reservation:
+# /reservation/{id}:
+# /reservation/unpop/{id}:
+# /reservation/nontowner_id/{id}:
+# /reservation/nontsitter_id/{id}:
+# /reservation/shelter_id/{id}:
+# /reservation/room_id/{id}:
 /reservation/create:
   post:
     tags:
@@ -36,7 +36,7 @@
           type: string
     responses:
       200:
-        summary: ~1status:check-in, nontsitter_check_in:true~1
+        summary: {status:check-in, nontsitter_check_in:true}
         description: Successfully checked in by nontsitter
         content:
           application/json:
@@ -55,7 +55,7 @@
           type: string
     responses:
       200:
-        summary: ~1nontowner_check_in:true, check_in_datetime:<present time>~1
+        summary: {nontowner_check_in:true, check_in_datetime:<present time>}
         description: Successfully checked in by nontowner
         content:
           application/json:
@@ -74,7 +74,7 @@
           type: string
     responses:
       200:
-        summary: ~1status:check-out, nontsitter_check_out:true~1
+        summary: {status:check-out, nontsitter_check_out:true}
         description: Successfully checked out by nontsitter
         content:
           application/json:
@@ -93,7 +93,7 @@
           type: string
     responses:
       200:
-        summary: ~1nontowner_check_out:true, check_out_datetime:<present time>~1
+        summary: {nontowner_check_out:true, check_out_datetime:<present time>}
         description: Successfully checked out by nontowner
         content:
           application/json:
@@ -112,7 +112,7 @@
           type: string
     responses:
       200:
-        summary: ~1status:cancelled, cancel_datetime:<present time>~1
+        summary: {status:cancelled, cancel_datetime:<present time>}
         description: Successfully cancelled
         content:
           application/json:
