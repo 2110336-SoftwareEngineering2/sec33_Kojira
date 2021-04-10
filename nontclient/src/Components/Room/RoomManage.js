@@ -96,13 +96,13 @@ const RoomManage = (props) => {
                 {/* Back Button */}
                 <a
                 type="button"
-                className="btn btn-outline-light text-dark bg-light border-dark "
+                className="btn btn-outline-light text-dark bg-light border-dark button-text"
                 href={"/shelter"}>
                     Back
                 </a>
                 <a
                 type="button"
-                className="btn btn-outline-light text-light bg-success border-success "
+                className="btn btn-outline-light text-light bg-success border-success button-text"
                 href={"/room/register/" + shelterID}>
                     Add
                 </a>
@@ -119,7 +119,7 @@ const RoomManage = (props) => {
                     fetchRoomStatus === LoadStatus.SUCCESS &&
                     fetchShelterStatus === LoadStatus.SUCCESS &&
                     (
-                        <div className="col-md-12 font-weight-bold h1"
+                        <div className="col-md-12 title"
                         style={{backgroundColor:"#c8d6e5", color:"#222f3e"}}>
                             {shelterName}
                         </div>
@@ -133,13 +133,14 @@ const RoomManage = (props) => {
                 fetchShelterStatus === LoadStatus.SUCCESS &&
                 (
                     <div>
-                        <table className="table table-responsive-md">
+                        <table className="table table-responsive-md table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col" style={{textAlign:"center", fontSize:20}}>Name</th>
-                                    <th scope="col" style={{textAlign:"center", fontSize:20}}>Nont Type</th>
-                                    <th scope="col" style={{textAlign:"center", fontSize:20}}>Amount</th>
-                                    <th scope="col" style={{textAlign:"center", fontSize:20}}>Price</th>
+                                    <th scope="col" className="header" style={{textAlign:"center"}}>Name</th>
+                                    <th scope="col" className="header" style={{textAlign:"center"}}>Nont Type</th>
+                                    <th scope="col" className="header" style={{textAlign:"center"}}>Amount</th>
+                                    <th scope="col" className="header" style={{textAlign:"center"}}>Price</th>
+                                    <th colSpan="2" />
                                 </tr>
                             </thead>
                             <tbody>

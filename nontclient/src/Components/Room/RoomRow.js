@@ -5,14 +5,14 @@ const RoomRow = (props) => {
 
     return (
         <tr>
-            <th scope="row" style={{textAlign:"center", verticalAlign:"middle", fontSize:18}}>{props.element.name}</th>
-            <td scope="row" style={{textAlign:"center", verticalAlign:"middle", fontSize:18}}>{props.element.nont_type}</td>
-            <td scope="row" style={{textAlign:"center", verticalAlign:"middle", fontSize:18}}>{props.element.amount}</td>
-            <td scope="row" style={{textAlign:"center", verticalAlign:"middle", fontSize:18}}>{props.element.price}</td>
+            <td scope="row" className="emphasis" style={{textAlign:"center", verticalAlign:"middle"}}>{props.element.name}</td>
+            <td scope="row" className="button-text" style={{textAlign:"center", verticalAlign:"middle"}}>{props.element.nont_type}</td>
+            <td scope="row" className="button-text" style={{textAlign:"center", verticalAlign:"middle"}}>{props.element.amount}</td>
+            <td scope="row" className="button-text" style={{textAlign:"center", verticalAlign:"middle"}}>{props.element.price}</td>
             <td scope="row" style={{width:15}}>
                 <a 
                 type="button"
-                className="btn btn-outline-info btn-block text-light bg-success border-success" 
+                className="btn btn-outline-info btn-block text-light bg-success border-success button-text" 
                 href={"/roomUpdate/"+props.element._id}    
                 >
                     <i className="fas fa-edit" />
@@ -28,7 +28,7 @@ const RoomRow = (props) => {
                 >
                 <a
                 type="button"
-                className="btn btn-outline-info btn-block text-light bg-danger border-danger"
+                className="btn btn-outline-info btn-block text-light bg-danger border-danger button-text"
                 >
                     <i className="fa fa-trash" />
                     {" "}Delete
