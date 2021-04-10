@@ -32,7 +32,7 @@
   get:
     tags: 
       - nonts
-    description: Fetch nont's document using name parameter
+    description: Fetch nonts' document using name parameter
     parameters:
       - in: path
         name: name
@@ -45,12 +45,12 @@
         content:
           application/json:
             schema:
-              $ref: 'NontSchema.yaml#/res/nont'
+              $ref: 'NontSchema.yaml#/res/nonts'
 /nont/type/{type}:
   get:
     tags: 
       - nonts
-    description: Fetch nont's document using type parameter
+    description: Fetch nonts' document using type parameter
     parameters:
       - in: path
         name: type
@@ -63,12 +63,12 @@
         content:
           application/json:
             schema:
-              $ref: 'NontSchema.yaml#/res/nont'
+              $ref: 'NontSchema.yaml#/res/nonts'
 /nont/nontowner_id/{id}:
   get:
     tags: 
       - nonts
-    description: Fetch nont's document using nontowner id parameter
+    description: Fetch nonts' document using nontowner id parameter
     parameters:
       - in: path
         name: id
@@ -81,7 +81,7 @@
         content:
           application/json:
             schema:
-              $ref: 'NontSchema.yaml#/res/nont'
+              $ref: 'NontSchema.yaml#/res/nonts'
 /nont/create:
   post:
     tags: 
@@ -137,7 +137,7 @@
           type: string
     responses:
       200:
-        summary: ~1exist:false~1
+        summary: {exist:false}
         description: Successfully deleted
         content:
           application/json:
