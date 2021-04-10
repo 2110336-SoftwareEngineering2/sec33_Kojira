@@ -63,3 +63,27 @@ paths:
     $ref: 'NontRoute.yaml#/~1nont~1remove~1{id}'
   /nont/admin_update/{id}:
     $ref: 'NontRoute.yaml#/~1nont~1admin_update~1{id}'
+  # reservation
+  #/reservation:
+  #/reservation/{id}:
+  #/reservation/unpop/{id}:
+  #/reservation/nontowner_id/{id}:
+  #/reservation/nontsitter_id/{id}:
+  #/reservation/shelter_id/{id}:
+  #/reservation/room_id/{id}:
+  /reservation/create:
+    $ref: 'ReservationRoute.yaml#/~1reservation'
+  /reservation/verify_check_in/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1verify_check_in~1{id}'
+  /reservation/check_in/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1check_in~1{id}'
+  /reservation/verify_check_out/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1verify_check_out~1{id}'
+  /reservation/check_out/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1check_out~1{id}'
+  /reservation/cancel/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1cancel~1{id}'
+  /reservation/remove/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1remove~1{id}'
+  /reservation/admin_update/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1admin_update~1{id}'
