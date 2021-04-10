@@ -11,7 +11,7 @@ const LicenseForm = (props) => {
                 License
             </label>
             <Upload
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={() => false}
                 listType="picture-card"
                 onChange={props.onFormChange}
                 fileList={props.listFile}

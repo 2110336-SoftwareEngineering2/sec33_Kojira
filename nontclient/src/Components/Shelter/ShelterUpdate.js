@@ -27,8 +27,6 @@ const ShelterUpdate = (props) => {
     const [shelter, setShelter] = useState([]);
     const [rooms, setRooms] = useState([]);
     const {shelterID} = useParams();
-    console.log(shelter?.coordinate?.lat)
-    console.log(shelter?.coordinate?.lng)
     useEffect( () => {
         async function fetchShelter() {
             try {
@@ -41,11 +39,11 @@ const ShelterUpdate = (props) => {
                         setCurrentLicenseList([])
                         for(var p of response.data.picture){
                             let x = Buffer.from(p.img.data).toString()
-                            setCurrentPictureList(oldArray => [...oldArray, {name:p.name,url:x,type:p.type,status:'done'}])
+                            setCurrentPictureList(oldArray => [...oldArray, {name:p.name,url:x,type:p.contentType,status:'done'}])
                         }
                         for(var l of response.data.license){
                             let y = Buffer.from(l.img.data).toString()
-                            setCurrentLicenseList(oldArray => [...oldArray, {name:p.name,url:y,type:p.type,status:'done'}])
+                            setCurrentLicenseList(oldArray => [...oldArray, {name:p.name,url:y,type:p.contentType,status:'done'}])
                         }
                     }
                 } 
@@ -172,7 +170,6 @@ const ShelterUpdate = (props) => {
         setPicture([])
         for (var f of newFileList){
             let file = f.originFileObj?f.originFileObj:f
-            console.log(file)  
             if(f.originFileObj){
                 let buffer = await new Promise(resolve => {
                     let reader = new FileReader();
@@ -191,7 +188,6 @@ const ShelterUpdate = (props) => {
         setLicense([])
         for (var f of newFileList){
             let file = f.originFileObj?f.originFileObj:f
-            console.log(file)  
             if(f.originFileObj){
                 let buffer = await new Promise(resolve => {
                     let reader = new FileReader();
