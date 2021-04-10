@@ -14,7 +14,7 @@
   get:
     tags: 
       - nonts
-    description: Fetch nont's document by its ID
+    description: Fetch nont's document using id parameter
     parameters:
       - in: path
         name: id
@@ -32,7 +32,7 @@
   get:
     tags: 
       - nonts
-    description: Fetch nont's document by its name
+    description: Fetch nont's document using name parameter
     parameters:
       - in: path
         name: name
@@ -50,7 +50,7 @@
   get:
     tags: 
       - nonts
-    description: Fetch nont's document by its type
+    description: Fetch nont's document using type parameter
     parameters:
       - in: path
         name: type
@@ -68,7 +68,7 @@
   get:
     tags: 
       - nonts
-    description: Fetch nont's document by its nontowner's ID
+    description: Fetch nont's document using nontowner id parameter
     parameters:
       - in: path
         name: id
@@ -86,7 +86,7 @@
   post:
     tags: 
       - nonts
-    description: Create nont's document
+    description: Nontowner creates nont's document
     requestBody:
       required: true
       content:
@@ -104,7 +104,7 @@
   put:
     tags: 
       - nonts
-    description: Update nont's document by its ID
+    description: Nontowner updates nont's document using id parameter
     parameters:
       - in: path
         name: id
@@ -128,7 +128,7 @@
   patch:
     tags: 
       - nonts
-    description: Delete nont's document by its ID (exist=false)
+    description: Nontowner deletes nont using id parameter
     parameters:
       - in: path
         name: id
@@ -137,6 +137,7 @@
           type: string
     responses:
       200:
+        summary: ~1exist:false~1
         description: Successfully deleted
         content:
           application/json:
@@ -146,7 +147,7 @@
   delete:
     tags: 
       - nonts
-    description: Remove nont's document by its ID
+    description: Admin removes nont's document using id parameter
     parameters:
       - in: path
         name: id
@@ -164,7 +165,7 @@
   put:
     tags: 
       - nonts
-    description: Admin update nont's document by its ID
+    description: Admin updates nont's document using id parameter
     parameters:
       - in: path
         name: id
@@ -179,7 +180,7 @@
             $ref: 'NontSchema.yaml#/req_body/admin_update'
     responses:
       200:
-        description: Successfully admined deleted
+        description: Successfully updated by admin
         content:
           application/json:
             schema:
