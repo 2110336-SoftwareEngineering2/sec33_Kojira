@@ -33,9 +33,20 @@ const ShelterUpdate = (props) => {
         async function fetchShelter() {
             try {
                 if (shelterID){
+                    console.log('a')
                     const response = await ShelterService.getShelterByID(shelterID); 
                     if (response.data) {
                         setShelter(response.data);
+                        setCurrentPictureList([])
+                        setCurrentLicenseList([])
+                        for(var p of response.data.picture){
+                            let x = Buffer.from(p.img.data).toString()
+                            setCurrentPictureList(oldArray => [...oldArray, {name:p.name,url:x,type:p.type,status:'done'}])
+                        }
+                        for(var l of response.data.license){
+                            let y = Buffer.from(l.img.data).toString()
+                            setCurrentLicenseList(oldArray => [...oldArray, {name:p.name,url:y,type:p.type,status:'done'}])
+                        }
                     }
                 } 
             }
@@ -59,6 +70,8 @@ const ShelterUpdate = (props) => {
     const [coordinateValid, setCoordinateValid] = useState(DEFAULT);
     const [licenseValid, setLicenseValid] = useState(DEFAULT);
     const [pictureValid, setPictureValid] = useState(DEFAULT);
+    const [currentPictureList, setCurrentPictureList] = useState([]);
+    const [currentLicenseList, setCurrentLicenseList] = useState([]);
 
     const validator = {
         //Check unique name
@@ -136,30 +149,62 @@ const ShelterUpdate = (props) => {
                     setAddressValid(INVALID)
                 }
                 return
-            case "license-input":
-                //console.log(element.currentTarget.files)
-                let file = element.currentTarget.files[0]
-                reader.onload = async (e) => {
-                    let buffer = reader.result
-                    //let binaryString = new Buffer(buffer.split(",")[1],"base64");
-                    setLicense(oldArray => [...oldArray, {name:file.name,img:buffer,contentType:file.type}])
-                    //console.log(typeof arrayBuffer)
-                    setLicenseValid(VALID) 
-                }
-                reader.readAsDataURL(element.currentTarget.files[0])
-                return
-            case "picture-input":
-                let file2 = element.currentTarget.files[0]
-                reader.onload = async (e) => {
-                    let buffer2 = reader.result
-                    setPicture(oldArray => [...oldArray, {name:file2.name,img:buffer2,contentType:file2.type}])
-                    setPictureValid(VALID) 
-                }
-                reader.readAsDataURL(element.currentTarget.files[0])
-                return
         }
     }
     
+    const onPreview = async file => {
+        let src = file.url;
+        if (!src) {
+          src = await new Promise(resolve => {
+            let reader = new FileReader();
+            reader.readAsDataURL(file.originFileObj);
+            reader.onload = () => resolve(reader.result);
+          });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow.document.write(image.outerHTML);
+      };
+
+    const pictureOnChange = async ({ fileList: newFileList }) => {
+        setCurrentPictureList(newFileList);
+        setPicture([])
+        for (var f of newFileList){
+            let file = f.originFileObj?f.originFileObj:f
+            console.log(file)  
+            if(f.originFileObj){
+                let buffer = await new Promise(resolve => {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                });
+                setPicture(oldArray => [...oldArray, {name:file.name,img:buffer,contentType:file.type}])
+            } else {
+                setPicture(oldArray => [...oldArray, {name:file.name,img:file.url,contentType:file.type}])
+            }      
+        }
+    };
+
+    const licenseOnChange = async ({ fileList: newFileList }) => {
+        setCurrentLicenseList(newFileList);
+        setLicense([])
+        for (var f of newFileList){
+            let file = f.originFileObj?f.originFileObj:f
+            console.log(file)  
+            if(f.originFileObj){
+                let buffer = await new Promise(resolve => {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                });
+                setLicense(oldArray => [...oldArray, {name:file.name,img:buffer,contentType:file.type}])
+            } else {
+                setLicense(oldArray => [...oldArray, {name:file.name,img:file.url,contentType:file.type}])
+            }      
+        }
+    };
+
     async function submitUpdate() {
         //const validate = this.validateAll
         //if(!validator) return
@@ -221,35 +266,20 @@ const ShelterUpdate = (props) => {
                 defaultValue = {shelter.description}
                 validDescription={descriptionValid}
             />
+            <AddressForm
+                onFormChange={handleFormChange}
+                defaultValue = {shelter.address}
+                validAddress={addressValid}
+            />
             <div className="row">
                 <PhoneNumberForm
                     onFormChange={handleFormChange}
-                    defaultValue = {shelter.phoneNumber}
+                    defaultValue = ""
                     validPhoneNumber={phoneNumberValid}
                 />
-                <LicenseForm
-                    onFormChange={handleFormChange}
-                />
-                <PictureForm
-                        onFormChange={handleFormChange}
-                    />
-            </div>
-            <div className="row justify-content-end">
-                <div className="col-12 col-sm-8 text-left">
-                    <div style={{paddingLeft:"25px", color:"red"}}>
-                        Overall pictures and licenses size must less than 3MB (image files only)
-                    </div>
-                </div>
-            </div>
-            <AddressForm
-                    onFormChange={handleFormChange}
-                    defaultValue = {shelter.address}
-                    validAddress={addressValid}
-            />
-            <div className="row">
                 <div className="col m-4">
                     <div className="mb-2" style={{color:"red"}}>
-                            * This shelter's location is required based on your current location
+                            * Location is required based on your current location
                         </div>
                     <Popconfirm
                         placement="rightBottom"
@@ -272,6 +302,23 @@ const ShelterUpdate = (props) => {
                     {coordinateValid === VALID && <p>Already got location!</p>}
                 </div>
             </div>
+            {/* <div className="row justify-content-end">
+                <div className="col-12 col-sm-8 text-left">
+                    <div style={{paddingLeft:"25px", color:"red"}}>
+                        Overall pictures and licenses size must less than 3MB (image files only)
+                    </div>
+                </div>
+            </div> */}
+            <PictureForm
+                onFormChange={pictureOnChange}
+                listFile={currentPictureList}
+                onPreview={onPreview}
+            />
+            <LicenseForm
+                onFormChange={licenseOnChange}
+                listFile={currentLicenseList}
+                onPreview={onPreview}
+            />
             <div className="p-3" style={{ textAlign: "center" }}>
                 <button
                 type="button"
