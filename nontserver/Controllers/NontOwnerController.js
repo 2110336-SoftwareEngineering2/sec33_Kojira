@@ -51,7 +51,7 @@ class NontOwnerController extends InterfaceController {
     try {
       const nontOwnerAccount = await this.NontOwner.findById(req.params.id);
       if (!nontOwnerAccount) return res.status(404).send("User not found");
-      return res.send(nontOwnerAccount);
+      return res.send(this._.omit(nontOwnerAccount, ["password"]));
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }
