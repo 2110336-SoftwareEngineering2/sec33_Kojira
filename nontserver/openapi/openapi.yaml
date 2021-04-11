@@ -29,7 +29,31 @@ paths:
   /room/admin_get/{id}:
     $ref: 'room.yaml#/~1room~1admin_get~1{id}'
   /nontOwners/login:
-    $ref: 'login.yaml#/~1nontOwners~1login'
+    $ref: './Authentication/login.yaml#/~1nontOwners~1login'
   /nontSitters/login:
-    $ref: 'login.yaml#/~1nontSitters~1login'
+    $ref: './Authentication/login.yaml#/~1nontSitters~1login'
+  /admin/login:
+    $ref: './Admin/admin.yaml#/~1admin~1login'
+  /admin/create:
+    $ref: './Admin/admin.yaml#/~1admin~1create'
+  /payment/getCode:
+    $ref: './Payment/payment.yaml#/~1payment~1getCode'
+  /payment/QR:
+    $ref: './Payment/payment.yaml#/~1payment~1QR'
+  /user/auth:
+    $ref: './Authentication/authenticate.yaml#/~1user~1auth'
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
     

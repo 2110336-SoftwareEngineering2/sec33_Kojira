@@ -62,6 +62,7 @@
             #   login: false
             #   error: "Incorrect username or password"
 
+
 components:
   requestBodies:
     loginBody:

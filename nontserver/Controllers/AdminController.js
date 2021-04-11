@@ -34,14 +34,6 @@ const controller = {
     return true;
   },
 
-  checkValidEmailAPI: async (req, res) => {
-    const result = await this.checkValidEmail(req, res);
-    if (result) {
-      res.send({ email_valid: true });
-    }
-    res.send({ email_valid: false });
-  },
-
   // secret is "Kojira_secret_code"
   addAdmin: async (req, res) => {
     const validationResult = validator.validate(req.body);
@@ -73,10 +65,13 @@ const controller = {
         res.send(newAdmin);
       } else {
         if (!compareResult) {
+          res.statusCode = 500;
           res.send({ err: "can't create admin, secret not correct" });
         } else if (!validEmail) {
+          res.statusCode = 500;
           res.send({ err: "this admin email is already in the database" });
         } else {
+          res.statusCode = 500;
           res.send({
             err: "review your userType field, it should be 'admin' only",
           });

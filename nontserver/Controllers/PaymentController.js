@@ -16,6 +16,16 @@ const controller = {
       res.send("payment finished");
     }
   },
+  getCode: (req, res) => {
+    try {
+      const code = rc.generate();
+      res.json({ code: code });
+    } catch (err) {
+      res.statusCode = 500;
+      console.log(err);
+      res.send(err);
+    }
+  },
 };
 
 module.exports = controller;
