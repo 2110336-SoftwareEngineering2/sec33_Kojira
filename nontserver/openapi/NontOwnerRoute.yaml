@@ -37,19 +37,45 @@
                 name:
                   type: string
       400:
-        description: Validation Error
-        content:
-          text/plain:
-            schema:
-              type: string
-              example: '"email" is not allowed to be empty'
+        $ref: "#/components/responseMessage/status400"
       403:
-        description: Already Exists
+        $ref: "#/components/responseMessage/status403"
+      500:
+        $ref: "#/components/responseMessage/status500"
+  patch:
+    description: update nont owner
+    tags:
+      - nontOwners
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              _id:
+                type: string
+                required: true
+              email:
+                type: string
+              password:
+                type: string
+              name:
+                type: string
+              phoneNumber:
+                type: string
+              bankAccount:
+                type: string
+    responses:
+      200:
+        description: Success Response
         content:
           text/plain:
             schema:
               type: string
-              example: Email already exists.
+              example: The account was successfully updated.
+      403:
+        $ref: "#/components/responseMessage/status403"
       500:
         $ref: "#/components/responseMessage/status500"
 
@@ -76,6 +102,20 @@
 
 components:
   responseMessage:
+    status400:
+      description: Validation Error
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: '"email" must be a valid email'
+    status403:
+      description: Already Exists
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: Email already exists.
     status500:
       description: Internal Server Error
       content:
