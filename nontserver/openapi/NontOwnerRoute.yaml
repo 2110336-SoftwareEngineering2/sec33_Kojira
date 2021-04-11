@@ -58,6 +58,12 @@
     description: fetch one nont owner using nont owner id
     tags:
       - nontOwners
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
     responses:
       200:
         description: Success Response
