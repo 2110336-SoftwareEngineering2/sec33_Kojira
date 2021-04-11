@@ -1,0 +1,126 @@
+/nontSitters:
+  get:
+    description: fetch all nont sitters
+    tags:
+      - nontSitters
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontSitterSchema.yaml#/res/NontSitters"
+      500:
+        $ref: "#/components/responseMessage/status500"
+  post:
+    description: create new nont sitter
+    tags:
+      - nontSitters
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "NontSitterSchema.yaml#/req/create"
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+                email:
+                  type: string
+                name:
+                  type: string
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
+      500:
+        $ref: "#/components/responseMessage/status500"
+  patch:
+    description: update nont sitter
+    tags:
+      - nontSitters
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - _id
+            properties:
+              _id:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              name:
+                type: string
+              phoneNumber:
+                type: string
+              bankAccount:
+                type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: The account was successfully updated.
+      403:
+        $ref: "#/components/responseMessage/status403"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontSitters/{id}:
+  get:
+    description: fetch one nont sitter using nont sitter id
+    tags:
+      - nontSitters
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontSitterSchema.yaml#/res/NontSitter"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+components:
+  responseMessage:
+    status400:
+      description: Validation Error
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: '"email" must be a valid email'
+    status403:
+      description: Already Exists
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: Email already exists.
+    status500:
+      description: Internal Server Error
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: Cannot access nont-sitter accounts.
