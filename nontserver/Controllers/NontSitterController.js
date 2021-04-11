@@ -20,6 +20,20 @@ class NontSitterController extends InterfaceController {
         .pattern(/^[0-9]+$/),
     };
     this.validator = this.joi.object(this.joischema);
+    this.updateSchema = {
+      email: this.joi.string().email(),
+      password: this.joi.string().min(8).max(32),
+      name: this.joi.string().min(1).max(64),
+      phoneNumber: this.joi
+        .string()
+        .length(10)
+        .pattern(/^[0-9]+$/),
+      bankAccount: this.joi
+        .string()
+        .length(10)
+        .pattern(/^[0-9]+$/),
+    };
+    this.updateValidator = this.joi.object(this.updateSchema);
   }
 
   // GET /nontSitters
@@ -47,6 +61,13 @@ class NontSitterController extends InterfaceController {
   updateAccount = async (req, res) => {
     try {
       const data = req.body;
+      if (!data._id) return res.status(400).send("ID not found");
+      const validationResult = this.updateValidator.validate(
+        this._.omit(data, ["_id"])
+      );
+      if (validationResult.error) {
+        return res.status(400).send(validationResult.error.details[0].message);
+      }
       if (data.email) {
         const emailFindResult = await this.NontSitter.findOne({
           email: data.email,
@@ -68,9 +89,10 @@ class NontSitterController extends InterfaceController {
         );
         data.password = hashedPassword;
       }
-      await this.NontSitter.findByIdAndUpdate(data._id, {
+      const result = await this.NontSitter.findByIdAndUpdate(data._id, {
         $set: this._.omit(data, ["_id"]),
       });
+      if (!result) return res.status(404).send("User not found");
       res.send("The account was successfully updated.");
     } catch (error) {
       return res.status(500).send("Cannot access nont-sitter accounts.");
