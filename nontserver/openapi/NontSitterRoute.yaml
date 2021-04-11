@@ -26,16 +26,10 @@
       200:
         description: Success Response
         content:
-          application/json:
+          text/plain:
             schema:
-              type: object
-              properties:
-                _id:
-                  type: string
-                email:
-                  type: string
-                name:
-                  type: string
+              type: string
+              example: "The account was successfully created."
       400:
         $ref: "#/components/responseMessage/status400"
       403:
@@ -75,8 +69,12 @@
             schema:
               type: string
               example: The account was successfully updated.
+      400:
+        $ref: "#/components/responseMessage/status400"
       403:
         $ref: "#/components/responseMessage/status403"
+      404:
+        $ref: "#/components/responseMessage/status404"
       500:
         $ref: "#/components/responseMessage/status500"
 
@@ -97,26 +95,35 @@
         content:
           application/json:
             schema:
-              $ref: "NontSitterSchema.yaml#/res/NontSitter"
+              $ref: "NontSitterSchema.yaml#/res/NontSitterWithoutPassword"
+      404:
+        $ref: "#/components/responseMessage/status404"
       500:
         $ref: "#/components/responseMessage/status500"
 
 components:
   responseMessage:
     status400:
-      description: Validation Error
+      description: Bad Request
       content:
         text/plain:
           schema:
             type: string
             example: '"email" must be a valid email'
     status403:
-      description: Already Exists
+      description: Forbidden
       content:
         text/plain:
           schema:
             type: string
             example: Email already exists.
+    status404:
+      description: Not Found
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: User not found
     status500:
       description: Internal Server Error
       content:
