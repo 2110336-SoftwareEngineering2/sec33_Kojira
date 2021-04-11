@@ -1,0 +1,24 @@
+/nontOwners:
+  get:
+    description: fetch all nont owners
+    tags:
+      - nontOwners
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontOwnerSchema.yaml#/NontOwners"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+components:
+  responseMessage:
+    status500:
+      description: Internal Server Error
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: Cannot access nont-owner accounts.

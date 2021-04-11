@@ -24,4 +24,4 @@ NontOwners:
   description: array of NontOwner
   type: array
   items:
-    $ref: '#/NontOwner'
+    $ref: "#/NontOwner"
