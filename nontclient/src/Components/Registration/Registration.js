@@ -234,74 +234,72 @@ const Registration = (props) => {
 
   if (registered) {
     return (
-      <div id={styles.createdScreen}>
-        <div className="container">
-          <div
-            className="alert alert-success text-center m-5"
-            id={styles.createdAlert}
-            role="alert"
-          >
-            Your account is successfully registered.
-          </div>
+      <div className="container">
+        <div
+          className="alert alert-success text-center m-5"
+          id={styles.createdAlert}
+          role="alert"
+        >
+          Your account is successfully registered.
         </div>
       </div>
     );
   }
 
   return (
-        <div className="container" id={styles.container}>
-          <h1 className="mb-4 text-center" id={styles.header}>
-            Create an account
-          </h1>
-          <form className="form" onSubmit={(e) => {
-            e.preventDefault();
-            submitRegistration();}}
-          >
-            <UserTypeButton
-              onUserTypeButtonClick={handleUserTypeButtonClick}
-              accountType={account.type}
-            />
-            <hr />
-            <EmailForm
-              onFormChange={handleFormChange}
-              validateEmail={validator.validateEmail}
-              validEmail={validEmail}
-            />
-            <PasswordForm
-              onFormChange={handleFormChange}
-              validatePassword={validator.validatePassword}
-              validateRetypePassword={validator.validateRetypePassword}
-              validPassword={validPassword}
-              validRetypePassword={validRetypePassword}
-            />
-            <NameForm
-              onFormChange={handleFormChange}
-              validateName={validator.validateName}
-              validName={validName}
-            />
-            <div className="row">
-              <PhoneNumberForm
-                onFormChange={handleFormChange}
-                validatePhoneNumber={validator.validatePhoneNumber}
-                validPhoneNumber={validPhoneNumber}
-              />
-              <BankAccountForm
-                onFormChange={handleFormChange}
-                accountType={account.type}
-                validateBankAccount={validator.validateBankAccount}
-                validBankAccount={validBankAccount}
-              />
-            </div>
-            <div className="my-3" style={{ textAlign: "center" }}>
-              <button
-                type="submit"
-                className="btn btn-primary btn-lg"                
-              >
-                Register
-              </button>
-            </div>
-          </form>
+    <div className="container" id={styles.container}>
+      <h1 className="mb-4 text-center" id={styles.header}>
+        Create an account
+      </h1>
+      <form
+        className="form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          submitRegistration();
+        }}
+      >
+        <UserTypeButton
+          onUserTypeButtonClick={handleUserTypeButtonClick}
+          accountType={account.type}
+        />
+        <hr />
+        <EmailForm
+          onFormChange={handleFormChange}
+          validateEmail={validator.validateEmail}
+          validEmail={validEmail}
+        />
+        <PasswordForm
+          onFormChange={handleFormChange}
+          validatePassword={validator.validatePassword}
+          validateRetypePassword={validator.validateRetypePassword}
+          validPassword={validPassword}
+          validRetypePassword={validRetypePassword}
+        />
+        <NameForm
+          onFormChange={handleFormChange}
+          validateName={validator.validateName}
+          validName={validName}
+        />
+        <div className="row">
+          <PhoneNumberForm
+            onFormChange={handleFormChange}
+            validatePhoneNumber={validator.validatePhoneNumber}
+            validPhoneNumber={validPhoneNumber}
+          />
+          <BankAccountForm
+            onFormChange={handleFormChange}
+            accountType={account.type}
+            validateBankAccount={validator.validateBankAccount}
+            validBankAccount={validBankAccount}
+          />
         </div>
+        <div className="my-3" style={{ textAlign: "center" }}>
+          <button type="submit" className="btn btn-primary btn-lg">
+            Register
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

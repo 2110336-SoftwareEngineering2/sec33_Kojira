@@ -1,0 +1,66 @@
+res:
+  NontSitter:
+    type: object
+    properties:
+      _id:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      name:
+        type: string
+      bankAccount:
+        type: string
+      phoneNumber:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      __v:
+        type: integer
+  NontSitters:
+    description: array of NontSitter
+    type: array
+    items:
+      $ref: "#/res/NontSitter"
+  NontSitterWithoutPassword:
+    type: object
+    properties:
+      _id:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      bankAccount:
+        type: string
+      phoneNumber:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      __v:
+        type: integer
+req:
+  create:
+    type: object
+    required:
+      - email
+      - password
+      - name
+      - phoneNumber
+      - bankAccount
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      name:
+        type: string
+      phoneNumber:
+        type: string
+      bankAccount:
+        type: string

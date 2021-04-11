@@ -1,0 +1,133 @@
+/nontOwners:
+  get:
+    description: fetch all nont owners
+    tags:
+      - nontOwners
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontOwnerSchema.yaml#/res/NontOwners"
+      500:
+        $ref: "#/components/responseMessage/status500"
+  post:
+    description: create new nont owner
+    tags:
+      - nontOwners
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "NontOwnerSchema.yaml#/req/create"
+    responses:
+      200:
+        description: Success Response
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: "The account was successfully created."
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
+      500:
+        $ref: "#/components/responseMessage/status500"
+  patch:
+    description: update nont owner
+    tags:
+      - nontOwners
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - _id
+            properties:
+              _id:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              name:
+                type: string
+              phoneNumber:
+                type: string
+              bankAccount:
+                type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: The account was successfully updated.
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
+      404:
+        $ref: "#/components/responseMessage/status404"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontOwners/{id}:
+  get:
+    description: fetch one nont owner using nont owner id
+    tags:
+      - nontOwners
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontOwnerSchema.yaml#/res/NontOwnerWithoutPassword"
+      404:
+        $ref: "#/components/responseMessage/status404"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+components:
+  responseMessage:
+    status400:
+      description: Bad Request
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: '"email" must be a valid email'
+    status403:
+      description: Forbidden
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: Email already exists.
+    status404:
+      description: Not Found
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: User not found
+    status500:
+      description: Internal Server Error
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: Cannot access nont-owner accounts.

@@ -10,14 +10,30 @@ class NontOwnerController extends InterfaceController {
       email: this.joi.string().required().email(),
       password: this.joi.string().required().min(8).max(32),
       name: this.joi.string().required().min(1).max(64),
-      phoneNumber: this.joi.string()
+      phoneNumber: this.joi
+        .string()
         .length(10)
         .pattern(/^[0-9]+$/),
-      bankAccount: this.joi.string()
+      bankAccount: this.joi
+        .string()
         .length(10)
         .pattern(/^[0-9]+$/),
     };
     this.validator = this.joi.object(this.schema);
+    this.updateSchema = {
+      email: this.joi.string().email(),
+      password: this.joi.string().min(8).max(32),
+      name: this.joi.string().min(1).max(64),
+      phoneNumber: this.joi
+        .string()
+        .length(10)
+        .pattern(/^[0-9]+$/),
+      bankAccount: this.joi
+        .string()
+        .length(10)
+        .pattern(/^[0-9]+$/),
+    };
+    this.updateValidator = this.joi.object(this.updateSchema);
   }
 
   // GET /nontOwners
@@ -28,18 +44,18 @@ class NontOwnerController extends InterfaceController {
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }
-  }
+  };
 
   // GET /nontOwners/:id
   getProfile = async (req, res) => {
     try {
       const nontOwnerAccount = await this.NontOwner.findById(req.params.id);
       if (!nontOwnerAccount) return res.status(404).send("User not found");
-      return res.send(nontOwnerAccount);
+      return res.send(this._.omit(nontOwnerAccount, ["password"]));
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }
-  }
+  };
 
   // POST /nontOwners
   create = async (req, res) => {
@@ -53,7 +69,9 @@ class NontOwnerController extends InterfaceController {
         email: req.body.email,
       });
       if (emailFindResult) return res.status(403).send("Email already exists.");
-      const nameFindResult = await this.NontOwner.findOne({ name: req.body.name });
+      const nameFindResult = await this.NontOwner.findOne({
+        name: req.body.name,
+      });
       if (nameFindResult)
         return res.status(403).send("Username already exists.");
     } catch (error) {
@@ -67,40 +85,57 @@ class NontOwnerController extends InterfaceController {
       );
       const newBody = { ...req.body, password: hashedPassword };
       try {
-        const nontOwnerAccount = await this.NontOwner.create(newBody);
-        return res.send(this._.pick(nontOwnerAccount, ["_id", "email", "name"]));
+        await this.NontOwner.create(newBody);
+        return res.send("The account was successfully created.");
       } catch (error) {
         throw error;
       }
     } catch (error) {
       return res.status(500).send("Cannot create nont-owner account.");
     }
-  }
+  };
 
   // PATCH /nontOwners
   updateAccount = async (req, res) => {
     try {
       const data = req.body;
+      if (!data._id) return res.status(400).send("ID not found");
+      const validationResult = this.updateValidator.validate(
+        this._.omit(data, ["_id"])
+      );
+      if (validationResult.error) {
+        return res.status(400).send(validationResult.error.details[0].message);
+      }
       if (data.email) {
-        const emailFindResult = await this.NontOwner.findOne({ email: data.email });
+        const emailFindResult = await this.NontOwner.findOne({
+          email: data.email,
+        });
         if (emailFindResult)
           return res.status(403).send("Email already exists.");
       }
       if (data.name) {
-        const nameFindResult = await this.NontOwner.findOne({ name: data.name });
+        const nameFindResult = await this.NontOwner.findOne({
+          name: data.name,
+        });
         if (nameFindResult)
           return res.status(403).send("Username already exists.");
       }
-      await this.NontOwner.findByIdAndUpdate(
-        data._id,
-        { $set: this._.omit(data, ["_id"]) },
-        { new: true }
-      );
+      if (data.password) {
+        const hashedPassword = await this.bcrypt.hash(
+          req.body.password,
+          this.PASSWORD_HASHING_ROUNDS
+        );
+        data.password = hashedPassword;
+      }
+      const result = await this.NontOwner.findByIdAndUpdate(data._id, {
+        $set: this._.omit(data, ["_id"]),
+      });
+      if (!result) return res.status(404).send("User not found");
       res.send("The account was successfully updated.");
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner accounts.");
     }
-  }
+  };
 
   // POST /nontOwners/check-email
   checkValidEmail = async (req, res) => {
@@ -117,7 +152,7 @@ class NontOwnerController extends InterfaceController {
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner-account database.");
     }
-  }
+  };
 
   // POST /nontOwners/check-name
   checkValidName = async (req, res) => {
@@ -126,29 +161,34 @@ class NontOwnerController extends InterfaceController {
     const result = nameValidator.validate(req.body);
     if (result.error) return res.send({ status: false, exist: false });
     try {
-      const nameFindResult = await this.NontOwner.findOne({ name: req.body.name });
+      const nameFindResult = await this.NontOwner.findOne({
+        name: req.body.name,
+      });
       if (nameFindResult) return res.send({ status: false, exist: true });
       else return res.send({ status: true });
     } catch (error) {
       return res.status(500).send("Cannot access nont-owner-account database.");
     }
-  }
+  };
 
   // POST /nontOwners/login
-  login = async (req, res) => this.LoginController.login(req, res, this.NontOwner)
+  login = async (req, res) =>
+    this.LoginController.login(req, res, this.NontOwner);
 
   //PUT /nontOwners/admin_update/:id
   adminUpdateNontOwner = async (req, res) => {
     try {
-      const newQuery = {_id: req.params.id};
+      const newQuery = { _id: req.params.id };
       const newBody = req.body;
-      const updatedNontOwner = await this.NontOwner.updateOne(newQuery, newBody);
+      const updatedNontOwner = await this.NontOwner.updateOne(
+        newQuery,
+        newBody
+      );
       return res.send(newBody);
-    }
-    catch(error) {
+    } catch (error) {
       return res.status(500).send("Internal Server Error, Please try again");
     }
-  }
+  };
 
   /* 
   DELETE /nontOwners/remove/:id
@@ -156,16 +196,15 @@ class NontOwnerController extends InterfaceController {
     return: delete status
   */
   remove = async (req, res) => {
-    try {      
+    try {
       // remove nontOwner
-      const newQuery = { _id: this.mongoose.Types.ObjectId(req.params.id)};
+      const newQuery = { _id: this.mongoose.Types.ObjectId(req.params.id) };
       const deleted = await this.NontOwner.deleteOne(newQuery);
       return res.send(deleted);
-    }
-    catch (error) {
+    } catch (error) {
       return res.status(500).send("Cannot remove NontOwner");
     }
-  }
+  };
 }
 
 module.exports = new NontOwnerController();

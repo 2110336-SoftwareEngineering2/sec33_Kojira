@@ -10,6 +10,16 @@ servers:
     url: http://localhost:5000
 
 paths:
+  # nontOwners
+  /nontOwners:
+    $ref: 'NontOwnerRoute.yaml#/~1nontOwners'
+  /nontOwners/{id}:
+    $ref: 'NontOwnerRoute.yaml#/~1nontOwners~1{id}'
+  # nontSitters
+  /nontSitters:
+    $ref: 'NontSitterRoute.yaml#/~1nontSitters'
+  /nontSitters/{id}:
+    $ref: 'NontSitterRoute.yaml#/~1nontSitters~1{id}'
   # room
   /room:
     $ref: 'RoomRoute.yaml#/~1room'
