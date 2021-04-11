@@ -13,6 +13,8 @@ paths:
   # NontOwners
   /nontOwners:
     $ref: 'NontOwnerRoute.yaml#/~1nontOwners'
+  /nontOwners/{id}:
+    $ref: 'NontOwnerRoute.yaml#/~1nontOwners~1{id}'
   # room
   /room:
     $ref: 'RoomRoute.yaml#/~1room'

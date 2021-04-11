@@ -9,7 +9,62 @@
         content:
           application/json:
             schema:
-              $ref: "NontOwnerSchema.yaml#/NontOwners"
+              $ref: "NontOwnerSchema.yaml#/res/NontOwners"
+      500:
+        $ref: "#/components/responseMessage/status500"
+  post:
+    description: create new nont owner
+    tags:
+      - nontOwners
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "NontOwnerSchema.yaml#/req/create"
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+                email:
+                  type: string
+                name:
+                  type: string
+      400:
+        description: Validation Error
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: '"email" is not allowed to be empty'
+      403:
+        description: Already Exists
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: Email already exists.
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontOwners/{id}:
+  get:
+    description: fetch one nont owner using nont owner id
+    tags:
+      - nontOwners
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontOwnerSchema.yaml#/res/NontOwner"
       500:
         $ref: "#/components/responseMessage/status500"
 
