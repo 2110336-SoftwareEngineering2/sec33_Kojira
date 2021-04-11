@@ -42,6 +42,18 @@ paths:
     $ref: 'ShelterRoute.yaml#/~1shelter~1nontsitterid~1{id}'
   /shelter/name/{name}:
     $ref: 'ShelterRoute.yaml#/~1shelter~1name~1{name}'
+  /shelter/delete/{id}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1delete~1{id}'
+  /shelter/check-name:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1check-name'
+  /shelter/findShelters:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1findShelters'
+  /shelter/remove/{id}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1remove~1{id}'
+  /shelter/admin_update/{id}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1admin_update~1{id}'
+  /shelter/admin_get/{id}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1admin_get~1{id}'
   # nont
   /nont:
     $ref: 'NontRoute.yaml#/~1nont'
