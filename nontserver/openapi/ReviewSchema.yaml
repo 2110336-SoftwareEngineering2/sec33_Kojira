@@ -1,0 +1,157 @@
+res:
+  review:
+    type: object
+    properties:
+      _id:
+        type: string
+      nontowner_id:
+        type: string
+      shelter_id:
+        type: string
+      reservation_id:
+        type: string
+      rate:
+        type: number
+      comment: 
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      __v:
+        type: integer
+  reviews:
+    type: array
+    items:
+      $ref: "#/res/review"
+  pop_review_for_shelter:
+    type: array
+    items: 
+      type: object
+      properties:
+        _id:
+          type: string
+        nontowner_id:
+          $ref: 'NontOwnerSchema.yaml#/res/NontOwnerWithoutPassword'
+        shelter_id:
+          type: string
+        reservation_id:
+          $ref: 'ReservationSchema.yaml#/res/reservation'
+        rate:
+          type: number
+        comment: 
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        __v:
+          type: integer    
+  pop_review_for_reservationOrowner:
+    type: array
+    items: 
+      type: object
+      properties:
+        _id:
+          type: string
+        nontowner_id:
+          $ref: 'NontOwnerSchema.yaml#/res/NontOwnerWithoutPassword'
+        shelter_id:
+          $ref: 'ShelterSchema.yaml#/Shelter'
+        reservation_id:
+          $ref: 'ReservationSchema.yaml#/res/reservation'
+        rate:
+          type: number
+        comment: 
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        __v:
+          type: integer   
+  deletedResult:
+    type: object
+    properties:
+      n:
+        type: number
+      ok:
+        type: number
+      opTime:
+        type: object
+        properties:
+          ts:
+            type: string
+          t:
+            type: number
+      electionId:
+        type: string
+      $clusterTime:
+        type: object
+        properties:
+          clusterTime:
+            type: string
+          signatue:
+            type: object
+            properties:
+              hash:
+                type: string
+              keyId: 
+                type: string
+      operationTime:
+        type: string    
+      deletedCount: 
+        type: number
+reqBody:
+  createBody:
+    type: object
+    required:
+      - nontowner_id
+      - shelter_id
+      - reservation_id
+      - rate
+      - comment
+    properties:
+      nontowner_id:
+        type: string
+      shelter_id:
+        type: string
+      reservation_id:
+        type: string
+      rate:
+        type: number
+      comment: 
+        type: string
+  updateBody:
+    type: object
+    required:
+      - _id
+      - rate
+      - comment
+    properties:
+      nontowner_id:
+        type: string
+      shelter_id:
+        type: string
+      reservation_id:
+        type: string
+      _id:
+        type: string
+      rate:
+        type: number
+      comment: 
+        type: string
+  AdminUpdateBody:
+    properties:
+      nontowner_id:
+        type: string
+      shelter_id:
+        type: string
+      reservation_id:
+        type: string
+      _id:
+        type: string
+      rate:
+        type: number
+      comment: 
+        type: string
