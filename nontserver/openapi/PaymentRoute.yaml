@@ -1,6 +1,8 @@
 /payment/getCode:
   post:
     description: get specific code for generating QR code.
+    tags:
+      - Payment
     responses:
       200: 
         description: code generated
@@ -22,6 +24,8 @@
 /payment/QR:
   get: 
     description: the payment endpoint for when scanning the QR code.
+    tags:
+      - Payment
     responses:
       200:
         description: payment finished
