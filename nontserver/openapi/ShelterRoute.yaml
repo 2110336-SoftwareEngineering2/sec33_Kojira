@@ -149,7 +149,7 @@
       200: 
         description: Successfully removed
       500:
-        description: "#/components/responseMessage/status500"
+        $ref: "#/components/responseMessage/status500"
 /shelter/admin_get/{id}:
   get:
     description: fetch one shelter using shelter_id
@@ -170,7 +170,7 @@
             schema:
               $ref: "ShelterSchema.yaml#/Shelter"
       500:
-        description: "#/components/responseMessage/status500"
+        $ref: "#/components/responseMessage/status500"
 /shelter/admin_update/{id}:
   put:
     description: update shelter
@@ -188,7 +188,7 @@
       content:
         application/json:
           schema:
-            $ref: "#/components/requestBodies/updateAdminBody"
+            $ref: "#/components/requestBodies/updateBody"
     responses:
       200:
         description: Succesfully updated
@@ -224,7 +224,7 @@
     tags:
       - shelters
     parameters:
-      $ref: "#/components/requestBodies/parametersFindShelter"
+      $ref: "#/components/parameters/paramsFindShelter"
     responses:
       200:
         description: Successfully searched shelter
@@ -277,9 +277,65 @@
 ## admin update shelter
 
 components:
+  schemas:
+    requestedBodySchema:
+      type: object
+      properties:
+        supported_type:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        description:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
+        coordinate:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+        picture:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              name:
+                type: string
+              img:
+                type: string
+                format: binary
+              contentType:
+                type: string
+        license:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              name:
+                type: string
+              img:
+                type: string
+                format: binary
+              contentType:
+                type: string
+        rate:
+          type: number
+        nont_sitter_id:
+          type: string
+        exist:
+          type: boolean
   requestBodies:
     createBody:
-      type: object
       required:
         - name
         - address
@@ -287,174 +343,9 @@ components:
         - coordinate
         - nont_sitter_id
         - exist
-      properties:
-        supported_type:
-          type: array
-          items:
-            type: string
-        name:
-          type: string
-        description:
-          type: string
-        phoneNumber:
-          type: string
-        address:
-          type: string
-        coordinate:
-          type: object
-          properties:
-            lat:
-              type: number
-            lng:
-              type: number
-        picture:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              img:
-                type: string
-                format: binary
-              contentType:
-                type: string
-        license:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              img:
-                type: string
-                format: binary
-              contentType:
-                type: string
-        rate:
-          type: number
-        nont_sitter_id:
-          type: string
-        exist:
-          type: boolean
+      $ref: "#/components/schemas/requestedBodySchema"  
     updateBody:
-      type: object
-      properties:
-        properties:
-        supported_type:
-          type: array
-          items:
-            type: string
-        name:
-          type: string
-        description:
-          type: string
-        phoneNumber:
-          type: string
-        address:
-          type: string
-        coordinate:
-          type: object
-          properties:
-            lat:
-              type: number
-            lng:
-              type: number
-        picture:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              img:
-                type: string
-                format: binary
-              contentType:
-                type: string
-        license:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              img:
-                type: string
-                format: binary
-              contentType:
-                type: string
-        rate:
-          type: number
-        nont_sitter_id:
-          type: string
-        exist:
-          type: boolean
-    updateAdminBody:
-      type: object
-      properties:
-        properties:
-        supported_type:
-          type: array
-          items:
-            type: string
-        name:
-          type: string
-        description:
-          type: string
-        phoneNumber:
-          type: string
-        address:
-          type: string
-        coordinate:
-          type: object
-          properties:
-            lat:
-              type: number
-            lng:
-              type: number
-        picture:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              img:
-                type: string
-                format: binary
-              contentType:
-                type: string
-        license:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              img:
-                type: string
-                format: binary
-              contentType:
-                type: string
-        rate:
-          type: number
-        nont_sitter_id:
-          type: string
-        exist:
-          type: boolean
+      $ref: "#/components/schemas/requestedBodySchema"
     checkBody:
       type: object
       required:
@@ -462,7 +353,8 @@ components:
       properties:
         name:
           type: string
-    parametersFindShelter:
+  parameters:
+    paramsFindShelter:
       - in: query
         name: minRate
         schema:
