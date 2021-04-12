@@ -109,3 +109,18 @@ paths:
     $ref: 'ReservationRoute.yaml#/~1reservation~1remove~1{id}'
   /reservation/admin_update/{id}:
     $ref: 'ReservationRoute.yaml#/~1reservation~1admin_update~1{id}'
+    
+  /nontOwners/login:
+    $ref: './Authentication/login.yaml#/~1nontOwners~1login'
+  /nontSitters/login:
+    $ref: './Authentication/login.yaml#/~1nontSitters~1login'
+  /admin/login:
+    $ref: './Admin/admin.yaml#/~1admin~1login'
+  /admin/create:
+    $ref: './Admin/admin.yaml#/~1admin~1create'
+  /payment/getCode:
+    $ref: './Payment/payment.yaml#/~1payment~1getCode'
+  /payment/QR:
+    $ref: './Payment/payment.yaml#/~1payment~1QR'
+  /user/auth:
+    $ref: './Authentication/authenticate.yaml#/~1user~1auth'

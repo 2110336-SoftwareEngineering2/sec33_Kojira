@@ -1,0 +1,107 @@
+/nontOwners/login:
+  post:
+    description: login for nont owners
+    requestBody: 
+      require: true
+      content: 
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/loginBody"
+    responses: 
+     200:
+      description: logged in
+      content: 
+        application/json:
+          schema: 
+            $ref: "#/components/respondBodies/loginBody/success"
+            # example:
+            #   login: true
+            #   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoia29qaXJhIiwiX2lkIjoiNjAxZjRjMTg4ZWY0OTI0ZmI4ZGMwZWIxIiwiY3JlYXRlZEF0IjoiMjAyMS0wMi0wN1QwMjoxMDozMi4wODhaIiwidXBkYXRlZEF0IjoiMjAyMS0wMi0wN1QwMjoxMDozMi4wODhaIiwiaWF0IjoxNjE4MDM2MjM1LCJleHAiOjE2MTgwMzgwMzV9.Jybvjy1Q99hi2dEK-wIm2layZqrmpaHbwKyqd3SHj9c"
+            #   email: "nont@Kojira.com"
+            #   userType: "nont owner"
+            #   name: "kojira"
+     500:
+      description: error
+      content: 
+        application/json:
+          schema:
+            $ref: "#/components/respondBodies/loginBody/error"
+            # example:
+            #   login: false
+            #   error: "Incorrect username or password"
+
+/nontSitters/login:
+  post:
+    description: login for nont sitters
+    requestBody: 
+      require: true
+      content: 
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/loginBody"
+    responses: 
+     200:
+      description: logged in
+      content: 
+        application/json:
+          schema: 
+            $ref: "#/components/respondBodies/loginBody/success"
+            # example:
+            #   login: true
+            #   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoia29qaXJhIiwiX2lkIjoiNjAxZjRjMTg4ZWY0OTI0ZmI4ZGMwZWIxIiwiY3JlYXRlZEF0IjoiMjAyMS0wMi0wN1QwMjoxMDozMi4wODhaIiwidXBkYXRlZEF0IjoiMjAyMS0wMi0wN1QwMjoxMDozMi4wODhaIiwiaWF0IjoxNjE4MDM2MjM1LCJleHAiOjE2MTgwMzgwMzV9.Jybvjy1Q99hi2dEK-wIm2layZqrmpaHbwKyqd3SHj9c"
+            #   email: "nont@Kojira.com"
+            #   userType: "nont sitter"
+            #   name: "kojira"
+     500:
+      description: error
+      content: 
+        application/json:
+          schema:
+            $ref: "#/components/respondBodies/loginBody/error"
+            # example:
+            #   login: false
+            #   error: "Incorrect username or password"
+
+
+components:
+  requestBodies:
+    loginBody:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+  respondBodies:
+    loginBody: 
+      success:
+        type: object
+        properties:
+          login: 
+            type: boolean
+            description: the boolean specifying the result of logging in
+          token: 
+            type: string
+            description: the JWT token which will be used to authenticate the user
+          email: 
+            type: string
+            description: the email of the user
+          userType: 
+            type: string
+            description: the type of the user
+          name: 
+            type: string
+            description: the name of the user
+      error:
+        type: object
+        properties:
+          login:
+            type: boolean
+            description: the boolean specifying the result of logging in
+          error: 
+            type: string
+            description: the error message from the server side.
+        
