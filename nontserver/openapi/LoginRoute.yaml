@@ -1,6 +1,8 @@
 /nontOwners/login:
   post:
     description: login for nont owners
+    tags:
+      - Login
     requestBody: 
       require: true
       content: 
@@ -33,6 +35,8 @@
 /nontSitters/login:
   post:
     description: login for nont sitters
+    tags:
+      - Login
     requestBody: 
       require: true
       content: 

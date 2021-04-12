@@ -1,6 +1,8 @@
 /admin/login:
   post:
     description: login for admin
+    tags: 
+      - Admin
     requestBody:
       require: true
       content: 
@@ -24,6 +26,8 @@
 /admin/create:
   post: 
     description: create admin
+    tags: 
+      - Admin
     requestBody:
       require: true
       content:
