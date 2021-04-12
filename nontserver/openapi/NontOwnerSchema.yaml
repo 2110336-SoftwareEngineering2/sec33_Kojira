@@ -1,0 +1,65 @@
+res:
+  NontOwner:
+    type: object
+    properties:
+      _id:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      name:
+        type: string
+      bankAccount:
+        type: string
+      phoneNumber:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      __v:
+        type: integer
+  NontOwners:
+    description: array of NontOwner
+    type: array
+    items:
+      $ref: "#/res/NontOwner"
+  NontOwnerWithoutPassword:
+    type: object
+    properties:
+      _id:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      bankAccount:
+        type: string
+      phoneNumber:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      __v:
+        type: integer
+req:
+  create:
+    type: object
+    required:
+      - email
+      - password
+      - name
+      - phoneNumber
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      name:
+        type: string
+      phoneNumber:
+        type: string
+      bankAccount:
+        type: string

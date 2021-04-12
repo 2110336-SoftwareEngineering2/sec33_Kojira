@@ -1,0 +1,97 @@
+res:
+  reservation:
+    type: object
+    properties:
+      _id:
+        type: string
+      nont_id:
+        type: string
+      nontowner_id:
+        type: string
+      room_id: 
+        type: string
+      shelter_id:
+        type: string
+      nontsitter_id:
+        type: string
+      start_datetime:
+        type: string
+      end_datetime:
+        type: string
+      price:
+        type: integer
+      status:
+        type: string
+      nontsitter_check_in:
+        type: boolean
+      nontsitter_check_out:
+        type: boolean
+      nontowner_check_in:
+        type: boolean
+      nontowner_check_out:
+        type: boolean
+      reserve_datetime:
+        type: string
+      pay_datetime:
+        type: string
+      check_in_datetime:
+        type: string
+      check_out_datetime:
+        type: string
+      cancel_datetime:
+        type: string
+      __v:
+        type: integer
+  reservations:
+    type: array
+    items:
+      $ref: '#/res/reservation'
+  #pop_reservation: goes here na pee
+req_body:
+  create:
+    type: object
+    required:
+      - nont_id
+      - room_id
+      - start_datetime
+      - end_datetime
+      - price
+    properties:
+      nont_id:
+        description: array of objectId
+        type: array
+        items:
+          type: string
+      room_id:
+        description: objectId
+        type: string
+      start_datetime:
+        description: YYYY-MM-DD format
+        type: string
+      end_datetime:
+        description: YYYY-MM-DD format
+        type: string
+      price:
+        description: positive integer
+        type: integer
+  admin_update:
+    description: all properties need correct types but other conditions are unnecessary
+    type: object
+    properties:
+      nont_id:
+        description: array of objectId
+        type: array
+        items:
+          type: string
+      room_id:
+        description: objectId
+        type: string
+      start_datetime:
+        description: YYYY-MM-DD format
+        type: string
+      end_datetime:
+        description: YYYY-MM-DD format
+        type: string
+      price:
+        description: positive integer
+        type: integer

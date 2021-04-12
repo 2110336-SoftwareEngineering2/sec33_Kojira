@@ -1,0 +1,431 @@
+/shelter/allShelters:
+  get:
+    description: fetch all shelters
+    tags:
+      - shelters
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelters"
+      500:
+        $ref: "#/components/responseMessage/status500"
+/shelter:
+  get:
+    description: fetch all shelters with exist true
+    tags:
+      - shelters
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelters"
+      500:
+        $ref: "#/components/responseMessage/status500"
+  post:
+    description: create new shelter
+    tags:
+      - shelters
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/createBody"
+    responses:
+      200:
+        description: Successfully created
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelter"
+      400:
+        $ref: "#/components/responseMessage/status400"
+      500:
+        $ref: "#/components/responseMessage/status500"
+  patch:
+    description: update shelter
+    tags:
+      - shelters
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/updateBody"
+    responses:
+      200:
+        description: Successfully updated
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelter"
+      400:
+        $ref: "#/components/responseMessage/status400"
+      500:
+        $ref: "#/components/responseMessage/status500"
+/shelter/id/{id}:
+  get:
+    description: fetch shelter by shelter_id with exist true
+    tags:
+      - shelters
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelter"
+      404:
+        description: shelter_id is not found
+        content:
+          text/plain:
+            schema:
+              type: string
+      500:
+        $ref: "#/components/responseMessage/status500"
+/shelter/nontsitterid/{id}:
+  get:
+    description: fetch shelter by nont_sitter_id with exist true
+    tags:
+      - shelters
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelters"
+      500:
+        $ref: "#/components/responseMessage/status500"
+/shelter/name/{name}:
+  get:
+    description: fetch Shelter by shelter_name with exist true
+    tags:
+      - shelters
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelters"
+      500:
+        $ref: "#/components/responseMessage/status500"
+/shelter/remove/{id}:
+  delete:
+    description: remove shelter from database
+    tags:
+      - shelters
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200: 
+        description: Successfully removed
+      500:
+        $ref: "#/components/responseMessage/status500"
+/shelter/admin_get/{id}:
+  get:
+    description: fetch one shelter using shelter_id
+    tags:
+      - shelters
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: 
+            string
+    responses:
+      200:
+        description: Succesfully fetched
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelter"
+      500:
+        $ref: "#/components/responseMessage/status500"
+/shelter/admin_update/{id}:
+  put:
+    description: update shelter
+    tags:
+      - shelters
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type:
+            string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/updateBody"
+    responses:
+      200:
+        description: Succesfully updated
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelter"
+      500:
+        $ref: "#/components/responseMessage/status500"
+/shelter/check-name:
+  post:
+    description: check if shelter's name already exist
+    tags: 
+      - shelters
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: "#/components/requestBodies/checkBody"
+    responses:
+      200:
+        description: Succcesfully checked name
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/ShelterCheckName"
+      500:
+        $ref: "#/components/responseMessage/status500"
+/shelter/findShelters:
+  get:
+    description: search shelter
+    tags:
+      - shelters
+    parameters:
+      $ref: "#/components/parameters/paramsFindShelter"
+    responses:
+      200:
+        description: Successfully searched shelter
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelters"
+      400:
+        description: Invalid query
+        content:
+          text/plain:
+            schema:
+              type: string
+      500:
+        $ref: "#/components/responseMessage/status500"
+/shelter/delete/{id}:
+  patch:
+    description: delete shelter (change exist's status to false)
+    tags:
+      - shelters
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully deleted
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelter"
+      400:
+        description: Related reservation is still not completed
+        content:
+          text/plain:
+            schema:
+              type: string
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+## findShelters
+## create
+## update
+## delete shelter
+## check valid name
+## remove
+## admin get shelter
+## admin update shelter
+
+components:
+  schemas:
+    requestedBodySchema:
+      type: object
+      properties:
+        supported_type:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        description:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
+        coordinate:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+        picture:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              name:
+                type: string
+              img:
+                type: string
+                format: binary
+              contentType:
+                type: string
+        license:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              name:
+                type: string
+              img:
+                type: string
+                format: binary
+              contentType:
+                type: string
+        rate:
+          type: number
+        nont_sitter_id:
+          type: string
+        exist:
+          type: boolean
+  requestBodies:
+    createBody:
+      required:
+        - name
+        - address
+        - rate
+        - coordinate
+        - nont_sitter_id
+        - exist
+      $ref: "#/components/schemas/requestedBodySchema"  
+    updateBody:
+      $ref: "#/components/schemas/requestedBodySchema"
+    checkBody:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+  parameters:
+    paramsFindShelter:
+      - in: query
+        name: minRate
+        schema:
+          type: string
+      - in: query
+        name: maxDistance
+        schema:
+          type: string
+      - in: query
+        name: nontAmount
+        schema:
+          type: string
+      - in: query
+        name: maxPrice
+        schema:
+          type: string
+      - in: query
+        name: sortedBy
+        schema:
+          type: string
+      - in: query
+        name: keywords
+        schema:
+          type: string
+      - in: query
+        name: startDate
+        schema:
+          type: string
+      - in: query
+        name: startMonth
+        schema:
+          type: string
+      - in: query
+        name: startYear
+        schema:
+          type: string
+      - in: query
+        name: endDate
+        schema:
+          type: string
+      - in: query
+        name: endMonth
+        schema:
+          type: string
+      - in: query
+        name: endYear
+        schema:
+          type: string
+      - in: query
+        name: lat
+        schema:
+          type: string
+      - in: query
+        name: lng
+        schema:
+          type: string
+      - in: query
+        name: supported_type
+        schema:
+          type: string
+  responseMessage:
+    status400:
+      description: Data Validation Error
+      content:
+        text/plain:
+          schema:
+            type: string
+    status500:
+      description: Internal Server Error
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: Cannot access shelter
