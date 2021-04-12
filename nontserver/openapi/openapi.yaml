@@ -122,6 +122,6 @@ paths:
     $ref: 'PaymentRoute.yaml#/~1payment~1getCode'
   /payment/QR:
     $ref: 'PaymentRoute.yaml#/~1payment~1QR'
-  /user/auth:
-    $ref: 'AuthenticationRoute.yaml#/~1user~1auth'
+  /users/auth:
+    $ref: 'AuthenticationRoute.yaml#/~1users~1auth'
     

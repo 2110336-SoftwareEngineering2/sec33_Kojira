@@ -1,4 +1,4 @@
-/user/auth:
+/users/auth:
   post:
     description: authenticate user via Jason Web Token in the header of the request.
     tags:
