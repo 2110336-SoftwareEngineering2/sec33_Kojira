@@ -441,7 +441,7 @@ PATCH /shelter/delete/:id
       if (nameFindResult) return res.send({ exist: true });
       else return res.send({ exist: false });
     } catch (error) {
-      return res.status(500).send("Cannot access database.");
+      return res.status(500).send("Cannot access shelter");
     }
   };
 

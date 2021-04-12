@@ -153,24 +153,24 @@
 /shelter/admin_get/{id}:
   get:
     description: fetch one shelter using shelter_id
-  tags:
-    - shelters
-  parameters:
-    - in: path
-      name: id
-      required: true
-      schema:
-        type: 
-          string
-  responses:
-    200:
-      description: Succesfully fetched
-      content:
-        application/json:
-          schema:
-            $ref: "ShelterSchema.yaml#/Shelter"
-    500:
-      description: "#/components/responseMessage/status500"
+    tags:
+      - shelters
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: 
+            string
+    responses:
+      200:
+        description: Succesfully fetched
+        content:
+          application/json:
+            schema:
+              $ref: "ShelterSchema.yaml#/Shelter"
+      500:
+        description: "#/components/responseMessage/status500"
 /shelter/admin_update/{id}:
   put:
     description: update shelter
@@ -197,14 +197,14 @@
             schema:
               $ref: "ShelterSchema.yaml#/Shelter"
       500:
-        description: "#/components/responseMessage/status500"
+        $ref: "#/components/responseMessage/status500"
 /shelter/check-name:
   post:
     description: check if shelter's name already exist
     tags: 
       - shelters
     parameters:
-      - in: path
+      - in: body
         name: body
         required: true
         schema:
@@ -217,77 +217,17 @@
             schema:
               $ref: "ShelterSchema.yaml#/ShelterCheckName"
       500:
-        description: "#/components/responseMessage/status500"
+        $ref: "#/components/responseMessage/status500"
 /shelter/findShelters:
   get:
     description: search shelter
     tags:
       - shelters
     parameters:
-      - in: query
-        name: minRate
-        schema:
-          type: string
-      - in: query
-        name: maxDistance
-        schema:
-          type: string
-      - in: query
-        name: nontAmount
-        schema:
-          type: string
-      - in: query
-        name: maxPrice
-        schema:
-          type: string
-      - in: query
-        name: sortedBy
-        schema:
-          type: string
-      - in: query
-        name: keywords
-        schema:
-          schema:
-            type: string
-      - in: query
-        name: startDate
-        schema:
-          type: string
-      - in: query
-        name: startMonth
-        schema:
-          type: string
-      - in: query
-        name: startYear
-        schema:
-          type: string
-      - in: query
-        name: endDate
-        schema:
-          type: string
-      - in: query
-        name: endMonth
-        schema:
-          type: string
-      - in: query
-        name: endYear
-        schema:
-          type: string
-      - in: query
-        name: lat
-        schema:
-          type: string
-      - in: query
-        name: lng
-        schema:
-          type: string
-      - in: query
-        name: supported_type
-        schema:
-          type: string
+      $ref: "#/components/requestBodies/parametersFindShelter"
     responses:
       200:
-        description: Successfully search shelter
+        description: Successfully searched shelter
         content:
           application/json:
             schema:
@@ -330,8 +270,6 @@
 ## findShelters
 ## create
 ## update
-## update supported_type
-## update rate
 ## delete shelter
 ## check valid name
 ## remove
@@ -524,6 +462,67 @@ components:
       properties:
         name:
           type: string
+    parametersFindShelter:
+      - in: query
+        name: minRate
+        schema:
+          type: string
+      - in: query
+        name: maxDistance
+        schema:
+          type: string
+      - in: query
+        name: nontAmount
+        schema:
+          type: string
+      - in: query
+        name: maxPrice
+        schema:
+          type: string
+      - in: query
+        name: sortedBy
+        schema:
+          type: string
+      - in: query
+        name: keywords
+        schema:
+          type: string
+      - in: query
+        name: startDate
+        schema:
+          type: string
+      - in: query
+        name: startMonth
+        schema:
+          type: string
+      - in: query
+        name: startYear
+        schema:
+          type: string
+      - in: query
+        name: endDate
+        schema:
+          type: string
+      - in: query
+        name: endMonth
+        schema:
+          type: string
+      - in: query
+        name: endYear
+        schema:
+          type: string
+      - in: query
+        name: lat
+        schema:
+          type: string
+      - in: query
+        name: lng
+        schema:
+          type: string
+      - in: query
+        name: supported_type
+        schema:
+          type: string
   responseMessage:
     status400:
       description: Data Validation Error
@@ -537,3 +536,4 @@ components:
         text/plain:
           schema:
             type: string
+            example: Cannot access shelter
