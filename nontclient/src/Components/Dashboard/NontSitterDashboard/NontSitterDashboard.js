@@ -6,7 +6,7 @@ const NontSitterDashboard = () => {
     <div className="container">
        <div className="row">
         <div className="col text-center m-3">
-          <h1>Dashboard</h1>
+          <h1 className="title">Dashboard</h1>
         </div>
       </div>
       <div className="row">

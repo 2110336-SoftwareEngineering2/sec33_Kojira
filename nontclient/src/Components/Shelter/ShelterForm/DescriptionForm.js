@@ -13,7 +13,7 @@ const DescriptionForm = (props) => {
   return (
     <div className="row">
       <div className="col m-4">
-        <label htmlFor="description-input" className="form-label">
+        <label htmlFor="description-input" className="emphasis form-label">
           Description{" "}
         </label>
         <textarea

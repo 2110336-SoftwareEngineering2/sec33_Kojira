@@ -13,7 +13,7 @@ const AddressForm = (props) => {
   return (
     <div className="row">
       <div className="col m-4">
-        <label htmlFor="address-input" className="form-label">
+        <label htmlFor="address-input" className="emphasis form-label">
           Address{" "}
           <abbr className={styles.required} title="required">
             *

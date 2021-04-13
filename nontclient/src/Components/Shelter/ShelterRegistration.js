@@ -15,6 +15,7 @@ import AddressForm from "./ShelterForm/AddressForm";
 import PictureForm from "./ShelterForm/PictureForm";
 import Contexts from "../../Utils/Context/Contexts";
 import { Popconfirm } from "antd";
+import styles from "./Shelter.module.css";
 
 const UserContext = Contexts.UserContext;
 const reader = new FileReader();
@@ -217,7 +218,7 @@ const ShelterRegistration  = (props) => {
         {value.userType !== "Nont Sitter" && <h2>You are not logged in as Nont Sitter</h2>}
         {value.userType === "Nont Sitter" && 
         <div className="container">
-            <h1 className="my-5 text-center">Register Shelter</h1>
+            <h1 className="title my-5 text-center">Register Shelter</h1>
             <NameForm
                 onFormChange={handleFormChange}
                 defaultValue = ""
@@ -255,14 +256,14 @@ const ShelterRegistration  = (props) => {
                     >
                         <a 
                             type="button" 
-                            className="btn btn-secondary" 
+                            className="button-text btn btn-secondary" 
                             onClick={getLocation}
                         >   
                         <i className="fas fa-map-marker-alt" />
                         {" "}Location
                         </a> 
                     </Popconfirm>
-                    {coordinateValid === VALID && <p>Already got location!</p>}
+                    {coordinateValid === VALID && <p style={{color:"gray"}}>Already got location!</p>}
                 </div>
             </div>
             {/* <div className="row justify-content-end">
@@ -285,7 +286,7 @@ const ShelterRegistration  = (props) => {
             <div className="p-3" style={{ textAlign: "center"}}>
                 <button
                 type="button"
-                className="btn btn-primary"
+                className="button-text btn btn-primary"
                 onClick={submitRegistration}
                 >
                 Register
@@ -294,14 +295,14 @@ const ShelterRegistration  = (props) => {
         </div>
         }
         {registerStatus === VALID &&
-            <div className="m-3" style={{ textAlign: "center" }}>
+            <div className="emphasis m-3" style={{ textAlign: "center" }}>
                 <label>
                     Your shelter is successfully registered.
                 </label>
             </div>
         }
         {registerStatus === INVALID &&
-            <div className="m-3" style={{ textAlign: "center" }}>
+            <div className="emphasis m-3" style={{ textAlign: "center" }}>
                 <label>
                     Cannot register. Please check your input.
                 </label>

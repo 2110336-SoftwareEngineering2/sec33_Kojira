@@ -7,7 +7,7 @@ const LicenseForm = (props) => {
     return(
         <div className="row">
         <div className="col m-4">
-            <label htmlFor="picture-input"  className="form-label">
+            <label htmlFor="picture-input"  className="emphasis form-label">
                 License
             </label>
             <Upload
