@@ -79,6 +79,8 @@ components:
           type: string
         password:
           type: string
+        userType:
+          type: string
   respondBodies:
     loginBody: 
       success:
