@@ -5,7 +5,9 @@ res:
       _id:
         type: string
       nont_id:
-        type: string
+        type: array
+        items:
+          type: string
       nontowner_id:
         type: string
       room_id: 
@@ -46,7 +48,193 @@ res:
     type: array
     items:
       $ref: '#/res/reservation'
-  #pop_reservation: goes here na pee
+  pop_reservation: 
+    type: object
+    properties:
+      _id:
+        type: string
+      nont_id:
+        type: array
+        items:
+          $ref: 'NontSchema.yaml#/res/nont'
+      nontowner_id:
+        $ref: 'NontOwnerSchema.yaml#/res/NontOwnerWithoutPassword'
+      room_id: 
+        $ref: 'RoomSchema.yaml#/Room'
+      shelter_id:
+        $ref: 'ShelterSchema.yaml#/Shelter'
+      nontsitter_id:
+        $ref: 'NontSitterSchema.yaml#/res/NontSitterWithoutPassword'
+      start_datetime:
+        type: string
+      end_datetime:
+        type: string
+      price:
+        type: integer
+      status:
+        type: string
+      nontsitter_check_in:
+        type: boolean
+      nontsitter_check_out:
+        type: boolean
+      nontowner_check_in:
+        type: boolean
+      nontowner_check_out:
+        type: boolean
+      reserve_datetime:
+        type: string
+      pay_datetime:
+        type: string
+      check_in_datetime:
+        type: string
+      check_out_datetime:
+        type: string
+      cancel_datetime:
+        type: string
+      __v:
+        type: integer
+  pop_reservation_for_nontowner: 
+    type: array
+    items:
+      type: object
+      properties:
+        _id:
+          type: string
+        nont_id:
+          type: array
+          items:
+            $ref: 'NontSchema.yaml#/res/nont'
+        nontowner_id:
+          type: string
+        room_id: 
+          $ref: 'RoomSchema.yaml#/Room'
+        shelter_id:
+          $ref: 'ShelterSchema.yaml#/Shelter'
+        nontsitter_id:
+          type: string
+        start_datetime:
+          type: string
+        end_datetime:
+          type: string
+        price:
+          type: integer
+        status:
+          type: string
+        nontsitter_check_in:
+          type: boolean
+        nontsitter_check_out:
+          type: boolean
+        nontowner_check_in:
+          type: boolean
+        nontowner_check_out:
+          type: boolean
+        reserve_datetime:
+          type: string
+        pay_datetime:
+          type: string
+        check_in_datetime:
+          type: string
+        check_out_datetime:
+          type: string
+        cancel_datetime:
+          type: string
+        __v:
+          type: integer
+  pop_reservation_for_nontsitter: 
+    type: array
+    items: 
+      type: object
+      properties:
+        _id:
+          type: string
+        nont_id:
+          type: array
+          items:
+            $ref: 'NontSchema.yaml#/res/nont'
+        nontowner_id:
+          $ref: 'NontOwnerSchema.yaml#/res/NontOwnerWithoutPassword'
+        room_id: 
+          $ref: 'RoomSchema.yaml#/Room'
+        shelter_id:
+          $ref: 'ShelterSchema.yaml#/Shelter'
+        nontsitter_id:
+          type: string
+        start_datetime:
+          type: string
+        end_datetime:
+          type: string
+        price:
+          type: integer
+        status:
+          type: string
+        nontsitter_check_in:
+          type: boolean
+        nontsitter_check_out:
+          type: boolean
+        nontowner_check_in:
+          type: boolean
+        nontowner_check_out:
+          type: boolean
+        reserve_datetime:
+          type: string
+        pay_datetime:
+          type: string
+        check_in_datetime:
+          type: string
+        check_out_datetime:
+          type: string
+        cancel_datetime:
+          type: string
+        __v:
+          type: integer
+  pop_reservation_for_shelterserch: 
+    type: array
+    items:
+      type: object
+      properties:
+        _id:
+          type: string
+        nont_id:
+          type: array
+          items:
+            $ref: 'NontSchema.yaml#/res/nont'
+        nontowner_id:
+          type: string
+        room_id: 
+          $ref: 'RoomSchema.yaml#/Room'
+        shelter_id:
+          type: string
+        nontsitter_id:
+          type: string
+        start_datetime:
+          type: string
+        end_datetime:
+          type: string
+        price:
+          type: integer
+        status:
+          type: string
+        nontsitter_check_in:
+          type: boolean
+        nontsitter_check_out:
+          type: boolean
+        nontowner_check_in:
+          type: boolean
+        nontowner_check_out:
+          type: boolean
+        reserve_datetime:
+          type: string
+        pay_datetime:
+          type: string
+        check_in_datetime:
+          type: string
+        check_out_datetime:
+          type: string
+        cancel_datetime:
+          type: string
+        __v:
+          type: integer
+
 req_body:
   create:
     type: object

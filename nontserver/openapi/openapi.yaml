@@ -86,13 +86,20 @@ paths:
   /nont/admin_update/{id}:
     $ref: 'NontRoute.yaml#/~1nont~1admin_update~1{id}'
   # reservation
-  #/reservation:
-  #/reservation/{id}:
-  #/reservation/unpop/{id}:
-  #/reservation/nontowner_id/{id}:
-  #/reservation/nontsitter_id/{id}:
-  #/reservation/shelter_id/{id}:
-  #/reservation/room_id/{id}:
+  /reservation:
+    $ref: 'ReservationRoute.yaml#/~1reservation'
+  /reservation/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1{id}'
+  /reservation/unpop/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1unpop~1{id}'
+  /reservation/nontowner_id/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1nontowner_id~1{id}'
+  /reservation/nontsitter_id/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1nontsitter_id~1{id}'
+  /reservation/shelter_id/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1shelter_id~1{id}'
+  /reservation/room_id/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1room_id~1{id}'
   /reservation/create:
     $ref: 'ReservationRoute.yaml#/~1reservation~1create'
   /reservation/verify_check_in/{id}:
@@ -109,7 +116,22 @@ paths:
     $ref: 'ReservationRoute.yaml#/~1reservation~1remove~1{id}'
   /reservation/admin_update/{id}:
     $ref: 'ReservationRoute.yaml#/~1reservation~1admin_update~1{id}'
-    
+  #review
+  /review:
+    $ref: 'ReviewRoute.yaml#/~1review'
+  /review/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1{id}'
+  /review/reservationid/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1reservationid~1{id}'
+  /review/shelterid/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1shelterid~1{id}'
+  /review/nontownerid/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1nontownerid~1{id}'
+  /review/remove/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1remove~1{id}'
+  /review/admin_update/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1admin_update~1{id}'
+  #admin
   /nontOwners/login:
     $ref: 'LoginRoute.yaml#/~1nontOwners~1login'
   /nontSitters/login:
@@ -124,4 +146,3 @@ paths:
     $ref: 'PaymentRoute.yaml#/~1payment~1QR'
   /users/auth:
     $ref: 'AuthenticationRoute.yaml#/~1users~1auth'
-    

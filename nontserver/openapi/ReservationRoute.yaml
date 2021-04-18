@@ -1,10 +1,139 @@
-# /reservation:
-# /reservation/{id}:
-# /reservation/unpop/{id}:
-# /reservation/nontowner_id/{id}:
-# /reservation/nontsitter_id/{id}:
-# /reservation/shelter_id/{id}:
-# /reservation/room_id/{id}:
+/reservation:
+  get:
+    description: fetch all reservations
+    tags:
+      - reservations
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/reservations"
+      500:
+        $ref: '#/components/responseMessage/status500'
+/reservation/{id}:
+  get:
+    description: fetch all information about reservation by _id
+    tags:
+      - reservations
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: 
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/pop_reservation"
+      500: 
+        $ref: '#/components/responseMessage/status500'
+
+/reservation/unpop/{id}:
+  get:
+    description: fetch brief reservation by _id
+    tags: 
+      - reservations
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/reservation"
+      500:
+        $ref: '#/components/responseMessage/status500'
+    
+/reservation/nontowner_id/{id}:
+  get:
+    description: fetch reservation with nont ,shelter and room information by nontowner_id
+    tags: 
+      - reservations
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/pop_reservation_for_nontowner"
+      500:
+        $ref: '#/components/responseMessage/status500'  
+/reservation/nontsitter_id/{id}:
+  get:
+    tags: 
+      - reservations
+    description: fetch reservation with nont , nontowner ,shelter and room information by nontsitter_id
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/pop_reservation_for_nontsitter"
+      500:
+        $ref: '#/components/responseMessage/status500'  
+/reservation/shelter_id/{id}:
+  get:
+    description: fetch reservation with nont and room information by room_id
+    tags: 
+      - reservations
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/pop_reservation_for_shelterserch"
+      500:
+        $ref: '#/components/responseMessage/status500'  
+/reservation/room_id/{id}:
+  get:
+    description: fetch brief reservation by room_id
+    tags: 
+      - reservations
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/reservations"
+      500:
+        $ref: '#/components/responseMessage/status500'
 /reservation/create:
   post:
     tags:
@@ -160,3 +289,11 @@
           application/json:
             schema:
               $ref: 'ReservationSchema.yaml#/res/reservation'
+components:
+  responseMessage:
+    status500:
+      description: Internal Server Error, Please try again
+      content:
+        text/plain:
+          schema:
+            type: string
