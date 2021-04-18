@@ -335,6 +335,8 @@ components:
     requestedBodySchema:
       type: object
       properties:
+        _id:
+          type: string
         supported_type:
           type: array
           items:
