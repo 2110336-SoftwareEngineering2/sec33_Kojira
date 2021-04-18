@@ -278,9 +278,65 @@
 
 components:
   schemas:
+    requestBodyCreateSchema:
+      type: object
+      properties:
+        supported_type:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        description:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
+        coordinate:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+        picture:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              name:
+                type: string
+              img:
+                type: string
+                format: binary
+              contentType:
+                type: string
+        license:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              name:
+                type: string
+              img:
+                type: string
+                format: binary
+              contentType:
+                type: string
+        rate:
+          type: number
+        nont_sitter_id:
+          type: string
     requestedBodySchema:
       type: object
       properties:
+        _id:
+          type: string
         supported_type:
           type: array
           items:
@@ -343,7 +399,7 @@ components:
         - coordinate
         - nont_sitter_id
         - exist
-      $ref: "#/components/schemas/requestedBodySchema"  
+      $ref: "#/components/schemas/requestBodyCreateSchema"  
     updateBody:
       $ref: "#/components/schemas/requestedBodySchema"
     checkBody:
