@@ -26,6 +26,17 @@
     description: the payment endpoint for when scanning the QR code.
     tags:
       - Payment
+    parameters:
+      - in: query
+        name: code
+        schema:
+          type: string
+        description: The code got from /payment/getCode
+      - in: query
+        name: reserveId
+        schema:
+          type: string
+        description: The reservation Id of the paying reservation.
     responses:
       200:
         description: payment finished
@@ -34,4 +45,17 @@
             schema:
               type: string
               example: payment finished
-           
+      401:
+        description: code unmatched
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: code not match
+      500:
+        description: unexpected error
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: unexpected error

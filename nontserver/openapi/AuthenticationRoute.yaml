@@ -3,17 +3,21 @@
     description: authenticate user via Jason Web Token in the header of the request.
     tags:
       - Authentication
+    security:
+      - bearerAuth: []
     responses: 
-     200:
-      description: authenticated
-      content: 
-        application/json:
-          schema: 
-            $ref: "#/components/respondBodies/authenticationBody"
-            
-    401:
-      description: unauthorized
-
+      200:
+        description: authenticated
+        content: 
+          application/json:
+            schema: 
+              $ref: "#/components/respondBodies/authenticationBody"
+      401:
+          description: unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
 
 components:
   respondBodies:
