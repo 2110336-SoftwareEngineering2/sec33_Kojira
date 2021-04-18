@@ -31,9 +31,9 @@ const ShelterUpdate = (props) => {
         async function fetchShelter() {
             try {
                 if (shelterID){
-                    console.log('a')
                     const response = await ShelterService.getShelterByID(shelterID); 
                     if (response.data) {
+                        console.log(response.data)
                         setShelter(response.data);
                         setCurrentPictureList([])
                         setCurrentLicenseList([])
@@ -250,7 +250,7 @@ const ShelterUpdate = (props) => {
         {value.userType !== "Nont Sitter" && <h2>You are not logged in as Nont Sitter</h2>}
         {value.userType === "Nont Sitter" && 
         <div className="container">
-            <h1 className="my-5 text-center">Update Shelter</h1>
+            <h1 className="title my-5 text-center">Update Shelter</h1>
             <NameForm
                 onFormChange={handleFormChange}
                 defaultValue = {shelter.name}
@@ -274,7 +274,7 @@ const ShelterUpdate = (props) => {
                     validPhoneNumber={phoneNumberValid}
                 />
                 <div className="col m-4">
-                    <div className="mb-2" style={{color:"red"}}>
+                    <div className="mb-2 text-danger">
                             * Location is required based on your current location
                         </div>
                     <Popconfirm
@@ -288,14 +288,14 @@ const ShelterUpdate = (props) => {
                     >
                         <a 
                             type="button" 
-                            className="btn btn-secondary" 
+                            className="button-text btn btn-secondary" 
                             onClick={getLocation}
                         >   
                         <i className="fas fa-map-marker-alt" />
                         {" "}Location
                         </a> 
                     </Popconfirm>
-                    {coordinateValid === VALID && <p>Already got location!</p>}
+                    {coordinateValid === VALID && <p style={{color:"gray"}}>Already got location!</p>}
                 </div>
             </div>
             {/* <div className="row justify-content-end">
@@ -318,7 +318,7 @@ const ShelterUpdate = (props) => {
             <div className="p-3" style={{ textAlign: "center" }}>
                 <button
                 type="button"
-                className="btn btn-primary"
+                className="button-text btn btn-primary"
                 onClick={submitUpdate}
                 >
                 Update
@@ -327,14 +327,14 @@ const ShelterUpdate = (props) => {
         </div>
         }
         {registerStatus === VALID &&
-                <div className="m-3" style={{ textAlign: "center" }}>
+                <div className="emphasis m-3" style={{ textAlign: "center" }}>
                     <label>
                         Your shelter is successfully updated.
                     </label>
                 </div>
             }
         {registerStatus === INVALID &&
-            <div className="m-3" style={{ textAlign: "center" }}>
+            <div className="emphasis m-3" style={{ textAlign: "center" }}>
                 <label>
                     Cannot update. Please check your input
                 </label>

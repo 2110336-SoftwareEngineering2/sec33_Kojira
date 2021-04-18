@@ -203,12 +203,12 @@
     description: check if shelter's name already exist
     tags: 
       - shelters
-    parameters:
-      - in: body
-        name: body
-        required: true
-        schema:
-          $ref: "#/components/requestBodies/checkBody"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/checkBody"
     responses:
       200:
         description: Succcesfully checked name

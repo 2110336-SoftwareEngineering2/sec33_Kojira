@@ -13,7 +13,7 @@ const ShelternameForm = (props) => {
   return (
     <div className="row">
       <div className="col m-4">
-        <label htmlFor="name-input" className="form-label">
+        <label htmlFor="name-input" className="emphasis form-label">
           Name{" "}
           <abbr className={styles.required} title="required">
             *

@@ -67,10 +67,10 @@ const LoadingStatus = () => {
       <Loading status={
         (fetchReservationStatus===LoadStatus.FAIL||fetchShelterStatus===LoadStatus.FAIL)?LoadStatus.FAIL:
         (fetchReservationStatus===LoadStatus.LOADING||fetchShelterStatus===LoadStatus.LOADING)?LoadStatus.LOADING:LoadStatus.SUCCESS
-        } />
+      } />
       {fetchReservationStatus === LoadStatus.SUCCESS && fetchShelterStatus === LoadStatus.SUCCESS && (
         <React.Fragment>
-          <h3>Your active reservation</h3>
+          <h3 className="subtitle">Your active reservation</h3>
           <Select
             mode="multiple"
             placeholder="Select shelters"
