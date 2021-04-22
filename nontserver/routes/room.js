@@ -3,46 +3,49 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../Controllers/RoomController');
+const authenticateJWTToken = require("../Middlewares/JsonWebToken/JwtAuthenticator");
+const nontSitterAuthenticator = require("../Middlewares/UserAuthenticate/UserAuthenticateMiddleWare").nontSitterAuthenticator;
+const adminAuthenticator = require("../Middlewares/UserAuthenticate/UserAuthenticateMiddleWare").adminAuthenticator;
 
 router
     .route('/')
-    .get(controller.getRooms)
-    .post(controller.create);
+    .get(authenticateJWTToken, controller.getRooms)
+    .post(authenticateJWTToken, nontSitterAuthenticator, controller.create);
 
 router
     .route('/id/:id')
-    .get(controller.getRoomByID);
+    .get(authenticateJWTToken, controller.getRoomByID);
 
 router
     .route('/name/:name')
-    .get(controller.getRoomByName);
+    .get(authenticateJWTToken, controller.getRoomByName);
 
 router
     .route('/nont-type/:type')
-    .get(controller.getRoomByNontType);
+    .get(authenticateJWTToken, controller.getRoomByNontType);
 
 router
     .route("/shelterid/:id")
-    .get(controller.getRoomByShelterID);
+    .get(authenticateJWTToken, controller.getRoomByShelterID);
 
 router
     .route("/update/:id")
-    .patch(controller.updateRoom);
+    .patch(authenticateJWTToken, nontSitterAuthenticator, controller.updateRoom);
 
 router
     .route("/delete/:id")
-    .patch(controller.deleteRoom);
+    .patch(authenticateJWTToken, nontSitterAuthenticator, controller.deleteRoom);
 
 router
     .route("/remove/:id")
-    .delete(controller.remove);
+    .delete(authenticateJWTToken, adminAuthenticator, controller.remove);
 
 router
     .route('/admin_update/:id')
-    .put(controller.adminUpdateRoom);
+    .put(authenticateJWTToken, adminAuthenticator, controller.adminUpdateRoom);
 
 router
     .route('/admin_get/:id')
-    .get(controller.adminGetRoom);
+    .get(authenticateJWTToken, adminAuthenticator, controller.adminGetRoom);
 
 module.exports = router;

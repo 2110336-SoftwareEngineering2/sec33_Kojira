@@ -3,6 +3,8 @@
     description: fetch all rooms
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     responses:
       200:
         description: Success Response
@@ -16,6 +18,8 @@
     description: create new room
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     requestBody:
       required: true
       content:
@@ -38,6 +42,8 @@
     description: fetch one room using room_id
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -58,6 +64,8 @@
     description: fetch rooms using room_name
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: name
@@ -78,6 +86,8 @@
     description: fetch rooms using nont_type
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: type
@@ -98,6 +108,8 @@
     description: fetch rooms using shelter_id
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -118,6 +130,8 @@
     description: update room
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -146,6 +160,8 @@
     description: delete room (update exist to false)
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -168,6 +184,8 @@
     description: remove room from database
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -186,6 +204,8 @@
     description: update room
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -212,6 +232,8 @@
     description: fetch one room using room_id
     tags: 
       - rooms
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
