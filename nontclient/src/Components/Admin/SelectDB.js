@@ -15,7 +15,7 @@ const SelectDB = (props) => {
     return (
         <div className="container-fluid">
             {/* Header */}
-            <h1 className="my-5 text-center font-weight-bold">Select Database</h1>
+            <h1 className="text-center title">Select Database</h1>
 
             {/* Button List */}
             <div className="d-flex flex-wrap bd-highlight justify-content-center">
@@ -23,7 +23,7 @@ const SelectDB = (props) => {
                     btnData.map( (data) => (
                         <a
                         type="button"
-                        className="btn btn-info mx-2 my-2"
+                        className="btn btn-info mx-2 mt-2 subtitle"
                         style= {{fontWeight:"bold", fontSize: "x-large", maxWidth: ""}}
                         href={data[1]}
                         >

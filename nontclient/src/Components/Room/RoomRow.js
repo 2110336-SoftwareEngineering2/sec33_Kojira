@@ -5,10 +5,10 @@ const RoomRow = (props) => {
 
     return (
         <tr>
-            <td scope="row" className="emphasis" style={{textAlign:"center", verticalAlign:"middle"}}>{props.element.name}</td>
-            <td scope="row" className="button-text" style={{textAlign:"center", verticalAlign:"middle"}}>{props.element.nont_type}</td>
-            <td scope="row" className="button-text" style={{textAlign:"center", verticalAlign:"middle"}}>{props.element.amount}</td>
-            <td scope="row" className="button-text" style={{textAlign:"center", verticalAlign:"middle"}}>{props.element.price}</td>
+            <td scope="row" className="emphasis table-content">{(props.element.name)?props.element.name:""}</td>
+            <td scope="row" className="button-text table-content">{(props.element.nont_type)?props.element.nont_type:""}</td>
+            <td scope="row" className="button-text table-content">{(props.element.amount)?props.element.amount:""}</td>
+            <td scope="row" className="button-text table-content">{(props.element.price)?props.element.price:""}</td>
             <td scope="row" style={{width:15}}>
                 <a 
                 type="button"

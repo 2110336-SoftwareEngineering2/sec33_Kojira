@@ -162,8 +162,7 @@ const Reserve = (props) => {
 
   return (
     <div
-      className="container mt-3"
-      style={{ backgroundColor: "#7ed6df", borderRadius: 20 }}
+      className="container"
     >
       {/* Loading */}
       <div className="col col-md-12">
@@ -180,14 +179,17 @@ const Reserve = (props) => {
         fetchRoomStatus === LoadStatus.SUCCESS && (
           <div>
             {/* Room name header */}
-            <h1 style={{ textAlign: "center", color: "#30336b" }}>
+            <h1 className="title" 
+            style={{
+              textAlign:"center",
+              backgroundColor:"#c8d6e5", 
+              color:"#222f3e"}}>
               {rooms.name}
             </h1>
             <div className="row">
               <div
                 className="col col-md-12"
                 style={{
-                  backgroundColor: "#f5f6fa",
                   borderRadius: 20,
                   textAlign: "center",
                 }}
@@ -195,7 +197,7 @@ const Reserve = (props) => {
                 {/* Nont Select */}
                 <div className="row m-2">
                   <div className="col m-2 col-sm">
-                    <label style={{ fontSize: "15px", padding: "10px" }}>
+                    <label className="emphasis" style={{ fontSize: "15px", padding: "10px" }}>
                       Nonts{" ("}
                       {nontSelected.length}
                       {"/"}
@@ -225,7 +227,7 @@ const Reserve = (props) => {
                 {/* Reservation Time Pick */}
                 <div className="row">
                   <div className="col md-2 col-sm">
-                    <label style={{ padding: "10px" }}>Reservation Time</label>
+                    <label className="emphasis" style={{ padding: "10px" }}>Reservation Time</label>
                     <RangePicker
                       size="large"
                       disabledDate={disabledDate}
@@ -239,6 +241,7 @@ const Reserve = (props) => {
                 <div className="row">
                   <div className="col m-2 col-sm">
                     <Statistic
+                      className="emphasis"
                       title="Total Price"
                       value={price}
                       suffix="baht"
@@ -246,10 +249,10 @@ const Reserve = (props) => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col m-2 col-sm">
+                  <div className="col mt-3 col-sm">
                     <button
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-primary button-text"
                       onClick={submitReserve}
                     >
                       Reserve Room

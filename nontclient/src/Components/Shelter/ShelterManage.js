@@ -67,9 +67,26 @@ const ShelterManage = (props) => {
 
     return (
         <div className="container">
-            {/* Header */}
-            <h1 className="my-5 text-center">Shelter Management</h1>
 
+            {/* Back Button and Add Button */}
+            <div className="d-flex justify-content-between mt-2"
+            >
+                {/* Back Button */}
+                <a
+                type="button"
+                className="btn btn-outline-light text-dark bg-light border-dark button-text"
+                href={"/dashboard"}>
+                    Back to dashboard
+                </a>
+                {/* Add Button */}
+                <a
+                type="button"
+                className="btn btn-outline-light text-light bg-success border-success button-text"
+                href={"/shelterRegister"}>
+                    Add
+                </a>
+            </div>
+            
             {/* Loading */}
             <Loading status={fetchShelterStatus} />
 
@@ -77,45 +94,43 @@ const ShelterManage = (props) => {
             {
                 fetchShelterStatus === LoadStatus.SUCCESS &&
                 (
-                    <h2 className="my-5 text-center">Name: {contextValue.name}</h2>
-                )
-            }            
-
-            {/* Shelter Register Button */}
-            {
-                fetchShelterStatus === LoadStatus.SUCCESS &&
-                (
-                    <div className="row">
-                        <div className="col">
-                            <a
-                            type="button"
-                            className="btn btn-outline-light text-light bg-success border-success text-center float-right"
-                            href={"/shelterRegister"}>
-                                Add
-                            </a>
-                        </div>
+                    <div className="my-2 col-md-12 title"
+                        style={{backgroundColor:"#c8d6e5", color:"#222f3e"}}>
+                            Shelter Management | {contextValue.name}
                     </div>
                 )
-            }            
+            }    
 
             {/* Shelter Row Button */}
             {
                 fetchShelterStatus === LoadStatus.SUCCESS &&
                 (
-                    <div className="pb-1">
-                        {
-                            shelters.map( (element) => (
-                                <ShelterRow
-                                element={element}
-                                key={element._id}
-                                onDelete={deleteShelter}
-                                />
-                            ) )
-                        }
+                    <div>
+                        <table className="table table-responsive-md table-hover table-bordered" style={{borderWidth:"5px"}}>
+                            <thead>
+                                <tr>
+                                    <th scope="col" className="header" style={{textAlign:"center"}}>Name</th>
+                                    <th scope="col" className="header" style={{textAlign:"center"}}>Description</th>
+                                    <th scope="col" className="header" style={{textAlign:"center"}}>Rate</th>
+                                    <th colSpan="3" />
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                shelters.map( (element) => (
+                                    <ShelterRow
+                                    element={element}
+                                    key={element._id}
+                                    onDelete={deleteShelter}
+                                    />
+                                ) )
+                                }
+                            </tbody>
+                        </table>                        
                     </div>
                 )
             }
-            
+                        
         </div>
     );
 }

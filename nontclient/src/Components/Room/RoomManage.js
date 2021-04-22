@@ -90,7 +90,7 @@ const RoomManage = (props) => {
     return (
         <div className="container">
 
-            {/* Back Button, Add Button and Shelter Name */}
+            {/* Back Button, Add Button */}
             <div className="d-flex justify-content-between mt-2"
             >
                 {/* Back Button */}
@@ -100,6 +100,7 @@ const RoomManage = (props) => {
                 href={"/shelter"}>
                     Back
                 </a>
+                {/* Add Button */}
                 <a
                 type="button"
                 className="btn btn-outline-light text-light bg-success border-success button-text"
@@ -133,7 +134,7 @@ const RoomManage = (props) => {
                 fetchShelterStatus === LoadStatus.SUCCESS &&
                 (
                     <div>
-                        <table className="table table-responsive-md table-hover table-bordered">
+                        <table className="table table-responsive-md table-hover table-bordered" style={{borderWidth:"5px"}}>
                             <thead>
                                 <tr>
                                     <th scope="col" className="header" style={{textAlign:"center"}}>Name</th>
