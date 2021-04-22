@@ -19,7 +19,7 @@ const RoomManage = (props) => {
     const [fetchShelterStatus, setFetchShelterStatus] = useState(LoadStatus.LOADING);
 
     useEffect(() => {
-        fetchRooms();
+        fetchRooms();        
     }, [shelterID]);
 
     useEffect(() => {

@@ -1,6 +1,7 @@
 import NontType from "../Constants/nontTypes";
 import axios from "axios";
 import serverURL from "../Config/serverURL";
+import setAuthenBearer from "../Utils/ServiceUtils/setAuthenBearer";
 
 const RoomService = {
     registerRoom: async (body) => {
@@ -25,6 +26,7 @@ const RoomService = {
     getRoomByShelterID: async (id) => {
         try {
             let path = "/room/shelterid/" + id;
+            setAuthenBearer();
             const response = await axios.get(serverURL + path);
             return response
         }
