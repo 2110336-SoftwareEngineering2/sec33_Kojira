@@ -3,42 +3,31 @@ import { Popconfirm } from "antd";
 
 const ShelterRow = (props) => {
     return (
-        <div className="row mt-2 mb-2 justify-content-center">
-            {/* shelter view button */}
-            <div className="col-md-6 p-0">
-                <a
-                href={"/shelterView/"+props.element._id}
-                type="button"
-                className="btn btn-outline-info btn-block" 
-                style={{textAlign:"left"}}
-                >
-                    {props.element.name}
-                </a>
-            </div>
-            {/* room manage button */}
-            <div className="col-md-2 p-0">
+        <tr>
+            <td scope="row" className="emphasis table-content">{(props.element.name)? props.element.name: ""}</td>
+            <td scope="row" className="button-text table-content">{(props.element.description)? props.element.description: ""}</td>
+            <td scope="row" className="button-text table-content">{(props.element.rate)? props.element.rate: ""}</td>
+            <td scope="row" style={{width:"15px"}}>
                 <a
                 href={"/room/manage/"+props.element._id}
                 type="button"
-                className="btn btn-outline-info btn-block bg-warning text-dark border-warning" 
+                className="btn btn-outline-info btn-block bg-warning text-dark border-warning button-text" 
                 >
                     <i className="fas fa-cat" />
                     {" "}Room Manage
-                </a>
-            </div>
-            {/* shelter update button */}
-            <div className="col col-md-auto p-0">
-                <a
-                href={"/shelterUpdate/"+props.element._id}
+                </a>           
+            </td>
+            <td scope="row" style={{width:"15px"}}>
+                <a 
                 type="button"
-                className="btn btn-outline-info btn-block text-light bg-success border-success" 
+                className="btn btn-outline-info btn-block text-light bg-success border-success button-text" 
+                href={"/roomUpdate/"+props.element._id}    
                 >
                     <i className="fas fa-edit" />
                     {" "}Update
-                </a>
-            </div>
-            {/* shelter delete button */}
-            <div className="col col-md-1 p-0">
+                </a>                
+            </td>
+            <td scope="row" style={{width:"15px"}}>
                 <Popconfirm
                 title="Are you sure to delete this shelter ?"
                 onConfirm={()=>props.onDelete(props.element._id,props.element.name)}
@@ -47,14 +36,14 @@ const ShelterRow = (props) => {
                 >
                 <a
                 type="button"
-                className="btn btn-outline-info btn-block text-light bg-danger border-danger"
+                className="btn btn-outline-info btn-block text-light bg-danger border-danger button-text"
                 >
                     <i className="fa fa-trash" />
                     {" "}Delete
                 </a>
                 </Popconfirm>
-            </div>
-        </div>
+            </td>
+        </tr>
     );
 }
 

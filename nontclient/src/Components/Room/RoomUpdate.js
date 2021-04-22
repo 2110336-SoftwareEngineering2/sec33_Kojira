@@ -19,10 +19,10 @@ const RoomUpdate = (props) => {
     });
 
     const [updateStatus, setUpdateStatus] = useState(DEFAULT);
-    const [nameValid, setNameValid] = useState(VALID);
-    const [nontTypeValid, setNontTypeValid] = useState(VALID);
-    const [amountValid, setAmountValid] = useState(VALID);
-    const [priceValid, setPriceValid] = useState(VALID);
+    const [nameValid, setNameValid] = useState(DEFAULT);
+    const [nontTypeValid, setNontTypeValid] = useState(DEFAULT);
+    const [amountValid, setAmountValid] = useState(DEFAULT);
+    const [priceValid, setPriceValid] = useState(DEFAULT);
 
     useEffect(() => {
         async function fetchRoomOldData() {
@@ -125,12 +125,12 @@ const RoomUpdate = (props) => {
         <div className="container">
 
             {/* Header */}
-            <h1 className="my-5 text-center">Update Room</h1>
+            <h1 className="text-center title">Update Room</h1>
             <div className="row">
 
                 {/* Name Form */}
                 <div className="col m-2">
-                    <label htmlFor="name-input" className="form-label">
+                    <label htmlFor="name-input" className="form-label emphasis">
                         Name{" "}
                         <abbr className="required" title="required">
                             *
@@ -155,7 +155,7 @@ const RoomUpdate = (props) => {
                         }}
                         value={room.name}
                         required />
-                    <div id="name-desc" className="form-text">
+                    <div id="name-desc" className="form-text" style={{opacity:"50%"}}>
                         Room's name must not longer than 50 characters.
                         </div>
                 </div>
@@ -165,7 +165,7 @@ const RoomUpdate = (props) => {
 
                 {/* Nont Type drop down */}
                 <div className="col m-2 + col-sm">
-                    <label>
+                    <label className="emphasis">
                         Nont Type{" "}
                         <abbr className="required" title="required">
                             *
@@ -202,7 +202,7 @@ const RoomUpdate = (props) => {
 
                 {/* Amount form */}
                 <div className="col m-2 + col-sm">
-                    <label>
+                    <label className="emphasis">
                         Amount{" "}
                         <abbr className="required" title="required">
                             *
@@ -227,14 +227,14 @@ const RoomUpdate = (props) => {
                         }}
                         value={room.amount}
                         required />
-                    <div id="amount-desc" className="form-text">
+                    <div id="amount-desc" className="form-text" style={{opacity:"50%"}}>
                         Amount must be within 1-20.
                         </div>
                 </div>
 
                 {/* Price form */}
                 <div className="col m-2 + col-sm">
-                    <label>
+                    <label className="emphasis">
                         Price{" "}
                         <abbr className="required" title="required">
                             *
@@ -259,38 +259,22 @@ const RoomUpdate = (props) => {
                         }}
                         value={room.price}
                         required />
-                    <div id="price-desc" className="form-text">
+                    <div id="price-desc" className="form-text" style={{opacity:"50%"}}>
                         Price must be within 1-3000.
                         </div>
                 </div>
             </div>
 
             {/* Submit Button */}
-            <div className="m-5" style={{ textAlign: "center" }}>
+            <div className="mt-3" style={{ textAlign: "center" }}>
                 <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primary button-text"
                     onClick={submitUpdate}
                 >
                     Update
                     </button>
             </div>
-            
-            {/* status */}
-            {updateStatus === VALID &&
-                <div className="m-5" style={{ textAlign: "center" }}>
-                    <label>
-                        Your room is successfully updated.
-                    </label>
-                </div>
-            }
-            {updateStatus === INVALID &&
-                <div className="m-5" style={{ textAlign: "center" }}>
-                    <label>
-                        Cannot update. Please check your input.
-                    </label>
-                </div>
-            }
         </div>
     );
 }

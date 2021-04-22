@@ -33,3 +33,10 @@ div.container, div.container-fluid {
 .button-text {
   font-size: 16px !important;
 }
+
+/* table properties */
+.table-content {
+  text-align: center !important;
+  vertical-align: middle !important;
+  word-wrap: break-word !important;
+}
