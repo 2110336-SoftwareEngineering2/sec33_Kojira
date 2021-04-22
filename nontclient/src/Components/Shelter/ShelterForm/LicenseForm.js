@@ -1,27 +1,28 @@
 import React from "react";
 import styles from "../Shelter.module.css";
-import {
-  VALID,
-  INVALID,
-  DEFAULT,
-  EMPTY,
-  EXIST,
-  CHANGING,
-} from "../../../Constants/FormValidity";
+import { Upload } from "antd";
+import { PlusOutlined } from '@ant-design/icons';
 
 const LicenseForm = (props) => {
     return(
-    <div className="col-12 col-sm m-4 mb-3">
-        <label htmlFor="license-input"  className="form-label">
-            License
-        </label>
-        <input 
-            className="form-control-file" 
-            type="file" 
-            id="license-input"
-            name="license" 
-            onChange={props.onFormChange}
-        />
+        <div className="row">
+        <div className="col m-4">
+            <label htmlFor="picture-input"  className="emphasis form-label">
+                License
+            </label>
+            <Upload
+                beforeUpload={() => false}
+                listType="picture-card"
+                onChange={props.onFormChange}
+                fileList={props.listFile}
+                onPreview={props.onPreview}
+            > 
+                <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+            </Upload>
+        </div>
     </div>
     )
 }

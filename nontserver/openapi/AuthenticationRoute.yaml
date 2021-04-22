@@ -1,0 +1,47 @@
+/users/auth:
+  post:
+    description: authenticate user via Jason Web Token in the header of the request.
+    tags:
+      - Authentication
+    security:
+      - bearerAuth: []
+    responses: 
+      200:
+        description: authenticated
+        content: 
+          application/json:
+            schema: 
+              $ref: "#/components/respondBodies/authenticationBody"
+      401:
+          description: unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  respondBodies:
+    authenticationBody: 
+      type: object
+      properties:
+        authenticated:
+          type: boolean
+          description: the authentication status
+        email: 
+          type: string
+          description: the email address of the token's owner
+        userType: 
+          type: string
+          description: the user type of the token's owner
+        name: 
+          type: string
+          description: the name of the token's owner
+        _id:
+          type: string
+          description: the database id of the token's owner'
+        createdAt:
+          type: string
+          description: the created time of the record of the token's owner
+        updatedAt:
+          type: string
+          description: the updated time of the record of the token's owner'

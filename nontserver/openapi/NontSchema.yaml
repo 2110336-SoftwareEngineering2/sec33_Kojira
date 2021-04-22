@@ -50,19 +50,30 @@ req_body:
       - nontowner_id
     properties:
       name:
+        description: no more than 32 characters
         type: string
       type:
-        description: large dog, medium dog, small dog, cat, hamster, rabbit or bird 
+        description: large dog, medium dog, small dog, cat, hamster, rabbit or bird only
         type: string
+        enum:
+          - large dog
+          - medium dog
+          - small dog
+          - cat
+          - hamster
+          - rabbit
+          - bird
       subtype:
+        description: no more than 50 characters
         type: string
       description:
+        description: no more than 500 characters
         type: string
       birth_date:
         description: YYYY-MM-DD format
         type: string
       medical_certificate:
-        description: array of object(name, img) type
+        description: object(name, img) 
         type: array
         items:
           type: object
@@ -70,18 +81,19 @@ req_body:
             name:
               type: string
             img:
-              description: string (buffer) type
+              description: binary buffer
               type: string
       picture:
-        description: array of object(img)
+        description: array of object(img) 
         type: array
         items:
           type: object
           properties:
             img:
-              description: string (buffer) type
+              description: binary buffer
               type: string
       nontowner_id:
+        description: objectId
         type: string
   update:
     type: object
@@ -92,19 +104,30 @@ req_body:
       - nontowner_id
     properties:
       name:
+        description: no more than 32 characters
         type: string
       type:
-        description: large dog, medium dog, small dog, cat, hamster, rabbit or bird 
+        description: large dog, medium dog, small dog, cat, hamster, rabbit or bird only
         type: string
+        enum:
+          - large dog
+          - medium dog
+          - small dog
+          - cat
+          - hamster
+          - rabbit
+          - bird
       subtype:
+        description: no more than 50 characters
         type: string
       description:
+        description: no more than 500 characters
         type: string
       birth_date:
         description: YYYY-MM-DD format
         type: string
       medical_certificate:
-        description: array of object(name, img) type
+        description: object(name, img) 
         type: array
         items:
           type: object
@@ -112,36 +135,49 @@ req_body:
             name:
               type: string
             img:
-              description: string (buffer) type
+              description: binary buffer
               type: string
       picture:
-        description: array of object(img)
+        description: array of object(img) 
         type: array
         items:
           type: object
           properties:
             img:
-              description: string (buffer) type
+              description: binary buffer
               type: string
       nontowner_id:
+        description: objectId
         type: string
   admin_update:
+    description: all properties need correct types but other conditions are unnecessary
     type: object
     properties:
       name:
+        description: no more than 32 characters
         type: string
       type:
-        description: large dog, medium dog, small dog, cat, hamster, rabbit or bird 
+        description: large dog, medium dog, small dog, cat, hamster, rabbit or bird only
         type: string
+        enum:
+          - large dog
+          - medium dog
+          - small dog
+          - cat
+          - hamster
+          - rabbit
+          - bird
       subtype:
+        description: no more than 50 characters
         type: string
       description:
+        description: no more than 500 characters
         type: string
       birth_date:
         description: YYYY-MM-DD format
         type: string
       medical_certificate:
-        description: array of object(name, img) type
+        description: object(name, img) 
         type: array
         items:
           type: object
@@ -149,16 +185,17 @@ req_body:
             name:
               type: string
             img:
-              description: string (buffer) type
+              description: binary buffer
               type: string
       picture:
-        description: array of object(img)
+        description: array of object(img) 
         type: array
         items:
           type: object
           properties:
             img:
-              description: string (buffer) type
+              description: binary buffer
               type: string
       nontowner_id:
+        description: objectId
         type: string

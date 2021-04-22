@@ -1,0 +1,199 @@
+/review:
+  get:
+    tags:
+      - review
+    description: fetch all reviews
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: 'ReviewSchema.yaml#/res/reviews'
+      500:
+        $ref: '#/components/responseMessage/status500'
+  post:
+    tags: 
+      - review
+    description: create new review
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'ReviewSchema.yaml#/reqBody/createBody'
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: 'ReviewSchema.yaml#/res/review'
+      400:
+        $ref: '#/components/responseMessage/status400'
+      500:
+        $ref: '#/components/responseMessage/status500'
+  patch:
+    tags: 
+      - review
+    description: update review by id
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'ReviewSchema.yaml#/reqBody/updateBody'
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: 'ReviewSchema.yaml#/res/review'
+      400:
+        $ref: '#/components/responseMessage/status400'
+      500:
+        $ref: '#/components/responseMessage/status500'
+/review/{id}:
+  get:
+    tags:
+      - review
+    description: fetch review by ID
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: 'ReviewSchema.yaml#/res/review'
+      500:
+        $ref: '#/components/responseMessage/status500'
+/review/reservationid/{id}:
+  get:
+    tags:
+      - review
+    description: fetch review with nont owner ,shelter and reservation informations by reservation ID
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: 'ReviewSchema.yaml#/res/pop_review_for_reservationOrowner'
+      500:
+        $ref: '#/components/responseMessage/status500'
+/review/shelterid/{id}:
+  get:
+    tags:
+      - review
+    description: fetch review with nont owner and reservation informations by shelter ID
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: 'ReviewSchema.yaml#/res/pop_review_for_shelter'
+      500:
+        $ref: '#/components/responseMessage/status500'
+/review/nontownerid/{id}:
+  get:
+    tags:
+      - review
+    description: fetch review with nont owner ,shelter and reservation informations by nontowner ID
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: 'ReviewSchema.yaml#/res/pop_review_for_reservationOrowner'
+      500:
+        $ref: '#/components/responseMessage/status500'
+/review/remove/{id}:
+  delete:
+    tags:
+      - review
+    description: remove review by id 
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref : 'ReviewSchema.yaml#/res/deletedResult'
+      500:
+        $ref: '#/components/responseMessage/status500'
+
+/review/admin_update/{id}:
+  put:
+    tags:
+      - review
+    description: update review by admin
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'ReviewSchema.yaml#/reqBody/AdminUpdateBody'
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: 'ReviewSchema.yaml#/res/review'
+      500:
+        $ref: '#/components/responseMessage/status500'
+
+
+components:
+  responseMessage:
+    status500:
+      description: Internal Server Error
+      content:
+        text/plain:
+          schema:
+            type: string  
+    status400:
+      description: Data Validation Error
+      content:
+        text/plain:
+          schema:
+            type: string  

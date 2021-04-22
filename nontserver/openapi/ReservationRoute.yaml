@@ -1,0 +1,299 @@
+/reservation:
+  get:
+    description: fetch all reservations
+    tags:
+      - reservations
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/reservations"
+      500:
+        $ref: '#/components/responseMessage/status500'
+/reservation/{id}:
+  get:
+    description: fetch all information about reservation by _id
+    tags:
+      - reservations
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: 
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/pop_reservation"
+      500: 
+        $ref: '#/components/responseMessage/status500'
+
+/reservation/unpop/{id}:
+  get:
+    description: fetch brief reservation by _id
+    tags: 
+      - reservations
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/reservation"
+      500:
+        $ref: '#/components/responseMessage/status500'
+    
+/reservation/nontowner_id/{id}:
+  get:
+    description: fetch reservation with nont ,shelter and room information by nontowner_id
+    tags: 
+      - reservations
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/pop_reservation_for_nontowner"
+      500:
+        $ref: '#/components/responseMessage/status500'  
+/reservation/nontsitter_id/{id}:
+  get:
+    tags: 
+      - reservations
+    description: fetch reservation with nont , nontowner ,shelter and room information by nontsitter_id
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/pop_reservation_for_nontsitter"
+      500:
+        $ref: '#/components/responseMessage/status500'  
+/reservation/shelter_id/{id}:
+  get:
+    description: fetch reservation with nont and room information by room_id
+    tags: 
+      - reservations
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/pop_reservation_for_shelterserch"
+      500:
+        $ref: '#/components/responseMessage/status500'  
+/reservation/room_id/{id}:
+  get:
+    description: fetch brief reservation by room_id
+    tags: 
+      - reservations
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "ReservationSchema.yaml#/res/reservations"
+      500:
+        $ref: '#/components/responseMessage/status500'
+/reservation/create:
+  post:
+    tags:
+      - reservations
+    description: Nontowner creates reservation's document
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'ReservationSchema.yaml#/req_body/create'
+    responses:
+      200:
+        description: Successfully created
+        content:
+          application/json:
+            schema:
+              $ref: 'ReservationSchema.yaml#/res/reservation'
+/reservation/verify_check_in/{id}:
+  put:
+    tags:
+      - reservations
+    description: Nontsitter checks in reservation using id parameter
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        summary: {status:check-in, nontsitter_check_in:true}
+        description: Successfully checked in by nontsitter
+        content:
+          application/json:
+            schema:
+              $ref: 'ReservationSchema.yaml#/res/reservation'
+/reservation/check_in/{id}:
+  put:
+    tags:
+      - reservations
+    description: Nontowner checks in reservation using id parameter
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        summary: {nontowner_check_in:true, check_in_datetime:<present time>}
+        description: Successfully checked in by nontowner
+        content:
+          application/json:
+            schema:
+              $ref: 'ReservationSchema.yaml#/res/reservation'
+/reservation/verify_check_out/{id}:
+  put:
+    tags:
+      - reservations
+    description: Nontsitter checks out reservation using id parameter
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        summary: {status:check-out, nontsitter_check_out:true}
+        description: Successfully checked out by nontsitter
+        content:
+          application/json:
+            schema:
+              $ref: 'ReservationSchema.yaml#/res/reservation'
+/reservation/check_out/{id}:
+  put:
+    tags:
+      - reservations
+    description: Nontowner checks out reservation using id parameter
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        summary: {nontowner_check_out:true, check_out_datetime:<present time>}
+        description: Successfully checked out by nontowner
+        content:
+          application/json:
+            schema:
+              $ref: 'ReservationSchema.yaml#/res/reservation'
+/reservation/cancel/{id}:
+  patch:
+    tags:
+      - reservations
+    description: Nontowner cancels reservation using id parameter
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        summary: {status:cancelled, cancel_datetime:<present time>}
+        description: Successfully cancelled
+        content:
+          application/json:
+            schema:
+              $ref: 'ReservationSchema.yaml#/res/reservation'
+/reservation/remove/{id}:
+  delete:
+    tags:
+      - reservations
+    description: Admin removes reservation's document using id parameter
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully removed
+        content:
+          application/json:
+            schema:
+              $ref: 'ReservationSchema.yaml#/res/reservation'
+/reservation/admin_update/{id}:
+  put:
+    tags:
+      - reservations
+    description: Admin updates reservation's document using id parameter
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: 'ReservationSchema.yaml#/req_body/admin_update'
+    responses:
+      200:
+        description: Successfully updated by admin
+        content:
+          application/json:
+            schema:
+              $ref: 'ReservationSchema.yaml#/res/reservation'
+components:
+  responseMessage:
+    status500:
+      description: Internal Server Error, Please try again
+      content:
+        text/plain:
+          schema:
+            type: string

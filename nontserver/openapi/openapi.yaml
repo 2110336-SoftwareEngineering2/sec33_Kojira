@@ -9,7 +9,24 @@ servers:
   - description: Localhost server
     url: http://localhost:5000
 
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
 paths:
+  # nontOwners
+  /nontOwners:
+    $ref: 'NontOwnerRoute.yaml#/~1nontOwners'
+  /nontOwners/{id}:
+    $ref: 'NontOwnerRoute.yaml#/~1nontOwners~1{id}'
+  # nontSitters
+  /nontSitters:
+    $ref: 'NontSitterRoute.yaml#/~1nontSitters'
+  /nontSitters/{id}:
+    $ref: 'NontSitterRoute.yaml#/~1nontSitters~1{id}'
   # room
   /room:
     $ref: 'RoomRoute.yaml#/~1room'
@@ -42,6 +59,18 @@ paths:
     $ref: 'ShelterRoute.yaml#/~1shelter~1nontsitterid~1{id}'
   /shelter/name/{name}:
     $ref: 'ShelterRoute.yaml#/~1shelter~1name~1{name}'
+  /shelter/delete/{id}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1delete~1{id}'
+  /shelter/check-name:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1check-name'
+  /shelter/findShelters:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1findShelters'
+  /shelter/remove/{id}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1remove~1{id}'
+  /shelter/admin_update/{id}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1admin_update~1{id}'
+  /shelter/admin_get/{id}:
+    $ref: 'ShelterRoute.yaml#/~1shelter~1admin_get~1{id}'
   # nont
   /nont:
     $ref: 'NontRoute.yaml#/~1nont'
@@ -63,3 +92,64 @@ paths:
     $ref: 'NontRoute.yaml#/~1nont~1remove~1{id}'
   /nont/admin_update/{id}:
     $ref: 'NontRoute.yaml#/~1nont~1admin_update~1{id}'
+  # reservation
+  /reservation:
+    $ref: 'ReservationRoute.yaml#/~1reservation'
+  /reservation/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1{id}'
+  /reservation/unpop/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1unpop~1{id}'
+  /reservation/nontowner_id/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1nontowner_id~1{id}'
+  /reservation/nontsitter_id/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1nontsitter_id~1{id}'
+  /reservation/shelter_id/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1shelter_id~1{id}'
+  /reservation/room_id/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1room_id~1{id}'
+  /reservation/create:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1create'
+  /reservation/verify_check_in/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1verify_check_in~1{id}'
+  /reservation/check_in/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1check_in~1{id}'
+  /reservation/verify_check_out/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1verify_check_out~1{id}'
+  /reservation/check_out/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1check_out~1{id}'
+  /reservation/cancel/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1cancel~1{id}'
+  /reservation/remove/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1remove~1{id}'
+  /reservation/admin_update/{id}:
+    $ref: 'ReservationRoute.yaml#/~1reservation~1admin_update~1{id}'
+  #review
+  /review:
+    $ref: 'ReviewRoute.yaml#/~1review'
+  /review/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1{id}'
+  /review/reservationid/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1reservationid~1{id}'
+  /review/shelterid/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1shelterid~1{id}'
+  /review/nontownerid/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1nontownerid~1{id}'
+  /review/remove/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1remove~1{id}'
+  /review/admin_update/{id}:
+    $ref: 'ReviewRoute.yaml#/~1review~1admin_update~1{id}'
+  #admin
+  /nontOwners/login:
+    $ref: 'LoginRoute.yaml#/~1nontOwners~1login'
+  /nontSitters/login:
+    $ref: 'LoginRoute.yaml#/~1nontSitters~1login'
+  /admin/login:
+    $ref: 'AdminRoute.yaml#/~1admin~1login'
+  /admin/create:
+    $ref: 'AdminRoute.yaml#/~1admin~1create'
+  /payment/getCode:
+    $ref: 'PaymentRoute.yaml#/~1payment~1getCode'
+  /payment/QR:
+    $ref: 'PaymentRoute.yaml#/~1payment~1QR'
+  /users/auth:
+    $ref: 'AuthenticationRoute.yaml#/~1users~1auth'

@@ -185,7 +185,7 @@ class ReservationController extends InterfaceController {
             if(reservation.nontowner_check_in === true && reservation.status === 'paid') {
                 const newQuery = {_id: this.mongoose.Types.ObjectId(req.params.id)}; //reservation id
                 const newUpdate = {status: 'checked-in', nontsitter_check_in: true};
-                const updatedReservation = await this.Reservation.updateOne(newQuery,newUpdate);
+                const updatedReservation = await this.Reservation.findByIdAndUpdate(newQuery,newUpdate);
                 return res.send(updatedReservation);      
             } else return res.status(403).send("Cannot verify check-in because nontowner still doesn't check in nont");
 
@@ -207,7 +207,7 @@ class ReservationController extends InterfaceController {
 
             const newQuery = {_id: this.mongoose.Types.ObjectId(req.params.id)}; //reservation id
             const newUpdate = {nontowner_check_in: true, check_in_datetime: now.toString()};
-            const updatedReservation = await this.Reservation.updateOne(newQuery,newUpdate);
+            const updatedReservation = await this.Reservation.findByIdAndUpdate(newQuery,newUpdate);
             return res.send(updatedReservation);            
         } 
         catch (error) {           
@@ -224,7 +224,7 @@ class ReservationController extends InterfaceController {
             if(reservation.nontowner_check_out === true && reservation.status === 'checked-in') {
                 const newQuery = {_id: this.mongoose.Types.ObjectId(req.params.id)}; //reservation id
                 const newUpdate = {status: 'checked-out', nontsitter_check_out: true};
-                const updatedReservation = await this.Reservation.updateOne(newQuery,newUpdate);
+                const updatedReservation = await this.Reservation.findByIdAndUpdate(newQuery,newUpdate);
                 return res.send(updatedReservation);      
             } else return res.status(403).send("Cannot verify check-out because nontowner still doesn't check out nont");
 
@@ -246,7 +246,7 @@ class ReservationController extends InterfaceController {
     
             const newQuery = {_id: this.mongoose.Types.ObjectId(req.params.id)}; //reservation id
             const newUpdate = {nontowner_check_out: true, check_out_datetime: now.toString()};
-            const updatedReservation = await this.Reservation.updateOne(newQuery,newUpdate);
+            const updatedReservation = await this.Reservation.findByIdAndUpdate(newQuery,newUpdate);
             return res.send(updatedReservation);      
         } 
         catch (error) {            
@@ -258,8 +258,8 @@ class ReservationController extends InterfaceController {
         try {
           const newQuery = {_id: req.params.id};
           const newBody = req.body;
-          const updatedReservation = await this.Reservation.updateOne(newQuery, newBody);
-          return res.send(newBody);
+          const updatedReservation = await this.Reservation.findByIdAndUpdate(newQuery, newBody);
+          return res.send(updatedReservation);
         }
         catch(error) {
           return res.status(500).send("Internal Server Error, Please try again");
@@ -286,7 +286,7 @@ class ReservationController extends InterfaceController {
         
             const newQuery = {_id: this.mongoose.Types.ObjectId(req.params.id)}; //reservation id
             const newUpdate = {status: 'cancelled', cancel_datetime: now.toString()};
-            const updatedReservation = await this.Reservation.updateOne(newQuery,newUpdate);
+            const updatedReservation = await this.Reservation.findByIdAndUpdate(newQuery,newUpdate);
             return res.send(updatedReservation);      
         }
         catch(error){
@@ -302,7 +302,7 @@ class ReservationController extends InterfaceController {
             const reservation = await this.Reservation.findById(req.params.id); //reservation id
             if (reservation.status === 'payment-pending') {
                 const newQuery = { _id: this.mongoose.Types.ObjectId(req.params.id)}; //reservation id
-                const deletedReservation = await this.Reservation.deleteOne(newQuery);
+                const deletedReservation = await this.Reservation.findByIdAndDelete(newQuery);
                 return res.send(deletedReservation);
             }
             else 

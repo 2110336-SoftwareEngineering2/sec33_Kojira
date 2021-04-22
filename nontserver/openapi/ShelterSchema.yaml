@@ -67,3 +67,11 @@ Shelters:
   type: array
   items:
     $ref: "#/Shelter"
+ShelterCheckName:
+  description: check if  shelter's name already exist
+  type: object
+  properties:
+    exist:
+      description:
+        This is not the same exist as in the shelter's model
+      type: boolean

@@ -1,4 +1,4 @@
-import React, { useContext, useState, Component } from "react";
+import React, { useContext, useState, Component, useEffect } from "react";
 import {notification,} from "antd";
 import ShelterService from "../../Services/ShelterService";
 import {
@@ -15,6 +15,7 @@ import AddressForm from "./ShelterForm/AddressForm";
 import PictureForm from "./ShelterForm/PictureForm";
 import Contexts from "../../Utils/Context/Contexts";
 import { Popconfirm } from "antd";
+import styles from "./Shelter.module.css";
 
 const UserContext = Contexts.UserContext;
 const reader = new FileReader();
@@ -39,8 +40,8 @@ const ShelterRegistration  = (props) => {
     const [phoneNumberValid, setPhoneNumberValid] = useState(DEFAULT);
     const [addressValid, setAddressValid] = useState(DEFAULT);
     const [coordinateValid, setCoordinateValid] = useState(DEFAULT);
-    const [licenseValid, setLicenseValid] = useState(DEFAULT);
-    const [pictureValid, setPictureValid] = useState(DEFAULT);
+    const [currentPictureList, setCurrentPictureList] = useState([]);
+    const [currentLicenseList, setCurrentLicenseList] = useState([]);
 
     const validator = {
         //Check unique name
@@ -127,31 +128,56 @@ const ShelterRegistration  = (props) => {
                     setAddressValid(INVALID)
                 }
                 return
-            case "license-input":
-                //console.log(element.currentTarget.files)
-                let file = element.currentTarget.files[0]
-                reader.onload = async (e) => {
-                    let buffer = reader.result
-                    //let binaryString = new Buffer(buffer.split(",")[1],"base64");
-                    setLicense(oldArray => [...oldArray, {name:file.name,img:buffer,contentType:file.type}])
-                    //console.log(typeof arrayBuffer)
-                    setLicenseValid(VALID) 
-                }
-                reader.readAsDataURL(element.currentTarget.files[0])
-                return
-            case "picture-input":
-                let file2 = element.currentTarget.files[0]
-                reader.onload = async (e) => {
-                    let buffer2 = reader.result
-                    setPicture(oldArray => [...oldArray, {name:file2.name,img:buffer2,contentType:file2.type}])
-                    setPictureValid(VALID) 
-                }
-                reader.readAsDataURL(element.currentTarget.files[0])
-                return
         }
     }
+
+    const onPreview = async file => {
+        let src = file.url;
+        if (!src) {
+          src = await new Promise(resolve => {
+            let reader = new FileReader();
+            reader.readAsDataURL(file.originFileObj);
+            reader.onload = () => resolve(reader.result);
+          });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow.document.write(image.outerHTML);
+      };
+
+    const pictureOnChange = async ({ fileList: newFileList }) => {
+        setCurrentPictureList(newFileList);
+        setPicture([])
+        for (var f of newFileList){
+            let file = f.originFileObj
+            let buffer = await new Promise(resolve => {
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+              });
+              setPicture(oldArray => [...oldArray, {name:file.name,img:buffer,contentType:file.type}])
+        }
+    };
+
+    const licenseOnChange = async ({ fileList: newFileList }) => {
+        setCurrentLicenseList(newFileList);
+        setLicense([])
+        for (var f of newFileList){
+            let file = f.originFileObj
+            let buffer = await new Promise(resolve => {
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+              });
+              setLicense(oldArray => [...oldArray, {name:file.name,img:buffer,contentType:file.type}])
+        }
+    };
     
     async function submitRegistration() {
+        console.log(picture)
+        console.log(license)
+        //console.log(document.getElementById("picture-input").value)
         let shelterCoordinate = shelter.coordinate
         if(shelter.coordinate.lat===0 && shelter.coordinate.lng===0) {shelterCoordinate={lat:200,lng:200}}
         const body = {
@@ -192,7 +218,7 @@ const ShelterRegistration  = (props) => {
         {value.userType !== "Nont Sitter" && <h2>You are not logged in as Nont Sitter</h2>}
         {value.userType === "Nont Sitter" && 
         <div className="container">
-            <h1 className="my-5 text-center">Register Shelter</h1>
+            <h1 className="title my-5 text-center">Register Shelter</h1>
             <NameForm
                 onFormChange={handleFormChange}
                 defaultValue = ""
@@ -204,36 +230,20 @@ const ShelterRegistration  = (props) => {
                 defaultValue = ""
                 validDescription={descriptionValid}
             />
-            <div className="row">
-                <PhoneNumberForm
-                    onFormChange={handleFormChange}
-                    defaultValue = ""
-                    validPhoneNumber={phoneNumberValid}
-                />
-                <LicenseForm
-                    onFormChange={handleFormChange}
-                    defaultValue = ""
-                />
-                <PictureForm
-                        onFormChange={handleFormChange}
-                    />
-            </div>
-            <div className="row justify-content-end">
-                <div className="col-12 col-sm-8 text-left">
-                    <div style={{paddingLeft:"25px", color:"red"}}>
-                        Overall pictures and licenses size must less than 3MB (image files only)
-                    </div>
-                </div>
-            </div>
             <AddressForm
                     onFormChange={handleFormChange}
                     defaultValue = ""
                     validAddress={addressValid}
             />
             <div className="row">
+                <PhoneNumberForm
+                    onFormChange={handleFormChange}
+                    defaultValue = ""
+                    validPhoneNumber={phoneNumberValid}
+                />
                 <div className="col m-4">
                     <div className="mb-2" style={{color:"red"}}>
-                            * This shelter's location is required based on your current location
+                            * Location is required based on your current location
                         </div>
                     <Popconfirm
                         placement="rightBottom"
@@ -246,20 +256,37 @@ const ShelterRegistration  = (props) => {
                     >
                         <a 
                             type="button" 
-                            className="btn btn-secondary" 
+                            className="button-text btn btn-secondary" 
                             onClick={getLocation}
                         >   
                         <i className="fas fa-map-marker-alt" />
                         {" "}Location
                         </a> 
                     </Popconfirm>
-                    {coordinateValid === VALID && <p>Already got location!</p>}
+                    {coordinateValid === VALID && <p style={{color:"gray"}}>Already got location!</p>}
                 </div>
             </div>
+            {/* <div className="row justify-content-end">
+                <div className="col-12 col-sm-8 text-left">
+                    <div style={{paddingLeft:"25px", color:"red"}}>
+                        Overall pictures and licenses size must less than 3MB (image files only)
+                    </div>
+                </div>
+            </div> */}
+            <PictureForm
+                onFormChange={pictureOnChange}
+                listFile={currentPictureList}
+                onPreview={onPreview}
+            />
+            <LicenseForm
+                onFormChange={licenseOnChange}
+                listFile={currentLicenseList}
+                onPreview={onPreview}
+            />
             <div className="p-3" style={{ textAlign: "center"}}>
                 <button
                 type="button"
-                className="btn btn-primary"
+                className="button-text btn btn-primary"
                 onClick={submitRegistration}
                 >
                 Register
@@ -268,14 +295,14 @@ const ShelterRegistration  = (props) => {
         </div>
         }
         {registerStatus === VALID &&
-            <div className="m-3" style={{ textAlign: "center" }}>
+            <div className="emphasis m-3" style={{ textAlign: "center" }}>
                 <label>
                     Your shelter is successfully registered.
                 </label>
             </div>
         }
         {registerStatus === INVALID &&
-            <div className="m-3" style={{ textAlign: "center" }}>
+            <div className="emphasis m-3" style={{ textAlign: "center" }}>
                 <label>
                     Cannot register. Please check your input.
                 </label>

@@ -1,0 +1,61 @@
+/payment/getCode:
+  post:
+    description: get specific code for generating QR code.
+    tags:
+      - Payment
+    responses:
+      200: 
+        description: code generated
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+      500:
+        description: fail to generate code
+        content:
+          text/plain:
+            schema:
+              type: text
+              example: error message
+            
+/payment/QR:
+  get: 
+    description: the payment endpoint for when scanning the QR code.
+    tags:
+      - Payment
+    parameters:
+      - in: query
+        name: code
+        schema:
+          type: string
+        description: The code got from /payment/getCode
+      - in: query
+        name: reserveId
+        schema:
+          type: string
+        description: The reservation Id of the paying reservation.
+    responses:
+      200:
+        description: payment finished
+        content: 
+          text/plain:
+            schema:
+              type: string
+              example: payment finished
+      401:
+        description: code unmatched
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: code not match
+      500:
+        description: unexpected error
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: unexpected error
