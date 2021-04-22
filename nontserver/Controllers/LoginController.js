@@ -2,6 +2,9 @@
 const bcrypt = require("bcryptjs");
 const generateAccessToken = require("../Middlewares/JsonWebToken/JwtGenerator");
 const LoginError = require("../Constants/ErrorTypes/LoginError");
+const Admin = require("../Models/Admin");
+const NontOwner = require("../Models/NontOwner");
+const NontSitter = require("../Models/NontSitter");
 
 const controller = {
   login: async function (req, res, Schema) {
@@ -17,9 +20,17 @@ const controller = {
           );
 
           if (comparedResult) {
+            var userType;
+            if (Schema === Admin) {
+              userType = "admin";
+            } else if (Schema === NontSitter) {
+              userType = "Nont Sitter";
+            } else if (Schema === NontOwner) {
+              userType = "Nont Owner";
+            }
             const token = generateAccessToken({
               email: req.body.email,
-              userType: req.body.userType,
+              userType: userType,
               name: Result.name,
               _id: Result._id,
               createdAt: Result.createdAt,
