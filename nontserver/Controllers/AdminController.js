@@ -38,6 +38,7 @@ const controller = {
   addAdmin: async (req, res) => {
     const validationResult = validator.validate(req.body);
     if (validationResult.error) {
+      res.statusCode = 500;
       res.send({
         err:
           "review the value of the fields correctly, there should be 4 fields : secret, password, email, and userType. And the password should be between 8 and 32 characters",
@@ -78,7 +79,6 @@ const controller = {
         }
       }
     } catch (err) {
-      console.log(err);
       res.sendStatus(500);
     }
   },

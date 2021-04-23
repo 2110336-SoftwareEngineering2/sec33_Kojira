@@ -40,7 +40,7 @@ const controller = {
               login: true,
               token: token,
               email: req.body.email,
-              userType: req.body.userType,
+              userType: userType,
               name: Result.name,
             });
           } else {
