@@ -12,7 +12,8 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
@@ -24,5 +25,6 @@ jobs:
       working-directory: ./nontserver
       run: yarn install --frozen-lockfile
     - name: run mocha
+      timeout-minutes: 5
       working-directory: ./nontserver
       run: yarn test
