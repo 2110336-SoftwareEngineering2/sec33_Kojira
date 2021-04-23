@@ -11,7 +11,6 @@ var token = null;
 // need to maintain records in db to pass this test.
 describe("login APIs", () => {
   it("It should return jwt tsoken", (done) => {
-    this.timeout(10000);
     chai
       .request(app)
       .post("/nontOwners/login")
