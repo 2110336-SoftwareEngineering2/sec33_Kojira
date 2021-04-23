@@ -21,8 +21,8 @@ jobs:
       with:
         node-version: '14'
     - name: go to /nontserver and install
-      run: |
-        cd nontserver
-        npm ci
+      working-directory: ./nontserver
+      run: npm ci
     - name: run mocha
+      working-directory: ./nontserver
       run: npm test
