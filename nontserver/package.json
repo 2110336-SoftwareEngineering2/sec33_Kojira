@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "test": "mocha",
+    "test": "mocha --exit",
     "deploy": "cd ../ && git subtree push --prefix nontserver nontserver main"
   },
   "dependencies": {
