@@ -1,7 +1,17 @@
-import axios from 'axios';
+import axioss from 'axios';
 
-export default axios.create({
+var axios = axioss.create({
     headers: {
         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
     }
 })
+
+const updateToken = () => {
+    axios = axioss.create({
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
+}
+
+export {axios, updateToken};
