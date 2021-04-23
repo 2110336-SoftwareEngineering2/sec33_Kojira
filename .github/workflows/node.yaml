@@ -20,6 +20,9 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-    - run: cd nontserver
-    - run: npm ci
-    - run: npm test
+    - name: go to /nontserver and install
+      run: |
+        cd nontserver
+        npm ci
+    - name: run mocha
+      run: npm test
