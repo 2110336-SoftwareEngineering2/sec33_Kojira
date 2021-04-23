@@ -1,5 +1,5 @@
 import UserType from "../Constants/UserType";
-import axios from "axios";
+import axios from "../Utils/ServiceUtils/axios";
 import serverURL from "../Config/serverURL";
 import LoginError from "../Constants/ErrorTypes/LoginError";
 
@@ -49,8 +49,8 @@ const LoginService = {
   },
 
   checkLoginStatus: async function checkLoginStatus() {
-    const token = localStorage.getItem("access_token");
-    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+    // const token = localStorage.getItem("access_token");
+    // axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     const respond = await axios.post(serverURL + "/users/auth");
     return respond;
   },
