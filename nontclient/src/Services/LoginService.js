@@ -1,5 +1,5 @@
 import UserType from "../Constants/UserType";
-import axios from "axios";
+import {axios, updateToken} from "../Utils/ServiceUtils/axios";
 import serverURL from "../Config/serverURL";
 import LoginError from "../Constants/ErrorTypes/LoginError";
 
@@ -24,12 +24,13 @@ const LoginService = {
             userType: typeOfUser,
           });
 
-          //console.log(respond.data);
+          // console.log(respond.data);
 
           if (!respond.data) {
             console.log("error");
           } else if (respond.data.login) {
             localStorage.setItem("access_token", respond.data.token);
+            updateToken();
             component.props.history.push("/home");
           } else {
             if (respond.data.error) {
@@ -49,8 +50,8 @@ const LoginService = {
   },
 
   checkLoginStatus: async function checkLoginStatus() {
-    const token = localStorage.getItem("access_token");
-    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+    // const token = localStorage.getItem("access_token");
+    // axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     const respond = await axios.post(serverURL + "/users/auth");
     return respond;
   },

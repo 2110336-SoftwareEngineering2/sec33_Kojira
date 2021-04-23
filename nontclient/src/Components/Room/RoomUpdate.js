@@ -18,7 +18,6 @@ const RoomUpdate = (props) => {
         price: 0,
     });
 
-    const [updateStatus, setUpdateStatus] = useState(DEFAULT);
     const [nameValid, setNameValid] = useState(DEFAULT);
     const [nontTypeValid, setNontTypeValid] = useState(DEFAULT);
     const [amountValid, setAmountValid] = useState(DEFAULT);
@@ -94,23 +93,15 @@ const RoomUpdate = (props) => {
             amount: parseInt(document.getElementById("amount-input").value),
             price: parseInt(document.getElementById("price-input").value),
         };
-        if (nameValid !== VALID ||
-            nontTypeValid !== VALID ||
-            amountValid !== VALID ||
-            priceValid !== VALID) {
-            setUpdateStatus(INVALID);
-        }
-        else {
+        if (nameValid !== INVALID && nontTypeValid !== INVALID && amountValid !== INVALID && priceValid !== INVALID) {
             try {
                 const response = await RoomService.updateRoom(roomID, body);
-                setUpdateStatus(VALID);
                 notification.success({
                     message: "Room",
                     description: `Room successfully updated.`,
                     placement: "bottomRight",
                 });
             } catch (error) {
-                setUpdateStatus(INVALID);
                 notification.error({ 
                     message: "Shelter",
                     description: `Cannot update room profile.`,
