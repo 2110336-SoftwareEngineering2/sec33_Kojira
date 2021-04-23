@@ -1,12 +1,13 @@
 import NontType from "../Constants/nontTypes";
-import axios from "axios";
+// import axios from "axios";
+import axios from '../Utils/ServiceUtils/axios';
 import serverURL from "../Config/serverURL";
 import setAuthenBearer from "../Utils/ServiceUtils/setAuthenBearer";
 
 const RoomService = {
     registerRoom: async (body) => {
         try{
-            setAuthenBearer();
+            // setAuthenBearer();
             let path = '/room';
             const response = await axios.post(serverURL + path, body);
             return response;
@@ -16,7 +17,7 @@ const RoomService = {
     },
     getRoomByID: async (id) => {
         try {
-            setAuthenBearer();
+            // setAuthenBearer();
             let path = "/room/id/" + id;
             const response = await axios.get(serverURL + path);
             return response
@@ -27,7 +28,7 @@ const RoomService = {
     },
     getRoomByShelterID: async (id) => {
         try {
-            setAuthenBearer();
+            // setAuthenBearer();
             let path = "/room/shelterid/" + id;
             const response = await axios.get(serverURL + path);
             return response
@@ -38,7 +39,7 @@ const RoomService = {
     },
     updateRoom: async (id, body) => {
         try {
-            setAuthenBearer();
+            // setAuthenBearer();
             let path = "/room/update/" + id;
             const response = await axios.patch(serverURL + path, body);
             return response
@@ -49,7 +50,7 @@ const RoomService = {
     },
     deleteRoom: async (id) => {
         try {
-            setAuthenBearer();
+            // setAuthenBearer();
             let path = "/room/delete/" + id;
             const response = await axios.patch(serverURL + path);
             return response;
