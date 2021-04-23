@@ -22,7 +22,7 @@ jobs:
         node-version: '14'
     - name: go to /nontserver and install
       working-directory: ./nontserver
-      run: npm ci
+      run: yarn install --frozen-lockfile
     - name: run mocha
       working-directory: ./nontserver
-      run: npm test
+      run: yarn test
