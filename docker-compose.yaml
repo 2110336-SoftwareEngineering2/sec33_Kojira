@@ -1,0 +1,16 @@
+version: "3.8"
+services: 
+
+    nontclient:
+        image: nontclient:latest
+        build: nontclient
+        links: 
+            - "nontserver:nontserver"
+        ports: 
+            - "3000:3000"
+
+    nontserver:
+        image: nontserver:latest
+        build: nontserver
+        ports: 
+            - "5000:5000"
