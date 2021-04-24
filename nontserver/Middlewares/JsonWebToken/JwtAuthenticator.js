@@ -13,7 +13,7 @@ function authenticateJWTToken(req, res, next) {
 
   jwt.verify(token, secret, (err, user) => {
     if (err) {
-      //console.log(err);
+      console.log(err);
       res.sendStatus(401);
     } else {
       req.user = user;

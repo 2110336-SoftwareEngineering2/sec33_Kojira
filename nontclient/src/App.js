@@ -57,7 +57,7 @@ const App = (props) => {
     UpdateUserInfo: UpdateUserInfo,
   };
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
   return (
     <div className={styles.App}>

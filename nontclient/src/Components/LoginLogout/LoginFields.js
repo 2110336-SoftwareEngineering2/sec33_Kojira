@@ -52,7 +52,6 @@ class LoginFields extends Component {
       this.props.UserType,
       this
     ).then((result) => {
-      this.setState({ loading: false });
       if (result !== true) {
         this.handleLoginError(result);
       } else {
@@ -106,7 +105,7 @@ class LoginFields extends Component {
                 )}
                 {this.state.loading && (
                   <div
-                    class="spinner-border"
+                    className="spinner-border"
                     id={styles.spinner}
                     role="status"
                   ></div>

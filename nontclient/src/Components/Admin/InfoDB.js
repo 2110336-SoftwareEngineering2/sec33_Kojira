@@ -12,6 +12,8 @@ const InfoDB = (props) => {
   const [columnDisplayStatus, setColumnDisplayStatus] = useState([]);
   const [banAttribute, setBanAttribute] = useState(["picture", "password"]);
   const [attributeList, setAttributeList] = useState([]);
+  const defaultDisplay = ["email","name","bankAccount","phoneNumber","type","description",
+  "exist","price","status","rate","comment","nont_type","amount","supported_type","address"];
 
   useEffect(() => {
     fetchData();
@@ -51,7 +53,12 @@ const InfoDB = (props) => {
           // column display status
           const columnDisplayStatus = {};
           for (const [key, value] of Object.entries(Object(response.data[0]))) {
-            columnDisplayStatus[key.toString()] = true;
+            if (defaultDisplay.includes(key.toString())) {
+              columnDisplayStatus[key.toString()] = true;
+            }
+            else {                          
+              columnDisplayStatus[key.toString()] = false;
+            }
           }
           setColumnDisplayStatus(columnDisplayStatus);
           // attribute list
@@ -131,14 +138,12 @@ const InfoDB = (props) => {
         <div>
           <div className="d-flex flex-column border border-dark border-3 rounded my-2">
             <div
-              className="flex-fill bg-dark text-white font-weight-bold"
-              style={{ textAlign: "center", fontSize: 25 }}
+              className="flex-fill bg-dark text-white title text-center"
             >
               {dbname}
             </div>
             <div
-              className="flex-fill bg-info text-white font-weight-bold"
-              style={{ textAlign: "center", fontSize: 20 }}
+              className="flex-fill bg-info text-white subtitle text-center"
             >
               Select Field
             </div>
@@ -151,7 +156,7 @@ const InfoDB = (props) => {
                       <button
                         key={key}
                         type="button"
-                        className={"btn m-2 ".concat(
+                        className={"btn m-2 button-text ".concat(
                           columnDisplayStatus[key]
                             ? "btn-success"
                             : "btn-secondary"
@@ -178,9 +183,9 @@ const InfoDB = (props) => {
                             <th
                               key={key}
                               scope="col"
+                              className="header"
                               style={{
                                 textAlign: "center",
-                                fontSize: 20,
                                 display: columnDisplayStatus?.[key]
                                   ? ""
                                   : "none",
@@ -192,13 +197,15 @@ const InfoDB = (props) => {
                       )}
                     <th
                       scope="col"
-                      style={{ textAlign: "center", fontSize: 20 }}
+                      className="header"
+                      style={{ textAlign: "center" }}
                     >
                       Update
                     </th>
                     <th
                       scope="col"
-                      style={{ textAlign: "center", fontSize: 20 }}
+                      className="header"
+                      style={{ textAlign: "center" }}
                     >
                       Delete
                     </th>
@@ -217,7 +224,6 @@ const InfoDB = (props) => {
                                 style={{
                                   textAlign: "center",
                                   verticalAlign: "middle",
-                                  fontSize: 18,
                                   display: columnDisplayStatus?.[attribute]
                                     ? ""
                                     : "none",
@@ -240,7 +246,6 @@ const InfoDB = (props) => {
                           style={{
                             textAlign: "center",
                             verticalAlign: "middle",
-                            fontSize: 18,
                           }}
                         >
                           <a type="button" className="btn btn-warning" href={"/editdb/"+dbname+"/"+element._id}>
@@ -252,7 +257,6 @@ const InfoDB = (props) => {
                           style={{
                             textAlign: "center",
                             verticalAlign: "middle",
-                            fontSize: 18,
                           }}
                         >
                           <Popconfirm

@@ -14,7 +14,7 @@ class Login extends Component {
     this.checkLoginStatus = this.checkLoginStatus.bind(this);
   }
 
-  async checkLoginStatus() {
+  async checkLoginStatus() {    
     try {
       const respond = await LoginService.checkLoginStatus();
       if (respond.data.authenticated) {

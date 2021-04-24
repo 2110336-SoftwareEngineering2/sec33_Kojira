@@ -110,3 +110,17 @@ P.S.2 เวลา deploy แล้วมี error -> ให้ใช้ command
 `heroku logs --remote nontclient --tail` สำหรับ nontclient
 
 `heroku logs --remote nontserver --tail` สำหรับ nontserver
+
+# Docker
+
+1. Browser CANNOT send request through container networks so 
+
+   **if you want to use container as the server, DO enable `export default localserver` in `serverURL.js`**
+
+2. To run the container, go to root directory and use 
+
+   `docker-compose up -d --build`
+
+3. We did **NOT deploy through docker**, so you can freely run your container, it will **NOT affect the client and server in heroku.**
+
+4. We still **deploy to heroku using git** if you want to deploy, you can run `yarn deploy` as usual.

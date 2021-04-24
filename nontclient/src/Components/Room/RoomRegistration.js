@@ -10,14 +10,8 @@ import { useParams } from "react-router-dom";
 import nontTypes from "../../Constants/nontTypes";
 
 const RoomRegistration = (props) => {
-    const [room, setRoom] = useState({
-        name: "",
-        nont_type: "",
-        amount: 0,
-        price: 0,
-    });
     const {shelterID} = useParams();
-
+    
     const [registerStatus, setRegisterStatus] = useState(DEFAULT);
     const [nameValid, setNameValid] = useState(DEFAULT);
     const [nontTypeValid, setNontTypeValid] = useState(DEFAULT);
@@ -97,12 +91,12 @@ const RoomRegistration = (props) => {
         <div className="container">
 
             {/* Header */}
-            <h1 className="my-5 text-center">Register Room</h1>
+            <h1 className="text-center title">Register Room</h1>
             <div className="row">
 
                 {/* Name Form */}
                 <div className="col m-2">
-                    <label htmlFor="name-input" className="form-label">
+                    <label htmlFor="name-input" className="form-label emphasis">
                         Name{" "}
                         <abbr className="required" title="required">
                             *
@@ -121,7 +115,7 @@ const RoomRegistration = (props) => {
                         aria-describedby="name-desc"
                         onChange={handleFormChange}
                         required />
-                    <div id="name-desc" className="form-text">
+                    <div id="name-desc" className="form-text" style={{opacity:"50%"}}>
                         Room's name must not longer than 50 characters.
                         </div>
                 </div>
@@ -131,7 +125,7 @@ const RoomRegistration = (props) => {
 
                 {/* Nont Type drop down */}
                 <div className="col m-2 + col-sm">
-                    <label>
+                    <label className="emphasis">
                         Nont Type{" "}
                         <abbr className="required" title="required">
                             *
@@ -163,7 +157,7 @@ const RoomRegistration = (props) => {
 
                 {/* Amount form */}
                 <div className="col m-2 + col-sm">
-                    <label>
+                    <label className="emphasis">
                         Amount{" "}
                         <abbr className="required" title="required">
                             *
@@ -182,14 +176,14 @@ const RoomRegistration = (props) => {
                         aria-describedby="amount-desc"
                         onChange={handleFormChange}
                         required />
-                    <div id="amount-desc" className="form-text">
+                    <div id="amount-desc" className="form-text" style={{opacity:"50%"}}>
                         Amount must be within 1-20.
                         </div>
                 </div>
 
                 {/* Price form */}
                 <div className="col m-2 + col-sm">
-                    <label>
+                    <label className="emphasis">
                         Price{" "}
                         <abbr className="required" title="required">
                             *
@@ -208,36 +202,22 @@ const RoomRegistration = (props) => {
                         aria-describedby="price-desc"
                         onChange={handleFormChange}
                         required />
-                    <div id="price-desc" className="form-text">
+                    <div id="price-desc" className="form-text" style={{opacity:"50%"}}>
                         Price must be within 1-3000.
                         </div>
                 </div>
             </div>
 
             {/* Submit Button */}
-            <div className="m-5" style={{ textAlign: "center" }}>
+            <div className="mt-3" style={{ textAlign: "center" }}>
                 <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primary button-text"
                     onClick={submitRegistration}
                 >
                     Register
                     </button>
             </div>
-            {registerStatus === VALID &&
-                <div className="m-5" style={{ textAlign: "center" }}>
-                    <label>
-                        Your room is successfully registered.
-                    </label>
-                </div>
-            }
-            {registerStatus === INVALID &&
-                <div className="m-5" style={{ textAlign: "center" }}>
-                    <label>
-                        Cannot register. Please check your input.
-                    </label>
-                </div>
-            }
         </div>
     );
 }
