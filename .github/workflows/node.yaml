@@ -12,7 +12,8 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
@@ -20,7 +21,12 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-    - run: cd nontserver
-    - run: npm ci
-    - run: npm install
-    - run: npm test
+    # install denpendencies with yarn, do not modify yarn.lock
+    - name: install dependencies
+      working-directory: ./nontserver
+      run: yarn install --frozen-lockfile
+    # run yarn test from package.json
+    - name: run test
+      timeout-minutes: 5
+      working-directory: ./nontserver
+      run: yarn test
