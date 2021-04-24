@@ -19,7 +19,7 @@ class NontSitterController extends InterfaceController {
         .length(10)
         .pattern(/^[0-9]+$/),
     };
-    this.validator = this.joi.object(this.joischema);
+    this.validator = this.joi.object(this.schema);
     this.updateSchema = {
       email: this.joi.string().email(),
       password: this.joi.string().min(8).max(32),

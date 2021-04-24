@@ -8,7 +8,6 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
-var SitterToken = null;
 var AdminToken = null;
 
 describe("SignUp Process", () => {
