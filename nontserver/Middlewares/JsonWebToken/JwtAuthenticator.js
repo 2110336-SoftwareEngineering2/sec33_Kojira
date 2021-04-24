@@ -10,7 +10,6 @@ function authenticateJWTToken(req, res, next) {
   if (token == null) {
     return res.sendStatus(401);
   } // if there isn't any token
-  console.log(token);
 
   jwt.verify(token, secret, (err, user) => {
     if (err) {
