@@ -54,6 +54,7 @@ describe("Nont Owner Create", () => {
         phoneNumber: "0111111113",
       })
       .end((err, res) => {
+        console.log(res.text);
         expect(res).to.have.status(403);
         done();
       });

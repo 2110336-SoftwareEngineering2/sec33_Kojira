@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "test": "nyc mocha test/**/*.test.js",
+    "test": "nyc mocha --recursive --exit --inspect=0.0.0.0:9229",
+    "coverage": "nyc --reporter html --reporter text yarn test",
     "deploy": "cd ../ && git subtree push --prefix nontserver nontserver main"
   },
   "dependencies": {
