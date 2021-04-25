@@ -80,6 +80,9 @@ describe("SignUp Process", () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(500);
+        expect(res.body.err).to.equal(
+          "review the value of the fields correctly, there should be 4 fields : secret, password, email, and userType. And the password should be between 8 and 32 characters"
+        );
         done();
       });
   });
@@ -95,6 +98,28 @@ describe("SignUp Process", () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(500);
+        expect(res.body.err).to.equal(
+          "review the value of the fields correctly, there should be 4 fields : secret, password, email, and userType. And the password should be between 8 and 32 characters"
+        );
+        done();
+      });
+  });
+  it("It should not create admin if the email is already in the database", (done) => {
+    chai
+      .request(app)
+      .post("/admin/create")
+      .type("form")
+      .send({
+        email: testAdminEmail,
+        password: "testpassword",
+        userType: "admin",
+        secret: "Kojira_secret_code",
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(500);
+        expect(res.body.err).to.equal(
+          "this admin email is already in the database"
+        );
         done();
       });
   });
