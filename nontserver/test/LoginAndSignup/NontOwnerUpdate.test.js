@@ -9,6 +9,27 @@ const expect = chai.expect;
 
 var id;
 
+describe("Start Condition", () => {
+  it("Clear the database if there is a nont owner with email 'nontOwnerTestUpdate@kojira.com'", (done) => {
+    NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
+      (result) => {
+        if (!result) {
+          NontOwner.deleteOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
+            NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
+              (result) => {
+                expect(result).to.be.null;
+                done();
+              }
+            )
+          );
+        } else {
+          done();
+        }
+      }
+    );
+  });
+});
+
 describe("Nont Owner Create", () => {
   it("create a nont owner first", (done) => {
     chai

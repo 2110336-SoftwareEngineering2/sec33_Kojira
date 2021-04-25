@@ -2,13 +2,31 @@ let app = require("../../app");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
 const Admin = require("../../Models/Admin");
-const NontOwner = require("../../Models/NontOwner");
 
 const expect = chai.expect;
 
 chai.use(chaiHttp);
 
 var AdminToken = null;
+
+const testAdminEmail = "admintest@kojira.com";
+
+describe("Start Condition", () => {
+  it("Clear the database if there is an admin with email 'admintest@kojira.com'", (done) => {
+    Admin.findOne({ email: testAdminEmail }).then((result) => {
+      if (!result) {
+        Admin.deleteOne({ email: testAdminEmail }).then(
+          Admin.findOne({ email: testAdminEmail }).then((result) => {
+            expect(result).to.be.null;
+            done();
+          })
+        );
+      } else {
+        done();
+      }
+    });
+  });
+});
 
 describe("SignUp Process", () => {
   it("It should create admin", (done) => {
@@ -17,16 +35,20 @@ describe("SignUp Process", () => {
       .post("/admin/create")
       .type("form")
       .send({
-        email: "admintest@kojira.com",
+        email: testAdminEmail,
         password: "testpassword",
         userType: "admin",
         secret: "Kojira_secret_code",
       })
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(res.body.email).to.equal("admintest@kojira.com");
+        expect(res.body.email).to.equal(testAdminEmail);
         expect(res.body.userType).to.equal("admin");
-        done();
+        Admin.findOne({ email: testAdminEmail }).then((result) => {
+          expect(result).to.not.be.null;
+          expect(result.email).to.equal(testAdminEmail);
+          done();
+        });
       });
   });
   it("It should not create admin if the secret is not correct", (done) => {
@@ -35,7 +57,7 @@ describe("SignUp Process", () => {
       .post("/admin/create")
       .type("form")
       .send({
-        email: "admintest2@kojira.com",
+        email: testAdminEmail,
         password: "testpassword",
         userType: "admin",
         secret: "some_secret",
@@ -84,7 +106,7 @@ describe("login APIs", () => {
       .request(app)
       .post("/admin/login")
       .type("form")
-      .send({ email: "admintest@kojira.com", password: "testpassword" })
+      .send({ email: testAdminEmail, password: "testpassword" })
       .end((err, res) => {
         console.log(res.body);
         expect(res).to.have.status(200);
