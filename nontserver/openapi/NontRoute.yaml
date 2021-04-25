@@ -2,6 +2,8 @@
   get:
     tags: 
       - nonts
+    security:
+      - bearerAuth: []
     description: Fetch all nonts' document
     responses:
       200:
@@ -14,6 +16,8 @@
   get:
     tags: 
       - nonts
+    security:
+      - bearerAuth: []
     description: Fetch nont's document using id parameter
     parameters:
       - in: path
@@ -32,6 +36,8 @@
   get:
     tags: 
       - nonts
+    security:
+      - bearerAuth: []
     description: Fetch nonts' document using name parameter
     parameters:
       - in: path
@@ -50,6 +56,8 @@
   get:
     tags: 
       - nonts
+    security:
+      - bearerAuth: []
     description: Fetch nonts' document using type parameter
     parameters:
       - in: path
@@ -68,6 +76,8 @@
   get:
     tags: 
       - nonts
+    security:
+      - bearerAuth: []
     description: Fetch nonts' document using nontowner id parameter
     parameters:
       - in: path
@@ -86,6 +96,8 @@
   post:
     tags: 
       - nonts
+    security:
+      - bearerAuth: []
     description: Nontowner creates nont's document
     requestBody:
       required: true
@@ -104,6 +116,8 @@
   put:
     tags: 
       - nonts
+    security:
+      - bearerAuth: []
     description: Nontowner updates nont's document using id parameter
     parameters:
       - in: path
@@ -128,6 +142,8 @@
   patch:
     tags: 
       - nonts
+    security:
+      - bearerAuth: []
     description: Nontowner deletes nont using id parameter
     parameters:
       - in: path
@@ -147,6 +163,8 @@
   delete:
     tags: 
       - nonts
+    security:
+      - bearerAuth: []
     description: Admin removes nont's document using id parameter
     parameters:
       - in: path
@@ -165,6 +183,8 @@
   put:
     tags: 
       - nonts
+    security:
+      - bearerAuth: []
     description: Admin updates nont's document using id parameter
     parameters:
       - in: path
