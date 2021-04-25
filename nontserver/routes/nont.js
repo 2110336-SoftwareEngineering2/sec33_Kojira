@@ -3,35 +3,38 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../Controllers/NontController');
+const authenticateJWTToken = require('../Middlewares/JsonWebToken/JwtAuthenticator');
+const nontOwnerAuthenticator = require('../Middlewares/UserAuthenticate/UserAuthenticateMiddleWare').nontOwnerAuthenticator;
+const adminAuthenticator = require('../Middlewares/UserAuthenticate/UserAuthenticateMiddleWare').adminAuthenticator;
 
 router.route('/')
-      .get(controller.getNonts);
+      .get(authenticateJWTToken, controller.getNonts);
 
 router.route('/:id')
-      .get(controller.getNontByID);
+      .get(authenticateJWTToken, controller.getNontByID);
   
 router.route('/name/:name')
-      .get(controller.getNontByName);
+      .get(authenticateJWTToken, controller.getNontByName);
   
 router.route('/type/:type')
-      .get(controller.getNontByType);
+      .get(authenticateJWTToken, controller.getNontByType);
 
 router.route('/nontowner_id/:id')
-      .get(controller.getNontByNontOwnerID);
+      .get(authenticateJWTToken, controller.getNontByNontOwnerID);
       
 router.route('/create')
-      .post(controller.create);
+      .post(authenticateJWTToken, nontOwnerAuthenticator, controller.create);
 
 router.route('/update/:id')
-      .put(controller.updateNont);
+      .put(authenticateJWTToken, nontOwnerAuthenticator ,controller.updateNont);
 
 router.route('/delete/:id')
-      .patch(controller.deleteNont);
+      .patch(authenticateJWTToken, nontOwnerAuthenticator, controller.deleteNont);
 
 router.route('/remove/:id')
-      .delete(controller.remove);
+      .delete(authenticateJWTToken, adminAuthenticator, controller.remove);
 
 router.route('/admin_update/:id')
-      .put(controller.adminUpdateNont);
+      .put(authenticateJWTToken, adminAuthenticator, controller.adminUpdateNont);
 
 module.exports = router;
