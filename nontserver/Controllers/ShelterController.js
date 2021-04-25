@@ -114,151 +114,195 @@ class ShelterController extends InterfaceController {
 
     try {
       let foundShelters = await this.Shelter.find().lean().exec();
-      try {
-        // Get paramters
-        const sortedBy = req.query.sortedBy ? req.query.sortedBy : "rate";
-        const keywords = req.query.keywords ? req.query.keywords : "";
-        const supported_type = req.query.supported_type
+      // Get paramters
+      const sortedBy = req.query.sortedBy ? req.query.sortedBy : "rate";
+      const keywords = req.query.keywords ? req.query.keywords : "";
+      const supported_type =
+        req.query.supported_type !== undefined
           ? Array.isArray(req.query.supported_type)
             ? req.query.supported_type
             : [req.query.supported_type]
           : [];
-        const minRate = req.query.minRate
-          ? Math.min(Math.max(Number(req.query.minRate), 0), 5)
-          : 0;
-        const maxDistance = req.query.maxDistance
-          ? Math.max(Math.min(Number(req.query.maxDistance), 100), 1)
+      const minRate =
+        req.query.minRate !== undefined ? Number(req.query.minRate) : 0;
+      if (isNaN(minRate) || minRate < 0 || minRate > 5)
+        return res.status(400).send("Invalid minRate");
+      const maxDistance =
+        req.query.maxDistance !== undefined
+          ? Number(req.query.maxDistance)
           : 100;
-        const nontAmount = req.query.nontAmount
-          ? Math.min(Math.max(Number(req.query.nontAmount), 1), 20)
-          : 1;
-        const maxPrice = req.query.maxPrice
-          ? Math.max(Math.min(Number(req.query.maxPrice), 3000), 0)
-          : 3000;
-        const startDate =
-          req.query.startYear && req.query.startMonth && req.query.startDate
-            ? new Date(
-                Number(req.query.startYear),
-                Number(req.query.startMonth),
-                Number(req.query.startDate),
-                0,
-                0,
-                0
-              )
-            : undefined;
-        const endDate =
-          req.query.endYear && req.query.endMonth && req.query.endDate
-            ? new Date(
-                Number(req.query.endYear),
-                Number(req.query.endMonth),
-                Number(req.query.endDate),
-                23,
-                59,
-                59
-              )
-            : undefined;
-        const lat = req.query.lat;
-        const lng = req.query.lng;
-        const position =
-          lat !== undefined && lng !== undefined
-            ? { lat: lat, lng: lng }
-            : undefined;
-
-        // Validation
-        const validTypes = Object.values(this.nontTypes);
-        for (const type of supported_type) {
-          if (!validTypes.includes(type))
-            return res.status(400).send("Error: Invalid nont type");
-        }
-
-        // Calculate distance
-        if (position) {
-          foundShelters.map((shelter) => {
-            shelter.distance = this.geolib.getDistance(
-              { latitude: position.lat, longitude: position.lng },
-              {
-                latitude: shelter.coordinate.lat,
-                longitude: shelter.coordinate.lng,
-              }
-            );
-          });
-        }
-
-        // Filter
-        const re = new RegExp(keywords, "i");
-        foundShelters = foundShelters.filter(
-          (shelter) =>
-            shelter.exist &&
-            shelter.name.match(re) &&
-            checkSupportedType(shelter, supported_type) &&
-            shelter.rate >= minRate &&
-            (!position ||
-              shelter.distance <= maxDistance * 1000 ||
-              maxDistance === 100)
+      if (isNaN(maxDistance) || maxDistance < 0 || maxDistance > 100)
+        return res.status(400).send("Invalid maxDistance");
+      const nontAmount =
+        req.query.nontAmount !== undefined ? Number(req.query.nontAmount) : 1;
+      if (isNaN(nontAmount) || nontAmount < 1 || nontAmount > 20)
+        return res.status(400).send("Invalid nontAmont");
+      const maxPrice =
+        req.query.maxPrice !== undefined ? Number(req.query.maxPrice) : 3000;
+      if (isNaN(maxPrice) || maxPrice < 0 || maxPrice > 3000)
+        return res.status(400).send("Invalid maxPrice");
+      let startDatetime = undefined;
+      if (
+        req.query.startYear !== undefined ||
+        req.query.startMonth !== undefined ||
+        req.query.startDate !== undefined
+      ) {
+        if (
+          !(
+            req.query.startYear !== undefined &&
+            req.query.startMonth !== undefined &&
+            req.query.startDate !== undefined
+          )
+        )
+          return res.status(400).send("Incomplete startDatetime");
+        const startYear = Number(req.query.startYear);
+        const startMonth = Number(req.query.startMonth);
+        const startDate = Number(req.query.startDate);
+        startDatetime = new Date(startYear, startMonth, startDate, 0, 0, 0);
+        if (
+          isNaN(startYear) ||
+          isNaN(startMonth) ||
+          isNaN(startDate) ||
+          startDatetime.getFullYear() !== startYear ||
+          startDatetime.getMonth() !== startMonth ||
+          startDatetime.getDate() !== startDate
+        )
+          res.status(400).send("Invalid startDatetime");
+      }
+      let endDatetime = undefined;
+      if (
+        req.query.endYear !== undefined ||
+        req.query.endMonth !== undefined ||
+        req.query.endDate !== undefined
+      ) {
+        if (
+          !(
+            req.query.endYear !== undefined &&
+            req.query.endMonth !== undefined &&
+            req.query.endDate !== undefined
+          )
+        )
+          return res.status(400).send("Incomplete endDatetime");
+        const endYear = Number(req.query.endYear);
+        const endMonth = Number(req.query.endMonth);
+        const endDate = Number(req.query.endDate);
+        endDatetime = new Date(
+          Number(req.query.endYear),
+          Number(req.query.endMonth),
+          Number(req.query.endDate),
+          23,
+          59,
+          59
         );
-        for (const shelter of foundShelters) {
-          const rooms = await this.Room.find({ shelter_id: shelter._id })
-            .lean()
-            .exec();
-          let matchedRooms = rooms.filter(
-            (room) =>
-              room.exist &&
-              (supported_type.includes(room.nont_type) ||
-                supported_type.length === 0) &&
-              room.amount >= nontAmount &&
-              room.price <= maxPrice
+        if (
+          isNaN(endYear) ||
+          isNaN(endMonth) ||
+          isNaN(endDate) ||
+          endDatetime.getFullYear() !== endYear ||
+          endDatetime.getMonth() !== endMonth ||
+          endDatetime.getDate() !== endDate
+        )
+          res.status(400).send("Invalid endDatetime");
+      }
+      const lat = req.query.lat;
+      const lng = req.query.lng;
+      const position =
+        lat !== undefined && lng !== undefined
+          ? { lat: lat, lng: lng }
+          : undefined;
+      const validTypes = Object.values(this.nontTypes);
+      for (const type of supported_type) {
+        if (!validTypes.includes(type))
+          return res.status(400).send("Invalid nont type");
+      }
+
+      // Calculate distance
+      if (position) {
+        foundShelters.map((shelter) => {
+          shelter.distance = this.geolib.getDistance(
+            { latitude: position.lat, longitude: position.lng },
+            {
+              latitude: shelter.coordinate.lat,
+              longitude: shelter.coordinate.lng,
+            }
           );
-          if (startDate && endDate) {
-            for (const room of matchedRooms) {
-              const reservations = await this.Reservation.find({
-                room_id: room._id,
-              })
-                .lean()
-                .exec();
-              for (const reservation of reservations) {
-                if (
-                  reservation.status === "checked-out" ||
-                  reservation.status === "cancelled"
-                )
-                  continue;
-                if (
-                  startDate <= new Date(reservation.end_datetime) &&
-                  endDate >= new Date(reservation.start_datetime)
-                ) {
-                  room.discard = true;
-                }
+        });
+      }
+
+      // Filter
+      const re = new RegExp(keywords, "i");
+      foundShelters = foundShelters.filter(
+        (shelter) =>
+          shelter.exist &&
+          shelter.name.match(re) &&
+          checkSupportedType(shelter, supported_type) &&
+          shelter.rate >= minRate &&
+          (!position ||
+            shelter.distance <= maxDistance * 1000 ||
+            maxDistance === 100)
+      );
+      for (const shelter of foundShelters) {
+        const rooms = await this.Room.find({ shelter_id: shelter._id })
+          .lean()
+          .exec();
+        let matchedRooms = rooms.filter(
+          (room) =>
+            room.exist &&
+            (supported_type.includes(room.nont_type) ||
+              supported_type.length === 0) &&
+            room.amount >= nontAmount &&
+            room.price <= maxPrice
+        );
+        if (startDatetime && endDatetime) {
+          for (const room of matchedRooms) {
+            const reservations = await this.Reservation.find({
+              room_id: room._id,
+            })
+              .lean()
+              .exec();
+            for (const reservation of reservations) {
+              if (
+                reservation.status === "checked-out" ||
+                reservation.status === "cancelled"
+              )
+                continue;
+              if (
+                startDatetime <= new Date(reservation.end_datetime) &&
+                endDatetime >= new Date(reservation.start_datetime)
+              ) {
+                room.discard = true;
               }
             }
           }
-          matchedRooms = matchedRooms.filter((room) => !room.discard);
-          let totalPrice = 0;
-          let shelterMinPrice = 3000;
-          let shelterMaxPrice = 0;
-          for (const room of matchedRooms) {
-            totalPrice = totalPrice + room.price;
-            if (room.price < shelterMinPrice) shelterMinPrice = room.price;
-            if (room.price > shelterMaxPrice) shelterMaxPrice = room.price;
-          }
-          shelter.avgPrice = totalPrice / matchedRooms.length;
-          shelter.minPrice = shelterMinPrice;
-          shelter.maxPrice = shelterMaxPrice;
-          if (matchedRooms.length > 0) shelter.found = true;
         }
-        foundShelters = foundShelters.filter((shelter) => {
-          const found = shelter.found;
-          delete shelter.found;
-          return found;
-        });
-        // Sort
+        matchedRooms = matchedRooms.filter((room) => !room.discard);
+        let totalPrice = 0;
+        let shelterMinPrice = 3000;
+        let shelterMaxPrice = 0;
+        for (const room of matchedRooms) {
+          totalPrice = totalPrice + room.price;
+          if (room.price < shelterMinPrice) shelterMinPrice = room.price;
+          if (room.price > shelterMaxPrice) shelterMaxPrice = room.price;
+        }
+        shelter.avgPrice = totalPrice / matchedRooms.length;
+        shelter.minPrice = shelterMinPrice;
+        shelter.maxPrice = shelterMaxPrice;
+        if (matchedRooms.length > 0) shelter.found = true;
+      }
+      foundShelters = foundShelters.filter((shelter) => {
+        const found = shelter.found;
+        delete shelter.found;
+        return found;
+      });
+      // Sort
+      try {
         if (sortedBy === "rate")
           foundShelters = this._.sortBy(foundShelters, sortedBy).reverse();
         else foundShelters = this._.sortBy(foundShelters, sortedBy);
-
-        res.send(foundShelters);
       } catch (error) {
-        console.log(error);
-        return res.status(400).send("Error: Invalid query");
+        return res.status(400).send("Invalid sortedBy");
       }
+      return res.send(foundShelters);
     } catch (error) {
       console.log(error);
       return res.status(500).send("Cannot access shelters");
@@ -354,7 +398,7 @@ class ShelterController extends InterfaceController {
         _id: shelterID,
       };
       const newBody = {
-        rate: Math.round(reduceRate.rate / reviewList.length * 100) / 100 ,
+        rate: Math.round((reduceRate.rate / reviewList.length) * 100) / 100,
       };
       const updateRes = await this.Shelter.updateOne(newQuery, newBody);
       return updateRes;
