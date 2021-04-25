@@ -12,7 +12,7 @@ var OwnerToken = null;
 describe("Start Condition", () => {
   it("Clear the database if there is a nont owner with email 'nontOwnerTest@kojira.com'", (done) => {
     NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then((result) => {
-      if (!result) {
+      if (result) {
         NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(
           NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then(
             (result) => {

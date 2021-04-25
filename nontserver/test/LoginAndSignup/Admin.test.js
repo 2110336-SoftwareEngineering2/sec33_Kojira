@@ -14,7 +14,7 @@ const testAdminEmail = "admintest@kojira.com";
 describe("Start Condition", () => {
   it("Clear the database if there is an admin with email 'admintest@kojira.com'", (done) => {
     Admin.findOne({ email: testAdminEmail }).then((result) => {
-      if (!result) {
+      if (result) {
         Admin.deleteOne({ email: testAdminEmail }).then(
           Admin.findOne({ email: testAdminEmail }).then((result) => {
             expect(result).to.be.null;
