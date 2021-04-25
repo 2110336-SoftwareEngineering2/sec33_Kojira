@@ -3,50 +3,53 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../Controllers/ShelterController.js');
+const authenticateJWTToken = require("../Middlewares/JsonWebToken/JwtAuthenticator");
+const nontSitterAuthenticator = require("../Middlewares/UserAuthenticate/UserAuthenticateMiddleWare").nontSitterAuthenticator;
+const adminAuthenticator = require("../Middlewares/UserAuthenticate/UserAuthenticateMiddleWare").adminAuthenticator;
 
 router
     .route('/')
-    .get(controller.getShelters)
-    .post(controller.create)
-    .patch(controller.updateShelter);
+    .get(authenticateJWTToken, controller.getShelters)
+    .post(authenticateJWTToken, nontSitterAuthenticator, controller.create)
+    .patch(authenticateJWTToken, nontSitterAuthenticator, controller.updateShelter);
 
 router
     .route('/allShelters')
-    .get(controller.getAllShelters)
+    .get(authenticateJWTToken, controller.getAllShelters)
 
 router
     .route('/id/:id')
-    .get(controller.getShelterByID);
+    .get(authenticateJWTToken, controller.getShelterByID);
 
 router
     .route('/name/:name')
-    .get(controller.getShelterByName);
+    .get(authenticateJWTToken, controller.getShelterByName);
 
 router
     .route("/nontsitterid/:id")
-    .get(controller.getShelterByNontSitterID);
+    .get(authenticateJWTToken, controller.getShelterByNontSitterID);
     
 router.route('/delete/:id')
-    .patch(controller.deleteShelter);
+    .patch(authenticateJWTToken, nontSitterAuthenticator, controller.deleteShelter);
 
 router
     .route("/check-name")
-    .post(controller.checkValidName);
+    .post(authenticateJWTToken, controller.checkValidName);
 
 router
     .route('/admin_get/:id')
-    .get(controller.adminGetShelter);
+    .get(authenticateJWTToken, adminAuthenticator, controller.adminGetShelter);
 
 router
     .route('/admin_update/:id')
-    .put(controller.adminUpdateShelter);
+    .put(authenticateJWTToken, adminAuthenticator, controller.adminUpdateShelter);
 
 router 
     .route("/remove/:id")
-    .delete(controller.remove);
+    .delete(authenticateJWTToken, adminAuthenticator, controller.remove);
 
 router
     .route("/findShelters")
-    .get(controller.findShelters);
+    .get(authenticateJWTToken, controller.findShelters);
     
 module.exports = router;
