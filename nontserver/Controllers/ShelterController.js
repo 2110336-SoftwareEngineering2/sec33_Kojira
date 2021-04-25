@@ -165,9 +165,10 @@ class ShelterController extends InterfaceController {
           isNaN(startDate) ||
           startDatetime.getFullYear() !== startYear ||
           startDatetime.getMonth() !== startMonth ||
-          startDatetime.getDate() !== startDate
+          startDatetime.getDate() !== startDate ||
+          startDatetime.toString() === "Invalid Date"
         )
-          res.status(400).send("Invalid startDatetime");
+          return res.status(400).send("Invalid startDatetime");
       }
       let endDatetime = undefined;
       if (
@@ -200,12 +201,20 @@ class ShelterController extends InterfaceController {
           isNaN(endDate) ||
           endDatetime.getFullYear() !== endYear ||
           endDatetime.getMonth() !== endMonth ||
-          endDatetime.getDate() !== endDate
+          endDatetime.getDate() !== endDate ||
+          endDatetime.toString() === "Invalid Date"
         )
-          res.status(400).send("Invalid endDatetime");
+          return res.status(400).send("Invalid endDatetime");
       }
       const lat = req.query.lat;
       const lng = req.query.lng;
+      if (lat !== undefined || lng !== undefined) {
+        if (!(lat !== undefined && lng !== undefined))
+          return res.status(400).send("Incomplete position");
+        if (isNaN(Number(lat))) return res.status(400).send("Invalid latitude");
+        if (isNaN(Number(lng)))
+          return res.status(400).send("Invalid longitude");
+      }
       const position =
         lat !== undefined && lng !== undefined
           ? { lat: lat, lng: lng }
