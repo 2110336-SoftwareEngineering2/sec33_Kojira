@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { axios } from "../../Utils/ServiceUtils/axios";
 import serverURL from "../../Config/serverURL";
 
 var QRCode = require("qrcode.react");
