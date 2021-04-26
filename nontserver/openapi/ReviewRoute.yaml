@@ -2,6 +2,8 @@
   get:
     tags:
       - review
+    security:
+      - bearerAuth: []
     description: fetch all reviews
     responses:
       200:
@@ -15,6 +17,8 @@
   post:
     tags: 
       - review
+    security:
+      - bearerAuth: []
     description: create new review
     requestBody:
       required: true
@@ -36,6 +40,8 @@
   patch:
     tags: 
       - review
+    security:
+      - bearerAuth: []
     description: update review by id
     requestBody:
       required: true
@@ -58,6 +64,8 @@
   get:
     tags:
       - review
+    security:
+      - bearerAuth: []
     description: fetch review by ID
     parameters:
       - in: path
@@ -78,6 +86,8 @@
   get:
     tags:
       - review
+    security:
+      - bearerAuth: []
     description: fetch review with nont owner ,shelter and reservation informations by reservation ID
     parameters:
       - in: path
@@ -98,6 +108,8 @@
   get:
     tags:
       - review
+    security:
+      - bearerAuth: []
     description: fetch review with nont owner and reservation informations by shelter ID
     parameters:
       - in: path
@@ -118,6 +130,8 @@
   get:
     tags:
       - review
+    security:
+      - bearerAuth: []
     description: fetch review with nont owner ,shelter and reservation informations by nontowner ID
     parameters:
       - in: path
@@ -138,6 +152,8 @@
   delete:
     tags:
       - review
+    security:
+      - bearerAuth: []
     description: remove review by id 
     parameters:
       - in: path
@@ -159,6 +175,8 @@
   put:
     tags:
       - review
+    security:
+      - bearerAuth: []
     description: update review by admin
     parameters:
       - in: path
