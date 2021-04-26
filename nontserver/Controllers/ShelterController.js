@@ -207,7 +207,7 @@ class ShelterController extends InterfaceController {
       const validTypes = Object.values(this.nontTypes);
       for (const type of supported_type) {
         if (!validTypes.includes(type))
-          return res.status(400).send("Invalid nont type");
+          return res.status(400).send("Invalid supported_type");
       }
 
       // Calculate distance
