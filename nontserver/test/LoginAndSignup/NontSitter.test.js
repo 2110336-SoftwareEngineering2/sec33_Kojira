@@ -31,7 +31,7 @@ describe("Start Condition", () => {
   it("Clear the database if there is a nont sitter with email 'nontSitterTest9@kojira.com'", (done) => {
     NontSitter.findOne({ email: "nontSitterTest9@kojira.com" }).then(
       (result) => {
-        if (!result) {
+        if (result) {
           NontSitter.deleteOne({ email: "nontSitterTest9@kojira.com" }).then(
             NontSitter.findOne({ email: "nontSitterTest9@kojira.com" }).then(
               (result) => {

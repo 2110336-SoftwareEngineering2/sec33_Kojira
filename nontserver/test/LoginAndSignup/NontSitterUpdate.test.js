@@ -30,6 +30,24 @@ describe("Start Condition", () => {
       }
     );
   });
+  it("Clear the database if there is a nont sitter with name 'Hello'", (done) => {
+    NontSitter.findOne({ name: "Hello" }).then((result) => {
+      if (result) {
+        NontSitter.deleteOne({
+          name: "Hello",
+        }).then(
+          NontSitter.findOne({
+            name: "Hello",
+          }).then((result) => {
+            expect(result).to.be.null;
+            done();
+          })
+        );
+      } else {
+        done();
+      }
+    });
+  });
 });
 
 describe("Nont Sitter Create", () => {
