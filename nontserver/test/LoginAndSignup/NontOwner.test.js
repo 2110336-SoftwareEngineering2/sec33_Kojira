@@ -13,7 +13,7 @@ describe("Start Condition", () => {
   it("Clear the database if there is a nont owner with email 'nontOwnerTest@kojira.com'", (done) => {
     NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then((result) => {
       if (result) {
-        NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(
+        NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(() =>
           NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then(
             (result) => {
               expect(result).to.be.null;
@@ -28,8 +28,8 @@ describe("Start Condition", () => {
   });
   it("Clear the database if there is a nont owner with email 'nontOwnerTest9@test.com'", (done) => {
     NontOwner.findOne({ email: "nontOwnerTest9@test.com" }).then((result) => {
-      if (!result) {
-        NontOwner.deleteOne({ email: "nontOwnerTest9@test.com" }).then(
+      if (result) {
+        NontOwner.deleteOne({ email: "nontOwnerTest9@test.com" }).then(() =>
           NontOwner.findOne({ email: "nontOwnerTest9@test.com" }).then(
             (result) => {
               expect(result).to.be.null;
@@ -58,7 +58,12 @@ describe("Nont Owner Create", () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(200);
-        done();
+        NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then(
+          (result) => {
+            expect(result).to.not.be.null;
+            done();
+          }
+        );
       });
   });
   it("It should not create nont owner with same email", (done) => {
@@ -308,7 +313,7 @@ describe("Authenticate Nont Owner", () => {
 
 describe("Clear Up", () => {
   it("Clear up", (done) => {
-    NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(
+    NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(() =>
       NontOwner.deleteOne({ email: "nontOwnerTest9@test.com" }).then(done())
     );
   });

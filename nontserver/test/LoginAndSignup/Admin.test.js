@@ -162,6 +162,6 @@ describe("Authenticate token", () => {
 
 describe("Clear Up", () => {
   it("Clear up", (done) => {
-    Admin.deleteOne({ email: "admintest@kojira.com" }).then(done());
+    Admin.deleteOne({ email: "admintest@kojira.com" }).then(() => done());
   });
 });

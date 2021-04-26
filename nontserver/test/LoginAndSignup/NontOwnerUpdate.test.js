@@ -15,12 +15,13 @@ describe("Start Condition", () => {
       (result) => {
         if (result) {
           NontOwner.deleteOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
-            NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
-              (result) => {
+            () =>
+              NontOwner.findOne({
+                email: "nontOwnerTestUpdate@kojira.com",
+              }).then((result) => {
                 expect(result).to.be.null;
                 done();
-              }
-            )
+              })
           );
         } else {
           done();
@@ -33,7 +34,7 @@ describe("Start Condition", () => {
       if (result) {
         NontOwner.deleteOne({
           name: "Hello",
-        }).then(
+        }).then(() =>
           NontOwner.findOne({
             name: "Hello",
           }).then((result) => {
@@ -62,7 +63,12 @@ describe("Nont Owner Create", () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(200);
-        done();
+        NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
+          (result) => {
+            expect(result).to.not.be.null;
+            done();
+          }
+        );
       });
   });
   it("It should update the owner", (done) => {
@@ -129,8 +135,14 @@ describe("Nont Owner Create", () => {
 
 describe("Clear Up", () => {
   it("Clear up", (done) => {
-    NontOwner.deleteOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
-      done()
+    NontOwner.deleteOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(() =>
+      NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
+        (result) => {
+          console.log(result);
+          expect(result).to.be.null;
+          done();
+        }
+      )
     );
   });
 });

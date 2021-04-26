@@ -64,7 +64,12 @@ describe("Nont Sitter Create", () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(200);
-        done();
+        NontSitter.findOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
+          (result) => {
+            expect(result).to.not.be.null;
+            done();
+          }
+        );
       });
   });
   it("It should update the sitter", (done) => {
@@ -133,7 +138,14 @@ describe("Nont Sitter Create", () => {
 describe("Clear Up", () => {
   it("Clear up", (done) => {
     NontSitter.deleteOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
-      done()
+      () =>
+        NontSitter.findOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
+          (result) => {
+            console.log(result);
+            expect(result).to.be.null;
+            done();
+          }
+        )
     );
   });
 });
