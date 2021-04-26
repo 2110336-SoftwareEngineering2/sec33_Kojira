@@ -106,7 +106,7 @@ describe("It should not update the user that is not existed", () => {
         _id: id.toString(),
         email: "nontSitterTestUpdate2@kojira.com",
       })
-      .end((err, res) => {
+      .end((err, res) => { 
         expect(res).to.have.status(404);
         done();
       });
