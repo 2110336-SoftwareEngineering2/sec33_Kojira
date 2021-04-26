@@ -86,7 +86,6 @@ describe("login APIs", () => {
       .type("form")
       .send({ email: "admintest@kojira.com", password: "testpassword" })
       .end((err, res) => {
-        console.log(res.body);
         expect(res).to.have.status(200);
         expect(res.body.token).to.not.be.null;
         expect(res.body.userType).to.equal("admin");
