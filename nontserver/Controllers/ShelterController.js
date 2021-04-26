@@ -116,8 +116,6 @@ class ShelterController extends InterfaceController {
       let foundShelters = await this.Shelter.find().lean().exec();
 
       // Get paramters
-      const sortedBy = req.query.sortedBy ? req.query.sortedBy : "rate";
-
       const keywords = req.query.keywords ? req.query.keywords : "";
 
       const minRate =
@@ -209,6 +207,8 @@ class ShelterController extends InterfaceController {
         if (!validTypes.includes(type))
           return res.status(400).send("Invalid supported_type");
       }
+
+      const sortedBy = req.query.sortedBy ? req.query.sortedBy : "rate";
 
       // Calculate distance
       if (position !== undefined) {
