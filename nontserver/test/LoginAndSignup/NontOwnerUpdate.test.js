@@ -130,7 +130,14 @@ describe("Nont Owner Create", () => {
 describe("Clear Up", () => {
   it("Clear up", (done) => {
     NontOwner.deleteOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
-      done()
+      (result) => {
+        NontOwner.findOne({ _id: id }).then(
+          (result2) => {
+            expect(result2).to.be.null;
+            done()
+          }
+        )
+      }
     );
   });
 });
