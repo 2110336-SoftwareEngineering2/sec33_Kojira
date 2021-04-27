@@ -133,7 +133,7 @@ class ShelterController extends InterfaceController {
       const nontAmount =
         req.query.nontAmount !== undefined ? Number(req.query.nontAmount) : 1;
       if (isNaN(nontAmount) || nontAmount < 1 || nontAmount > 20)
-        return res.status(400).send("Invalid nontAmont");
+        return res.status(400).send("Invalid nontAmount");
 
       const maxPrice =
         req.query.maxPrice !== undefined ? Number(req.query.maxPrice) : 3000;
