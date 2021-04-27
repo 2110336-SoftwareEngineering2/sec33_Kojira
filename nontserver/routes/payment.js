@@ -6,13 +6,7 @@ const rc = new RandomCodes();
 const authenticateJWTToken = require("../Middlewares/JsonWebToken/JwtAuthenticator");
 const UserAuthenticator = require("../Middlewares/UserAuthenticate/UserAuthenticateMiddleWare");
 
-router
-  .route("/QR")
-  .get(
-    authenticateJWTToken,
-    UserAuthenticator.nontOwnerAuthenticator,
-    controller.payment
-  );
+router.route("/QR").get(controller.payment);
 
 router
   .route("/getCode")
