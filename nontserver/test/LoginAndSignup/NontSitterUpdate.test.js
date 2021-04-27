@@ -133,7 +133,14 @@ describe("Nont Sitter Create", () => {
 describe("Clear Up", () => {
   it("Clear up", (done) => {
     NontSitter.deleteOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
-      done()
+      (result) => {
+        NontSitter.findOne({ _id: id }).then(
+          (result2) => {
+            expect(result2).to.be.null;
+            done()
+          }
+        )
+      }
     );
   });
 });
