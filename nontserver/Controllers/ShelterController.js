@@ -113,8 +113,6 @@ class ShelterController extends InterfaceController {
     }
 
     try {
-      let foundShelters = await this.Shelter.find().lean().exec();
-
       // Get paramters
       const keywords = req.query.keywords ? req.query.keywords : "";
 
@@ -209,6 +207,8 @@ class ShelterController extends InterfaceController {
       }
 
       const sortedBy = req.query.sortedBy ? req.query.sortedBy : "rate";
+
+      let foundShelters = await this.Shelter.find().lean().exec();
 
       // Calculate distance
       if (position !== undefined) {
