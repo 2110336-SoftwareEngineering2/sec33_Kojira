@@ -3,20 +3,23 @@ const RandomCodes = require("random-codes");
 const rc = new RandomCodes();
 
 const controller = {
+  // payment/qr--query
   payment: async (req, res) => {
     var validated_code = rc.validate(req.query.code);
     if (validated_code !== req.query.code) {
+      //query.code = "aaaa"
       res.status(401);
       res.send("code not match");
     } else {
-      //console.log("QR scanned");
       try {
+        //success query.code = ""
         await Reservation.updateOne(
           { _id: req.query.reserveId },
           { status: "paid" }
         );
         res.send("payment finished");
       } catch (error) {
+        //unknown reservation id
         res.status(500);
         res.send("unexpected error");
       }
