@@ -5,33 +5,54 @@ const router = express.Router();
 const controller = require("../Controllers/NontOwnerController");
 const corsOptions = require("../Config/corsOptions");
 const cors = require("cors");
+const authenticateJWTToken = require("../Middlewares/JsonWebToken/JwtAuthenticator");
+const nontOwnerAuthenticator = require("../Middlewares/UserAuthenticate/UserAuthenticateMiddleWare")
+  .nontOwnerAuthenticator;
+const adminAuthenticator = require("../Middlewares/UserAuthenticate/UserAuthenticateMiddleWare")
+  .adminAuthenticator;
 
 router
   .route("/")
-  .get(controller.getNontOwners)
+  .get(authenticateJWTToken, adminAuthenticator, controller.getNontOwners)
   .post(controller.create)
-  .patch(controller.updateAccount);
+  .patch(
+    authenticateJWTToken,
+    nontOwnerAuthenticator,
+    controller.updateAccount
+  );
 
 router
   .route("/:id")
-  .get(controller.getProfile);
+  .get(authenticateJWTToken, nontOwnerAuthenticator, controller.getProfile);
 
 router
   .route("/check-email")
-  .post(controller.checkValidEmail);
+  .post(
+    authenticateJWTToken,
+    nontOwnerAuthenticator,
+    controller.checkValidEmail
+  );
 
 router
   .route("/check-name")
-  .post(controller.checkValidName);
+  .post(
+    authenticateJWTToken,
+    nontOwnerAuthenticator,
+    controller.checkValidName
+  );
 
 router.route("/login").post(cors(corsOptions), controller.login);
 
 router
   .route("/admin_update/:id")
-  .put(controller.adminUpdateNontOwner);
+  .put(
+    authenticateJWTToken,
+    adminAuthenticator,
+    controller.adminUpdateNontOwner
+  );
 
 router
   .route("/remove/:id")
-  .delete(controller.remove);
+  .delete(authenticateJWTToken, adminAuthenticator, controller.remove);
 
 module.exports = router;
