@@ -145,8 +145,6 @@ describe("It should not update the user that is not existed", (done) => {
         email: "nontOwnerTestUpdate2@kojira.com",
       })
       .end((err, res) => {
-        console.log(err);
-        console.log(res);
         expect(res).to.have.status(404);
         done();
       });
