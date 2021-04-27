@@ -620,4 +620,110 @@ describe("Find Shelter", () => {
         done();
       });
   });
+
+  it("TC1-41 It should output the list of shelters", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        keywords: "",
+        minRate: "0",
+        maxDistance: "100",
+        nontAmount: "1",
+        maxPrice: "3000",
+        startDate: "2022-04-30",
+        endDate: "2400-02-29",
+        position: "0,0",
+        sortedBy: "distance"
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
+  it("TC1-42 It should output the list of shelters", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters?supported_type=cat&supported_type=hamster")
+      .query({
+        keywords: "love",
+        minRate: "5",
+        maxDistance: "0",
+        nontAmount: "20",
+        maxPrice: "0",
+        startDate: "2100-02-28",
+        endDate: "2200-02-28",
+        position: "-90,-180",
+        sortedBy: "name"
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
+  it("TC1-43 It should output the list of shelters", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        startDate: "2400-02-29",
+        endDate: "2404-02-29",
+        position: "90,180"
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
+  it("TC1-44 It should output the list of shelters", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        startDate: "2023-02-28",
+        endDate: "2023-03-01",
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
+  it("TC1-45 It should output the list of shelters", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        startDate: "2024-02-29",
+        endDate: "2024-04-30",
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
+  it("TC1-46 It should output the list of shelters", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        startDate: "2022-02-26",
+        endDate: "2022-02-28",
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
 });

@@ -185,7 +185,7 @@ class ShelterController extends InterfaceController {
       let position = undefined;
       const positionQueryString = req.query.position;
       if (positionQueryString !== undefined) {
-        const pattern = new RegExp("[0-9]+,[0-9]+");
+        const pattern = new RegExp("-?[0-9]+,-?[0-9]+");
         if (!pattern.test(positionQueryString))
           return res.status(400).send("Invalid position");
         const latLng = positionQueryString.split(",");
