@@ -27,7 +27,7 @@ describe("Find Shelter", () => {
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid minRate');
+        expect(res.text).to.equal("Invalid minRate");
         done();
       });
   });
@@ -42,7 +42,7 @@ describe("Find Shelter", () => {
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid minRate');
+        expect(res.text).to.equal("Invalid minRate");
         done();
       });
   });
@@ -57,7 +57,7 @@ describe("Find Shelter", () => {
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid minRate');
+        expect(res.text).to.equal("Invalid minRate");
         done();
       });
   });
@@ -67,12 +67,12 @@ describe("Find Shelter", () => {
       .request(app)
       .get("/shelter/findShelters")
       .query({
-        maxDistance: "InAGalaxyFarFarAway"
+        maxDistance: "InAGalaxyFarFarAway",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid maxDistance');
+        expect(res.text).to.equal("Invalid maxDistance");
         done();
       });
   });
@@ -82,12 +82,12 @@ describe("Find Shelter", () => {
       .request(app)
       .get("/shelter/findShelters")
       .query({
-        maxDistance: "-0.1"
+        maxDistance: "-0.1",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid maxDistance');
+        expect(res.text).to.equal("Invalid maxDistance");
         done();
       });
   });
@@ -97,12 +97,12 @@ describe("Find Shelter", () => {
       .request(app)
       .get("/shelter/findShelters")
       .query({
-        maxDistance: "100.1"
+        maxDistance: "100.1",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid maxDistance');
+        expect(res.text).to.equal("Invalid maxDistance");
         done();
       });
   });
@@ -112,12 +112,12 @@ describe("Find Shelter", () => {
       .request(app)
       .get("/shelter/findShelters")
       .query({
-        nontAmount: "two"
+        nontAmount: "two",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid nontAmount');
+        expect(res.text).to.equal("Invalid nontAmount");
         done();
       });
   });
@@ -127,12 +127,12 @@ describe("Find Shelter", () => {
       .request(app)
       .get("/shelter/findShelters")
       .query({
-        nontAmount: "-1"
+        nontAmount: "-1",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid nontAmount');
+        expect(res.text).to.equal("Invalid nontAmount");
         done();
       });
   });
@@ -142,12 +142,12 @@ describe("Find Shelter", () => {
       .request(app)
       .get("/shelter/findShelters")
       .query({
-        nontAmount: "21"
+        nontAmount: "21",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid nontAmount');
+        expect(res.text).to.equal("Invalid nontAmount");
         done();
       });
   });
@@ -157,12 +157,12 @@ describe("Find Shelter", () => {
       .request(app)
       .get("/shelter/findShelters")
       .query({
-        maxPrice: "ShutUpAndTakeMyMoney"
+        maxPrice: "ShutUpAndTakeMyMoney",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid maxPrice');
+        expect(res.text).to.equal("Invalid maxPrice");
         done();
       });
   });
@@ -172,12 +172,12 @@ describe("Find Shelter", () => {
       .request(app)
       .get("/shelter/findShelters")
       .query({
-        maxPrice: "-0.50"
+        maxPrice: "-0.50",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid maxPrice');
+        expect(res.text).to.equal("Invalid maxPrice");
         done();
       });
   });
@@ -187,12 +187,12 @@ describe("Find Shelter", () => {
       .request(app)
       .get("/shelter/findShelters")
       .query({
-        maxPrice: "3001"
+        maxPrice: "3001",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid maxPrice');
+        expect(res.text).to.equal("Invalid maxPrice");
         done();
       });
   });
@@ -203,12 +203,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "20XX-01-01",
-        endDate: "2022-02-02"
+        endDate: "2022-02-02",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid startDate');
+        expect(res.text).to.equal("Invalid startDate");
         done();
       });
   });
@@ -219,12 +219,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-00-01",
-        endDate: "2022-02-02"
+        endDate: "2022-02-02",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid startDate');
+        expect(res.text).to.equal("Invalid startDate");
         done();
       });
   });
@@ -235,12 +235,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-13-01",
-        endDate: "2022-02-02"
+        endDate: "2022-02-02",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid startDate');
+        expect(res.text).to.equal("Invalid startDate");
         done();
       });
   });
@@ -251,12 +251,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-00",
-        endDate: "2022-02-02"
+        endDate: "2022-02-02",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid startDate');
+        expect(res.text).to.equal("Invalid startDate");
         done();
       });
   });
@@ -267,12 +267,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-32",
-        endDate: "2022-02-02"
+        endDate: "2022-02-02",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid startDate');
+        expect(res.text).to.equal("Invalid startDate");
         done();
       });
   });
@@ -283,12 +283,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-04-31",
-        endDate: "2022-06-01"
+        endDate: "2022-06-01",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid startDate');
+        expect(res.text).to.equal("Invalid startDate");
         done();
       });
   });
@@ -299,12 +299,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-02-29",
-        endDate: "2022-04-01"
+        endDate: "2022-04-01",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid startDate');
+        expect(res.text).to.equal("Invalid startDate");
         done();
       });
   });
@@ -315,12 +315,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2024-02-30",
-        endDate: "2024-04-01"
+        endDate: "2024-04-01",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid startDate');
+        expect(res.text).to.equal("Invalid startDate");
         done();
       });
   });
@@ -331,12 +331,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2100-02-29",
-        endDate: "2100-04-01"
+        endDate: "2100-04-01",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid startDate');
+        expect(res.text).to.equal("Invalid startDate");
         done();
       });
   });
@@ -347,12 +347,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2400-02-30",
-        endDate: "2400-04-01"
+        endDate: "2400-04-01",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid startDate');
+        expect(res.text).to.equal("Invalid startDate");
         done();
       });
   });
@@ -363,12 +363,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-01",
-        endDate: "2022-02-XX"
+        endDate: "2022-02-XX",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid endDate');
+        expect(res.text).to.equal("Invalid endDate");
         done();
       });
   });
@@ -379,12 +379,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-01",
-        endDate: "2023-00-01"
+        endDate: "2023-00-01",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid endDate');
+        expect(res.text).to.equal("Invalid endDate");
         done();
       });
   });
@@ -395,12 +395,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-01",
-        endDate: "2023-13-01"
+        endDate: "2023-13-01",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid endDate');
+        expect(res.text).to.equal("Invalid endDate");
         done();
       });
   });
@@ -411,12 +411,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-01",
-        endDate: "2023-01-00"
+        endDate: "2023-01-00",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid endDate');
+        expect(res.text).to.equal("Invalid endDate");
         done();
       });
   });
@@ -427,12 +427,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-01",
-        endDate: "2023-01-32"
+        endDate: "2023-01-32",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid endDate');
+        expect(res.text).to.equal("Invalid endDate");
         done();
       });
   });
@@ -443,12 +443,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-01",
-        endDate: "2023-04-31"
+        endDate: "2023-04-31",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid endDate');
+        expect(res.text).to.equal("Invalid endDate");
         done();
       });
   });
@@ -459,12 +459,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-01",
-        endDate: "2023-02-29"
+        endDate: "2023-02-29",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid endDate');
+        expect(res.text).to.equal("Invalid endDate");
         done();
       });
   });
@@ -475,12 +475,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-01",
-        endDate: "2024-02-30"
+        endDate: "2024-02-30",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid endDate');
+        expect(res.text).to.equal("Invalid endDate");
         done();
       });
   });
@@ -491,12 +491,12 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-01",
-        endDate: "2100-02-29"
+        endDate: "2100-02-29",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid endDate');
+        expect(res.text).to.equal("Invalid endDate");
         done();
       });
   });
@@ -507,16 +507,117 @@ describe("Find Shelter", () => {
       .get("/shelter/findShelters")
       .query({
         startDate: "2022-01-01",
-        endDate: "2400-02-30"
+        endDate: "2400-02-30",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.text).to.equal('Invalid endDate');
+        expect(res.text).to.equal("Invalid endDate");
         done();
       });
   });
 
+  it("TC1-34 It should send an error when position is not in the format", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        position: "112",
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(400);
+        expect(res.text).to.equal("Invalid position");
+        done();
+      });
+  });
 
+  it("TC1-35 It should send an error when latitude < -90", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        position: "-91,0",
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(400);
+        expect(res.text).to.equal("Invalid position");
+        done();
+      });
+  });
 
+  it("TC1-36 It should send an error when latitude > 90", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        position: "91,0",
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(400);
+        expect(res.text).to.equal("Invalid position");
+        done();
+      });
+  });
+
+  it("TC1-37 It should send an error when longitude < -180", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        position: "0,-181",
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(400);
+        expect(res.text).to.equal("Invalid position");
+        done();
+      });
+  });
+
+  it("TC1-38 It should send an error when longitude > 180", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        position: "0,181",
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(400);
+        expect(res.text).to.equal("Invalid position");
+        done();
+      });
+  });
+
+  it("TC1-39 It should send an error when supported_type is not supported", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        supported_type: "varanus",
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(400);
+        expect(res.text).to.equal("Invalid supported_type");
+        done();
+      });
+  });
+
+  it("TC1-40 It should not send an error when sortedBy is not supported", (done) => {
+    chai
+      .request(app)
+      .get("/shelter/findShelters")
+      .query({
+        sortedBy: "HowCoolYouAre",
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
 });

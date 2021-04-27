@@ -191,6 +191,13 @@ class ShelterController extends InterfaceController {
         const latLng = positionQueryString.split(",");
         const lat = latLng[0];
         const lng = latLng[1];
+        if (
+          Number(lat) < -90 ||
+          Number(lat) > 90 ||
+          Number(lng) < -180 ||
+          Number(lng) > 180
+        )
+          return res.status(400).send("Invalid position");
         position = { lat: lat, lng: lng };
       }
 
@@ -289,13 +296,9 @@ class ShelterController extends InterfaceController {
         return found;
       });
       // Sort
-      try {
-        if (sortedBy === "rate")
-          foundShelters = this._.sortBy(foundShelters, sortedBy).reverse();
-        else foundShelters = this._.sortBy(foundShelters, sortedBy);
-      } catch (error) {
-        return res.status(400).send("Invalid sortedBy");
-      }
+      if (sortedBy === "rate")
+        foundShelters = this._.sortBy(foundShelters, sortedBy).reverse();
+      else foundShelters = this._.sortBy(foundShelters, sortedBy);
       return res.send(foundShelters);
     } catch (error) {
       return res.status(500).send("Cannot access shelters");
