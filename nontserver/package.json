@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "test": "nyc mocha --recursive --exit",
+    "test": "nyc mocha --recursive --exit --timeout 10000",
     "coverage": "nyc --reporter html --reporter text yarn test",
     "deploy": "cd ../ && git subtree push --prefix nontserver nontserver main"
   },
