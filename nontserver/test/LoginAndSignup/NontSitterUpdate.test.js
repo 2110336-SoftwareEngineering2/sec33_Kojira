@@ -9,6 +9,47 @@ const expect = chai.expect;
 
 var id;
 
+describe("Start Condition", () => {
+  it("Clear the database if there is a nont sitter with email 'nontSitterTestUpdate@kojira.com'", (done) => {
+    NontSitter.findOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
+      (result) => {
+        if (result) {
+          NontSitter.deleteOne({
+            email: "nontSitterTestUpdate@kojira.com",
+          }).then(
+            NontSitter.findOne({
+              email: "nontSitterTestUpdate@kojira.com",
+            }).then((result) => {
+              expect(result).to.be.null;
+              done();
+            })
+          );
+        } else {
+          done();
+        }
+      }
+    );
+  });
+  it("Clear the database if there is a nont sitter with name 'Hello'", (done) => {
+    NontSitter.findOne({ name: "Hello" }).then((result) => {
+      if (result) {
+        NontSitter.deleteOne({
+          name: "Hello",
+        }).then(
+          NontSitter.findOne({
+            name: "Hello",
+          }).then((result) => {
+            expect(result).to.be.null;
+            done();
+          })
+        );
+      } else {
+        done();
+      }
+    });
+  });
+});
+
 describe("Nont Sitter Create", () => {
   it("create a nont sitter first", (done) => {
     chai
@@ -107,6 +148,7 @@ describe("It should not update the user that is not existed", () => {
         email: "nontSitterTestUpdate2@kojira.com",
       })
       .end((err, res) => {
+        console.log(res.body)
         expect(res).to.have.status(404);
         done();
       });
