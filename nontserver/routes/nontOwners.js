@@ -25,21 +25,9 @@ router
   .route("/:id")
   .get(authenticateJWTToken, nontOwnerAuthenticator, controller.getProfile);
 
-router
-  .route("/check-email")
-  .post(
-    authenticateJWTToken,
-    nontOwnerAuthenticator,
-    controller.checkValidEmail
-  );
+router.route("/check-email").post(controller.checkValidEmail);
 
-router
-  .route("/check-name")
-  .post(
-    authenticateJWTToken,
-    nontOwnerAuthenticator,
-    controller.checkValidName
-  );
+router.route("/check-name").post(controller.checkValidName);
 
 router.route("/login").post(cors(corsOptions), controller.login);
 
