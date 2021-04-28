@@ -51,7 +51,7 @@ describe("Start User Condition for Payment", () => {
             .send({
                 email: sitterEmail,
                 password: pwd,
-                name: "Kojira",
+                name: "Kojira Payment",
                 phoneNumber: "0111111111",
             })
             .end((err, res) => {
@@ -95,7 +95,7 @@ describe("Start User Condition for Payment", () => {
         .send({
             email: ownerEmail,
             password: pwd,
-            name: "Kojira",
+            name: "Kojira Payment",
             phoneNumber: "0111111111",
         })
         .end((err, res) => {
@@ -259,19 +259,22 @@ describe("Make a payment via QR code", () => {
 })
 
 describe("Clear Up for Payment", () => {
-    it("Clear up", (done) => {
+    it("Clear up 1", (done) => { 
         Reservation.findByIdAndDelete(reservationID).then(
             Room.findByIdAndDelete(roomID).then(
                 Shelters.findByIdAndDelete(shelterID).then(
                     NontSitter.findByIdAndDelete(sitterID).then(
                         Nont.findByIdAndDelete(nontID).then(
-                            NontOwner.findByIdAndDelete(ownerID).then(
-                                done()
-                            )
+                            done()
                         )
                     )
                 )
             )
         )
+    })
+    it("Clear up NontOwner", (done) => {
+        NontOwner.deleteOne({ email: ownerEmail }).then((err) =>
+            done()
+        );
     })
 });
