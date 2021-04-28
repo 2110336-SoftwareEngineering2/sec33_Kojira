@@ -32,7 +32,7 @@ describe("Start Condition", () => {
       }
     });
   });
-  it("Clear the database if there is a nont owner with email 'nontOwnerTest9@test.com'", (done) => {
+  it("Clear the database if there is a nont owner with name 'Kojira'", (done) => {
     NontOwner.findOne({ name: "Kojira" }).then((result) => {
       if (result) {
         NontOwner.deleteOne({ name: "Kojira" }).then((err) => done());
@@ -44,7 +44,7 @@ describe("Start Condition", () => {
 });
 
 describe("Nont Owner Create", () => {
-  it("It should create nont owner", (done) => {
+  it("TC2-1: It should create nont owner", (done) => {
     chai
       .request(app)
       .post("/NontOwners")
@@ -60,7 +60,7 @@ describe("Nont Owner Create", () => {
         done();
       });
   });
-  it("It should not create nont owner with same email", (done) => {
+  it("TC2-2: It should not create nont owner with same email", (done) => {
     chai
       .request(app)
       .post("/NontOwners")
@@ -76,7 +76,7 @@ describe("Nont Owner Create", () => {
         done();
       });
   });
-  it("It should not create nont owner with same name", (done) => {
+  it("TC2-3: It should not create nont owner with same name", (done) => {
     chai
       .request(app)
       .post("/NontOwners")
@@ -93,7 +93,7 @@ describe("Nont Owner Create", () => {
         done();
       });
   });
-  it("It should verify the invalid email format", (done) => {
+  it("TC2-4: It should verify the invalid email format", (done) => {
     chai
       .request(app)
       .post("/NontOwners")
@@ -110,7 +110,7 @@ describe("Nont Owner Create", () => {
       });
   });
 
-  it("It should verify the invalid telephone format", (done) => {
+  it("TC2-5: It should verify the invalid telephone format", (done) => {
     chai
       .request(app)
       .post("/NontOwners")
@@ -126,7 +126,7 @@ describe("Nont Owner Create", () => {
         done();
       });
   });
-  it("It should verify the invalid name format (1-64) test 0", (done) => {
+  it("TC2-6: It should verify the invalid name format (1-64) test 0", (done) => {
     chai
       .request(app)
       .post("/NontOwners")
@@ -142,7 +142,7 @@ describe("Nont Owner Create", () => {
         done();
       });
   });
-  it("It should verify the invalid name format (1-64) test 65", (done) => {
+  it("TC2-7: It should verify the invalid name format (1-64) test 65", (done) => {
     var name = "";
     for (var i = 0; i < 65; i++) {
       name = name + "k";
@@ -162,7 +162,7 @@ describe("Nont Owner Create", () => {
         done();
       });
   });
-  it("It should verify the invalid password format (8-32) test 5", (done) => {
+  it("TC2-8: It should verify the invalid password format (8-32) test 5", (done) => {
     chai
       .request(app)
       .post("/NontOwners")
@@ -178,7 +178,7 @@ describe("Nont Owner Create", () => {
         done();
       });
   });
-  it("It should verify the invalid password format (8-32) test 35", (done) => {
+  it("TC2-9: It should verify the invalid password format (8-32) test 35", (done) => {
     var pass = "";
     for (var i = 0; i < 35; i++) {
       pass = pass + "k";
@@ -198,7 +198,7 @@ describe("Nont Owner Create", () => {
         done();
       });
   });
-  it("It should verify the valid bank account format", (done) => {
+  it("TC2-10: It should verify the valid bank account format", (done) => {
     chai
       .request(app)
       .post("/NontOwners")
@@ -215,7 +215,7 @@ describe("Nont Owner Create", () => {
         done();
       });
   });
-  it("It should verify the invalid bank account format ", (done) => {
+  it("TC2-11: It should verify the invalid bank account format ", (done) => {
     chai
       .request(app)
       .post("/NontOwners")
@@ -232,10 +232,21 @@ describe("Nont Owner Create", () => {
         done();
       });
   });
+  it("TC2-12: It should not create nont owner if no fields are provided", (done) => {
+    chai
+      .request(app)
+      .post("/NontOwners")
+      .type("form")
+      .send({})
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
 });
 
 describe("Nont Owner Login", () => {
-  it("It should login Nont Owner", (done) => {
+  it("TC2-30: It should login Nont Owner", (done) => {
     chai
       .request(app)
       .post("/nontOwners/login")
@@ -251,7 +262,7 @@ describe("Nont Owner Login", () => {
         done();
       });
   });
-  it("It should know that the password is incorrect", (done) => {
+  it("TC2-31: It should know that the password is incorrect", (done) => {
     chai
       .request(app)
       .post("/nontOwners/login")
@@ -263,7 +274,7 @@ describe("Nont Owner Login", () => {
         done();
       });
   });
-  it("It should know that the email is incorrect", (done) => {
+  it("TC2-32: It should know that the email is incorrect", (done) => {
     chai
       .request(app)
       .post("/nontOwners/login")
@@ -275,7 +286,7 @@ describe("Nont Owner Login", () => {
         done();
       });
   });
-  it("It should know that the email and password are incorrect", (done) => {
+  it("TC2-33: It should know that the email and password are incorrect", (done) => {
     chai
       .request(app)
       .post("/nontOwners/login")
@@ -290,7 +301,7 @@ describe("Nont Owner Login", () => {
 });
 
 describe("Authenticate Nont Owner", () => {
-  it("It should authenticate token for Nont Owner", (done) => {
+  it("TC2-42: It should authenticate token for Nont Owner", (done) => {
     chai
       .request(app)
       .post("/users/auth")

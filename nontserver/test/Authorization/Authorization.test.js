@@ -6,7 +6,7 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
-describe("Unauthorized Token", () => {
+describe("TC2-45: Unauthorized Token", () => {
   it("It should not let unauthorized request in", (done) => {
     chai
       .request(app)
