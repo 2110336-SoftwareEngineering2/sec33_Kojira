@@ -95,6 +95,7 @@ describe("Nont Owner Update", () => {
             chai
               .request(app)
               .get("/NontOwners/" + id)
+              .set({ Authorization: "Bearer " + OwnerToken })
               .end((err, res) => {
                 expect(res.body.name).to.equal("Hello");
                 done();
