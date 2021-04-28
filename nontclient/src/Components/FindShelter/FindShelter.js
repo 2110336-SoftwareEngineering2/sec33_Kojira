@@ -42,17 +42,12 @@ const FindShelter = (props) => {
           sortedBy: sortedByMapper[sortedBy],
         };
         if (query.date) {
-          query.startYear = query.date[0].getFullYear();
-          query.startMonth = query.date[0].getMonth();
-          query.startDate = query.date[0].getDate();
-          query.endYear = query.date[1].getFullYear();
-          query.endMonth = query.date[1].getMonth();
-          query.endDate = query.date[1].getDate();
+          query.startDate = query.date[0].toISOString().slice(0, 10);
+          query.endDate = query.date[1].toISOString().slice(0, 10);
         }
         delete query.date;
         if (position) {
-          query.lat = position.lat;
-          query.lng = position.lng;
+          query.position = `${position.lat},${position.lng}`;
         }
         const response = await ShelterService.findShelter(query);
         setFetchShelterStatus(LoadStatus.SUCCESS);
