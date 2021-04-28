@@ -830,7 +830,7 @@ describe("Find Shelter", () => {
 });
 
 describe("Clear Up", () => {
-  it("Clear up", (done) => {
-    NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(done());
+  it("Clear up", async () => {
+    await NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" });
   });
 });
