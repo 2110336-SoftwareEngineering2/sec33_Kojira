@@ -59,15 +59,9 @@ describe("Start User Condition for Payment", () => {
                 done();
             });
     });
-    it("It should get OwnerID from email 'testPaymentOwner@kojira.com'", (done) => {
+    it("It should get SitterID from email 'testPaymentSitter@kojira.com'", (done) => {
         NontSitter.findOne({ email: sitterEmail }).then((result) => {
             sitterID = result._id;
-            done();
-        })
-    })
-    it("It should get SitterID from email 'testPaymentOwner@kojira.com'", (done) => {
-        NontSitter.findOne({ email: sitterEmail }).then((result) => {
-            ownerID = result._id;
             done();
         })
     })
@@ -122,6 +116,12 @@ describe("Start User Condition for Payment", () => {
               done();
           });
       });
+    it("It should get OwnerID from email 'testPaymentOwner@kojira.com'", (done) => {
+        NontOwner.findOne({ email: ownerEmail }).then((result) => {
+            ownerID = result._id;
+            done();
+        })
+    })
 })
 
 describe("Start other Conditions for Payment", () => {
