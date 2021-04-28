@@ -9,11 +9,18 @@ const expect = chai.expect;
 
 var OwnerToken = null;
 
+testAccount = {
+  email: "nontOwnerTest@kojira.com",
+  password: "testpassword",
+  name: "KojiraVSKong_TEST",
+  phoneNumber: "0111111111",
+}
+
 describe("Start Condition", () => {
   it("Clear the database if there is a nont owner with email 'nontOwnerTest@kojira.com'", (done) => {
-    NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then((result) => {
+    NontOwner.findOne({ email: testAccount.email }).then((result) => {
       if (result) {
-        NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then((err) =>
+        NontOwner.deleteOne({ email: testAccount.email }).then((err) =>
           done()
         );
       } else {
@@ -41,14 +48,14 @@ describe("Nont Owner Create", () => {
       .post("/NontOwners")
       .type("form")
       .send({
-        email: "nontOwnerTest@kojira.com",
-        password: "testpassword",
-        name: "Kojira",
-        phoneNumber: "0111111111",
+        email: testAccount.email,
+        password: testAccount.password,
+        name: testAccount.name,
+        phoneNumber: testAccount.phoneNumber,
       })
       .end((err, res) => {
         expect(res).to.have.status(200);
-        NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then(
+        NontOwner.findOne({ email: testAccount.email }).then(
           (result) => {
             expect(result).to.not.be.null;
             done();
@@ -62,7 +69,7 @@ describe("Nont Owner Create", () => {
       .post("/NontOwners")
       .type("form")
       .send({
-        email: "nontOwnerTest@kojira.com",
+        email: testAccount.email,
         password: "anothertestpassword",
         name: "Kojira2",
         phoneNumber: "0111111112",
@@ -80,7 +87,7 @@ describe("Nont Owner Create", () => {
       .send({
         email: "nontOwnerTest2@kojira.com",
         password: "anothertestpassword",
-        name: "Kojira",
+        name: testAccount.name,
         phoneNumber: "0111111113",
       })
       .end((err, res) => {
@@ -96,7 +103,7 @@ describe("Nont Owner Create", () => {
       .type("form")
       .send({
         email: "nontOwnerTest.com",
-        password: "testpassword",
+        password: testAccount.password,
         name: "Kojira5",
         phoneNumber: "0111111114",
       })
@@ -113,7 +120,7 @@ describe("Nont Owner Create", () => {
       .type("form")
       .send({
         email: "nontOwnerTest4@test.com",
-        password: "testpassword",
+        password: testAccount.password,
         name: "Kojira6",
         phoneNumber: "0111111",
       })
@@ -129,7 +136,7 @@ describe("Nont Owner Create", () => {
       .type("form")
       .send({
         email: "nontOwnerTest5@test.com",
-        password: "testpassword",
+        password: testAccount.password,
         name: "",
         phoneNumber: "0111111115",
       })
@@ -149,7 +156,7 @@ describe("Nont Owner Create", () => {
       .type("form")
       .send({
         email: "nontOwnerTest6@test.com",
-        password: "testpassword",
+        password: testAccount.password,
         name: name,
         phoneNumber: "0111111116",
       })
@@ -201,7 +208,7 @@ describe("Nont Owner Create", () => {
       .type("form")
       .send({
         email: "nontOwnerTest9@test.com",
-        password: "testpassword",
+        password: testAccount.password,
         name: "Kojira9",
         phoneNumber: "0111111119",
         bankAccount: "1234567890",
@@ -218,7 +225,7 @@ describe("Nont Owner Create", () => {
       .type("form")
       .send({
         email: "nontOwnerTest10@test.com",
-        password: "testpassword",
+        password: testAccount.password,
         name: "Kojira10",
         phoneNumber: "0111111120",
         bankAccount: "12345678",
@@ -236,7 +243,7 @@ describe("Nont Owner Login", () => {
       .request(app)
       .post("/nontOwners/login")
       .type("form")
-      .send({ email: "nontOwnerTest@kojira.com", password: "testpassword" })
+      .send({ email: testAccount.email, password: testAccount.password })
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body.token).to.not.be.null;
@@ -264,7 +271,7 @@ describe("Nont Owner Login", () => {
       .request(app)
       .post("/nontOwners/login")
       .type("form")
-      .send({ email: "incorrect@test.com", password: "testpassword" })
+      .send({ email: "incorrect@test.com", password: testAccount.password })
       .end((err, res) => {
         expect(res.body.login).to.be.false;
         expect(res.body.error).to.not.be.undefined;
@@ -303,7 +310,7 @@ describe("Authenticate Nont Owner", () => {
 
 describe("Clear Up", () => {
   it("Clear up", (done) => {
-    NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then((err) =>
+    NontOwner.deleteOne({ email: testAccount.email }).then((err) =>
       NontOwner.deleteOne({ email: "nontOwnerTest9@test.com" }).then((err) =>
         done()
       )

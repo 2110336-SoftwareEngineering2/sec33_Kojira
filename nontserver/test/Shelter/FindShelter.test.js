@@ -8,12 +8,19 @@ chai.use(chaiHttp);
 
 let nontOwnerToken = null;
 
+const testAccount = {
+  email: "nontOwnerTestFindShelter@kojira.com",
+  password: "testpassword",
+  name: "KojiraVSKong_TEST_FindShelter555",
+  phoneNumber: "0111111111",
+}
+
 describe("Start Condition", () => {
   it("Clear the database if there is a nont owner with email 'nontOwnerTest@kojira.com'", (done) => {
-    NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then((result) => {
+    NontOwner.findOne({ email: testAccount.email }).then((result) => {
       if (result) {
-        NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(
-          NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then(
+        NontOwner.deleteOne({ email: testAccount.email }).then(
+          NontOwner.findOne({ email: testAccount.email }).then(
             (result) => {
               expect(result).to.be.null;
               done();
@@ -31,12 +38,7 @@ describe("Start Condition", () => {
       .request(app)
       .post("/NontOwners")
       .type("form")
-      .send({
-        email: "nontOwnerTest@kojira.com",
-        password: "testpassword",
-        name: "Kojira",
-        phoneNumber: "0111111111",
-      })
+      .send(testAccount)
       .end((err, res) => {
         expect(res).to.have.status(200);
         done();
@@ -48,7 +50,7 @@ describe("Start Condition", () => {
       .request(app)
       .post("/nontOwners/login")
       .type("form")
-      .send({ email: "nontOwnerTest@kojira.com", password: "testpassword" })
+      .send({ email: testAccount.email, password: testAccount.password })
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body.token).to.not.be.null;
@@ -830,7 +832,7 @@ describe("Find Shelter", () => {
 });
 
 describe("Clear Up", () => {
-  it("Clear up", (done) => {
-    NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(done());
+  it("Clear up", async () => {
+    await NontOwner.deleteOne({ email: testAccount.email });
   });
 });

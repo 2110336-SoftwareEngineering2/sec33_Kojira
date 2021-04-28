@@ -100,6 +100,7 @@ describe("Nont Sitter Update", () => {
             chai
               .request(app)
               .get("/NontSitters/" + id)
+              .set({ Authorization: "Bearer " + SitterToken })
               .end((err, res) => {
                 expect(res.body.name).to.equal("Hello");
                 done();
