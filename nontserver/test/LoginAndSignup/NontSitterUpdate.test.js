@@ -15,17 +15,12 @@ describe("Start Condition", () => {
     NontSitter.findOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
       (result) => {
         if (result) {
+          //console.log("have");
           NontSitter.deleteOne({
             email: "nontSitterTestUpdate@kojira.com",
-          }).then(
-            NontSitter.findOne({
-              email: "nontSitterTestUpdate@kojira.com",
-            }).then((result) => {
-              expect(result).to.be.null;
-              done();
-            })
-          );
+          }).then((err) => done());
         } else {
+          //console.log("no");
           done();
         }
       }
@@ -34,17 +29,12 @@ describe("Start Condition", () => {
   it("Clear the database if there is a nont sitter with name 'Hello'", (done) => {
     NontSitter.findOne({ name: "Hello" }).then((result) => {
       if (result) {
+        //console.log("have");
         NontSitter.deleteOne({
           name: "Hello",
-        }).then(
-          NontSitter.findOne({
-            name: "Hello",
-          }).then((result) => {
-            expect(result).to.be.null;
-            done();
-          })
-        );
+        }).then((err) => done());
       } else {
+        //console.log("no");
         done();
       }
     });

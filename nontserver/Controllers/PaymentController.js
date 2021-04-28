@@ -14,13 +14,8 @@ const controller = {
         Reservation.updateOne(
           { _id: req.query.reserveId },
           { status: "paid" }
-        ).then((err, result) => {
-          if (err) {
-            res.status(500);
-            res.send("can't make payment reserve id not found");
-          } else {
-            res.send("payment finished");
-          }
+        ).then(() => {
+          res.send("payment finished");
         });
       }
     } catch (err) {

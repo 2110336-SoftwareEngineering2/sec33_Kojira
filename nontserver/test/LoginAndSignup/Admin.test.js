@@ -15,12 +15,7 @@ describe("Start Condition", () => {
   it("Clear the database if there is an admin with email 'admintest@kojira.com'", (done) => {
     Admin.findOne({ email: testAdminEmail }).then((result) => {
       if (result) {
-        Admin.deleteOne({ email: testAdminEmail }).then(
-          Admin.findOne({ email: testAdminEmail }).then((result) => {
-            expect(result).to.be.null;
-            done();
-          })
-        );
+        Admin.deleteOne({ email: testAdminEmail }).then((err) => done());
       } else {
         done();
       }
@@ -162,6 +157,6 @@ describe("Authenticate token", () => {
 
 describe("Clear Up", () => {
   it("Clear up", (done) => {
-    Admin.deleteOne({ email: "admintest@kojira.com" }).then(() => done());
+    Admin.deleteOne({ email: "admintest@kojira.com" }).then((err) => done());
   });
 });
