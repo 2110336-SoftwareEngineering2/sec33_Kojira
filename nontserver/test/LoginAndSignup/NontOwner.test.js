@@ -9,6 +9,31 @@ const expect = chai.expect;
 
 var OwnerToken = null;
 
+describe("Start Condition", () => {
+  it("Clear the database if there is a nont owner with email 'nontOwnerTest@kojira.com'", (done) => {
+    NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then((result) => {
+      if (result) {
+        NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then((err) =>
+          done()
+        );
+      } else {
+        done();
+      }
+    });
+  });
+  it("Clear the database if there is a nont owner with email 'nontOwnerTest9@test.com'", (done) => {
+    NontOwner.findOne({ email: "nontOwnerTest9@test.com" }).then((result) => {
+      if (result) {
+        NontOwner.deleteOne({ email: "nontOwnerTest9@test.com" }).then((err) =>
+          done()
+        );
+      } else {
+        done();
+      }
+    });
+  });
+});
+
 describe("Nont Owner Create", () => {
   it("It should create nont owner", (done) => {
     chai
@@ -23,7 +48,12 @@ describe("Nont Owner Create", () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(200);
-        done();
+        NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then(
+          (result) => {
+            expect(result).to.not.be.null;
+            done();
+          }
+        );
       });
   });
   it("It should not create nont owner with same email", (done) => {
@@ -222,7 +252,7 @@ describe("Nont Owner Login", () => {
       .request(app)
       .post("/nontOwners/login")
       .type("form")
-      .send({ email: "test@test.com", password: "incorrectpassword" })
+      .send({ email: "nontOwnerTest@test.com", password: "incorrectpassword" })
       .end((err, res) => {
         expect(res.body.login).to.be.false;
         expect(res.body.error).to.not.be.undefined;
@@ -273,8 +303,10 @@ describe("Authenticate Nont Owner", () => {
 
 describe("Clear Up", () => {
   it("Clear up", (done) => {
-    NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(
-      NontOwner.deleteOne({ email: "nontOwnerTest9@test.com" }).then(done())
+    NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then((err) =>
+      NontOwner.deleteOne({ email: "nontOwnerTest9@test.com" }).then((err) =>
+        done()
+      )
     );
   });
 });

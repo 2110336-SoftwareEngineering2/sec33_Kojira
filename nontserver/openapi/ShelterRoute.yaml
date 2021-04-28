@@ -3,6 +3,8 @@
     description: fetch all shelters
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     responses:
       200:
         description: Success Response
@@ -17,6 +19,8 @@
     description: fetch all shelters with exist true
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     responses:
       200:
         description: Success Response
@@ -30,6 +34,8 @@
     description: create new shelter
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     requestBody:
       required: true
       content:
@@ -51,6 +57,8 @@
     description: update shelter
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     requestBody:
       required: true
       content:
@@ -73,6 +81,8 @@
     description: fetch shelter by shelter_id with exist true
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -99,6 +109,8 @@
     description: fetch shelter by nont_sitter_id with exist true
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -119,6 +131,8 @@
     description: fetch Shelter by shelter_name with exist true
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: name
@@ -139,6 +153,8 @@
     description: remove shelter from database
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -155,6 +171,8 @@
     description: fetch one shelter using shelter_id
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -176,6 +194,8 @@
     description: update shelter
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -203,6 +223,8 @@
     description: check if shelter's name already exist
     tags: 
       - shelters
+    security:
+      - bearerAuth: []
     requestBody:
       required: true
       content:
@@ -223,6 +245,8 @@
     description: search shelter
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     parameters:
       $ref: "#/components/parameters/paramsFindShelter"
     responses:
@@ -245,6 +269,8 @@
     description: delete shelter (change exist's status to false)
     tags:
       - shelters
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -267,129 +293,7 @@
       500:
         $ref: "#/components/responseMessage/status500"
 
-## findShelters
-## create
-## update
-## delete shelter
-## check valid name
-## remove
-## admin get shelter
-## admin update shelter
-
 components:
-  schemas:
-    requestBodyCreateSchema:
-      type: object
-      properties:
-        supported_type:
-          type: array
-          items:
-            type: string
-        name:
-          type: string
-        description:
-          type: string
-        phoneNumber:
-          type: string
-        address:
-          type: string
-        coordinate:
-          type: object
-          properties:
-            lat:
-              type: number
-            lng:
-              type: number
-        picture:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              img:
-                type: string
-                format: binary
-              contentType:
-                type: string
-        license:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              img:
-                type: string
-                format: binary
-              contentType:
-                type: string
-        rate:
-          type: number
-        nont_sitter_id:
-          type: string
-    requestedBodySchema:
-      type: object
-      properties:
-        _id:
-          type: string
-        supported_type:
-          type: array
-          items:
-            type: string
-        name:
-          type: string
-        description:
-          type: string
-        phoneNumber:
-          type: string
-        address:
-          type: string
-        coordinate:
-          type: object
-          properties:
-            lat:
-              type: number
-            lng:
-              type: number
-        picture:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              img:
-                type: string
-                format: binary
-              contentType:
-                type: string
-        license:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              img:
-                type: string
-                format: binary
-              contentType:
-                type: string
-        rate:
-          type: number
-        nont_sitter_id:
-          type: string
-        exist:
-          type: boolean
   requestBodies:
     createBody:
       required:
@@ -399,9 +303,9 @@ components:
         - coordinate
         - nont_sitter_id
         - exist
-      $ref: "#/components/schemas/requestBodyCreateSchema"  
+      $ref: "ShelterSchema.yaml#/createdShelterSchema" 
     updateBody:
-      $ref: "#/components/schemas/requestedBodySchema"
+      $ref: "ShelterSchema.yaml#/updatedShelterSchema"
     checkBody:
       type: object
       required:

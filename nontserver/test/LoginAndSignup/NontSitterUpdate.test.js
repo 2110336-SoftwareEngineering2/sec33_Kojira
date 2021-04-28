@@ -8,8 +8,40 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 
 var id;
+var SitterToken;
 
-describe("Nont Sitter Create", () => {
+describe("Start Condition", () => {
+  it("Clear the database if there is a nont sitter with email 'nontSitterTestUpdate@kojira.com'", (done) => {
+    NontSitter.findOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
+      (result) => {
+        if (result) {
+          //console.log("have");
+          NontSitter.deleteOne({
+            email: "nontSitterTestUpdate@kojira.com",
+          }).then((err) => done());
+        } else {
+          //console.log("no");
+          done();
+        }
+      }
+    );
+  });
+  it("Clear the database if there is a nont sitter with name 'Hello'", (done) => {
+    NontSitter.findOne({ name: "Hello" }).then((result) => {
+      if (result) {
+        //console.log("have");
+        NontSitter.deleteOne({
+          name: "Hello",
+        }).then((err) => done());
+      } else {
+        //console.log("no");
+        done();
+      }
+    });
+  });
+});
+
+describe("Nont Sitter Update", () => {
   it("create a nont sitter first", (done) => {
     chai
       .request(app)
@@ -23,6 +55,30 @@ describe("Nont Sitter Create", () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(200);
+        NontSitter.findOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
+          (result) => {
+            expect(result).to.not.be.null;
+            done();
+          }
+        );
+      });
+  });
+  it("It should login Nont Sitter", (done) => {
+    chai
+      .request(app)
+      .post("/nontSitters/login")
+      .type("form")
+      .send({
+        email: "nontSitterTestUpdate@kojira.com",
+        password: "testpassword",
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.token).to.not.be.null;
+        SitterToken = res.body.token;
+        expect(res.body.userType).to.equal("Nont Sitter");
+        expect(res.body.login).to.be.true;
+        expect(err).to.be.null;
         done();
       });
   });
@@ -33,6 +89,7 @@ describe("Nont Sitter Create", () => {
         chai
           .request(app)
           .patch("/NontSitters")
+          .set({ Authorization: "Bearer " + SitterToken })
           .send({
             _id: id.toString(),
             name: "Hello",
@@ -58,6 +115,7 @@ describe("Nont Sitter Create", () => {
         chai
           .request(app)
           .patch("/NontSitters")
+          .set({ Authorization: "Bearer " + SitterToken })
           .send({
             _id: id.toString(),
             email: "Hello.com",
@@ -76,6 +134,7 @@ describe("Nont Sitter Create", () => {
         chai
           .request(app)
           .patch("/NontSitters")
+          .set({ Authorization: "Bearer " + SitterToken })
           .send({
             _id: id.toString(),
             email: "nontSitterTestUpdate@kojira.com",
@@ -92,7 +151,14 @@ describe("Nont Sitter Create", () => {
 describe("Clear Up", () => {
   it("Clear up", (done) => {
     NontSitter.deleteOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
-      done()
+      (result) => {
+        NontSitter.findOne({ _id: id }).then(
+          (result2) => {
+            expect(result2).to.be.null;
+            done()
+          }
+        )
+      }
     );
   });
 });
@@ -102,6 +168,7 @@ describe("It should not update the user that is not existed", () => {
     chai
       .request(app)
       .patch("/NontSitters")
+      .set({ Authorization: "Bearer " + SitterToken })
       .send({
         _id: id.toString(),
         email: "nontSitterTestUpdate2@kojira.com",

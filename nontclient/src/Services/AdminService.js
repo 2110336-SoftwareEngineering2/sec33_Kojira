@@ -1,4 +1,4 @@
-import axios from "axios";
+import {axios} from '../Utils/ServiceUtils/axios';
 import serverURL from "../Config/serverURL";
 
 // responsible for admin work

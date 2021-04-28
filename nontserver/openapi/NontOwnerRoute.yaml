@@ -3,8 +3,6 @@
     description: fetch all nont owners
     tags:
       - nontOwners
-    security:
-      - bearerAuth: []
     responses:
       200:
         description: Success Response
@@ -42,8 +40,6 @@
     description: update nont owner
     tags:
       - nontOwners
-    security:
-      - bearerAuth: []
     requestBody:
       required: true
       content:
@@ -87,8 +83,6 @@
     description: fetch one nont owner using nont owner id
     tags:
       - nontOwners
-    security:
-      - bearerAuth: []
     parameters:
       - in: path
         name: id

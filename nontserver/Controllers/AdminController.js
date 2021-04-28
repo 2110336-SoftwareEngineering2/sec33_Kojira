@@ -71,11 +71,6 @@ const controller = {
         } else if (!validEmail) {
           res.statusCode = 500;
           res.send({ err: "this admin email is already in the database" });
-        } else {
-          res.statusCode = 500;
-          res.send({
-            err: "review your userType field, it should be 'admin' only",
-          });
         }
       }
     } catch (err) {
