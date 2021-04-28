@@ -259,22 +259,12 @@ describe("Make a payment via QR code", () => {
 })
 
 describe("Clear Up for Payment", () => {
-    it("Clear up 1", (done) => { 
-        Reservation.findByIdAndDelete(reservationID).then(
-            Room.findByIdAndDelete(roomID).then(
-                Shelters.findByIdAndDelete(shelterID).then(
-                    NontSitter.findByIdAndDelete(sitterID).then(
-                        Nont.findByIdAndDelete(nontID).then(
-                            done()
-                        )
-                    )
-                )
-            )
-        )
-    })
-    it("Clear up NontOwner", (done) => {
-        NontOwner.deleteOne({ email: ownerEmail }).then((err) =>
-            done()
-        );
+    it("Clear up", async () => { 
+        await Reservation.findByIdAndDelete(reservationID)
+        await Room.findByIdAndDelete(roomID)
+        await Shelters.findByIdAndDelete(shelterID)
+        await NontSitter.findByIdAndDelete(sitterID)
+        await Nont.findByIdAndDelete(nontID)
+        await NontOwner.findByIdAndDelete(ownerID)
     })
 });
