@@ -16,7 +16,10 @@ const controller = {
           { status: "paid" }
         ).then(() => {
           res.send("payment finished");
-        });
+        }).catch((err => {
+          res.statusCode = 500;
+          res.send("can't make payment becaue reserve id not found");
+        }));
       }
     } catch (err) {
       res.statusCode = 500;
