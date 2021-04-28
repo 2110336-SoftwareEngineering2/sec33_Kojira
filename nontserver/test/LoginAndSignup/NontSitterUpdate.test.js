@@ -109,6 +109,7 @@ describe("Nont Sitter Update", () => {
             chai
               .request(app)
               .get("/NontSitters/" + id)
+              .set({ Authorization: "Bearer " + SitterToken })
               .end((err, res) => {
                 expect(res.body.name).to.equal("Hello");
                 done();
@@ -160,14 +161,14 @@ describe("Nont Sitter Update", () => {
 describe("Clear Up", () => {
   it("Clear up", (done) => {
     NontSitter.deleteOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
-      () =>
-        NontSitter.findOne({ email: "nontSitterTestUpdate@kojira.com" }).then(
-          (result) => {
-            console.log(result);
-            expect(result).to.be.null;
-            done();
+      (result) => {
+        NontSitter.findOne({ _id: id }).then(
+          (result2) => {
+            expect(result2).to.be.null;
+            done()
           }
         )
+      }
     );
   });
 });

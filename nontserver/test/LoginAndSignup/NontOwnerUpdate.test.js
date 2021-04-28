@@ -104,6 +104,7 @@ describe("Nont Owner Update", () => {
             chai
               .request(app)
               .get("/NontOwners/" + id)
+              .set({ Authorization: "Bearer " + OwnerToken })
               .end((err, res) => {
                 expect(res.body.name).to.equal("Hello");
                 done();
@@ -154,9 +155,16 @@ describe("Nont Owner Update", () => {
 
 describe("Clear Up", () => {
   it("Clear up", (done) => {
-    NontOwner.deleteOne({
-      email: "nontOwnerTestUpdate@kojira.com",
-    }).then((err) => done());
+    NontOwner.deleteOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
+      (result) => {
+        NontOwner.findOne({ _id: id }).then(
+          (result2) => {
+            expect(result2).to.be.null;
+            done()
+          }
+        )
+      }
+    );
   });
 });
 
