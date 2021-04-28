@@ -1,15 +1,72 @@
 const app = require("../../app");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const NontOwner = require("../../Models/NontOwner");
 
 const expect = chai.expect;
 chai.use(chaiHttp);
+
+let nontOwnerToken = null;
+
+describe("Start Condition", () => {
+  it("Clear the database if there is a nont owner with email 'nontOwnerTest@kojira.com'", (done) => {
+    NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then((result) => {
+      if (result) {
+        NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(
+          NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then(
+            (result) => {
+              expect(result).to.be.null;
+              done();
+            }
+          )
+        );
+      } else {
+        done();
+      }
+    });
+  });
+
+  it("It should create nont owner", (done) => {
+    chai
+      .request(app)
+      .post("/NontOwners")
+      .type("form")
+      .send({
+        email: "nontOwnerTest@kojira.com",
+        password: "testpassword",
+        name: "Kojira",
+        phoneNumber: "0111111111",
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
+  it("It should login Nont Owner", (done) => {
+    chai
+      .request(app)
+      .post("/nontOwners/login")
+      .type("form")
+      .send({ email: "nontOwnerTest@kojira.com", password: "testpassword" })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.token).to.not.be.null;
+        nontOwnerToken = res.body.token;
+        expect(res.body.userType).to.equal("Nont Owner");
+        expect(res.body.login).to.be.true;
+        expect(err).to.be.null;
+        done();
+      });
+  });
+});
 
 describe("Find Shelter", () => {
   it("TC1-1 It should output the list of all shelters when no query sent", (done) => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
@@ -21,6 +78,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         minRate: "three",
       })
@@ -36,6 +94,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         minRate: "-0.1",
       })
@@ -51,6 +110,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         minRate: "5.1",
       })
@@ -66,6 +126,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         maxDistance: "InAGalaxyFarFarAway",
       })
@@ -81,6 +142,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         maxDistance: "-0.1",
       })
@@ -96,6 +158,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         maxDistance: "100.1",
       })
@@ -111,6 +174,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         nontAmount: "two",
       })
@@ -126,6 +190,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         nontAmount: "-1",
       })
@@ -141,6 +206,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         nontAmount: "21",
       })
@@ -156,6 +222,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         maxPrice: "ShutUpAndTakeMyMoney",
       })
@@ -171,6 +238,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         maxPrice: "-0.50",
       })
@@ -186,6 +254,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         maxPrice: "3001",
       })
@@ -201,6 +270,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "20XX-01-01",
         endDate: "2022-02-02",
@@ -217,6 +287,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-00-01",
         endDate: "2022-02-02",
@@ -233,6 +304,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-13-01",
         endDate: "2022-02-02",
@@ -249,6 +321,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-00",
         endDate: "2022-02-02",
@@ -265,6 +338,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-32",
         endDate: "2022-02-02",
@@ -281,6 +355,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-04-31",
         endDate: "2022-06-01",
@@ -297,6 +372,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-02-29",
         endDate: "2022-04-01",
@@ -313,6 +389,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2024-02-30",
         endDate: "2024-04-01",
@@ -329,6 +406,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2100-02-29",
         endDate: "2100-04-01",
@@ -345,6 +423,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2400-02-30",
         endDate: "2400-04-01",
@@ -361,6 +440,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-01",
         endDate: "2022-02-XX",
@@ -377,6 +457,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-01",
         endDate: "2023-00-01",
@@ -393,6 +474,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-01",
         endDate: "2023-13-01",
@@ -409,6 +491,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-01",
         endDate: "2023-01-00",
@@ -425,6 +508,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-01",
         endDate: "2023-01-32",
@@ -441,6 +525,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-01",
         endDate: "2023-04-31",
@@ -457,6 +542,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-01",
         endDate: "2023-02-29",
@@ -473,6 +559,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-01",
         endDate: "2024-02-30",
@@ -489,6 +576,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-01",
         endDate: "2100-02-29",
@@ -505,6 +593,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-01-01",
         endDate: "2400-02-30",
@@ -521,6 +610,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         position: "112",
       })
@@ -536,6 +626,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         position: "-91,0",
       })
@@ -551,6 +642,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         position: "91,0",
       })
@@ -566,6 +658,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         position: "0,-181",
       })
@@ -581,6 +674,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         position: "0,181",
       })
@@ -596,6 +690,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         supported_type: "varanus",
       })
@@ -611,6 +706,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         sortedBy: "HowCoolYouAre",
       })
@@ -625,6 +721,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         keywords: "",
         minRate: "0",
@@ -634,7 +731,7 @@ describe("Find Shelter", () => {
         startDate: "2022-04-30",
         endDate: "2400-02-29",
         position: "0,0",
-        sortedBy: "distance"
+        sortedBy: "distance",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -647,6 +744,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters?supported_type=cat&supported_type=hamster")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         keywords: "love",
         minRate: "5",
@@ -656,7 +754,7 @@ describe("Find Shelter", () => {
         startDate: "2100-02-28",
         endDate: "2200-02-28",
         position: "-90,-180",
-        sortedBy: "name"
+        sortedBy: "name",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -669,10 +767,11 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2400-02-29",
         endDate: "2404-02-29",
-        position: "90,180"
+        position: "90,180",
       })
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -685,6 +784,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2023-02-28",
         endDate: "2023-03-01",
@@ -700,6 +800,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2024-02-29",
         endDate: "2024-04-30",
@@ -715,6 +816,7 @@ describe("Find Shelter", () => {
     chai
       .request(app)
       .get("/shelter/findShelters")
+      .set({ Authorization: "Bearer " + nontOwnerToken })
       .query({
         startDate: "2022-02-26",
         endDate: "2022-02-28",
@@ -725,5 +827,10 @@ describe("Find Shelter", () => {
         done();
       });
   });
+});
 
+describe("Clear Up", () => {
+  it("Clear up", (done) => {
+    NontOwner.deleteOne({ email: "nontOwnerTest@kojira.com" }).then(done());
+  });
 });
