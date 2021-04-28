@@ -8,6 +8,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 
 var id;
+var OwnerToken;
 
 describe("Start Condition", () => {
   it("Clear the database if there is a nont owner with email 'nontOwnerTestUpdate@kojira.com'", (done) => {
@@ -15,12 +16,13 @@ describe("Start Condition", () => {
       (result) => {
         if (result) {
           NontOwner.deleteOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
-            NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
-              (result) => {
+            () =>
+              NontOwner.findOne({
+                email: "nontOwnerTestUpdate@kojira.com",
+              }).then((result) => {
                 expect(result).to.be.null;
                 done();
-              }
-            )
+              })
           );
         } else {
           done();
@@ -33,7 +35,7 @@ describe("Start Condition", () => {
       if (result) {
         NontOwner.deleteOne({
           name: "Hello",
-        }).then(
+        }).then(() =>
           NontOwner.findOne({
             name: "Hello",
           }).then((result) => {
@@ -62,6 +64,30 @@ describe("Nont Owner Create", () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(200);
+        NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
+          (result) => {
+            expect(result).to.not.be.null;
+            done();
+          }
+        );
+      });
+  });
+  it("It should login Nont Owner", (done) => {
+    chai
+      .request(app)
+      .post("/nontOwners/login")
+      .type("form")
+      .send({
+        email: "nontOwnerTestUpdate@kojira.com",
+        password: "testpassword",
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.token).to.not.be.null;
+        OwnerToken = res.body.token;
+        expect(res.body.userType).to.equal("Nont Owner");
+        expect(res.body.login).to.be.true;
+        expect(err).to.be.null;
         done();
       });
   });
@@ -72,6 +98,7 @@ describe("Nont Owner Create", () => {
         chai
           .request(app)
           .patch("/NontOwners")
+          .set({ Authorization: "Bearer " + OwnerToken })
           .send({
             _id: id.toString(),
             name: "Hello",
@@ -96,6 +123,7 @@ describe("Nont Owner Create", () => {
         chai
           .request(app)
           .patch("/NontOwners")
+          .set({ Authorization: "Bearer " + OwnerToken })
           .send({
             _id: id.toString(),
             email: "Hello.com",
@@ -114,6 +142,7 @@ describe("Nont Owner Create", () => {
         chai
           .request(app)
           .patch("/NontOwners")
+          .set({ Authorization: "Bearer " + OwnerToken })
           .send({
             _id: id.toString(),
             email: "nontOwnerTestUpdate@kojira.com",
@@ -129,8 +158,14 @@ describe("Nont Owner Create", () => {
 
 describe("Clear Up", () => {
   it("Clear up", (done) => {
-    NontOwner.deleteOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
-      done()
+    NontOwner.deleteOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(() =>
+      NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
+        (result) => {
+          console.log(result);
+          expect(result).to.be.null;
+          done();
+        }
+      )
     );
   });
 });
@@ -140,12 +175,12 @@ describe("It should not update the user that is not existed", (done) => {
     chai
       .request(app)
       .patch("/NontOwners")
+      .set({ Authorization: "Bearer " + OwnerToken })
       .send({
         _id: id.toString(),
         email: "nontOwnerTestUpdate2@kojira.com",
       })
       .end((err, res) => {
-        console.log(res.body)
         expect(res).to.have.status(404);
         done();
       });
