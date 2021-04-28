@@ -252,7 +252,7 @@ describe("Nont Owner Login", () => {
       .request(app)
       .post("/nontOwners/login")
       .type("form")
-      .send({ email: "test@test.com", password: "incorrectpassword" })
+      .send({ email: "nontOwnerTest@test.com", password: "incorrectpassword" })
       .end((err, res) => {
         expect(res.body.login).to.be.false;
         expect(res.body.error).to.not.be.undefined;

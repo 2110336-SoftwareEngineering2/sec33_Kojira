@@ -7,7 +7,7 @@ const cloudServerURL = "https://nontserver.herokuapp.com";
 // //for deployment
 // export default cloudServerURL;
 // for test in your localhost
-// export default localserver;
+export default localserver;
 
 // for deployment
-export default cloudServerURL;
+// export default cloudServerURL;
