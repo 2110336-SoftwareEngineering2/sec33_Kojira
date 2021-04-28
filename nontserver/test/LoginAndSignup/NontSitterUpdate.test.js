@@ -51,7 +51,7 @@ describe("Start Condition", () => {
   });
 });
 
-describe("Nont Sitter Create", () => {
+describe("Nont Sitter Update", () => {
   it("create a nont sitter first", (done) => {
     chai
       .request(app)

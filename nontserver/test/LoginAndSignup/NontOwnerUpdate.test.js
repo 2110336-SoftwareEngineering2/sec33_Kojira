@@ -50,7 +50,7 @@ describe("Start Condition", () => {
   });
 });
 
-describe("Nont Owner Create", () => {
+describe("Nont Owner Update", () => {
   it("create a nont owner first", (done) => {
     chai
       .request(app)
