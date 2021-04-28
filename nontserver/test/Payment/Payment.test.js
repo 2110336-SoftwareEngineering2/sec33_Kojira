@@ -3,6 +3,10 @@ let chai = require("chai");
 let chaiHttp = require("chai-http");
 const Reservation = require("../../Models/Reservation");
 const Room = require("../../Models/Room");
+const Shelters = require("../../Models/Shelters");
+const Nont = require("../../Models/Nont");
+const NontOwner = require("../../Models/NontOwner");
+const NontSitter = require("../../Models/NontSitter");
 
 chai.use(chaiHttp);
 
@@ -11,24 +15,102 @@ const expect = chai.expect;
 var roomID = null;
 var reservationID = null;
 var ownerToken = null;
-var qrcode = "";
-var shelterID = "60880e49e74d024804a0b15b";
-var ownerEmail = "neww@test.com";
-var ownerID = "606dd36c1ed2dd002289cf30";
-var sitterID = "603098f7a19e174c20d33cd9";
-var nontID = "606dd3d21ed2dd002289cf31";
+var qrcode = null;
+var shelterID = null;
+var ownerID = null;
+var sitterID = null;
+var nontID = null;
+var ownerEmail = "testPaymentOwner@kojira.com";
+var sitterEmail = "testPaymentSitter@kojira.com";
+var pwd = "testpassword";
 
 // shelter test 2
 // น้องแมว
-describe("Start Condition for Payment", () => {
-    it("Login NontOwner", (done) => {
+describe("Start User Condition for Payment", () => {
+    it("Clear the database if there is a nont sitter with email 'testPaymentSitter@kojira.com'", (done) => {
+        NontSitter.findOne({ email: sitterEmail }).then((result) => {
+            if (result) {
+                NontSitter.deleteOne({ email: sitterEmail }).then(
+                    NontSitter.findOne({ email: sitterEmail }).then(
+                        (result) => {
+                            expect(result).to.be.null;
+                            done();
+                        }
+                    )
+                );
+            } else {
+                done();
+            }
+        });
+    });
+    it("It should create nont sitter", (done) => {
+        chai
+            .request(app)
+            .post("/NontSitters")
+            .type("form")
+            .send({
+                email: sitterEmail,
+                password: pwd,
+                name: "Kojira",
+                phoneNumber: "0111111111",
+            })
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+    });
+    it("It should get OwnerID from email 'testPaymentOwner@kojira.com'", (done) => {
+        NontSitter.findOne({ email: sitterEmail }).then((result) => {
+            sitterID = result._id;
+            done();
+        })
+    })
+    it("It should get SitterID from email 'testPaymentOwner@kojira.com'", (done) => {
+        NontSitter.findOne({ email: sitterEmail }).then((result) => {
+            ownerID = result._id;
+            done();
+        })
+    })
+    it("Clear the database if there is a nont owner with email 'testPaymentOwner@kojira.com'", (done) => {
+      NontOwner.findOne({ email: ownerEmail }).then((result) => {
+        if (result) {
+          NontOwner.deleteOne({ email: ownerEmail }).then(
+            NontOwner.findOne({ email: ownerEmail }).then(
+              (result) => {
+                expect(result).to.be.null;
+                done();
+              }
+            )
+          );
+        } else {
+          done();
+        }
+      });
+    });
+    it("It should create nont owner", (done) => {
+      chai
+        .request(app)
+        .post("/NontOwners")
+        .type("form")
+        .send({
+            email: ownerEmail,
+            password: pwd,
+            name: "Kojira",
+            phoneNumber: "0111111111",
+        })
+        .end((err, res) => {
+            expect(res).to.have.status(200);
+            done();
+        });
+    });
+    it("It should login NontOwner", (done) => {
         chai
           .request(app)
           .post("/NontOwners/login")
           .type("form")
           .send({ 
               email: ownerEmail, 
-              password: "12345678" 
+              password: pwd 
           })
           .end((err, res) => {
               expect(res).to.have.status(200);
@@ -40,6 +122,23 @@ describe("Start Condition for Payment", () => {
               done();
           });
       });
+})
+
+describe("Start other Conditions for Payment", () => {
+    it("Create shelter", (done) => {
+        var body = {
+            name: "shelterTestPayment",
+            address: "abcd",
+            coordinate: {lat:1,lng:1},
+            rate: 0,
+            nont_sitter_id: sitterID,
+            exist: true
+        }
+        Shelters.create(body).then((res) => {
+            shelterID = res._id
+            done();
+        })
+    })
     it("Create room", (done) => {
         var body = {
             name: "roomTest",
@@ -51,6 +150,20 @@ describe("Start Condition for Payment", () => {
         }
         Room.create(body).then((res) => {
             roomID = res._id
+            done();
+        })
+    })
+    it("Create nont", (done) => {
+        var now = new Date();
+        var body = {
+            name: "NongTest",
+            type: "cat",
+            nontowner_id: ownerID,
+            birth_date: now.toString(),
+            exist: true
+        }
+        Nont.create(body).then((res) => {
+            nontID = res._id
             done();
         })
     })
@@ -149,7 +262,15 @@ describe("Clear Up for Payment", () => {
     it("Clear up", (done) => {
         Reservation.findByIdAndDelete(reservationID).then(
             Room.findByIdAndDelete(roomID).then(
-                done()
+                Shelters.findByIdAndDelete(shelterID).then(
+                    NontSitter.findByIdAndDelete(sitterID).then(
+                        Nont.findByIdAndDelete(nontID).then(
+                            NontOwner.findByIdAndDelete(ownerID).then(
+                                done()
+                            )
+                        )
+                    )
+                )
             )
         )
     })
