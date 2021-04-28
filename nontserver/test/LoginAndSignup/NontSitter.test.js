@@ -131,7 +131,7 @@ describe("Nont Sitter Create", () => {
       .post("/NontSitters")
       .type("form")
       .send({
-        email: "nontOwnerTest5@test.com",
+        email: "nontOwnerTest5@kojira.com",
         password: "testpassword",
         name: "",
         phoneNumber: "0111111115",
