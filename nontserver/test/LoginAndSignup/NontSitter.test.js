@@ -14,14 +14,9 @@ describe("Start Condition", () => {
     NontSitter.findOne({ email: "nontSitterTest@kojira.com" }).then(
       (result) => {
         if (result) {
-          NontSitter.deleteOne({ email: "nontSitterTest@kojira.com" }).then(
-            NontSitter.findOne({ email: "nontSitterTest@kojira.com" }).then(
-              (result) => {
-                expect(result).to.be.null;
-                done();
-              }
-            )
-          );
+          NontSitter.deleteOne({
+            email: "nontSitterTest@kojira.com",
+          }).then((err) => done());
         } else {
           done();
         }
@@ -32,14 +27,9 @@ describe("Start Condition", () => {
     NontSitter.findOne({ email: "nontSitterTest9@kojira.com" }).then(
       (result) => {
         if (result) {
-          NontSitter.deleteOne({ email: "nontSitterTest9@kojira.com" }).then(
-            NontSitter.findOne({ email: "nontSitterTest9@kojira.com" }).then(
-              (result) => {
-                expect(result).to.be.null;
-                done();
-              }
-            )
-          );
+          NontSitter.deleteOne({
+            email: "nontSitterTest9@kojira.com",
+          }).then((err) => done());
         } else {
           done();
         }
@@ -62,7 +52,12 @@ describe("Nont Sitter Create", () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(200);
-        done();
+        NontSitter.findOne({ email: "nontSitterTest@kojira.com" }).then(
+          (result) => {
+            expect(result).to.not.be.null;
+            done();
+          }
+        );
       });
   });
   it("It should not create nont sitter with same email", (done) => {
@@ -314,8 +309,10 @@ describe("Authenticate Nont Sitter", () => {
 
 describe("Clear Up", () => {
   it("Clear up", (done) => {
-    NontSitter.deleteOne({ email: "nontSitterTest@kojira.com" }).then(
-      NontSitter.deleteOne({ email: "nontSitterTest9@kojira.com" }).then(done())
+    NontSitter.deleteOne({ email: "nontSitterTest@kojira.com" }).then(() =>
+      NontSitter.deleteOne({
+        email: "nontSitterTest9@kojira.com",
+      }).then((err) => done())
     );
   });
 });
