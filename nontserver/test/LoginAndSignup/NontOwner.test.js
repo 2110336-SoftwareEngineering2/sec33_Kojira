@@ -32,6 +32,15 @@ describe("Start Condition", () => {
       }
     });
   });
+  it("Clear the database if there is a nont owner with email 'nontOwnerTest9@test.com'", (done) => {
+    NontOwner.findOne({ name: "Kojira" }).then((result) => {
+      if (result) {
+        NontOwner.deleteOne({ name: "Kojira" }).then((err) => done());
+      } else {
+        done();
+      }
+    });
+  });
 });
 
 describe("Nont Owner Create", () => {
@@ -48,12 +57,7 @@ describe("Nont Owner Create", () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(200);
-        NontOwner.findOne({ email: "nontOwnerTest@kojira.com" }).then(
-          (result) => {
-            expect(result).to.not.be.null;
-            done();
-          }
-        );
+        done();
       });
   });
   it("It should not create nont owner with same email", (done) => {
