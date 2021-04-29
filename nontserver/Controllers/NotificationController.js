@@ -23,7 +23,16 @@ class NotificationController extends NotificationInterface {
 	}
 	setNotificationBehavior(info){
 		let NotificationContent = ""
-
+		switch (info.notiType){
+			case BehaviorType.Reservation :
+				NotificationContent = "<b>testReservationCase</b>"
+				break;
+			case BehaviorType.Payment :
+				NotificationContent = "<b>testPaymentCase</b>"
+				break;
+			case BehaviorType.Cancellation :
+				NotificationContent = "<b>testCancellationCase</b>"
+		}
 		const mailOptions = {
             from: SenderEmail,
             to: info.ReciverEmail,
