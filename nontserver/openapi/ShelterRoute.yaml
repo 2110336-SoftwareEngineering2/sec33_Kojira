@@ -344,31 +344,11 @@ components:
         schema:
           type: string
       - in: query
-        name: startMonth
-        schema:
-          type: string
-      - in: query
-        name: startYear
-        schema:
-          type: string
-      - in: query
         name: endDate
         schema:
           type: string
       - in: query
-        name: endMonth
-        schema:
-          type: string
-      - in: query
-        name: endYear
-        schema:
-          type: string
-      - in: query
-        name: lat
-        schema:
-          type: string
-      - in: query
-        name: lng
+        name: position
         schema:
           type: string
       - in: query
