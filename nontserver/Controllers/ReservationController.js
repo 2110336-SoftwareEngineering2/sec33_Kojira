@@ -176,7 +176,7 @@ class ReservationController extends InterfaceController {
             const nontowner = await this.NontSitter.findById(newBody.nontsitter_id)
         
             const info = {
-                BehaviorType : "Reservation",
+                notiType : "Reservation",
                 ReciverEmail : NontSitter.email,
                 subject : "Reservation",
                 Extra : "......." //will add more later to fill in content for each behavior

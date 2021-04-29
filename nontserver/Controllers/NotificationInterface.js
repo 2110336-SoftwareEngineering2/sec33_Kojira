@@ -3,6 +3,5 @@ class NotificationInterface{
     constructor() {
         //nothingness just like my will to live
     }
-
 }
 module.exports = NotificationInterface;
