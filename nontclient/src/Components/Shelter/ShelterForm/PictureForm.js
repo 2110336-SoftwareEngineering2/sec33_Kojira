@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "../Shelter.module.css";
 import { Upload } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 

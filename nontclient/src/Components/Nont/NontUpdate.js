@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { notification } from "antd";
+import {notification, Popconfirm} from "antd";
 import { useParams } from "react-router-dom";
 import NontService from "../../Services/NontService";
 import Contexts from "../../Utils/Context/Contexts";
@@ -36,6 +36,8 @@ const NontUpdate = (props) => {
     const [birthDateValid, setBirthDateValid] = useState(DEFAULT);
     const [medcerValid, setMedcerValid] = useState(DEFAULT);
     const [pictureValid, setPictureValid] = useState(DEFAULT);
+    const [currentPictureList, setCurrentPictureList] = useState([]);
+    const [currentMedcerList, setCurrentMedcerList] = useState([]);
 
     useEffect(() => {
         async function fetchNontOldData() {
@@ -53,6 +55,21 @@ const NontUpdate = (props) => {
                         setPicture(response.data.picture.map((image) => {
                             return {
                                 img: Buffer.from(image.img.data).toString()
+                            };
+                        }));
+                        setCurrentMedcerList([])
+                        setCurrentPictureList([])
+                        setCurrentMedcerList(response.data.medical_certificate.map((image) => {
+                            return {
+                                name: image.name,
+                                url: Buffer.from(image.img.data).toString(),
+                                status:'done'
+                            };
+                        }));
+                        setCurrentPictureList(response.data.picture.map((image) => {
+                            return {
+                                url: Buffer.from(image.img.data).toString(),
+                                status:'done'
                             };
                         }));
                         console.log(response.data.medical_certificate);
@@ -129,30 +146,61 @@ const NontUpdate = (props) => {
                     setBirthDateValid(INVALID);
                 }
                 return;
-            case "medical_certificate-input":
-                //console.log(element.currentTarget.files)
-                let file = element.currentTarget.files[0]
-                reader.onload = async (e) => {
-                    let buffer = reader.result
-                    //let binaryString = new Buffer(buffer.split(",")[1],"base64");
-                    //setMedcer([...medcer, {name:file.name,img:buffer}])
-                    setMedcer(oldArray => [...oldArray, { name: file.name, img: buffer }]);
-                    //console.log(typeof arrayBuffer)
-                    setMedcerValid(VALID)
-                }
-                reader.readAsDataURL(element.currentTarget.files[0]);
-                return
-            case "picture-input":
-                reader.onload = async (e) => {
-                    let buffer2 = reader.result;
-                    //setPicture([...picture, {img:buffer2}]);
-                    setPicture(oldArray => [...oldArray, { img: buffer2 }]);
-                    setPictureValid(VALID);
-                }
-                reader.readAsDataURL(element.currentTarget.files[0]);
-                return
         }
     }
+
+    const onPreview = async file => {
+        let src = file.url;
+        if (!src) {
+          src = await new Promise(resolve => {
+            let reader = new FileReader();
+            reader.readAsDataURL(file.originFileObj);
+            reader.onload = () => resolve(reader.result);
+          });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow.document.write(image.outerHTML);
+      };
+
+    const pictureOnChange = async ({ fileList: newFileList }) => {
+        setPictureValid(VALID)
+        setCurrentPictureList(newFileList);
+        setPicture([])
+        for (var f of newFileList){
+            let file = f.originFileObj?f.originFileObj:f
+            if(f.originFileObj){
+                let buffer = await new Promise(resolve => {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                });
+                setPicture(oldArray => [...oldArray, {img:buffer}])
+            } else {
+                setPicture(oldArray => [...oldArray, {img:file.url}])
+            }      
+        }
+    };
+
+    const medCerOnChange = async ({ fileList: newFileList }) => {
+        setMedcerValid(VALID)
+        setCurrentMedcerList(newFileList);
+        setMedcer([])
+        for (var f of newFileList){
+            let file = f.originFileObj?f.originFileObj:f
+            if(f.originFileObj){
+                let buffer = await new Promise(resolve => {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                });
+                setMedcer(oldArray => [...oldArray, {name:file.name,img:buffer}])
+            } else {
+                setMedcer(oldArray => [...oldArray, {name:file.name,img:file.url}])
+            }      
+        }
+    };
 
     async function submitUpdate() {
         const body = {
@@ -203,10 +251,22 @@ const NontUpdate = (props) => {
                         submitUpdate();
                     }}
                     >
-                        <NameForm
+                        <div className="row">
+                            <NameForm
+                                onChange={handleFormChange}
+                                defaultValue={nont.name}
+                                valid={nameValid}
+                            />
+                            <BirthDateForm
+                                onChange={handleFormChange}
+                                defaultValue={nont.birth_date}
+                                valid={birthDateValid}
+                            />
+                        </div>
+                        <DescriptionForm
                             onChange={handleFormChange}
-                            defaultValue={nont.name}
-                            valid={nameValid}
+                            defaultValue={nont.description}
+                            valid={descriptionValid}
                         />
                         <div className="row">
                             <TypeForm
@@ -220,27 +280,19 @@ const NontUpdate = (props) => {
                                 valid={subtypeValid}
                             />
                         </div>
-                        <DescriptionForm
-                            onChange={handleFormChange}
-                            defaultValue={nont.description}
-                            valid={descriptionValid}
-                        />
-                        <div className="row">
-                            <BirthDateForm
-                                onChange={handleFormChange}
-                                defaultValue={nont.birth_date}
-                                valid={birthDateValid}
-                            />
-                            <MedicalCertificateForm
-                                onChange={handleFormChange}
-                            />
-                            <PictureForm
-                                onChange={handleFormChange}
-                            />
-                        </div>
-                        <div className="text-danger" style={{ paddingLeft: "50%" }}>
+                        {/* {<div className="text-danger" style={{ paddingLeft: "50%" }}>
                             Overall pictures and medical certificates size must less than 3MB (image files only)
-                        </div>
+                        </div>} */}
+                        <PictureForm
+                            onFormChange={pictureOnChange}
+                            listFile={currentPictureList}
+                            onPreview={onPreview}
+                        />
+                        <MedicalCertificateForm
+                            onFormChange={medCerOnChange}
+                            listFile={currentMedcerList}
+                            onPreview={onPreview}
+                        />
                         <div className="m-5 text-center">
                             <button
                                 className="button-text btn btn-primary"

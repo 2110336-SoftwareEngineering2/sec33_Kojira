@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import {notification,} from "antd";
+import {notification, Popconfirm} from "antd";
 import ShelterService from "../../Services/ShelterService";
 import Contexts from "../../Utils/Context/Contexts";
 import { useParams } from "react-router-dom";
@@ -17,7 +17,6 @@ import PhoneNumberForm from "./ShelterForm/PhoneNumberForm";
 import LicenseForm from "./ShelterForm/LicenseForm";
 import AddressForm from "./ShelterForm/AddressForm";
 import PictureForm from "./ShelterForm/PictureForm";
-import { Popconfirm } from "antd";
 
 const UserContext = Contexts.UserContext;
 const reader = new FileReader();
@@ -35,6 +34,7 @@ const ShelterUpdate = (props) => {
                     if (response.data) {
                         console.log(response.data)
                         setShelter(response.data);
+                        console.log(response.data.picture)
                         setCurrentPictureList([])
                         setCurrentLicenseList([])
                         for(var p of response.data.picture){
@@ -66,10 +66,10 @@ const ShelterUpdate = (props) => {
     const [phoneNumberValid, setPhoneNumberValid] = useState(DEFAULT);
     const [addressValid, setAddressValid] = useState(DEFAULT);
     const [coordinateValid, setCoordinateValid] = useState(DEFAULT);
-    const [licenseValid, setLicenseValid] = useState(DEFAULT);
-    const [pictureValid, setPictureValid] = useState(DEFAULT);
     const [currentPictureList, setCurrentPictureList] = useState([]);
     const [currentLicenseList, setCurrentLicenseList] = useState([]);
+    const [licenseValid, setLicenseValid] = useState(DEFAULT);
+    const [pictureValid, setPictureValid] = useState(DEFAULT);
 
     const validator = {
         //Check unique name
@@ -166,6 +166,7 @@ const ShelterUpdate = (props) => {
       };
 
     const pictureOnChange = async ({ fileList: newFileList }) => {
+        setPictureValid(VALID)
         setCurrentPictureList(newFileList);
         setPicture([])
         for (var f of newFileList){
@@ -184,6 +185,7 @@ const ShelterUpdate = (props) => {
     };
 
     const licenseOnChange = async ({ fileList: newFileList }) => {
+        setLicenseValid(VALID)
         setCurrentLicenseList(newFileList);
         setLicense([])
         for (var f of newFileList){
@@ -217,8 +219,8 @@ const ShelterUpdate = (props) => {
             rate: shelter.rate,
             nont_sitter_id: value._id
             }
-        if (picture.length>0){body.picture = picture}
-        if (license.length>0){body.license = license}
+        if (pictureValid===VALID){body.picture = picture}
+        if (licenseValid===VALID){body.license = license}
         // console.log(shelterID)
         // console.log(body.coordinate)
         // console.log(document.getElementById("name-input").value)

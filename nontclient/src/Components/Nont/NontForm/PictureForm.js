@@ -1,26 +1,29 @@
 import React from "react";
-import {
-  VALID,
-  DEFAULT,
-} from "../../../Constants/FormValidity";
+import { Upload } from "antd";
+import { PlusOutlined } from '@ant-design/icons';
 
 const PictureForm = (props) => {
     return(
-    <div className="col m-4 mb-3">
-        <label htmlFor="picture-input"  className="emphasis form-label">
-            Picture
-        </label>
-        <input 
-            className="form-control-file" 
-            type="file" 
-            id="picture-input"
-            name="picture" 
-            onChange={props.onChange}
-            defaultValue = {props.defaultValue}
-            multiple
-        />
+        <div className="row">
+        <div className="col m-4">
+            <label htmlFor="picture-input"  className="emphasis form-label">
+                Picture
+            </label>
+            <Upload
+                beforeUpload={() => false}
+                listType="picture-card"
+                onChange={props.onFormChange}
+                fileList={props.listFile}
+                onPreview={props.onPreview}
+            > 
+                <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+            </Upload>
+        </div>
     </div>
     )
 }
 
-export default PictureForm;
+export default PictureForm

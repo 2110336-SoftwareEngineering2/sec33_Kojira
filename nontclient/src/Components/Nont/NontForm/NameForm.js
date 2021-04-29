@@ -10,7 +10,6 @@ import {
 
 const NameForm = (props) => {
   return (
-    <div className="row">
       <div className="col m-4">
         <label htmlFor="name-input" className="emphasis form-label">
           Name{" "}
@@ -45,7 +44,6 @@ const NameForm = (props) => {
         </div>}
 
       </div>
-    </div>
   );
 };
 
