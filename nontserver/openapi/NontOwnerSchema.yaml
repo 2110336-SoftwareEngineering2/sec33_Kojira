@@ -20,11 +20,29 @@ res:
         type: string
       __v:
         type: integer
+  
   NontOwners:
     description: array of NontOwner
     type: array
     items:
       $ref: "#/res/NontOwner"
+  
+  NontOwnerCheckEmail:
+    type : object
+    properties:
+      status:
+        type: boolean
+      exists:
+        type: boolean
+
+  NontOwnerCheckName:
+    type : object
+    properties:
+      status:
+        type: boolean
+      exists:
+        type: boolean
+
   NontOwnerWithoutPassword:
     type: object
     properties:
