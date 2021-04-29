@@ -179,7 +179,7 @@ class ReservationController extends InterfaceController {
                 BehaviorType : "Reservation",
                 ReciverEmail : NontSitter.email,
                 subject : "Reservation",
-                Extra : "......."
+                Extra : "......." //will add more later to fill in content for each behavior
             }
             NotificationBehavior = new NotificationController(info)
             NotificationBehavior.notify()
