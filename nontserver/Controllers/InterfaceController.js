@@ -16,6 +16,10 @@ class InterfaceController {
         this.Review = require("../Models/Review");
 
         this.nontTypes = require('../Constants/nontTypes');
+    
+        this.CancelNotification = require("../Notification/CancelNotification");
+        this.ReserveNotification = require("../Notification/ReserveNotification");
+        this.PaymentNotification = require("../Notification/PaymentNotification");
     }
 
     create = async (req,res) => {}

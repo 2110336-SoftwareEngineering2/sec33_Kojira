@@ -1,8 +1,5 @@
 "use strict";
 const InterfaceController = require("./InterfaceController");
-const { NontSitter } = require("./NontOwnerController");
-const NontOwnerController = require("./NontOwnerController");
-const NotificationController = require("./NotificationController");
 
 class ReservationController extends InterfaceController {
     constructor() {
@@ -174,17 +171,17 @@ class ReservationController extends InterfaceController {
             const newReservation = await this.Reservation.create(newBody);
 
             const nontowner = await this.NontSitter.findById(newBody.nontsitter_id)
-        
+            
+            //notification
             const info = {
                 notiType : "Reservation",
                 ReciverEmail : NontSitter.email,
                 subject : "Reservation",
                 Extra : "......." //will add more later to fill in content for each behavior
             }
-            NotificationBehavior = new NotificationController(info)
-            NotificationBehavior.notify()
-        
-            //console.log(nontowner.email)
+            NotificationController.setNotificationBehavior(this.ReserveNotification)
+            NotificationBehavior.notify(info)
+    
             return res.send(newReservation);
         }
         catch(error){
@@ -304,6 +301,17 @@ class ReservationController extends InterfaceController {
             const newQuery = {_id: this.mongoose.Types.ObjectId(req.params.id)}; //reservation id
             const newUpdate = {status: 'cancelled', cancel_datetime: now.toString()};
             const updatedReservation = await this.Reservation.findByIdAndUpdate(newQuery,newUpdate);
+            
+            //notification
+            const info = {
+                notiType : "Reservation",
+                ReciverEmail : NontSitter.email,
+                subject : "Reservation",
+                Extra : "......." //will add more later to fill in content for each behavior
+            }
+            NotificationBehavior.setNotificationBehavior(this.CancelNotification)
+            NotificationBehavior.notify(info)
+            
             return res.send(updatedReservation);      
         }
         catch(error){

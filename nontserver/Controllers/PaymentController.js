@@ -15,6 +15,17 @@ const controller = {
           { _id: req.query.reserveId },
           { status: "paid" }
         ).then(() => {
+          
+          //notification
+        const info = {
+          notiType : "Reservation",
+          // ReciverEmail : NontSitter.email, cant now grab from here right now... 
+          subject : "Reservation",
+          Extra : "......." //will add more later to fill in content for each behavior
+        }
+        NotificationController.setNotificationBehavior(this.PaymentNotification)
+        NotificationBehavior.notify(info)
+
           res.send("payment finished");
         }).catch((err => {
           res.statusCode = 500;
