@@ -1,18 +1,18 @@
 // "use strict"; do i need this?
 
+const nodemailer = require('nodemailer');
+const senderEmail = "nontification.nontcompany@gmail.com"
+const senderPassword = "nont123zaz"
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+    user: senderEmail,
+    pass: senderPassword        
+    }
+});
+
 class NotificationController {
     constructor() {
-        const nodemailer = require('nodemailer');
-        const senderEmail = "nontification.nontcompany@gmail.com"
-        const senderPassword = "nont123zaz"
-        
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-              user: senderEmail,
-              pass: senderPassword        
-            }
-          });
     }
 
     ReservationNotify(info){
