@@ -3,6 +3,8 @@
     description: fetch all nont sitters
     tags:
       - nontSitters
+    security:
+      - bearerAuth: []
     responses:
       200:
         description: Success Response
@@ -40,6 +42,8 @@
     description: update nont sitter
     tags:
       - nontSitters
+    security:
+      - bearerAuth: []
     requestBody:
       required: true
       content:
@@ -83,6 +87,8 @@
     description: fetch one nont sitter using nont sitter id
     tags:
       - nontSitters
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -96,6 +102,146 @@
           application/json:
             schema:
               $ref: "NontSitterSchema.yaml#/res/NontSitterWithoutPassword"
+      404:
+        $ref: "#/components/responseMessage/status404"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontSitters/check-email:
+  post:
+    description: check and validate if email is allowed.
+    tags:
+      - nontSitters
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontSitterSchema.yaml#/res/NontSitterCheckEmail"
+
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
+      404:
+        $ref: "#/components/responseMessage/status404"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontSitters/check-name:
+  post:
+    description: check and validate if name is allowed.
+    tags:
+      - nontSitters
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontSitterSchema.yaml#/res/NontSitterCheckName"
+
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
+      404:
+        $ref: "#/components/responseMessage/status404"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontSitters/admin_update/{id}:
+  put:
+    description: update nontSitters infomation in database by admin action
+    tags:
+      - nontSitters
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              _id:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              name:
+                type: string
+              phoneNumber:
+                type: string
+              bankAccount:
+                type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontSitterSchema.yaml#/res/NontSitters"
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
+      404:
+        $ref: "#/components/responseMessage/status404"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontSitters/remove/{id}:
+  delete:
+    description: remove NontSitter
+    tags:
+      - nontSitters
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: The NontSitter account was successfully removed.
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
       404:
         $ref: "#/components/responseMessage/status404"
       500:

@@ -3,6 +3,8 @@
     description: fetch all nont owners
     tags:
       - nontOwners
+    security:
+      - bearerAuth: []
     responses:
       200:
         description: Success Response
@@ -40,6 +42,8 @@
     description: update nont owner
     tags:
       - nontOwners
+    security:
+      - bearerAuth: []
     requestBody:
       required: true
       content:
@@ -83,6 +87,8 @@
     description: fetch one nont owner using nont owner id
     tags:
       - nontOwners
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -96,6 +102,146 @@
           application/json:
             schema:
               $ref: "NontOwnerSchema.yaml#/res/NontOwnerWithoutPassword"
+      404:
+        $ref: "#/components/responseMessage/status404"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontOwners/check-email:
+  post:
+    description: check and validate if email is allowed.
+    tags:
+      - nontOwners
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontOwnerSchema.yaml#/res/NontOwnerCheckEmail"
+
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
+      404:
+        $ref: "#/components/responseMessage/status404"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontOwners/check-name:
+  post:
+    description: check and validate if name is allowed.
+    tags:
+      - nontOwners
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontOwnerSchema.yaml#/res/NontOwnerCheckName"
+
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
+      404:
+        $ref: "#/components/responseMessage/status404"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontOwners/admin_update/{id}:
+  put:
+    description: update nontOwners infomation in database by admin action
+    tags:
+      - nontOwners
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              _id:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              name:
+                type: string
+              phoneNumber:
+                type: string
+              bankAccount:
+                type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          application/json:
+            schema:
+              $ref: "NontOwnerSchema.yaml#/res/NontOwners"
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
+      404:
+        $ref: "#/components/responseMessage/status404"
+      500:
+        $ref: "#/components/responseMessage/status500"
+
+/nontOwners/remove/{id}:
+  delete:
+    description: remove NontOwner
+    tags:
+      - nontOwners
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Success Response
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: The NontOwner account was successfully removed.
+      400:
+        $ref: "#/components/responseMessage/status400"
+      403:
+        $ref: "#/components/responseMessage/status403"
       404:
         $ref: "#/components/responseMessage/status404"
       500:
