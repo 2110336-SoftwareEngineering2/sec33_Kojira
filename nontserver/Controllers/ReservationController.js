@@ -1,5 +1,8 @@
 "use strict";
 const InterfaceController = require("./InterfaceController");
+const { NontSitter } = require("./NontOwnerController");
+const NontOwnerController = require("./NontOwnerController");
+const NotificationController = require("./NotificationController");
 
 class ReservationController extends InterfaceController {
     constructor() {
@@ -94,6 +97,7 @@ class ReservationController extends InterfaceController {
             return res.status(400).send(validationResult.error.details[0].message);
         }
         try{ //assume that the selected nonts (to reserve) are all belongs to 1 nontowner
+            //console.log(this.NontOwner.Email)
             const now = new Date();
             //1. check if start_datetime must less than end_datetime
             if(req.body.end_datetime <= req.body.start_datetime) return res.status(403).send("start/end datetime is invalid");
@@ -168,6 +172,19 @@ class ReservationController extends InterfaceController {
                 cancel_datetime: ''
             };
             const newReservation = await this.Reservation.create(newBody);
+
+            const nontowner = await this.NontSitter.findById(newBody.nontsitter_id)
+        
+            const info = {
+                BehaviorType : "Reservation",
+                ReciverEmail : NontSitter.email,
+                subject : "Reservation",
+                Extra : "......."
+            }
+            NotificationBehavior = new NotificationController(info)
+            NotificationBehavior.notify()
+        
+            //console.log(nontowner.email)
             return res.send(newReservation);
         }
         catch(error){
