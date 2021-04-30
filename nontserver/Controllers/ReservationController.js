@@ -1,5 +1,7 @@
 "use strict";
 const InterfaceController = require("./InterfaceController");
+const NotificationController = require("../Notification/NotificationController");
+
 
 class ReservationController extends InterfaceController {
     constructor() {
@@ -94,6 +96,7 @@ class ReservationController extends InterfaceController {
             return res.status(400).send(validationResult.error.details[0].message);
         }
         try{ //assume that the selected nonts (to reserve) are all belongs to 1 nontowner
+            //console.log(this.NontOwner.Email)
             const now = new Date();
             //1. check if start_datetime must less than end_datetime
             if(req.body.end_datetime <= req.body.start_datetime) return res.status(403).send("start/end datetime is invalid");
@@ -168,6 +171,24 @@ class ReservationController extends InterfaceController {
                 cancel_datetime: ''
             };
             const newReservation = await this.Reservation.create(newBody);
+            
+            //const NontSitter = await this.NontSitter.findById(newBody.nontsitter_id)
+            //notification
+            
+            const nontSitter = await this.NontSitter.findById(newBody.nontsitter_id)
+            const info = {
+                ReciverEmail : nontSitter.email,
+                Subject : "Reservation have been maded for your " + room.name +" room",
+                roomName : room.name,
+                nontSitterName : nontSitter.name,
+                start_datetime : newBody.start_datetime,
+                end_datetime : newBody.end_datetime,
+                price : newBody.price
+            }
+            NotificationController.setNotificationBehavior(this.ReserveNotification)
+            NotificationController.notify(info)
+        
+            //console.log(NontSitter.email)
             return res.send(newReservation);
         }
         catch(error){
@@ -287,6 +308,23 @@ class ReservationController extends InterfaceController {
             const newQuery = {_id: this.mongoose.Types.ObjectId(req.params.id)}; //reservation id
             const newUpdate = {status: 'cancelled', cancel_datetime: now.toString()};
             const updatedReservation = await this.Reservation.findByIdAndUpdate(newQuery,newUpdate);
+            
+            //notification
+            const NontSitter = await this.NontSitter.findById(reservation.nontsitter_id)
+            const room = await this.Room.findById(reservation.room_id)
+            
+            const info = {
+                ReciverEmail : NontSitter.email,
+                Subject : "Reservation cancel notice",
+                roomName : room.name,
+                nontSitterName : reservation.name,
+                start_datetime : reservation.start_datetime,
+                end_datetime : reservation.end_datetime,
+                price : reservation.price
+            }
+            NotificationController.setNotificationBehavior(this.CancelNotification)
+            NotificationController.notify(info)
+        
             return res.send(updatedReservation);      
         }
         catch(error){
