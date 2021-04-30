@@ -15,36 +15,43 @@ const controller = {
         res.send("code not match");
       } else {
         //console.log("QR scanned");
+        try {
+          const ToBeUpdatedReservation = await Reservation.findById(
+            req.query.reserveId
+          );
+          const nontSitter = await NontSitter.findById(
+            ToBeUpdatedReservation.nontsitter_id
+          );
+          const room = await Rooms.findById(ToBeUpdatedReservation.room_id);
+          const info = {
+            ReciverEmail: nontSitter.email,
+            Subject: "Reservation's payment completed",
+            roomName: room.name,
+            nontSitterName: ToBeUpdatedReservation.name,
+            start_datetime: ToBeUpdatedReservation.start_datetime,
+            end_datetime: ToBeUpdatedReservation.end_datetime,
+            price: ToBeUpdatedReservation.price,
+          };
 
-        const ToBeUpdatedReservation = await Reservation.findById(
-          req.query.reserveId
-        );
-        //console.log(ToBeUpdatedReservation)
-        const nontSitter = await NontSitter.findById(
-          ToBeUpdatedReservation.nontsitter_id
-        );
-        const room = await Rooms.findById(ToBeUpdatedReservation.room_id);
-        const info = {
-          ReciverEmail: nontSitter.email,
-          Subject: "Reservation's payment completed",
-          roomName: room.name,
-          nontSitterName: ToBeUpdatedReservation.name,
-          start_datetime: ToBeUpdatedReservation.start_datetime,
-          end_datetime: ToBeUpdatedReservation.end_datetime,
-          price: ToBeUpdatedReservation.price,
-        };
+          NotificationController.setNotificationBehavior(PaymentNotification);
+          NotificationController.notify(info);
 
-        NotificationController.setNotificationBehavior(PaymentNotification);
-        NotificationController.notify(info);
-
-        Reservation.updateOne({ _id: req.query.reserveId }, { status: "paid" })
-          .then(async () => {
-            res.send("payment finished");
-          })
-          .catch((err) => {
-            res.statusCode = 500;
-            res.send("can't make payment because reserve id is not found");
-          });
+          Reservation.updateOne(
+            { _id: req.query.reserveId },
+            { status: "paid" }
+          )
+            .then(async () => {
+              res.send("payment finished");
+            })
+            .catch((err) => {
+              res.statusCode = 500;
+              res.send("can't make payment because reserve id is not found");
+            });
+        } catch (err) {
+          res
+            .status(500)
+            .send("can't make payment because reserve id is not found");
+        }
       }
     } catch (err) {
       res.statusCode = 500;
