@@ -24,7 +24,7 @@ describe("Start Condition", () => {
 });
 
 describe("SignUp Process", () => {
-  it("It should create admin", (done) => {
+  it("TC2-25: It should create admin", (done) => {
     chai
       .request(app)
       .post("/admin/create")
@@ -46,7 +46,7 @@ describe("SignUp Process", () => {
         });
       });
   });
-  it("It should not create admin if the secret is not correct", (done) => {
+  it("TC2-26: It should not create admin if the secret is not correct", (done) => {
     chai
       .request(app)
       .post("/admin/create")
@@ -62,7 +62,7 @@ describe("SignUp Process", () => {
         done();
       });
   });
-  it("It should not create admin if the email format is not correct", (done) => {
+  it("TC2-27: It should not create admin if the email format is not correct", (done) => {
     chai
       .request(app)
       .post("/admin/create")
@@ -81,7 +81,7 @@ describe("SignUp Process", () => {
         done();
       });
   });
-  it("It should not create admin if the fields are not valid", (done) => {
+  it("TC2-28: It should not create admin if the fields are not valid", (done) => {
     chai
       .request(app)
       .post("/admin/create")
@@ -99,7 +99,7 @@ describe("SignUp Process", () => {
         done();
       });
   });
-  it("It should not create admin if the email is already in the database", (done) => {
+  it("TC2-29: It should not create admin if the email is already in the database", (done) => {
     chai
       .request(app)
       .post("/admin/create")
@@ -121,7 +121,7 @@ describe("SignUp Process", () => {
 });
 
 describe("login APIs", () => {
-  it("It should login Admin", (done) => {
+  it("TC2-38: It should login Admin", (done) => {
     chai
       .request(app)
       .post("/admin/login")
@@ -137,10 +137,46 @@ describe("login APIs", () => {
         done();
       });
   });
+  it("TC2-39: It should know that the password is incorrect", (done) => {
+    chai
+      .request(app)
+      .post("/admin/login")
+      .type("form")
+      .send({ email: testAdminEmail, password: "incorrectpassword" })
+      .end((err, res) => {
+        expect(res.body.login).to.be.false;
+        expect(res.body.error).to.not.be.undefined;
+        done();
+      });
+  });
+  it("TC2-40: It should know that the email is incorrect", (done) => {
+    chai
+      .request(app)
+      .post("/admin/login")
+      .type("form")
+      .send({ email: "incorrect@test.com", password: "testpassword" })
+      .end((err, res) => {
+        expect(res.body.login).to.be.false;
+        expect(res.body.error).to.not.be.undefined;
+        done();
+      });
+  });
+  it("TC2-41: It should know that the email and password are incorrect", (done) => {
+    chai
+      .request(app)
+      .post("/admin/login")
+      .type("form")
+      .send({ email: "incorrect@test.com", password: "incorrectpassword" })
+      .end((err, res) => {
+        expect(res.body.login).to.be.false;
+        expect(res.body.error).to.not.be.undefined;
+        done();
+      });
+  });
 });
 
 describe("Authenticate token", () => {
-  it("It should authenticate token for Admin", (done) => {
+  it("TC2-44: It should authenticate token for Admin", (done) => {
     chai
       .request(app)
       .post("/users/auth")

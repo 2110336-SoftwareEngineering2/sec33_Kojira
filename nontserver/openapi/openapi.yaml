@@ -2,9 +2,9 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: Nont API
-  description: ''
+  description: ""
 servers:
-  - description: Nont server 
+  - description: Nont server
     url: https://nontserver.herokuapp.com
   - description: Localhost server
     url: http://localhost:5000
@@ -19,137 +19,153 @@ components:
 paths:
   # nontOwners
   /nontOwners:
-    $ref: 'NontOwnerRoute.yaml#/~1nontOwners'
+    $ref: "NontOwnerRoute.yaml#/~1nontOwners"
   /nontOwners/{id}:
-    $ref: 'NontOwnerRoute.yaml#/~1nontOwners~1{id}'
+    $ref: "NontOwnerRoute.yaml#/~1nontOwners~1{id}"
+  /nontOwners/check-email:
+    $ref: "NontOwnerRoute.yaml#/~1nontOwners~1check-email"
+  /nontOwners/check-name:
+    $ref: "NontOwnerRoute.yaml#/~1nontOwners~1check-name"
+  /nontOwners/admin_update/{id}:
+    $ref: "NontOwnerRoute.yaml#/~1nontOwners~1admin_update~1{id}"
+  /nontOwners/remove/{id}:
+    $ref: "NontOwnerRoute.yaml#/~1nontOwners~1remove~1{id}"
   # nontSitters
   /nontSitters:
-    $ref: 'NontSitterRoute.yaml#/~1nontSitters'
+    $ref: "NontSitterRoute.yaml#/~1nontSitters"
   /nontSitters/{id}:
-    $ref: 'NontSitterRoute.yaml#/~1nontSitters~1{id}'
+    $ref: "NontSitterRoute.yaml#/~1nontSitters~1{id}"
+  /nontSitters/check-email:
+    $ref: "NontSitterRoute.yaml#/~1nontSitters~1check-email"
+  /nontSitters/check-name:
+    $ref: "NontSitterRoute.yaml#/~1nontSitters~1check-name"
+  /nontSitters/admin_update/{id}:
+    $ref: "NontSitterRoute.yaml#/~1nontSitters~1admin_update~1{id}"
+  /nontSitters/remove/{id}:
+    $ref: "NontSitterRoute.yaml#/~1nontSitters~1remove~1{id}"
   # room
   /room:
-    $ref: 'RoomRoute.yaml#/~1room'
+    $ref: "RoomRoute.yaml#/~1room"
   /room/id/{id}:
-    $ref: 'RoomRoute.yaml#/~1room~1id~1{id}'
+    $ref: "RoomRoute.yaml#/~1room~1id~1{id}"
   /room/name/{name}:
-    $ref: 'RoomRoute.yaml#/~1room~1name~1{name}'
+    $ref: "RoomRoute.yaml#/~1room~1name~1{name}"
   /room/nont-type/{type}:
-    $ref: 'RoomRoute.yaml#/~1room~1nont-type~1{type}'
+    $ref: "RoomRoute.yaml#/~1room~1nont-type~1{type}"
   /room/shelterid/{id}:
-    $ref: 'RoomRoute.yaml#/~1room~1shelterid~1{id}'
+    $ref: "RoomRoute.yaml#/~1room~1shelterid~1{id}"
   /room/update/{id}:
-    $ref: 'RoomRoute.yaml#/~1room~1update~1{id}'
+    $ref: "RoomRoute.yaml#/~1room~1update~1{id}"
   /room/delete/{id}:
-    $ref: 'RoomRoute.yaml#/~1room~1delete~1{id}'
+    $ref: "RoomRoute.yaml#/~1room~1delete~1{id}"
   /room/remove/{id}:
-    $ref: 'RoomRoute.yaml#/~1room~1remove~1{id}'
+    $ref: "RoomRoute.yaml#/~1room~1remove~1{id}"
   /room/admin_update/{id}:
-    $ref: 'RoomRoute.yaml#/~1room~1admin_update~1{id}'
+    $ref: "RoomRoute.yaml#/~1room~1admin_update~1{id}"
   /room/admin_get/{id}:
-    $ref: 'RoomRoute.yaml#/~1room~1admin_get~1{id}'
+    $ref: "RoomRoute.yaml#/~1room~1admin_get~1{id}"
   # shelter
   /shelter:
-    $ref: 'ShelterRoute.yaml#/~1shelter'
+    $ref: "ShelterRoute.yaml#/~1shelter"
   /shelter/allShelters:
-    $ref: 'ShelterRoute.yaml#/~1shelter~1allShelters'
+    $ref: "ShelterRoute.yaml#/~1shelter~1allShelters"
   /shelter/id/{id}:
-    $ref: 'ShelterRoute.yaml#/~1shelter~1id~1{id}'
+    $ref: "ShelterRoute.yaml#/~1shelter~1id~1{id}"
   /shelter/nontsitterid/{id}:
-    $ref: 'ShelterRoute.yaml#/~1shelter~1nontsitterid~1{id}'
+    $ref: "ShelterRoute.yaml#/~1shelter~1nontsitterid~1{id}"
   /shelter/name/{name}:
-    $ref: 'ShelterRoute.yaml#/~1shelter~1name~1{name}'
+    $ref: "ShelterRoute.yaml#/~1shelter~1name~1{name}"
   /shelter/delete/{id}:
-    $ref: 'ShelterRoute.yaml#/~1shelter~1delete~1{id}'
+    $ref: "ShelterRoute.yaml#/~1shelter~1delete~1{id}"
   /shelter/check-name:
-    $ref: 'ShelterRoute.yaml#/~1shelter~1check-name'
+    $ref: "ShelterRoute.yaml#/~1shelter~1check-name"
   /shelter/findShelters:
-    $ref: 'ShelterRoute.yaml#/~1shelter~1findShelters'
+    $ref: "ShelterRoute.yaml#/~1shelter~1findShelters"
   /shelter/remove/{id}:
-    $ref: 'ShelterRoute.yaml#/~1shelter~1remove~1{id}'
+    $ref: "ShelterRoute.yaml#/~1shelter~1remove~1{id}"
   /shelter/admin_update/{id}:
-    $ref: 'ShelterRoute.yaml#/~1shelter~1admin_update~1{id}'
+    $ref: "ShelterRoute.yaml#/~1shelter~1admin_update~1{id}"
   /shelter/admin_get/{id}:
-    $ref: 'ShelterRoute.yaml#/~1shelter~1admin_get~1{id}'
+    $ref: "ShelterRoute.yaml#/~1shelter~1admin_get~1{id}"
   # nont
   /nont:
-    $ref: 'NontRoute.yaml#/~1nont'
+    $ref: "NontRoute.yaml#/~1nont"
   /nont/{id}:
-    $ref: 'NontRoute.yaml#/~1nont~1{id}'
+    $ref: "NontRoute.yaml#/~1nont~1{id}"
   /nont/name/{name}:
-    $ref: 'NontRoute.yaml#/~1nont~1name~1{name}'
+    $ref: "NontRoute.yaml#/~1nont~1name~1{name}"
   /nont/type/{type}:
-    $ref: 'NontRoute.yaml#/~1nont~1type~1{type}'
+    $ref: "NontRoute.yaml#/~1nont~1type~1{type}"
   /nont/nontowner_id/{id}:
-    $ref: 'NontRoute.yaml#/~1nont~1nontowner_id~1{id}'
+    $ref: "NontRoute.yaml#/~1nont~1nontowner_id~1{id}"
   /nont/create:
-    $ref: 'NontRoute.yaml#/~1nont~1create'
+    $ref: "NontRoute.yaml#/~1nont~1create"
   /nont/update/{id}:
-    $ref: 'NontRoute.yaml#/~1nont~1update~1{id}'
+    $ref: "NontRoute.yaml#/~1nont~1update~1{id}"
   /nont/delete/{id}:
-    $ref: 'NontRoute.yaml#/~1nont~1delete~1{id}'
+    $ref: "NontRoute.yaml#/~1nont~1delete~1{id}"
   /nont/remove/{id}:
-    $ref: 'NontRoute.yaml#/~1nont~1remove~1{id}'
+    $ref: "NontRoute.yaml#/~1nont~1remove~1{id}"
   /nont/admin_update/{id}:
-    $ref: 'NontRoute.yaml#/~1nont~1admin_update~1{id}'
+    $ref: "NontRoute.yaml#/~1nont~1admin_update~1{id}"
   # reservation
   /reservation:
-    $ref: 'ReservationRoute.yaml#/~1reservation'
+    $ref: "ReservationRoute.yaml#/~1reservation"
   /reservation/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1{id}"
   /reservation/unpop/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1unpop~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1unpop~1{id}"
   /reservation/nontowner_id/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1nontowner_id~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1nontowner_id~1{id}"
   /reservation/nontsitter_id/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1nontsitter_id~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1nontsitter_id~1{id}"
   /reservation/shelter_id/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1shelter_id~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1shelter_id~1{id}"
   /reservation/room_id/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1room_id~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1room_id~1{id}"
   /reservation/create:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1create'
+    $ref: "ReservationRoute.yaml#/~1reservation~1create"
   /reservation/verify_check_in/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1verify_check_in~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1verify_check_in~1{id}"
   /reservation/check_in/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1check_in~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1check_in~1{id}"
   /reservation/verify_check_out/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1verify_check_out~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1verify_check_out~1{id}"
   /reservation/check_out/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1check_out~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1check_out~1{id}"
   /reservation/cancel/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1cancel~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1cancel~1{id}"
   /reservation/remove/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1remove~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1remove~1{id}"
   /reservation/admin_update/{id}:
-    $ref: 'ReservationRoute.yaml#/~1reservation~1admin_update~1{id}'
+    $ref: "ReservationRoute.yaml#/~1reservation~1admin_update~1{id}"
   #review
   /review:
-    $ref: 'ReviewRoute.yaml#/~1review'
+    $ref: "ReviewRoute.yaml#/~1review"
   /review/{id}:
-    $ref: 'ReviewRoute.yaml#/~1review~1{id}'
+    $ref: "ReviewRoute.yaml#/~1review~1{id}"
   /review/reservationid/{id}:
-    $ref: 'ReviewRoute.yaml#/~1review~1reservationid~1{id}'
+    $ref: "ReviewRoute.yaml#/~1review~1reservationid~1{id}"
   /review/shelterid/{id}:
-    $ref: 'ReviewRoute.yaml#/~1review~1shelterid~1{id}'
+    $ref: "ReviewRoute.yaml#/~1review~1shelterid~1{id}"
   /review/nontownerid/{id}:
-    $ref: 'ReviewRoute.yaml#/~1review~1nontownerid~1{id}'
+    $ref: "ReviewRoute.yaml#/~1review~1nontownerid~1{id}"
   /review/remove/{id}:
-    $ref: 'ReviewRoute.yaml#/~1review~1remove~1{id}'
+    $ref: "ReviewRoute.yaml#/~1review~1remove~1{id}"
   /review/admin_update/{id}:
-    $ref: 'ReviewRoute.yaml#/~1review~1admin_update~1{id}'
+    $ref: "ReviewRoute.yaml#/~1review~1admin_update~1{id}"
   #admin
   /nontOwners/login:
-    $ref: 'LoginRoute.yaml#/~1nontOwners~1login'
+    $ref: "LoginRoute.yaml#/~1nontOwners~1login"
   /nontSitters/login:
-    $ref: 'LoginRoute.yaml#/~1nontSitters~1login'
+    $ref: "LoginRoute.yaml#/~1nontSitters~1login"
   /admin/login:
-    $ref: 'AdminRoute.yaml#/~1admin~1login'
+    $ref: "AdminRoute.yaml#/~1admin~1login"
   /admin/create:
-    $ref: 'AdminRoute.yaml#/~1admin~1create'
+    $ref: "AdminRoute.yaml#/~1admin~1create"
   /payment/getCode:
-    $ref: 'PaymentRoute.yaml#/~1payment~1getCode'
+    $ref: "PaymentRoute.yaml#/~1payment~1getCode"
   /payment/QR:
-    $ref: 'PaymentRoute.yaml#/~1payment~1QR'
+    $ref: "PaymentRoute.yaml#/~1payment~1QR"
   /users/auth:
-    $ref: 'AuthenticationRoute.yaml#/~1users~1auth'
+    $ref: "AuthenticationRoute.yaml#/~1users~1auth"

@@ -36,10 +36,19 @@ describe("Start Condition", () => {
       }
     );
   });
+  it("Clear the database if there is a nont owner with name 'Kojira'", (done) => {
+    NontSitter.findOne({ name: "Kojira" }).then((result) => {
+      if (result) {
+        NontSitter.deleteOne({ name: "Kojira" }).then((err) => done());
+      } else {
+        done();
+      }
+    });
+  });
 });
 
 describe("Nont Sitter Create", () => {
-  it("It should create nont sitter", (done) => {
+  it("TC2-13: It should create nont sitter", (done) => {
     chai
       .request(app)
       .post("/NontSitters")
@@ -60,7 +69,7 @@ describe("Nont Sitter Create", () => {
         );
       });
   });
-  it("It should not create nont sitter with same email", (done) => {
+  it("TC2-14: It should not create nont sitter with same email", (done) => {
     chai
       .request(app)
       .post("/NontSitters")
@@ -76,7 +85,7 @@ describe("Nont Sitter Create", () => {
         done();
       });
   });
-  it("It should not create nont sitter with same name", (done) => {
+  it("TC2-15: It should not create nont sitter with same name", (done) => {
     chai
       .request(app)
       .post("/NontSitters")
@@ -92,7 +101,7 @@ describe("Nont Sitter Create", () => {
         done();
       });
   });
-  it("It should verify the invalid email format", (done) => {
+  it("TC2-16: It should verify the invalid email format", (done) => {
     chai
       .request(app)
       .post("/NontSitters")
@@ -109,7 +118,7 @@ describe("Nont Sitter Create", () => {
       });
   });
 
-  it("It should verify the invalid telephone format", (done) => {
+  it("TC2-17: It should verify the invalid telephone format", (done) => {
     chai
       .request(app)
       .post("/NontSitters")
@@ -125,13 +134,13 @@ describe("Nont Sitter Create", () => {
         done();
       });
   });
-  it("It should verify the invalid name format (1-64) test 0", (done) => {
+  it("TC2-18: It should verify the invalid name format (1-64) test 0", (done) => {
     chai
       .request(app)
       .post("/NontSitters")
       .type("form")
       .send({
-        email: "nontOwnerTest5@test.com",
+        email: "nontOwnerTest5@kojira.com",
         password: "testpassword",
         name: "",
         phoneNumber: "0111111115",
@@ -141,7 +150,7 @@ describe("Nont Sitter Create", () => {
         done();
       });
   });
-  it("It should verify the invalid name format (1-64) test 65", (done) => {
+  it("TC2-19: It should verify the invalid name format (1-64) test 65", (done) => {
     var name = "";
     for (var i = 0; i < 65; i++) {
       name = name + "k";
@@ -161,7 +170,7 @@ describe("Nont Sitter Create", () => {
         done();
       });
   });
-  it("It should verify the invalid password format (8-32) test 5", (done) => {
+  it("TC2-20: It should verify the invalid password format (8-32) test 5", (done) => {
     chai
       .request(app)
       .post("/NontSitters")
@@ -177,7 +186,7 @@ describe("Nont Sitter Create", () => {
         done();
       });
   });
-  it("It should verify the invalid password format (8-32) test 35", (done) => {
+  it("TC2-21: It should verify the invalid password format (8-32) test 35", (done) => {
     var pass = "";
     for (var i = 0; i < 35; i++) {
       pass = pass + "k";
@@ -197,7 +206,7 @@ describe("Nont Sitter Create", () => {
         done();
       });
   });
-  it("It should verify the valid bank account format", (done) => {
+  it("TC2-22: It should verify the valid bank account format", (done) => {
     chai
       .request(app)
       .post("/NontSitters")
@@ -214,7 +223,7 @@ describe("Nont Sitter Create", () => {
         done();
       });
   });
-  it("It should verify the invalid bank account format ", (done) => {
+  it("TC2-23: It should verify the invalid bank account format ", (done) => {
     chai
       .request(app)
       .post("/NontSitters")
@@ -231,10 +240,21 @@ describe("Nont Sitter Create", () => {
         done();
       });
   });
+  it("TC2-24: It should not create nont sitter if no fields are provided", (done) => {
+    chai
+      .request(app)
+      .post("/NontSitters")
+      .type("form")
+      .send({})
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
 });
 
 describe("Nont Sitter Login", () => {
-  it("It should login Nont Sitter", (done) => {
+  it("TC2-34: It should login Nont Sitter", (done) => {
     chai
       .request(app)
       .post("/nontSitters/login")
@@ -250,7 +270,7 @@ describe("Nont Sitter Login", () => {
         done();
       });
   });
-  it("It should know that the password is incorrect", (done) => {
+  it("TC2-35: It should know that the password is incorrect", (done) => {
     chai
       .request(app)
       .post("/nontSitters/login")
@@ -265,7 +285,7 @@ describe("Nont Sitter Login", () => {
         done();
       });
   });
-  it("It should know that the email is incorrect", (done) => {
+  it("TC2-36: It should know that the email is incorrect", (done) => {
     chai
       .request(app)
       .post("/nontSitters/login")
@@ -277,7 +297,7 @@ describe("Nont Sitter Login", () => {
         done();
       });
   });
-  it("It should know that the email and password are incorrect", (done) => {
+  it("TC2-37: It should know that the email and password are incorrect", (done) => {
     chai
       .request(app)
       .post("/nontSitters/login")
@@ -292,7 +312,7 @@ describe("Nont Sitter Login", () => {
 });
 
 describe("Authenticate Nont Sitter", () => {
-  it("It should authenticate token for Nont Sitter", (done) => {
+  it("TC2-43: It should authenticate token for Nont Sitter", (done) => {
     chai
       .request(app)
       .post("/users/auth")

@@ -8,6 +8,8 @@ import Loading, {calculateLoadStatus} from "../Shared/Loading";
 import LoadStatus from "../../Constants/LoadStatus";
 import ReviewService from "../../Services/ReviewService";
 import ReviewCard from "./ReviewCard";
+import { Popconfirm } from "antd";
+
 const UserContext = Contexts.UserContext;
 const ShelterView = (props) => {
   const contextValue = useContext(UserContext);
@@ -89,7 +91,7 @@ const ShelterView = (props) => {
          fetchReviewStatus===LoadStatus.SUCCESS&& (
           <div className="card mt-3">
             <div className="card-header text-white bg-primary ">
-              <h1 className="my-1 text-left">{shelter.name} </h1>
+              <div className="title my-1 text-left">{shelter.name} </div>
             </div>
             <div className="card-body">
               <div className="row">
@@ -111,35 +113,50 @@ const ShelterView = (props) => {
                 <div className="col-md-6">
                   <div className="media-body ">
                     <div className="mw-100">
-                      <h5 className="mb-1 mr-1">description </h5>
+                      <div className="header mb-1 mr-1">Description </div>
                       <p className="mw-100">{shelter.description}</p>
                       <hr />
                     </div>
                     <div>
-                      <h5 className="mb-1 mr-1">phone number </h5>
+                      <div className="header mb-1 mr-1">Phone number </div>
                       <p>{shelter.phoneNumber}</p>
                       <hr className="mw-100" />
                     </div>
                     <div>
-                      <h5 className="mb-1 mr-1">address </h5>
+                      <div className="header mb-1 mr-1">Address <span>
+                        <a href={"https://www.google.co.th/maps/place/"+shelter?.coordinate?.lat+"N+"+shelter?.coordinate?.lng+"E"}><i className="fas fa-map-marker-alt" /></a>
+                      </span></div>                  
                       <p>{shelter.address}</p>
                       <hr className="mw-100" />
                     </div>
                     <div>
-                      <h5 className="mb-1 mr-1">rate </h5>
-                      <p>{shelter.rate}</p>
-
+                      <div className="header mb-1 mr-1">Rate </div>
+                        {[1, 2, 3, 4, 5].map((rating) => {
+                          if (shelter.rate + 0.25 >= rating)
+                            return (
+                              <span key={rating}>
+                                <i className={"fas fa-star "}style={{"color":"#ffe135"}}></i>
+                              </span>
+                            );
+                          else if (shelter.rate + 0.25 >= rating - 0.5) {
+                            return (
+                              <span key={rating}>
+                                <i className={"fas fa-star-half-alt "} style={{"color":"#ffe135"}}></i>
+                              </span>
+                            );
+                          } else
+                            return (
+                              <span key={rating}>
+                                <i className={"far fa-star "} style={{"color":"#ffe135"}}> </i>
+                              </span>
+                            );
+                          })
+                        }
+                      <span style={{opacity:0.8}}>{" "+shelter.rate}</span>
                       <hr className="mw-100" />
                     </div>
                     <div>
-                      <h5 className="mb-1 mr-1">coordinate </h5>
-
-                      <p>{"latitude :" + shelter?.coordinate?.lat}</p>
-                      <p>{"longtitude:" + shelter?.coordinate?.lng}</p>
-                      <hr />
-                    </div>
-                    <div>
-                      <h5 className="mb-1 mr-1">support type </h5>
+                      <div className="header mb-1 mr-1">Supported Type </div>
                       <div>
                         {shelter?.supported_type?.map((type) => {
                           return (
@@ -158,23 +175,23 @@ const ShelterView = (props) => {
                 </div>
               </div>
               <ul className="list-group">
-                <li className="list-group-item active">room</li>
+                <li className="subtitle list-group-item active">Room</li>
                 {rooms.map((room) => {
                   return (
                     <li className="list-group-item" key={room._id}>
                       <dl className="row">
-                        <dt className="col-md-2">name</dt>
-                        <dd className="col-md-10">{room.name}</dd>
-                        <dt className="col-md-2">nont type</dt>
-                        <dd className="col-md-10">
+                        <dt className="col-md-2 col-sm-3"><strong>Name</strong></dt>
+                        <dd className="col-md-10 col-sm-9">{room.name}</dd>
+                        <dt className="col-md-2 col-sm-3"><strong>Type</strong></dt>
+                        <dd className="col-md-10 col-sm-9">
                           <span className="badge badge-primary mr-1">
                             {room.nont_type}
                           </span>
                         </dd>
-                        <dt className="col-md-2">amount</dt>
-                        <dd className="col-md-10">{room.amount}</dd>
-                        <dt className="col-md-2">price</dt>
-                        <dd className="col-md-10">{room.price}</dd>
+                        <dt className="col-md-2 col-sm-3"><strong>Amount</strong></dt>
+                        <dd className="col-md-10 col-sm-9">{room.amount}</dd>
+                        <dt className="col-md-2 col-sm-3"><strong>Price</strong></dt>
+                        <dd className="col-md-10 col-sm-9">{room.price}</dd>
                       </dl>
                       {contextValue.userType === UserType.NONT_OWNER && (
                         <a
@@ -189,18 +206,15 @@ const ShelterView = (props) => {
                   );
                 })}
               </ul>
-              <div>
-                <h2 className="mt-5 md-0">Review</h2>
-
+              <div className="m-2">
+                <div className="subtitle mt-5 md-0">Review</div>
                 {
                   reviews.map((reviewInfo)=>(
-                   
                     <ReviewCard  key={reviewInfo._id} review={reviewInfo}/>
                   ))
                 }
                 
               </div>
-              
             </div>
           </div>
         )}
