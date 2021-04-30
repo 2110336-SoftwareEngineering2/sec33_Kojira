@@ -184,10 +184,8 @@ class RoomController extends InterfaceController {
     //PUT
     adminUpdateRoom = async (req, res) => {
         try {
-          const newQuery = {_id: req.params.id};
-          const newBody = req.body;
-          const updatedRoom = await this.Room.updateOne(newQuery, newBody);
-          return res.send(newBody);
+          const updatedRoom = await this.Room.findByIdAndUpdate(req.params.id, req.body, {new: true});
+          return res.send(updatedRoom);
         }
         catch(error) {
           return res.status(500).send("Internal Server Error, Please try again");
@@ -207,8 +205,7 @@ class RoomController extends InterfaceController {
                 return res.status(400).send("Cannot delete room. Related reservtion is still not completed.");
             }
             // remove room
-            const newQuery = { _id: this.mongoose.Types.ObjectId(req.params.id)};
-            const deleted = await this.Room.deleteOne(newQuery);
+            const deleted = await this.Room.findByIdAndDelete(req.params.id);
             return res.send(deleted);
         }
         catch(error) {
