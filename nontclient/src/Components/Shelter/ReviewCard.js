@@ -31,38 +31,36 @@ const ReviewCard =(props)=>{
 
     return(
         <div>               
-        <hr/>
-        <h5><b>@{RoomName}</b></h5>
-        <h5>{`${comment}`}</h5>
-        <div>
-        <h5 >Rating: 
-        {[1, 2, 3, 4, 5].map((rating) => {
-        if (rate + 0.25 >= rating)
-          return (
-            <span key={rating}>
-              <i className={"fas fa-star "}style={{"color":"#ffe135"}}></i>
-            </span>
-          );
-        else if (rate + 0.25 >= rating - 0.5) {
-          return (
-            <span key={rating}>
-              <i className={"fas fa-star-half-alt "} style={{"color":"#ffe135"}}></i>
-            </span>
-          );
-        } else
-          return (
-            <span key={rating}>
-              <i className={"far fa-star "} style={{"color":"#ffe135"}}> </i>
-            </span>
-          );
-      })} </h5>
-        <h5 className="text-right" style={{}}><b>{`${name}`}</b></h5>
-
-      <p className="text-right" style={{"opacity": "0.75"}}>{`at ${updatedAt.slice(11, 19)} date ${updatedAt.slice(0, 10)}`}</p>
-
+          <hr/>
+          <div className="header"><b>@{RoomName}</b></div>
+          <div className="emphasis">{`${comment}`}</div>
+          <div>
+          <div className="emphasis text-right">
+            {[1, 2, 3, 4, 5].map((rating) => {
+              if (rate + 0.25 >= rating)
+                return (
+                  <span key={rating}>
+                    <i className={"fas fa-star "}style={{"color":"#ffe135"}}></i>
+                  </span>
+                );
+              else if (rate + 0.25 >= rating - 0.5) {
+                return (
+                  <span key={rating}>
+                    <i className={"fas fa-star-half-alt "} style={{"color":"#ffe135"}}></i>
+                  </span>
+                );
+              } else
+                return (
+                  <span key={rating}>
+                    <i className={"far fa-star "} style={{"color":"#ffe135"}}> </i>
+                  </span>
+                );
+              })
+            } 
         </div>
-
-
+          <div className="emphasis text-right" style={{"opacity": "0.85"}}><b>{`${name}`}</b></div>
+            <p className="text-right" style={{"opacity": "0.75"}}>{`at ${updatedAt.slice(11, 19)} date ${updatedAt.slice(0, 10)}`}</p>
+          </div>
         </div>
         
     );

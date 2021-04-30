@@ -24,8 +24,6 @@ var ownerEmail = "testPaymentOwner@kojira.com";
 var sitterEmail = "testPaymentSitter@kojira.com";
 var pwd = "testpassword";
 
-// shelter test 2
-// น้องแมว
 describe("Start User Condition for Payment", () => {
     it("Clear the database if there is a nont sitter with email 'testPaymentSitter@kojira.com'", (done) => {
         NontSitter.findOne({ email: sitterEmail }).then((result) => {

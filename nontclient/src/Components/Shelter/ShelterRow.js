@@ -4,7 +4,7 @@ import { Popconfirm } from "antd";
 const ShelterRow = (props) => {
     return (
         <tr>
-            <td scope="row" className="emphasis table-content">{(props.element.name)? props.element.name: ""}</td>
+            <td scope="row" className="emphasis table-content"><a href={"/shelterView/"+props.element._id}>{(props.element.name)? props.element.name: ""}</a></td>
             <td scope="row" className="button-text table-content">{(props.element.description)? props.element.description: ""}</td>
             <td scope="row" className="button-text table-content">{(props.element.rate)? props.element.rate: ""}</td>
             <td scope="row" style={{width:"15px"}}>
@@ -21,7 +21,7 @@ const ShelterRow = (props) => {
                 <a 
                 type="button"
                 className="btn btn-outline-info btn-block text-light bg-success border-success button-text" 
-                href={"/roomUpdate/"+props.element._id}    
+                href={"/shelterUpdate/"+props.element._id}    
                 >
                     <i className="fas fa-edit" />
                     {" "}Update
