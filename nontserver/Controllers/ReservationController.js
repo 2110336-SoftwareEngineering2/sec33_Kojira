@@ -175,9 +175,9 @@ class ReservationController extends InterfaceController {
             //const NontSitter = await this.NontSitter.findById(newBody.nontsitter_id)
             //notification
             
-            const NontSitter = await this.NontSitter.findById(newBody.nontsitter_id)
+            const nontSitter = await this.NontSitter.findById(newBody.nontsitter_id)
             const info = {
-                ReciverEmail : NontSitter.email,
+                ReciverEmail : nontSitter.email,
                 Subject : "Reservation",
                 Extra : "......." //will add more later to fill in content for each behavior
             }
@@ -309,7 +309,6 @@ class ReservationController extends InterfaceController {
             const NontSitter = await this.NontSitter.findById(reservation.nontsitter_id)
             
             const info = {
-                notiType : "cancel",
                 ReciverEmail : NontSitter.email,
                 Subject : "cancel",
                 Extra : "......." //will add more later to fill in content for each behavior
