@@ -35,6 +35,15 @@ describe("Start Condition", () => {
       }
     });
   });
+  it("Clear the database if there is a nont owner with name 'Ghidora'", (done) => {
+    NontOwner.findOne({ name: "Ghidora" }).then((result) => {
+      if (result) {
+        NontOwner.deleteOne({ name: "Ghidora" }).then((err) => done());
+      } else {
+        done();
+      }
+    });
+  });
 });
 
 describe("Nont Owner Update", () => {
@@ -78,7 +87,7 @@ describe("Nont Owner Update", () => {
         done();
       });
   });
-  it("It should update the owner", (done) => {
+  it("TC2-46: It should update the owner", (done) => {
     NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
       (result) => {
         const id = result._id;
@@ -104,7 +113,7 @@ describe("Nont Owner Update", () => {
       }
     );
   });
-  it("It should verify the invalid email", (done) => {
+  it("TC2-47: It should verify the invalid email", (done) => {
     NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
       (result) => {
         id = result._id;
@@ -123,7 +132,7 @@ describe("Nont Owner Update", () => {
       }
     );
   });
-  it("It should know that the email already exists", (done) => {
+  it("TC2-48: It should know that the email already exists", (done) => {
     NontOwner.findOne({ email: "nontOwnerTestUpdate@kojira.com" }).then(
       (result) => {
         id = result._id;
@@ -159,7 +168,7 @@ describe("Clear Up", () => {
   });
 });
 
-describe("It should not update the user that is not existed", (done) => {
+describe("TC2-49: It should not update the user that is not existed", (done) => {
   it("It should know that the user is not found", (done) => {
     chai
       .request(app)

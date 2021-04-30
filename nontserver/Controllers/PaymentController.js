@@ -11,15 +11,14 @@ const controller = {
         res.send("code not match");
       } else {
         //console.log("QR scanned");
-        Reservation.updateOne(
-          { _id: req.query.reserveId },
-          { status: "paid" }
-        ).then(() => {
-          res.send("payment finished");
-        }).catch((err => {
-          res.statusCode = 500;
-          res.send("can't make payment becaue reserve id not found");
-        }));
+        Reservation.updateOne({ _id: req.query.reserveId }, { status: "paid" })
+          .then(() => {
+            res.send("payment finished");
+          })
+          .catch((err) => {
+            res.statusCode = 500;
+            res.send("can't make payment because reserve id is not found");
+          });
       }
     } catch (err) {
       res.statusCode = 500;
