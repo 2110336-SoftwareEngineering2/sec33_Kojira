@@ -4,7 +4,7 @@ class PaymentlNotification extends NotificationInterface{
         super()
     } 
     notify = async (info) => {
-        const NotificationContent = "<b>testPaymentCase</b>"
+        const NotificationContent = "<b>to NontSitter " + info.nontSitterName + "<br>    Reservation's payment for your shelter at room : " + info.roomName + " has been completed<br>    Start date : " + info.start_datetime + "<br>    End date : " + info.end_datetime + "<br>	Total price : " + info.price + "</b>"
         const mailOptions = {
             from: this.SenderEmail,
             to: info.ReciverEmail,

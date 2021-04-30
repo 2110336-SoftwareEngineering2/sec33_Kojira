@@ -4,7 +4,7 @@ class ReservelNotification extends NotificationInterface{
         super()
     } 
     notify = async (info) => {
-        const NotificationContent = "<b>testReserveCase</b>"
+        const NotificationContent = "<b>to NontSitter " + info.nontSitterName + "<br>    There is reservation for your shelter at room : " + info.roomName + "<br>    Start date : " + info.start_datetime + "<br>    End date : " + info.end_datetime + "<br>	Total price : " + info.price + "<br>you will notify later again after payment for your reservation is completed by nontOwner</b>";  
         const mailOptions = {
             from: this.SenderEmail,
             to: info.ReciverEmail,

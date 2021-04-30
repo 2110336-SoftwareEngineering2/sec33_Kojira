@@ -3,6 +3,7 @@ const NontSitter = require("../Models/NontSitter");
 const NotificationController = require("../Notification/NotificationController");
 const PaymentNotification = require("../Notification/PaymentNotification");
 const RandomCodes = require("random-codes");
+const Rooms = require("../Models/Room");
 const rc = new RandomCodes();
 
 const controller = {
@@ -18,11 +19,18 @@ const controller = {
 			const ToBeUpdatedReservation = await Reservation.findById(req.query.reserveId )
 			//console.log(ToBeUpdatedReservation)
 			const nontSitter = await NontSitter.findById(ToBeUpdatedReservation.nontsitter_id)
-            const info = {
-                ReciverEmail : nontSitter.email,
-                Subject : "Payment",
-                Extra : "......." //will add more later to fill in content for each behavior
+            const room = await Rooms.findById(ToBeUpdatedReservation.room_id)
+			const info = {
+				ReciverEmail : nontSitter.email,
+                Subject : "Reservation's payment completed",
+                roomName : room.name,
+                nontSitterName : ToBeUpdatedReservation.name,
+                start_datetime : ToBeUpdatedReservation.start_datetime,
+                end_datetime : ToBeUpdatedReservation.end_datetime,
+                price : ToBeUpdatedReservation.price
+            
             }
+			
             NotificationController.setNotificationBehavior(PaymentNotification)
             NotificationController.notify(info)
 

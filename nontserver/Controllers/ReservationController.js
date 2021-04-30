@@ -178,8 +178,12 @@ class ReservationController extends InterfaceController {
             const nontSitter = await this.NontSitter.findById(newBody.nontsitter_id)
             const info = {
                 ReciverEmail : nontSitter.email,
-                Subject : "Reservation",
-                Extra : "......." //will add more later to fill in content for each behavior
+                Subject : "Reservation have been maded for your " + room.name +" room",
+                roomName : room.name,
+                nontSitterName : nontSitter.name,
+                start_datetime : newBody.start_datetime,
+                end_datetime : newBody.end_datetime,
+                price : newBody.price
             }
             NotificationController.setNotificationBehavior(this.ReserveNotification)
             NotificationController.notify(info)
@@ -307,13 +311,18 @@ class ReservationController extends InterfaceController {
             
             //notification
             const NontSitter = await this.NontSitter.findById(reservation.nontsitter_id)
+            const room = await this.Room.findById(reservation.room_id)
             
             const info = {
                 ReciverEmail : NontSitter.email,
-                Subject : "cancel",
-                Extra : "......." //will add more later to fill in content for each behavior
+                Subject : "Reservation cancel notice",
+                roomName : room.name,
+                nontSitterName : reservation.name,
+                start_datetime : reservation.start_datetime,
+                end_datetime : reservation.end_datetime,
+                price : reservation.price
             }
-            NotificationController.setNotificationBehavior(this.ReserveNotification)
+            NotificationController.setNotificationBehavior(this.CancelNotification)
             NotificationController.notify(info)
         
             return res.send(updatedReservation);      
