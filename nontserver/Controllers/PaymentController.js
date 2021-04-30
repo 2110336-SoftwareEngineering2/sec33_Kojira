@@ -11,20 +11,27 @@ const controller = {
         res.send("code not match");
       } else {
         //console.log("QR scanned");
-        Reservation.updateOne(
+        
+        //const ToBeUpdatedReservation = await this.Reservation.findById(req.query.reserveId );
+
+        const UpdatedReservation = Reservation.findOneAndUpdate(
           { _id: req.query.reserveId },
-          { status: "paid" }
-        ).then(() => {
-          
+          { status: "paid" },
+          {new : true}
+        ).then( async () => {
+
           //notification
-        const info = {
+          const NontSitter = await this.NontSitter.findById(UpdatedReservation.nontsitter_id)
+
+          const info = {
           notiType : "Reservation",
-          // ReciverEmail : NontSitter.email, cant now grab from here right now... 
+          ReciverEmail : NontSitter.email,
           subject : "Reservation",
           Extra : "......." //will add more later to fill in content for each behavior
         }
         NotificationController.setNotificationBehavior(this.PaymentNotification)
         NotificationBehavior.notify(info)
+
 
           res.send("payment finished");
         }).catch((err => {

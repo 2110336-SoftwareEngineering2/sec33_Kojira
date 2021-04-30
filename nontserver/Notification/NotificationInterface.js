@@ -1,5 +1,3 @@
-// this class exists only for accuracy of design document.. serve as pseudocode interface.
-
 class NotificationInterface{
     constructor() {
     this.nodemailer = require('nodemailer');

@@ -11,7 +11,7 @@ class PaymentlNotification extends NotificationInterface{
             subject: info.Subject, 
             html: NotificationContent
         }
-        transporter.sendMail(mailOptions, function (err, info) {
+        this.transporter.sendMail(mailOptions, function (err, info) {
             if(err)
               console.log(err)
             else
