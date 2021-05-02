@@ -317,7 +317,7 @@ class ReservationController extends InterfaceController {
                 ReciverEmail : NontSitter.email,
                 Subject : "Reservation cancel notice",
                 roomName : room.name,
-                nontSitterName : reservation.name,
+                nontSitterName : NontSitter.name,
                 start_datetime : reservation.start_datetime,
                 end_datetime : reservation.end_datetime,
                 price : reservation.price
