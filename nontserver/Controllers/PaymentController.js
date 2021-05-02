@@ -27,7 +27,7 @@ const controller = {
             ReciverEmail: nontSitter.email,
             Subject: "Reservation's payment completed",
             roomName: room.name,
-            nontSitterName: ToBeUpdatedReservation.name,
+            nontSitterName: nontSitter.name,
             start_datetime: ToBeUpdatedReservation.start_datetime,
             end_datetime: ToBeUpdatedReservation.end_datetime,
             price: ToBeUpdatedReservation.price,
